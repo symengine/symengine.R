@@ -1,0 +1,3 @@
+useDynLib(symengine.R)
+exportPattern("^[[:alpha:]]+")
+importFrom(Rcpp, evalCpp)
