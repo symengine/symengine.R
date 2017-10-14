@@ -1,7 +1,7 @@
 
-
-#' @useDynLib symengine hello
+#' @useDynLib symengine c_ascii_art_str
 #' @export
-c_hello <- function () {
-    .Call("hello")
+symengine_logo <- function () {
+    s <- .Call("c_ascii_art_str")   
+    strsplit(s, "\n")[[1]]
 }
