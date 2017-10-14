@@ -1,5 +1,5 @@
 
-.onLoad <- function (libname, pkgname) {
+.onAttach <- function (libname, pkgname) {
     # TODO:
     # Check whether symengine is available, and give verbose message if not.
     # Also check gmp library or MPFR library.
