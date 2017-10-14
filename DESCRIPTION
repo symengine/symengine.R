@@ -7,6 +7,8 @@ Depends:
     R (>= 3.4)
 Imports:
     methods
+Suggests:
+    crayon
 Encoding: UTF-8
 LazyData: true
 License: GPL (>= 2)
