@@ -1,12 +1,12 @@
 Package: symengine
-Type: Package
-Title: What the Package Does in One 'Title Case' Line
-Version: 1.0
-Date: 2017-05-23
-Author: Your Name
-Maintainer: Your Name <your@email.com>
-Description: One paragraph description of what the package does as one
-        or more full sentences.
+Title: Interface to the SymEngine Library
+Version: 0.0.0
+Authors@R: c(person("Jialin", "Ma", email="marlin-@gmx.cn", role = c("cre", "aut")))
+Description: A R interface to the fast symbolic manipulation library "SymEngine".
+Depends:
+    R (>= 3.4)
+Imports:
+    methods,
+Encoding: UTF-8
+LazyData: true
 License: GPL (>= 2)
-Imports: Rcpp (>= 0.12.10)
-LinkingTo: Rcpp
