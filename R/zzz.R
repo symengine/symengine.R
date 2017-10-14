@@ -4,7 +4,7 @@
     # Check whether symengine is available, and give verbose message if not.
     # Also check gmp library or MPFR library.
     logo <- symengine_logo()
-    if (requireNamespace("crayon")) {
+    if (requireNamespace("crayon", quietly = TRUE)) {
         logo  <- strsplit(logo, "\n")[[1]]
         pres  <- substring(logo, 1, 16)
         posts <- substring(logo, 17)
@@ -14,10 +14,10 @@
         
         com <- crayon::`%+%`(pres, posts)
         com <- paste(com, collapse = "\n")
-        message(com)
+        packageStartupMessage(com)
     }
     else
-        message(logo)
+        packageStartupMessage(logo)
     
     invisible(TRUE)
 }
