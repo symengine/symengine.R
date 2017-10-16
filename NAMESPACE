@@ -2,7 +2,5 @@
 
 export(symengine_logo)
 export(symengine_new_symbol_heap)
-export(symengine_new_symbol_stack)
 useDynLib(symengine,c_ascii_art_str)
 useDynLib(symengine,c_new_heap_symbol)
-useDynLib(symengine,c_new_stack_symbol)

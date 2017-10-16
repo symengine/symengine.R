@@ -48,36 +48,3 @@ SEXP c_new_heap_symbol(SEXP RString) {
 }
 
 
-// It is not correct to use stack?? ---------------
-
-static void _basic_stack_finalizer(SEXP ext) {
-    if (NULL == R_ExternalPtrAddr(ext)) {
-        Rprintf("Debug: empty ptr (_basic_stack_finalizer)\n");
-        return;
-    }
-    Rprintf("Debug: finalizing (_basic_stack_finalizer)\n");
-    basic* symbol = (basic*) R_ExternalPtrAddr(ext);
-    basic_free_stack(* symbol);
-    R_ClearExternalPtr(ext);
-}
-
-SEXP c_new_stack_symbol(SEXP RString) {
-    const char* str_symbol = CHAR(Rf_asChar(RString));
-    
-    basic symbol;
-    basic_new_stack(symbol);
-    
-    symbol_set(symbol, str_symbol);
-    
-    basic* symbolptr = &symbol;
-    
-    SEXP outptr = PROTECT(
-        R_MakeExternalPtr(symbolptr, Rf_mkString("basic*"), R_NilValue)
-    );
-    
-    R_RegisterCFinalizerEx(outptr, _basic_stack_finalizer, TRUE);
-    
-    UNPROTECT(1);
-    return outptr;
-}
-
