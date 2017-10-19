@@ -48,6 +48,13 @@ SEXP c_symengine_version() {
     return out;
 }
 
+SEXP c_symengine_have_component(SEXP s) {
+    const char* str = CHAR(Rf_asChar(s));
+    SEXP out = PROTECT(Rf_ScalarLogical(symengine_have_component(str)));
+    UNPROTECT(1);
+    return out;
+}
+
 // Basic Symbol Initiator and Finalizer //======================================
 
 static void _basic_heap_finalizer(SEXP ext) {

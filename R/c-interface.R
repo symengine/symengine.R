@@ -15,6 +15,16 @@ api_symengine_version <- function () {
     .Call("c_symengine_version")
 }
 
+#' @useDynLib symengine c_symengine_have_component
+#' @export
+api_symengine_have_component <- function (
+    which = c("mpfr", "flint", "arb", "mpc", "ecm",
+              "primesieve", "piranha", "boost", "pthread", "llvm"))
+{
+    vapply(which, FUN.VALUE = logical(1L),
+           function (x) .Call("c_symengine_have_component", x))
+}
+
 
 ## New Symbols  ================================================================
 
