@@ -40,3 +40,29 @@ api_basic_type <- function (ptr) {
     stopifnot(identical(typeof(ptr), "externalptr"))
     .Call("c_basic_type", ptr)
 }
+
+
+## Constants  ==================================================================
+
+#' @useDynLib symengine c_get_const
+#' @export
+api_get_const <- function (x) {
+    choices = c(
+        "zero",
+        "one",
+        "minus_one",
+        "I",
+        "pi",
+        "E",
+        "EulerGamma",
+        "Catalan",
+        "GoldenRatio",
+        "Inf",
+        "NegInf",
+        "ComplexInf",
+        "Nan"
+    )
+    x <- match.arg(x, choices = choices)
+    .Call("c_get_const", x)
+}
+

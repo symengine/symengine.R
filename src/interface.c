@@ -116,3 +116,19 @@ SEXP c_basic_type(SEXP ext) {
     return out;
 }
 
+// Constants //=================================================================
+
+SEXP c_get_const(SEXP s) {
+    const char* c = CHAR(Rf_asChar(s));
+    
+    basic_struct* symbol = basic_new_heap();
+    basic_const_set(symbol, c);
+        
+    SEXP outptr = PROTECT(
+        R_MakeExternalPtr(symbol, Rf_mkString("basic_struct*"), R_NilValue)
+    );
+    R_RegisterCFinalizerEx(outptr, _basic_heap_finalizer, TRUE);
+    
+    UNPROTECT(1);
+    return outptr;
+}
