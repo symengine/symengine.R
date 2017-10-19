@@ -14,19 +14,19 @@ const char* exception_message(CWRAPPER_OUTPUT_TYPE id) {
     // https://github.com/symengine/symengine/blob/master/symengine/symengine_exception.h
     switch(id) {
         case SYMENGINE_NO_EXCEPTION:
-            return "<internal>, no exception, it should not go here.";
+            return "<internal> No exception, it should not go here"     ;
         case SYMENGINE_RUNTIME_ERROR:
-            return("SymEngine exception: runtime error");
+            return "SymEngine exception: runtime error"                 ;
         case SYMENGINE_DIV_BY_ZERO:
-            return("SymEngine exception: div by zero");
+            return "SymEngine exception: div by zero"                   ;
         case SYMENGINE_NOT_IMPLEMENTED:
-            return("SymEngine exception: not implemented");
+            return "SymEngine exception: not implemented"               ;
         case SYMENGINE_DOMAIN_ERROR:
-            return("SymEngine exception: domain error");
+            return "SymEngine exception: domain error"                  ;
         case SYMENGINE_PARSE_ERROR:
-            return("SymEngine exception: parse error");
+            return "SymEngine exception: parse error"                   ;
         default:
-            return("<internal> Exception code not matched");
+            return "<internal> Exception code not matched"              ;
     }
 }
 
@@ -82,6 +82,8 @@ SEXP c_new_heap_symbol(SEXP RString) {
     UNPROTECT(1);
     return outptr;
 }
+
+// Accessors  //================================================================
 
 SEXP c_basic_str(SEXP ext) {
     if (NULL == R_ExternalPtrAddr(ext)) {
