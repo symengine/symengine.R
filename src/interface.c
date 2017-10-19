@@ -31,13 +31,19 @@ const char* exception_message(CWRAPPER_OUTPUT_TYPE id) {
 }
 
 
-// SymEngine Logo //============================================================
+// SymEngine Logo and Version //================================================
 
 SEXP c_ascii_art_str() {
     SEXP out = PROTECT(Rf_allocVector(STRSXP, 1));
     char* s = ascii_art_str();
     out = Rf_mkString(s);
     basic_str_free(s);
+    UNPROTECT(1);
+    return out;
+}
+
+SEXP c_symengine_version() {
+    SEXP out = PROTECT(Rf_mkString(symengine_version()));
     UNPROTECT(1);
     return out;
 }

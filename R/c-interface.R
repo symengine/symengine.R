@@ -1,11 +1,22 @@
 
 
+## Logo and Version  ===========================================================
+
 #' @useDynLib symengine c_ascii_art_str
 #' @export
 api_symengine_logo <- function () {
     s <- .Call("c_ascii_art_str")   
     s
 }
+
+#' @useDynLib symengine c_symengine_version
+#' @export
+api_symengine_version <- function () {
+    .Call("c_symengine_version")
+}
+
+
+## New Symbols  ================================================================
 
 #' @useDynLib symengine c_new_heap_symbol
 #' @export
