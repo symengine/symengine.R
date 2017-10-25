@@ -11,7 +11,6 @@ get_type <- function (x) {
     api_basic_type(ptr)
 }
 
-
 ## Variable Init  ==============================================================
 
 #' @export
@@ -41,6 +40,16 @@ tibble:::lst_quos
 
 dots <- function (...) {
     eval(substitute(alist(...)))
+}
+
+
+## Parse From String  ==========================================================
+
+#' @export
+S <- function (string) {
+    # TODO
+    ptr <- api_parse_str(string)
+    new("Basic", ptr)
 }
 
 

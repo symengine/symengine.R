@@ -34,6 +34,11 @@ api_new_symbol <- function (string) {
     .Call("c_new_heap_symbol", string)
 }
 
+#' @useDynLib symengine c_parse_str
+#' @export
+api_parse_str <- function (string) {
+    .Call("c_parse_str", string)
+}
 
 ## Accessors for Basic  ========================================================
 
