@@ -61,8 +61,8 @@ api_basic_type <- function (ptr) {
 
 #' @useDynLib symengine c_get_const
 #' @export
-api_get_const <- function (x) {
-    choices = c(
+api_get_const <- function (
+    x = c(
         "zero",
         "one",
         "minus_one",
@@ -77,7 +77,9 @@ api_get_const <- function (x) {
         "ComplexInf",
         "Nan"
     )
-    x <- match.arg(x, choices = choices)
+)
+{
+    x <- match.arg(x)
     .Call("c_get_const", x)
 }
 
