@@ -59,27 +59,46 @@ api_basic_type <- function (ptr) {
 
 ## Constants  ==================================================================
 
-#' @useDynLib symengine c_get_const
+#' @useDynLib symengine c_builtin_const
 #' @export
-api_get_const <- function (
-    x = c(
-        "zero",
-        "one",
-        "minus_one",
-        "I",
-        "pi",
-        "E",
-        "EulerGamma",
-        "Catalan",
-        "GoldenRatio",
-        "Inf",
-        "NegInf",
-        "ComplexInf",
-        "Nan"
+api_builtin_const <- function (which) {
+    id <- switch(which,
+        "zero"         =  1L  ,
+        "one"          =  2L  ,
+        "minus_one"    =  3L  ,
+        "I"            =  4L  ,
+        "pi"           =  5L  ,
+        "E"            =  6L  ,
+        "EulerGamma"   =  7L  ,
+        "Catalan"      =  8L  ,
+        "GoldenRatio"  =  9L  ,
+        "Inf"          = 10L  ,
+        "NegInf"       = 11L  ,
+        "ComplexInf"   = 12L  ,
+        "Nan"          = 13L  ,
+        stop("Not a builtin constant")
     )
-)
-{
-    x <- match.arg(x)
-    .Call("c_get_const", x)
+    .Call("c_builtin_const", id)
 }
+
+# api_get_const <- function (x) {
+#     # Available choices are specified in `get_const` function
+#         "zero",
+#         "one",
+#         "minus_one",
+#         "I",
+#         "pi",
+#         "E",
+#         "EulerGamma",
+#         "Catalan",
+#         "GoldenRatio",
+#         "Inf",
+#         "NegInf",
+#         "ComplexInf",
+#         "Nan"
+#     callback_u <- function (which) {
+#         
+#     }
+#     .Call("c_get_const", x)
+# }
 

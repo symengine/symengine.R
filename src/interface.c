@@ -1,6 +1,8 @@
 
 #define R_NO_REMAP
 
+#include <string.h>
+
 #include <R.h>
 #include <Rinternals.h>
 
@@ -143,17 +145,44 @@ SEXP c_basic_type(SEXP ext) {
 
 // Constants //=================================================================
 
-SEXP c_get_const(SEXP s) {
-    const char* c = CHAR(Rf_asChar(s));
+SEXP c_builtin_const(SEXP id_which) {
+    int id = Rf_asInteger(id_which);
     
-    basic_struct* symbol = basic_new_heap();
-    basic_const_set(symbol, c);
-        
-    SEXP outptr = PROTECT(
-        R_MakeExternalPtr(symbol, Rf_mkString("basic_struct*"), R_NilValue)
+    basic_struct* s = basic_new_heap();
+    
+    switch(id) {
+        case  1: basic_const_zero             (s); break;
+        case  2: basic_const_one              (s); break;
+        case  3: basic_const_minus_one        (s); break;
+        case  4: basic_const_I                (s); break;
+        case  5: basic_const_pi               (s); break;
+        case  6: basic_const_E                (s); break;
+        case  7: basic_const_EulerGamma       (s); break;
+        case  8: basic_const_Catalan          (s); break;
+        case  9: basic_const_GoldenRatio      (s); break;
+        case 10: basic_const_infinity         (s); break;
+        case 11: basic_const_neginfinity      (s); break;
+        case 12: basic_const_complex_infinity (s); break;
+        case 13: basic_const_nan              (s); break;
+        default: Rf_error("<internal> Unrecognized id for constant");
+    }
+    
+    SEXP out = PROTECT(
+        R_MakeExternalPtr(s, Rf_mkString("basic_struct*"), R_NilValue)
     );
-    R_RegisterCFinalizerEx(outptr, _basic_heap_finalizer, TRUE);
+    R_RegisterCFinalizerEx(out, _basic_heap_finalizer, TRUE);
     
     UNPROTECT(1);
-    return outptr;
+    return out;
 }
+
+// SEXP c_get_const(SEXP s) {
+//         
+//     SEXP outptr = PROTECT(
+//         R_MakeExternalPtr(symbol, Rf_mkString("basic_struct*"), R_NilValue)
+//     );
+//     R_RegisterCFinalizerEx(outptr, _basic_heap_finalizer, TRUE);
+//     
+//     UNPROTECT(1);
+//     return outptr;
+// }

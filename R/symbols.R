@@ -43,6 +43,32 @@ dots <- function (...) {
 }
 
 
+## Get Constants  ==============================================================
+
+#' @export
+get_builtin_const <- function (
+    which = c(
+        "zero",
+        "one",
+        "minus_one",
+        "I",
+        "pi",
+        "E",
+        "EulerGamma",
+        "Catalan",
+        "GoldenRatio",
+        "Inf",
+        "NegInf",
+        "ComplexInf",
+        "Nan"
+    )
+)
+{
+    which <- match.arg(which)
+    ptr <- api_builtin_const(which)
+    new("Basic", ptr)
+}
+
 ## Parse From String  ==========================================================
 
 #' @export
