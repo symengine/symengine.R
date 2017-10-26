@@ -86,3 +86,31 @@ api_builtin_const <- function (which) {
 api_make_const <- function (string) {
     .Call("c_make_const", string)
 }
+
+## Number is  ==================================================================
+
+#' @useDynLib symengine c_number_is_zero
+#' @export
+api_number_is_zero <- function (ext) {
+    .Call("c_number_is_zero", ext)
+}
+
+#' @useDynLib symengine c_number_is_negative
+#' @export
+api_number_is_negative <- function (ext) {
+    .Call("c_number_is_negative", ext)
+}
+
+#' @useDynLib symengine c_number_is_positive
+#' @export
+api_number_is_positive <- function (ext) {
+    .Call("c_number_is_positive", ext)
+}
+
+#' @useDynLib symengine c_number_is_complex
+#' @export
+api_number_is_complex <- function (ext) {
+    .Call("c_number_is_complex", ext)
+}
+
+

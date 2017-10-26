@@ -190,3 +190,35 @@ SEXP c_make_const(SEXP string) {
     UNPROTECT(1);
     return outptr;
 }
+
+// Number  //===================================================================
+
+SEXP c_number_is_zero(SEXP ext) {
+    if (NULL == R_ExternalPtrAddr(ext))
+        Rf_error("Invalid pointer");
+    basic_struct* b = (basic_struct*) R_ExternalPtrAddr(ext);
+    return Rf_ScalarLogical(number_is_zero(b));
+}
+
+SEXP c_number_is_negative(SEXP ext) {
+    if (NULL == R_ExternalPtrAddr(ext))
+        Rf_error("Invalid pointer");
+    basic_struct* b = (basic_struct*) R_ExternalPtrAddr(ext);
+    return Rf_ScalarLogical(number_is_negative(b));
+}
+
+SEXP c_number_is_positive(SEXP ext) {
+    if (NULL == R_ExternalPtrAddr(ext))
+        Rf_error("Invalid pointer");
+    basic_struct* b = (basic_struct*) R_ExternalPtrAddr(ext);
+    return Rf_ScalarLogical(number_is_positive(b));
+}
+
+SEXP c_number_is_complex(SEXP ext) {
+    if (NULL == R_ExternalPtrAddr(ext))
+        Rf_error("Invalid pointer");
+    basic_struct* b = (basic_struct*) R_ExternalPtrAddr(ext);
+    return Rf_ScalarLogical(number_is_complex(b));
+}
+
+
