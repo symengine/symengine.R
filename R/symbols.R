@@ -88,7 +88,7 @@ setMethod("show", "Basic",
         type <- api_basic_type(ptr)
         str  <- api_basic_str(ptr)
         
-        cat(paste0("SymEngine ", type, ":   "))
+        cat(paste0("SymEngine ", type, ":\t"))
         cat(str)
         invisible()
     }
