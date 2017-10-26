@@ -81,24 +81,8 @@ api_builtin_const <- function (which) {
     .Call("c_builtin_const", id)
 }
 
-# api_get_const <- function (x) {
-#     # Available choices are specified in `get_const` function
-#         "zero",
-#         "one",
-#         "minus_one",
-#         "I",
-#         "pi",
-#         "E",
-#         "EulerGamma",
-#         "Catalan",
-#         "GoldenRatio",
-#         "Inf",
-#         "NegInf",
-#         "ComplexInf",
-#         "Nan"
-#     callback_u <- function (which) {
-#         
-#     }
-#     .Call("c_get_const", x)
-# }
-
+#' @useDynLib symengine c_make_const
+#' @export
+api_make_const <- function (string) {
+    .Call("c_make_const", string)
+}

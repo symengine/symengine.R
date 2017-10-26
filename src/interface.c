@@ -176,13 +176,17 @@ SEXP c_builtin_const(SEXP id_which) {
     return out;
 }
 
-// SEXP c_get_const(SEXP s) {
-//         
-//     SEXP outptr = PROTECT(
-//         R_MakeExternalPtr(symbol, Rf_mkString("basic_struct*"), R_NilValue)
-//     );
-//     R_RegisterCFinalizerEx(outptr, _basic_heap_finalizer, TRUE);
-//     
-//     UNPROTECT(1);
-//     return outptr;
-// }
+SEXP c_make_const(SEXP string) {
+    const char* str = CHAR(Rf_asChar(string));
+    basic_struct* s = basic_new_heap();
+    
+    basic_const_set(s, str);
+    
+    SEXP outptr = PROTECT(
+        R_MakeExternalPtr(s, Rf_mkString("basic_struct*"), R_NilValue)
+    );
+    R_RegisterCFinalizerEx(outptr, _basic_heap_finalizer, TRUE);
+    
+    UNPROTECT(1);
+    return outptr;
+}
