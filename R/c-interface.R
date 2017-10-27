@@ -45,14 +45,22 @@ api_parse_str <- function (string) {
 #' @useDynLib symengine c_basic_str
 #' @export
 api_basic_str <- function (ptr) {
-    stopifnot(identical(typeof(ptr), "externalptr"))
+    if (typeof(ptr) == "S4")
+        ptr <- as(ptr, "externalptr")
+    else
+        stopifnot(typeof(ptr) == "externalptr")
+    
     .Call("c_basic_str", ptr)
 }
 
 #' @useDynLib symengine c_basic_type
 #' @export
 api_basic_type <- function (ptr) {
-    stopifnot(identical(typeof(ptr), "externalptr"))
+    if (typeof(ptr) == "S4")
+        ptr <- as(ptr, "externalptr")
+    else
+        stopifnot(typeof(ptr) == "externalptr")
+    
     .Call("c_basic_type", ptr)
 }
 
@@ -91,26 +99,46 @@ api_make_const <- function (string) {
 
 #' @useDynLib symengine c_number_is_zero
 #' @export
-api_number_is_zero <- function (ext) {
-    .Call("c_number_is_zero", ext)
+api_number_is_zero <- function (ptr) {
+    if (typeof(ptr) == "S4")
+        ptr <- as(ptr, "externalptr")
+    else
+        stopifnot(typeof(ptr) == "externalptr")
+    
+    .Call("c_number_is_zero", ptr)
 }
 
 #' @useDynLib symengine c_number_is_negative
 #' @export
-api_number_is_negative <- function (ext) {
-    .Call("c_number_is_negative", ext)
+api_number_is_negative <- function (ptr) {
+    if (typeof(ptr) == "S4")
+        ptr <- as(ptr, "externalptr")
+    else
+        stopifnot(typeof(ptr) == "externalptr")
+    
+    .Call("c_number_is_negative", ptr)
 }
 
 #' @useDynLib symengine c_number_is_positive
 #' @export
-api_number_is_positive <- function (ext) {
-    .Call("c_number_is_positive", ext)
+api_number_is_positive <- function (ptr) {
+    if (typeof(ptr) == "S4")
+        ptr <- as(ptr, "externalptr")
+    else
+        stopifnot(typeof(ptr) == "externalptr")
+    
+    .Call("c_number_is_positive", ptr)
 }
 
 #' @useDynLib symengine c_number_is_complex
 #' @export
-api_number_is_complex <- function (ext) {
-    .Call("c_number_is_complex", ext)
+api_number_is_complex <- function (ptr) {
+    if (typeof(ptr) == "S4")
+        ptr <- as(ptr, "externalptr")
+    else
+        stopifnot(typeof(ptr) == "externalptr")
+    
+    .Call("c_number_is_complex", ptr)
 }
 
 
