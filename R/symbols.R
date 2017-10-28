@@ -85,12 +85,15 @@ setMethod("show", "Basic",
     function (object) {
         ptr <- as(object, "externalptr")
         
-        type <- api_basic_type(ptr)
+        type <- sprintf("(%s)", api_basic_type(ptr))
         str  <- api_basic_str(ptr)
         
-        cat(paste0("SymEngine ", type, ":\t"))
-        cat(str)
-        cat("\n")
+        if (requireNamespace("crayon", quietly = TRUE)) {
+            #str  <- crayon::yellow(str)
+            type <- crayon::italic(type)
+        }
+        
+        cat(type, "\t", str, "\n", sep = "")
         invisible()
     }
 )
