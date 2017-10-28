@@ -72,11 +72,16 @@ get_builtin_const <- function (
 ## Parse From String  ==========================================================
 
 #' @export
-S <- function (string) {
-    # TODO
-    ptr <- api_parse_str(string)
-    new("Basic", ptr)
-}
+setGeneric("S", def = function (x) standardGeneric("S"))
+
+#' @export
+setMethod("S", c(x = "character"),
+    function (x) {
+        # TODO
+        ptr <- api_parse_str(x)
+        new("Basic", ptr)
+    }
+)
 
 
 ## Show Methods ================================================================
