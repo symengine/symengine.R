@@ -153,6 +153,7 @@ api_number_is_zero <- function (ptr) {
     else
         stopifnot(typeof(ptr) == "externalptr")
     
+    stopifnot(api_is_a_Number(ptr))
     .Call("c_number_is_zero", ptr)
 }
 
@@ -164,6 +165,7 @@ api_number_is_negative <- function (ptr) {
     else
         stopifnot(typeof(ptr) == "externalptr")
     
+    stopifnot(api_is_a_Number(ptr))
     .Call("c_number_is_negative", ptr)
 }
 
@@ -175,6 +177,7 @@ api_number_is_positive <- function (ptr) {
     else
         stopifnot(typeof(ptr) == "externalptr")
     
+    stopifnot(api_is_a_Number(ptr))
     .Call("c_number_is_positive", ptr)
 }
 
@@ -186,6 +189,7 @@ api_number_is_complex <- function (ptr) {
     else
         stopifnot(typeof(ptr) == "externalptr")
     
+    stopifnot(api_is_a_Number(ptr))
     .Call("c_number_is_complex", ptr)
 }
 
