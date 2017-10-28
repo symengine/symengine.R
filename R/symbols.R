@@ -90,6 +90,7 @@ setMethod("show", "Basic",
         
         cat(paste0("SymEngine ", type, ":\t"))
         cat(str)
+        cat("\n")
         invisible()
     }
 )
