@@ -95,6 +95,54 @@ api_make_const <- function (string) {
     .Call("c_make_const", string)
 }
 
+
+## Basic: is_a_XXX  ==============================================================
+
+
+#' @useDynLib symengine c_is_a_Number
+#' @useDynLib symengine c_is_a_Integer
+#' @useDynLib symengine c_is_a_Rational
+#' @useDynLib symengine c_is_a_Symbol
+#' @useDynLib symengine c_is_a_Complex
+#' @useDynLib symengine c_is_a_RealDouble
+#' @useDynLib symengine c_is_a_ComplexDouble
+#' @useDynLib symengine c_is_a_RealMPFR
+#' @useDynLib symengine c_is_a_ComplexMPC
+NULL
+
+.function_template <- function (c_call, envir = parent.frame()) {
+    f <- bquote(function (ptr) {
+        if (typeof(ptr) == "S4")
+            ptr <- as(ptr, "externalptr")
+        else
+            stopifnot(typeof(ptr) == "externalptr")
+        .Call(.(c_call), ptr)
+    })
+    eval(f, envir = envir)
+}
+
+#' @export
+api_is_a_Number            <- .function_template("c_is_a_Number")
+#' @export
+api_is_a_Integer           <- .function_template("c_is_a_Integer")
+#' @export
+api_is_a_Rational          <- .function_template("c_is_a_Rational")
+#' @export
+api_is_a_Symbol            <- .function_template("c_is_a_Symbol")
+#' @export
+api_is_a_Complex           <- .function_template("c_is_a_Complex")
+#' @export
+api_is_a_RealDouble        <- .function_template("c_is_a_RealDouble")
+#' @export
+api_is_a_ComplexDouble     <- .function_template("c_is_a_ComplexDouble")
+#' @export
+api_is_a_RealMPFR          <- .function_template("c_is_a_RealMPFR")
+#' @export
+api_is_a_ComplexMPC        <- .function_template("c_is_a_ComplexMPC")
+
+rm(.function_template)
+
+
 ## Number is  ==================================================================
 
 #' @useDynLib symengine c_number_is_zero

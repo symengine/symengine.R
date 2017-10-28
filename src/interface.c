@@ -191,6 +191,74 @@ SEXP c_make_const(SEXP string) {
     return outptr;
 }
 
+
+// Basic: is_a_XXX  //============================================================
+
+
+SEXP c_is_a_Number(SEXP ext) {
+    if (NULL == R_ExternalPtrAddr(ext))
+        Rf_error("Invalid pointer");
+    basic_struct* b = (basic_struct*) R_ExternalPtrAddr(ext);
+    return Rf_ScalarLogical(is_a_Number(b));
+}
+
+SEXP c_is_a_Integer(SEXP ext) {
+    if (NULL == R_ExternalPtrAddr(ext))
+        Rf_error("Invalid pointer");
+    basic_struct* b = (basic_struct*) R_ExternalPtrAddr(ext);
+    return Rf_ScalarLogical(is_a_Integer(b));
+}
+
+SEXP c_is_a_Rational(SEXP ext) {
+    if (NULL == R_ExternalPtrAddr(ext))
+        Rf_error("Invalid pointer");
+    basic_struct* b = (basic_struct*) R_ExternalPtrAddr(ext);
+    return Rf_ScalarLogical(is_a_Rational(b));
+}
+
+SEXP c_is_a_Symbol(SEXP ext) {
+    if (NULL == R_ExternalPtrAddr(ext))
+        Rf_error("Invalid pointer");
+    basic_struct* b = (basic_struct*) R_ExternalPtrAddr(ext);
+    return Rf_ScalarLogical(is_a_Symbol(b));
+}
+
+SEXP c_is_a_Complex(SEXP ext) {
+    if (NULL == R_ExternalPtrAddr(ext))
+        Rf_error("Invalid pointer");
+    basic_struct* b = (basic_struct*) R_ExternalPtrAddr(ext);
+    return Rf_ScalarLogical(is_a_Complex(b));
+}
+
+SEXP c_is_a_RealDouble(SEXP ext) {
+    if (NULL == R_ExternalPtrAddr(ext))
+        Rf_error("Invalid pointer");
+    basic_struct* b = (basic_struct*) R_ExternalPtrAddr(ext);
+    return Rf_ScalarLogical(is_a_RealDouble(b));
+}
+
+SEXP c_is_a_ComplexDouble(SEXP ext) {
+    if (NULL == R_ExternalPtrAddr(ext))
+        Rf_error("Invalid pointer");
+    basic_struct* b = (basic_struct*) R_ExternalPtrAddr(ext);
+    return Rf_ScalarLogical(is_a_ComplexDouble(b));
+}
+
+SEXP c_is_a_RealMPFR(SEXP ext) {
+    if (NULL == R_ExternalPtrAddr(ext))
+        Rf_error("Invalid pointer");
+    basic_struct* b = (basic_struct*) R_ExternalPtrAddr(ext);
+    return Rf_ScalarLogical(is_a_RealMPFR(b));
+}
+
+SEXP c_is_a_ComplexMPC(SEXP ext) {
+    if (NULL == R_ExternalPtrAddr(ext))
+        Rf_error("Invalid pointer");
+    basic_struct* b = (basic_struct*) R_ExternalPtrAddr(ext);
+    return Rf_ScalarLogical(is_a_ComplexMPC(b));
+}
+
+
 // Number  //===================================================================
 
 SEXP c_number_is_zero(SEXP ext) {
@@ -220,5 +288,3 @@ SEXP c_number_is_complex(SEXP ext) {
     basic_struct* b = (basic_struct*) R_ExternalPtrAddr(ext);
     return Rf_ScalarLogical(number_is_complex(b));
 }
-
-
