@@ -5,11 +5,6 @@ setClass("Basic", contains = "externalptr")
 
 ## Misc  =======================================================================
 
-#' @export
-get_type <- function (x) {
-    ptr <- x@.xData
-    api_basic_type(ptr)
-}
 
 ## Variable Init  ==============================================================
 
