@@ -17,8 +17,8 @@ test_that("Builtin constants matching its str", {
         })
         
         local({
-            # Using `get_builtin_const`
-            s   <- get_builtin_const(from)
+            # Using `Constant`
+            s   <- Constant(from)
             res <- api_basic_str(s@.xData)
             
             expect_identical(res, to)

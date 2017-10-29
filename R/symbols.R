@@ -6,42 +6,20 @@ setClass("Basic", contains = "externalptr")
 ## Misc  =======================================================================
 
 
-## Variable Init  ==============================================================
+
+## Symbol  =====================================================================
 
 #' @export
-vars <- function (name) {
+Symbol <- function (name) {
     # TODO: check NA and empty character?
-    ptr <- api_new_symbol(name)
-    new("Basic", ptr)
+    # TODO: should only accept character? Or give a warning when not?
+    new("Basic", api_new_symbol(name))
 }
 
-if (FALSE) {
-    vars("a")
-    vars(NA_character_)
-    vars("")
-    vars(42L)
-    vars(Inf)
-}
+## Constant  ===================================================================
 
 #' @export
-vars_init <- function (...) {
-    stop("TODO")
-    args <- dots(...)
-    args
-}
-
-tibble::lst
-tibble:::lst_quos
-
-dots <- function (...) {
-    eval(substitute(alist(...)))
-}
-
-
-## Get Constants  ==============================================================
-
-#' @export
-get_builtin_const <- function (
+Constant <- function (
     which = c(
         "zero",
         "one",
@@ -56,13 +34,47 @@ get_builtin_const <- function (
         "NegInf",
         "ComplexInf",
         "Nan"
-    )
+    ),
+    mk = NULL
 )
 {
+    if (missing(which)) {
+        if (is.null(mk))
+            stop("Missing both arguments ", sQuote("which"), " and ", sQuote("mk"))
+        return(new("Basic", api_make_const(mk)))
+    }
+    
     which <- match.arg(which)
-    ptr <- api_builtin_const(which)
+    if (!is.null(mk))
+        warning("Ignoring argument ", sQuote("mk"))
+    
+    ptr <- api_builtin_const(which = which)
     new("Basic", ptr)
 }
+
+
+if (FALSE) {
+    Symbol("a")
+    Symbol(NA_character_)
+    Symbol("")
+    Symbol(42L)
+    Symbol(Inf)
+}
+
+# vars_init <- function (...) {
+#     stop("TODO")
+#     args <- dots(...)
+#     args
+# }
+# 
+# tibble::lst
+# tibble:::lst_quos
+# 
+# dots <- function (...) {
+#     eval(substitute(alist(...)))
+# }
+
+
 
 ## Parse From String  ==========================================================
 
