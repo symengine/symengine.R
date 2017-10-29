@@ -2,8 +2,24 @@
 
 setClass("Basic", contains = "externalptr")
 
+## Show Methods ================================================================
 
-## Misc  =======================================================================
+setMethod("show", "Basic",
+    function (object) {
+        ptr <- as(object, "externalptr")
+        
+        type <- sprintf("(%s)", api_basic_type(ptr))
+        str  <- api_basic_str(ptr)
+        
+        if (requireNamespace("crayon", quietly = TRUE)) {
+            #str  <- crayon::yellow(str)
+            type <- crayon::italic(type)
+        }
+        
+        cat(type, "\t", str, "\n", sep = "")
+        invisible()
+    }
+)
 
 
 
@@ -15,6 +31,29 @@ Symbol <- function (name) {
     # TODO: should only accept character? Or give a warning when not?
     new("Basic", api_new_symbol(name))
 }
+
+
+if (FALSE) {
+    Symbol("a")
+    Symbol(NA_character_)
+    Symbol("")
+    Symbol(42L)
+    Symbol(Inf)
+}
+
+# vars_init <- function (...) {
+#     stop("TODO")
+#     args <- dots(...)
+#     args
+# }
+# 
+# tibble::lst
+# tibble:::lst_quos
+# 
+# dots <- function (...) {
+#     eval(substitute(alist(...)))
+# }
+
 
 ## Constant  ===================================================================
 
@@ -53,30 +92,7 @@ Constant <- function (
 }
 
 
-if (FALSE) {
-    Symbol("a")
-    Symbol(NA_character_)
-    Symbol("")
-    Symbol(42L)
-    Symbol(Inf)
-}
-
-# vars_init <- function (...) {
-#     stop("TODO")
-#     args <- dots(...)
-#     args
-# }
-# 
-# tibble::lst
-# tibble:::lst_quos
-# 
-# dots <- function (...) {
-#     eval(substitute(alist(...)))
-# }
-
-
-
-## Parse From String  ==========================================================
+## S  ==========================================================================
 
 #' @export
 setGeneric("S", def = function (x) standardGeneric("S"))
@@ -90,23 +106,4 @@ setMethod("S", c(x = "character"),
     }
 )
 
-
-## Show Methods ================================================================
-
-setMethod("show", "Basic",
-    function (object) {
-        ptr <- as(object, "externalptr")
-        
-        type <- sprintf("(%s)", api_basic_type(ptr))
-        str  <- api_basic_str(ptr)
-        
-        if (requireNamespace("crayon", quietly = TRUE)) {
-            #str  <- crayon::yellow(str)
-            type <- crayon::italic(type)
-        }
-        
-        cat(type, "\t", str, "\n", sep = "")
-        invisible()
-    }
-)
 

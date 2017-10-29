@@ -3,6 +3,10 @@
 #' @include c-interface.R
 
 
+## ActiveBindings  =============================================================
+
+# TODO...
+
 # The error is:
 #     ** preparing package for lazy loading
 #     Error in .Call("c_builtin_const", id) : 
