@@ -95,7 +95,7 @@ Constant <- function (
 ## S  ==========================================================================
 
 #' @export
-setGeneric("S", def = function (x) standardGeneric("S"))
+setGeneric("S", def = function (x, ...) standardGeneric("S"))
 
 #' @export
 setMethod("S", c(x = "character"),
