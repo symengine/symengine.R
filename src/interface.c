@@ -192,6 +192,29 @@ SEXP c_make_const(SEXP string) {
 }
 
 
+// Integer  //====================================================================
+
+
+SEXP c_integer_from_int(SEXP in) {
+    int i = Rf_asInteger(in);
+
+    basic_struct* s = basic_new_heap();
+    // CWRAPPER_OUTPUT_TYPE integer_set_si(basic s, long i);
+    CWRAPPER_OUTPUT_TYPE exception = integer_set_si(s, i);
+    if (exception)
+        Rf_error(exception_message(exception));
+
+    SEXP outptr = PROTECT(
+        R_MakeExternalPtr(s, Rf_mkString("basic_struct*"), R_NilValue)
+    );
+    R_RegisterCFinalizerEx(outptr, _basic_heap_finalizer, TRUE);
+
+    UNPROTECT(1);
+    return outptr;
+}
+
+
+
 // Basic: is_a_XXX  //============================================================
 
 

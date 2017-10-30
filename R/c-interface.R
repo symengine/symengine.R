@@ -95,8 +95,16 @@ api_make_const <- function (string) {
     .Call("c_make_const", string)
 }
 
+## Integer  ====================================================================
 
-## Basic: is_a_XXX  ==============================================================
+#' @useDynLib symengine c_integer_from_int
+#' @export
+api_integer_from_int <- function (x) {
+    stopifnot(is.integer(x)) # or as.integer(x)?
+    .Call("c_integer_from_int", x)
+}
+
+## Basic: is_a_XXX  ============================================================
 
 
 #' @useDynLib symengine c_is_a_Number

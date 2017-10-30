@@ -91,6 +91,17 @@ Constant <- function (
     new("Basic", ptr)
 }
 
+## Integer  ====================================================================
+
+#' @export
+Integer <- function (x) {
+    # TODO: should also support character, bigz (from gmp package), etc.
+    if (is.integer(x))
+        return(new("Basic", api_integer_from_int(x)))
+    if (is.numeric(x))
+        return(new("Basic", api_integer_from_int(as.integer(x))))
+    stop()
+}
 
 ## S  ==========================================================================
 
@@ -103,6 +114,13 @@ setMethod("S", c(x = "character"),
         # TODO
         ptr <- api_parse_str(x)
         new("Basic", ptr)
+    }
+)
+
+#' @export
+setMethod("S", c(x = "integer"),
+    function (x) {
+        Integer(x)
     }
 )
 
