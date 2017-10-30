@@ -102,7 +102,8 @@ Integer <- function (x) {
         return(new("Basic", api_integer_from_int(as.integer(x))))
     if (is.character(x))
         return(new("Basic", api_integer_from_str(x)))
-    stop()
+    
+    stop(sQuote(class(x)), " class is not supported")
 }
 
 ## S  ==========================================================================
