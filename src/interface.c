@@ -195,12 +195,30 @@ SEXP c_make_const(SEXP string) {
 // Integer  //====================================================================
 
 
-SEXP c_integer_from_int(SEXP in) {
-    int i = Rf_asInteger(in);
+SEXP c_integer_from_int(SEXP x) {
+    int i = Rf_asInteger(x);
 
     basic_struct* s = basic_new_heap();
     // CWRAPPER_OUTPUT_TYPE integer_set_si(basic s, long i);
     CWRAPPER_OUTPUT_TYPE exception = integer_set_si(s, i);
+    if (exception)
+        Rf_error(exception_message(exception));
+
+    SEXP outptr = PROTECT(
+        R_MakeExternalPtr(s, Rf_mkString("basic_struct*"), R_NilValue)
+    );
+    R_RegisterCFinalizerEx(outptr, _basic_heap_finalizer, TRUE);
+
+    UNPROTECT(1);
+    return outptr;
+}
+
+SEXP c_integer_from_str(SEXP string) {
+    const char* str = CHAR(Rf_asChar(string));
+
+    basic_struct* s = basic_new_heap();
+    // CWRAPPER_OUTPUT_TYPE integer_set_str(basic s, const char *c);
+    CWRAPPER_OUTPUT_TYPE exception = integer_set_str(s, str);
     if (exception)
         Rf_error(exception_message(exception));
 

@@ -104,6 +104,12 @@ api_integer_from_int <- function (x) {
     .Call("c_integer_from_int", x)
 }
 
+#' @useDynLib symengine c_integer_from_str
+#' @export
+api_integer_from_str <- function (x) {
+    .Call("c_integer_from_str", x)
+}
+
 ## Basic: is_a_XXX  ============================================================
 
 
