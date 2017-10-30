@@ -100,6 +100,9 @@ api_make_const <- function (string) {
 #' @useDynLib symengine c_integer_from_int
 #' @export
 api_integer_from_int <- function (x) {
+    if (is.na(x) || is.infinite(x) || is.nan(x))
+        stop("TODO: to support NA, Inf and NaN")
+    
     stopifnot(is.integer(x)) # or as.integer(x)?
     .Call("c_integer_from_int", x)
 }
