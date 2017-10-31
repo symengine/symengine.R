@@ -231,6 +231,33 @@ SEXP c_integer_from_str(SEXP string) {
     return outptr;
 }
 
+// Real  //=======================================================================
+
+SEXP c_realdouble_from_d(SEXP x) {
+    double d = Rf_asReal(x);
+
+    basic_struct* s = basic_new_heap();
+    CWRAPPER_OUTPUT_TYPE exception = real_double_set_d(s, d);
+    if (exception)
+        Rf_error(exception_message(exception));
+
+    SEXP outptr = PROTECT(
+        R_MakeExternalPtr(s, Rf_mkString("basic_struct*"), R_NilValue)
+    );
+    R_RegisterCFinalizerEx(outptr, _basic_heap_finalizer, TRUE);
+
+    UNPROTECT(1);
+    return outptr;
+}
+
+SEXP c_realdouble_get_d(SEXP ext) {
+    if (NULL == R_ExternalPtrAddr(ext))
+        Rf_error("Invalid pointer");
+    basic_struct* b = (basic_struct*) R_ExternalPtrAddr(ext);
+    return Rf_ScalarReal(real_double_get_d(b));
+}
+
+
 
 
 // Basic: is_a_XXX  //============================================================

@@ -95,7 +95,7 @@ Constant <- function (
 
 #' @export
 Integer <- function (x) {
-    # TODO: should also support character, bigz (from gmp package), etc.
+    # TODO: should also support bigz (from gmp package), etc.
     if (is.integer(x))
         return(new("Basic", api_integer_from_int(x)))
     if (is.numeric(x))
@@ -104,6 +104,33 @@ Integer <- function (x) {
         return(new("Basic", api_integer_from_str(x)))
     
     stop(sQuote(class(x)), " class is not supported")
+}
+
+## RealDouble  =================================================================
+
+#' @export
+RealDouble <- function (x) {
+    # TODO: how to deal with NA (of character, logical), Inf, NaN?
+    if (is.integer(x))
+        return(new("Basic", api_realdouble_from_d(as.double(x))))
+    if (is.double(x))
+        return(new("Basic", api_realdouble_from_d(x)))
+    
+    stop(sQuote(class(x)), " class is not supported")
+}
+
+if (FALSE) {
+    (d <- RealDouble(NA_integer_))
+    str(api_realdouble_get_d(d))
+    
+    (d <- RealDouble(NaN))
+    str(api_realdouble_get_d(d))
+    
+    (d <- RealDouble(Inf))
+    str(api_realdouble_get_d(d))
+    
+    (d <- RealDouble(-Inf))
+    str(api_realdouble_get_d(d))
 }
 
 ## S  ==========================================================================

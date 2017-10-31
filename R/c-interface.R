@@ -101,7 +101,7 @@ api_make_const <- function (string) {
 #' @export
 api_integer_from_int <- function (x) {
     if (is.na(x) || is.infinite(x) || is.nan(x))
-        stop("TODO: to support NA, Inf and NaN")
+        warning("TODO: to support NA, Inf and NaN")
     
     stopifnot(is.integer(x)) # or as.integer(x)?
     .Call("c_integer_from_int", x)
@@ -111,6 +111,32 @@ api_integer_from_int <- function (x) {
 #' @export
 api_integer_from_str <- function (x) {
     .Call("c_integer_from_str", x)
+}
+
+## Real  =======================================================================
+
+#' @useDynLib symengine c_realdouble_from_d
+#' @export
+api_realdouble_from_d <- function (x) {
+    # It seems that NA, Inf and NaN are directly supported, why??
+    #
+    # if (is.na(x) || is.infinite(x) || is.nan(x))
+    #     warning("TODO: to support NA, Inf and NaN")
+    
+    stopifnot(is.double(x)) # or as.double for integer?
+    .Call("c_realdouble_from_d", x)
+}
+
+#' @useDynLib symengine c_realdouble_get_d
+#' @export
+api_realdouble_get_d <- function (ptr) {
+    if (typeof(ptr) == "S4")
+        ptr <- as(ptr, "externalptr")
+    else
+        stopifnot(typeof(ptr) == "externalptr")
+    
+    stopifnot(api_is_a_RealDouble(ptr))
+    .Call("c_realdouble_get_d", ptr)
 }
 
 ## Basic: is_a_XXX  ============================================================
