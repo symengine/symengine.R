@@ -160,9 +160,8 @@ setGeneric("S", def = function (x, ...) standardGeneric("S"))
 #' @export
 setMethod("S", c(x = "character"),
     function (x) {
-        # TODO
-        ptr <- api_parse_str(x)
-        new("Basic", ptr)
+        # TODO: additional arguments to specify the type
+        new("Basic", api_parse_str(x))
     }
 )
 
@@ -170,6 +169,13 @@ setMethod("S", c(x = "character"),
 setMethod("S", c(x = "integer"),
     function (x) {
         Integer(x)
+    }
+)
+
+#' @export
+setMethod("S", c(x = "numeric"),
+    function (x) {
+        RealDouble(x)
     }
 )
 
