@@ -249,4 +249,46 @@ api_number_is_complex <- function (ptr) {
     .Call("c_number_is_complex", ptr)
 }
 
+## Operations  =================================================================
+
+#' @useDynLib symengine c_basic_add
+#' @export
+api_basic_add <- function (ptra, ptrb) {
+    ptra <- as(ptra, "externalptr")
+    ptrb <- as(ptrb, "externalptr")
+    .Call("c_basic_add", ptra, ptrb)
+}
+
+#' @useDynLib symengine c_basic_sub
+#' @export
+api_basic_sub <- function (ptra, ptrb) {
+    ptra <- as(ptra, "externalptr")
+    ptrb <- as(ptrb, "externalptr")
+    .Call("c_basic_sub", ptra, ptrb)
+}
+
+#' @useDynLib symengine c_basic_mul
+#' @export
+api_basic_mul <- function (ptra, ptrb) {
+    ptra <- as(ptra, "externalptr")
+    ptrb <- as(ptrb, "externalptr")
+    .Call("c_basic_mul", ptra, ptrb)
+}
+
+#' @useDynLib symengine c_basic_div
+#' @export
+api_basic_div <- function (ptra, ptrb) {
+    ptra <- as(ptra, "externalptr")
+    ptrb <- as(ptrb, "externalptr")
+    .Call("c_basic_div", ptra, ptrb)
+}
+
+#' @useDynLib symengine c_basic_pow
+#' @export
+api_basic_pow <- function (ptra, ptrb) {
+    ptra <- as(ptra, "externalptr")
+    ptrb <- as(ptrb, "externalptr")
+    .Call("c_basic_pow", ptra, ptrb)
+}
+
 
