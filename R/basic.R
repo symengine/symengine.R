@@ -179,4 +179,8 @@ setMethod("S", c(x = "numeric"),
     }
 )
 
+#' @export
+setMethod("S", c(x = "Basic"),
+    function (x) x
+)
 
