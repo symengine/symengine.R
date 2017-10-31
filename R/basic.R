@@ -106,6 +106,23 @@ Integer <- function (x) {
     stop(sQuote(class(x)), " class is not supported")
 }
 
+if (FALSE) {
+    (i <- Integer(as.character(- 2^31)))     # -base::.Machine$integer.max - 1L
+    str(api_integer_get_int(i))
+    
+    (i <- Integer(as.character(- 2^31 + 1))) # -base::.Machine$integer.max
+    str(api_integer_get_int(i))
+    
+    (i <- Integer(NA_integer_))
+    str(api_integer_get_int(i))
+    
+    (i <- Integer(Inf))
+    str(api_integer_get_int(i))
+    
+    (i <- Integer(NaN))
+    str(api_integer_get_int(i))
+}
+
 ## RealDouble  =================================================================
 
 #' @export

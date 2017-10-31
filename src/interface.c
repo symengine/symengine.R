@@ -2,6 +2,7 @@
 #define R_NO_REMAP
 
 #include <string.h>
+#include <limits.h>
 
 #include <R.h>
 #include <Rinternals.h>
@@ -230,6 +231,25 @@ SEXP c_integer_from_str(SEXP string) {
     UNPROTECT(1);
     return outptr;
 }
+
+SEXP c_integer_get_int(SEXP ext) {
+    if (NULL == R_ExternalPtrAddr(ext))
+        Rf_error("Invalid pointer");
+    basic_struct* b = (basic_struct*) R_ExternalPtrAddr(ext);
+    // signed long integer_get_si(const basic s);
+    signed long si = integer_get_si(b);
+    // Note that INT_MIN is used as NA_integer_ in R
+    if (si >= (INT_MIN + 1) && si <= INT_MAX)
+        return Rf_ScalarInteger(si);
+    else {
+        // TODO
+        Rf_error("Number %ld can not be coerced to integer range", si);
+    }
+}
+
+
+
+
 
 // Real  //=======================================================================
 

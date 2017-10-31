@@ -113,6 +113,19 @@ api_integer_from_str <- function (x) {
     .Call("c_integer_from_str", x)
 }
 
+#' @useDynLib symengine c_integer_get_int
+#' @export
+api_integer_get_int <- function (ptr) {
+    if (typeof(ptr) == "S4")
+        ptr <- as(ptr, "externalptr")
+    else
+        stopifnot(typeof(ptr) == "externalptr")
+    
+    stopifnot(api_is_a_Integer(ptr))
+    .Call("c_integer_get_int", ptr)
+}
+
+
 ## Real  =======================================================================
 
 #' @useDynLib symengine c_realdouble_from_d
