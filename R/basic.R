@@ -99,8 +99,9 @@ Integer <- function (x) {
     if (is.integer(x))
         return(new("Basic", api_integer_from_int(x)))
     if (is.numeric(x))
-        # TODO: not all double value can be coerced to integer
-        return(new("Basic", api_integer_from_int(as.integer(x))))
+        # Since not all double value can be coerced to integer,
+        # we do not use `as.integer` here, but use `as.character(trunc(x))`
+        return(new("Basic", api_integer_from_str(as.character(trunc(x)))))
     if (is.character(x))
         return(new("Basic", api_integer_from_str(x)))
     
