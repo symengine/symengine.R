@@ -19,4 +19,5 @@ Collate:
     'c-interface.R'
     'constant-bindings.R'
     'misc.R'
+    'operations.R'
     'zzz.R'
