@@ -6,7 +6,7 @@ Description: A R interface to the fast symbolic manipulation library "SymEngine"
 Depends:
     R (>= 3.4)
 Imports:
-    methods
+    methods,
     gmp
 Suggests:
     crayon,
