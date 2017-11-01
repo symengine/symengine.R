@@ -98,10 +98,13 @@ Integer <- function (x) {
     # TODO: should also support bigz (from gmp package), etc.
     if (is.integer(x))
         return(new("Basic", api_integer_from_int(x)))
-    if (is.numeric(x))
-        # Since not all double value can be coerced to integer,
-        # we do not use `as.integer` here, but use `as.character(trunc(x))`
-        return(new("Basic", api_integer_from_str(as.character(trunc(x)))))
+    if (is.double(x))
+        # Not all double value can be coerced to integer (i.e. int type), thus I use character.
+        # This is a hack to generate the string representation of the integer part in case
+        # the number is large. (e.g. `as.character(2^99)` or `format(2^99, digits=22)` won't work)
+        # Any better way?
+        #return(new("Basic", api_integer_from_str(as.character(trunc(x)))))
+        return(new("Basic", api_integer_from_str(as.character(gmp::as.bigz(x)))))
     if (is.character(x))
         return(new("Basic", api_integer_from_str(x)))
     
