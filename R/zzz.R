@@ -28,3 +28,7 @@
     
     invisible(TRUE)
 }
+
+.onUnload <- function (libpath) {
+    library.dynam.unload("symengine", libpath)
+}
