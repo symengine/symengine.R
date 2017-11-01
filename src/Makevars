@@ -1,1 +1,2 @@
-PKG_LIBS= -L/usr/local/lib/ -lgmp -lsymengine 
+PKG_LIBS= -lgmp -lsymengine 
+PKG_CPPFLAGS= -I/usr/include/ -I/usr/local/include
