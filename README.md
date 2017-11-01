@@ -1,5 +1,7 @@
 # symengine.R
 
+[![Travis-CI Build Status](https://travis-ci.org/Marlin-Na/symengine.R.svg?branch=master)](https://travis-ci.org/Marlin-Na/symengine.R)
+
 This is an experiment to provide a R interface to the
 [SymEngine library](https://github.com/symengine/symengine).
 
