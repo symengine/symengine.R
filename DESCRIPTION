@@ -7,6 +7,7 @@ Depends:
     R (>= 3.4)
 Imports:
     methods
+    gmp
 Suggests:
     crayon,
     testthat
