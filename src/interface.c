@@ -93,7 +93,7 @@ SEXP c_parse_str(SEXP RString) {
     const char* str = CHAR(Rf_asChar(RString));
     
     basic_struct* s = basic_new_heap();
-    CWRAPPER_OUTPUT_TYPE exception = basic_parse(s, str);
+    CWRAPPER_OUTPUT_TYPE exception = basic_parse2(s, str, 1);
     
     if (exception)
         Rf_error(exception_message(exception));
