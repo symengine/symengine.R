@@ -53,13 +53,19 @@ api_parse_str <- function (string) {
 #' @useDynLib symengine c_basic_str
 #' @export
 api_basic_str <- function (ptr) {
-    if (typeof(ptr) == "S4")
-        ptr <- as(ptr, "externalptr")
-    else
-        stopifnot(typeof(ptr) == "externalptr")
-    
+    ptr <- as(ptr, "externalptr")
     .Call("c_basic_str", ptr)
 }
+
+#' @useDynLib symengine c_basic_str_julia
+#' @export
+api_basic_str_julia <- function (ptr) {
+    # I do not know all the difference between `basic_str` and `basic_str_julia`,
+    # but `basic_str_julia` will show Pow with `^` instead of `**`.
+    ptr <- as(ptr, "externalptr")
+    .Call("c_basic_str_julia", ptr)
+}
+
 
 #' @useDynLib symengine c_basic_type
 #' @export

@@ -9,7 +9,7 @@ setMethod("show", "Basic",
         ptr <- as(object, "externalptr")
         
         type <- sprintf("(%s)", api_basic_type(ptr))
-        str  <- api_basic_str(ptr)
+        str  <- api_basic_str_julia(ptr)
         
         if (requireNamespace("crayon", quietly = TRUE)) {
             #str  <- crayon::yellow(str)

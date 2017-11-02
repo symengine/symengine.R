@@ -124,6 +124,21 @@ SEXP c_basic_str(SEXP ext) {
     return(out);
 }
 
+SEXP c_basic_str_julia(SEXP ext) {
+    if (NULL == R_ExternalPtrAddr(ext)) {
+        Rf_error("Invalid pointer\n");
+    }
+    
+    basic_struct* symbol = (basic_struct*) R_ExternalPtrAddr(ext);
+    
+    char* str = basic_str_julia(symbol);
+    SEXP out = PROTECT(Rf_mkString(str));
+    basic_str_free(str);
+    
+    UNPROTECT(1);
+    return(out);
+}
+
 SEXP c_basic_type(SEXP ext) {
     if (NULL == R_ExternalPtrAddr(ext)) {
         Rf_error("Invalid pointer");
