@@ -10,7 +10,7 @@ apt_packages:
 
 before_script:
   - cd /tmp
-  - git clone git@github.com:symengine/symengine.git
+  - git clone https://github.com/symengine/symengine.git
   # TODO
   - cmake -DWITH_SYMENGINE_ASSERT=ON -DWITH_MPFR=ON -DCMAKE_BUILD_TYPE=Debug symengine
   - make -C symengine
