@@ -187,3 +187,11 @@ setMethod("S", c(x = "Basic"),
     function (x) x
 )
 
+#' @export
+setMethod("S", c(x = "externalptr"),
+    function (x) {
+        stopifnot(identical(api_ptr_tag(x), "basic_struct*"))
+        new("Basic", x)
+    }
+)
+
