@@ -46,16 +46,12 @@ SEXP c_ascii_art_str() {
 }
 
 SEXP c_symengine_version() {
-    SEXP out = PROTECT(Rf_mkString(symengine_version()));
-    UNPROTECT(1);
-    return out;
+    return Rf_mkString(symengine_version());
 }
 
 SEXP c_symengine_have_component(SEXP s) {
     const char* str = CHAR(Rf_asChar(s));
-    SEXP out = PROTECT(Rf_ScalarLogical(symengine_have_component(str)));
-    UNPROTECT(1);
-    return out;
+    return Rf_ScalarLogical(symengine_have_component(str));
 }
 
 // Basic Symbol Initiator and Finalizer //======================================
