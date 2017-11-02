@@ -9,9 +9,11 @@ apt_packages:
   - libmpfr-dev
 
 before_script:
+  - predir=`pwd`
   - cd /tmp
   - git clone https://github.com/symengine/symengine.git
-  # TODO
-  - cmake -DWITH_SYMENGINE_ASSERT=ON -DWITH_MPFR=ON -DCMAKE_BUILD_TYPE=Debug symengine
-  - make -C symengine
-  - sudo make -C symengine install
+  - cd symengine
+  - cmake -DWITH_SYMENGINE_ASSERT=ON -DWITH_MPFR=ON -DCMAKE_BUILD_TYPE=Debug .
+  - make
+  - sudo make install
+  - cd $predir
