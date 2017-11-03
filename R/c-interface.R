@@ -338,4 +338,39 @@ if (FALSE) {
     api_basic_eq(S("x + 1 > x"), S("x + 2 > x + 1"))
 }
 
+#' @useDynLib symengine c_basic_expand
+#' @useDynLib symengine c_basic_neg
+#' @useDynLib symengine c_basic_abs
+#' @useDynLib symengine c_basic_erf
+#' @useDynLib symengine c_basic_erfc
+NULL
 
+#' @export
+api_basic_expand <- function (ptra) {
+    ptra <- as(ptra, "externalptr")
+    .Call("c_basic_expand", ptra)
+}
+
+#' @export
+api_basic_neg <- function (ptra) {
+    ptra <- as(ptra, "externalptr")
+    .Call("c_basic_neg", ptra)
+}
+
+#' @export
+api_basic_abs <- function (ptra) {
+    ptra <- as(ptra, "externalptr")
+    .Call("c_basic_abs", ptra)
+}
+
+#' @export
+api_basic_erf <- function (ptra) {
+    ptra <- as(ptra, "externalptr")
+    .Call("c_basic_erf", ptra)
+}
+
+#' @export
+api_basic_erfc <- function (ptra) {
+    ptra <- as(ptra, "externalptr")
+    .Call("c_basic_erfc", ptra)
+}
