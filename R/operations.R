@@ -58,4 +58,13 @@ setMethods("^",
     }
 )
 
+#' @export
+diff <- function (expr, sym) {
+    expr <- S(expr)
+    if (is.character(sym))
+        sym <- S(sym)
+    if (api_basic_type(sym) != "Symbol")
+        stop("sym should be a ", sQuote("Symbol"), ", got ", sQuote(api_basic_type(sym)))
+    new("Basic", api_basic_diff(expr, sym))
+}
 
