@@ -506,8 +506,8 @@ SEXP c_basic_pow(SEXP exta, SEXP extb) {
 
 
 /*******************************************************************************
- * //! Assign to s, derivative of expr with respect to sym. Returns 0 if sym is not
- * //! a symbol.
+ * //! Assign to s, derivative of expr with respect to sym.
+ * //! Returns SYMENGINE_RUNTIME_ERROR if sym is not a symbol.
  * CWRAPPER_OUTPUT_TYPE basic_diff(basic s, const basic expr, const basic sym);
  *******************************************************************************/
 
@@ -531,6 +531,27 @@ SEXP c_basic_diff(SEXP extexpr, SEXP extsym) {
     return outptr;
 }
 
+/*******************************************************************************
+ * //! Returns 1 if both basic are equal, 0 if not
+ * int basic_eq(const basic a, const basic b);
+ * //! Returns 1 if both basic are not equal, 0 if they are
+ * int basic_neq(const basic a, const basic b);
+ *******************************************************************************/
 
 
+SEXP c_basic_eq(SEXP exta, SEXP extb) {
+    if (NULL == R_ExternalPtrAddr(exta) || NULL == R_ExternalPtrAddr(extb))
+        Rf_error("Invalid pointer");
+    basic_struct* a = (basic_struct*) R_ExternalPtrAddr(exta);
+    basic_struct* b = (basic_struct*) R_ExternalPtrAddr(extb);
+    return Rf_ScalarLogical(basic_eq(a, b));
+}
+
+SEXP c_basic_neq(SEXP exta, SEXP extb) {
+    if (NULL == R_ExternalPtrAddr(exta) || NULL == R_ExternalPtrAddr(extb))
+        Rf_error("Invalid pointer");
+    basic_struct* a = (basic_struct*) R_ExternalPtrAddr(exta);
+    basic_struct* b = (basic_struct*) R_ExternalPtrAddr(extb);
+    return Rf_ScalarLogical(basic_neq(a, b));
+}
 

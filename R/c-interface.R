@@ -315,3 +315,27 @@ api_basic_diff <- function (ptrexpr, ptrsym) {
     .Call("c_basic_diff", ptrexpr, ptrsym)
 }
 
+
+#' @useDynLib symengine c_basic_eq
+#' @export
+api_basic_eq <- function (ptra, ptrb) {
+    ptra <- as(ptra, "externalptr")
+    ptrb <- as(ptrb, "externalptr")
+    .Call("c_basic_eq", ptra, ptrb)
+}
+
+#' @useDynLib symengine c_basic_neq
+#' @export
+api_basic_neq <- function (ptra, ptrb) {
+    ptra <- as(ptra, "externalptr")
+    ptrb <- as(ptrb, "externalptr")
+    .Call("c_basic_neq", ptra, ptrb)
+}
+
+if (FALSE) {
+    api_basic_eq(S("x == x"), S("y == y"))
+    api_basic_neq(S("x == x"), S("y == y"))
+    api_basic_eq(S("x + 1 > x"), S("x + 2 > x + 1"))
+}
+
+
