@@ -338,39 +338,150 @@ if (FALSE) {
     api_basic_eq(S("x + 1 > x"), S("x + 2 > x + 1"))
 }
 
+
+## Functions with one argument
+
+.flist <- c(
+    alist(expand, neg, abs, erf, erfc),
+    
+    alist(sin, cos, tan, asin, acos, atan, csc, sec, cot, acsc, asec, acot, sinh,
+          cosh, tanh, asinh, acosh, atanh, csch, sech, coth, acsch, asech, acoth),
+    
+    alist(lambertw, zeta, dirichlet_eta, gamma, sqrt, exp, log)
+)
+
+for (i in .flist) {
+    fname    <- deparse(i)
+    funcname <- paste0("api_basic_", deparse(i))
+    callname <- paste0("c_basic_",   deparse(i))
+    func <- eval(bquote(function (ptra) {
+        .Call(.(callname), as(ptra, "externalptr"))
+    }))
+    assign(funcname, func)
+    rm(fname, funcname, callname, func, i)
+}
+
+if (FALSE) {
+    for (i in .flist) {
+        cat("#' @useDynLib symengine c_basic_", deparse(i), "\n", sep = "")
+    }
+    for (i in .flist) {
+        cat("#' @export\n")
+        cat("api_basic_", i, " <- ", "api_basic_", i, "\n", sep = "")
+    }
+}
+
+rm(.flist)
+
+
+#' @export
+api_basic_expand <- api_basic_expand
+#' @export
+api_basic_neg <- api_basic_neg
+#' @export
+api_basic_abs <- api_basic_abs
+#' @export
+api_basic_erf <- api_basic_erf
+#' @export
+api_basic_erfc <- api_basic_erfc
+#' @export
+api_basic_sin <- api_basic_sin
+#' @export
+api_basic_cos <- api_basic_cos
+#' @export
+api_basic_tan <- api_basic_tan
+#' @export
+api_basic_asin <- api_basic_asin
+#' @export
+api_basic_acos <- api_basic_acos
+#' @export
+api_basic_atan <- api_basic_atan
+#' @export
+api_basic_csc <- api_basic_csc
+#' @export
+api_basic_sec <- api_basic_sec
+#' @export
+api_basic_cot <- api_basic_cot
+#' @export
+api_basic_acsc <- api_basic_acsc
+#' @export
+api_basic_asec <- api_basic_asec
+#' @export
+api_basic_acot <- api_basic_acot
+#' @export
+api_basic_sinh <- api_basic_sinh
+#' @export
+api_basic_cosh <- api_basic_cosh
+#' @export
+api_basic_tanh <- api_basic_tanh
+#' @export
+api_basic_asinh <- api_basic_asinh
+#' @export
+api_basic_acosh <- api_basic_acosh
+#' @export
+api_basic_atanh <- api_basic_atanh
+#' @export
+api_basic_csch <- api_basic_csch
+#' @export
+api_basic_sech <- api_basic_sech
+#' @export
+api_basic_coth <- api_basic_coth
+#' @export
+api_basic_acsch <- api_basic_acsch
+#' @export
+api_basic_asech <- api_basic_asech
+#' @export
+api_basic_acoth <- api_basic_acoth
+#' @export
+api_basic_lambertw <- api_basic_lambertw
+#' @export
+api_basic_zeta <- api_basic_zeta
+#' @export
+api_basic_dirichlet_eta <- api_basic_dirichlet_eta
+#' @export
+api_basic_gamma <- api_basic_gamma
+#' @export
+api_basic_sqrt <- api_basic_sqrt
+#' @export
+api_basic_exp <- api_basic_exp
+#' @export
+api_basic_log <- api_basic_log
+
 #' @useDynLib symengine c_basic_expand
 #' @useDynLib symengine c_basic_neg
 #' @useDynLib symengine c_basic_abs
 #' @useDynLib symengine c_basic_erf
 #' @useDynLib symengine c_basic_erfc
+#' @useDynLib symengine c_basic_sin
+#' @useDynLib symengine c_basic_cos
+#' @useDynLib symengine c_basic_tan
+#' @useDynLib symengine c_basic_asin
+#' @useDynLib symengine c_basic_acos
+#' @useDynLib symengine c_basic_atan
+#' @useDynLib symengine c_basic_csc
+#' @useDynLib symengine c_basic_sec
+#' @useDynLib symengine c_basic_cot
+#' @useDynLib symengine c_basic_acsc
+#' @useDynLib symengine c_basic_asec
+#' @useDynLib symengine c_basic_acot
+#' @useDynLib symengine c_basic_sinh
+#' @useDynLib symengine c_basic_cosh
+#' @useDynLib symengine c_basic_tanh
+#' @useDynLib symengine c_basic_asinh
+#' @useDynLib symengine c_basic_acosh
+#' @useDynLib symengine c_basic_atanh
+#' @useDynLib symengine c_basic_csch
+#' @useDynLib symengine c_basic_sech
+#' @useDynLib symengine c_basic_coth
+#' @useDynLib symengine c_basic_acsch
+#' @useDynLib symengine c_basic_asech
+#' @useDynLib symengine c_basic_acoth
+#' @useDynLib symengine c_basic_lambertw
+#' @useDynLib symengine c_basic_zeta
+#' @useDynLib symengine c_basic_dirichlet_eta
+#' @useDynLib symengine c_basic_gamma
+#' @useDynLib symengine c_basic_sqrt
+#' @useDynLib symengine c_basic_exp
+#' @useDynLib symengine c_basic_log
 NULL
 
-#' @export
-api_basic_expand <- function (ptra) {
-    ptra <- as(ptra, "externalptr")
-    .Call("c_basic_expand", ptra)
-}
-
-#' @export
-api_basic_neg <- function (ptra) {
-    ptra <- as(ptra, "externalptr")
-    .Call("c_basic_neg", ptra)
-}
-
-#' @export
-api_basic_abs <- function (ptra) {
-    ptra <- as(ptra, "externalptr")
-    .Call("c_basic_abs", ptra)
-}
-
-#' @export
-api_basic_erf <- function (ptra) {
-    ptra <- as(ptra, "externalptr")
-    .Call("c_basic_erf", ptra)
-}
-
-#' @export
-api_basic_erfc <- function (ptra) {
-    ptra <- as(ptra, "externalptr")
-    .Call("c_basic_erfc", ptra)
-}
