@@ -555,3 +555,736 @@ SEXP c_basic_neq(SEXP exta, SEXP extb) {
     return Rf_ScalarLogical(basic_neq(a, b));
 }
 
+
+
+/*******************************************************************************
+ * //! Expands the expr a and assigns to s.
+ * CWRAPPER_OUTPUT_TYPE basic_expand(basic s, const basic a);
+ * //! Assigns s = -a.
+ * CWRAPPER_OUTPUT_TYPE basic_neg(basic s, const basic a);
+ * //! Assigns s = abs(a).
+ * CWRAPPER_OUTPUT_TYPE basic_abs(basic s, const basic a);
+ *******************************************************************************/
+
+SEXP c_basic_expand(SEXP exta) {
+    if (NULL == R_ExternalPtrAddr(exta))
+        Rf_error("Invalid pointer");
+    basic_struct* a = (basic_struct*) R_ExternalPtrAddr(exta);
+    basic_struct* s = basic_new_heap();
+
+    CWRAPPER_OUTPUT_TYPE exception = basic_expand(s, a);
+    if (exception)
+        Rf_error(exception_message(exception));
+
+    SEXP outptr = PROTECT(
+        R_MakeExternalPtr(s, Rf_mkString("basic_struct*"), R_NilValue)
+    );
+    R_RegisterCFinalizerEx(outptr, _basic_heap_finalizer, TRUE);
+
+    UNPROTECT(1);
+    return outptr;
+}
+
+SEXP c_basic_neg(SEXP exta) {
+    if (NULL == R_ExternalPtrAddr(exta))
+        Rf_error("Invalid pointer");
+    basic_struct* a = (basic_struct*) R_ExternalPtrAddr(exta);
+    basic_struct* s = basic_new_heap();
+
+    CWRAPPER_OUTPUT_TYPE exception = basic_neg(s, a);
+    if (exception)
+        Rf_error(exception_message(exception));
+
+    SEXP outptr = PROTECT(
+        R_MakeExternalPtr(s, Rf_mkString("basic_struct*"), R_NilValue)
+    );
+    R_RegisterCFinalizerEx(outptr, _basic_heap_finalizer, TRUE);
+
+    UNPROTECT(1);
+    return outptr;
+}
+
+SEXP c_basic_abs(SEXP exta) {
+    if (NULL == R_ExternalPtrAddr(exta))
+        Rf_error("Invalid pointer");
+    basic_struct* a = (basic_struct*) R_ExternalPtrAddr(exta);
+    basic_struct* s = basic_new_heap();
+
+    CWRAPPER_OUTPUT_TYPE exception = basic_abs(s, a);
+    if (exception)
+        Rf_error(exception_message(exception));
+
+    SEXP outptr = PROTECT(
+        R_MakeExternalPtr(s, Rf_mkString("basic_struct*"), R_NilValue)
+    );
+    R_RegisterCFinalizerEx(outptr, _basic_heap_finalizer, TRUE);
+
+    UNPROTECT(1);
+    return outptr;
+}
+
+/*******************************************************************************
+ * //! Assigns s = erf(a).
+ * CWRAPPER_OUTPUT_TYPE basic_erf(basic s, const basic a);
+ * //! Assigns s = erfc(a).
+ * CWRAPPER_OUTPUT_TYPE basic_erfc(basic s, const basic a);
+ *******************************************************************************/
+
+SEXP c_basic_erf(SEXP exta) {
+    if (NULL == R_ExternalPtrAddr(exta))
+        Rf_error("Invalid pointer");
+    basic_struct* a = (basic_struct*) R_ExternalPtrAddr(exta);
+    basic_struct* s = basic_new_heap();
+
+    CWRAPPER_OUTPUT_TYPE exception = basic_erf(s, a);
+    if (exception)
+        Rf_error(exception_message(exception));
+
+    SEXP outptr = PROTECT(R_MakeExternalPtr(s, Rf_mkString("basic_struct*"), R_NilValue));
+    R_RegisterCFinalizerEx(outptr, _basic_heap_finalizer, TRUE);
+
+    UNPROTECT(1);
+    return outptr;
+}
+
+SEXP c_basic_erfc(SEXP exta) {
+    if (NULL == R_ExternalPtrAddr(exta))
+        Rf_error("Invalid pointer");
+    basic_struct* a = (basic_struct*) R_ExternalPtrAddr(exta);
+    basic_struct* s = basic_new_heap();
+
+    CWRAPPER_OUTPUT_TYPE exception = basic_erfc(s, a);
+    if (exception)
+        Rf_error(exception_message(exception));
+
+    SEXP outptr = PROTECT(R_MakeExternalPtr(s, Rf_mkString("basic_struct*"), R_NilValue));
+    R_RegisterCFinalizerEx(outptr, _basic_heap_finalizer, TRUE);
+
+    UNPROTECT(1);
+    return outptr;
+}
+
+
+/*******************************************************************************
+ * //! Assigns s = sin(a).
+ * CWRAPPER_OUTPUT_TYPE basic_sin(basic s, const basic a);
+ * //! Assigns s = cos(a).
+ * CWRAPPER_OUTPUT_TYPE basic_cos(basic s, const basic a);
+ * //! Assigns s = tan(a).
+ * CWRAPPER_OUTPUT_TYPE basic_tan(basic s, const basic a);
+ *******************************************************************************/
+
+SEXP c_basic_sin(SEXP exta) {
+    if (NULL == R_ExternalPtrAddr(exta))
+        Rf_error("Invalid pointer");
+    basic_struct* a = (basic_struct*) R_ExternalPtrAddr(exta);
+    basic_struct* s = basic_new_heap();
+
+    CWRAPPER_OUTPUT_TYPE exception = basic_sin(s, a);
+    if (exception)
+        Rf_error(exception_message(exception));
+
+    SEXP outptr = PROTECT(R_MakeExternalPtr(s, Rf_mkString("basic_struct*"), R_NilValue));
+    R_RegisterCFinalizerEx(outptr, _basic_heap_finalizer, TRUE);
+
+    UNPROTECT(1);
+    return outptr;
+}
+
+SEXP c_basic_cos(SEXP exta) {
+    if (NULL == R_ExternalPtrAddr(exta))
+        Rf_error("Invalid pointer");
+    basic_struct* a = (basic_struct*) R_ExternalPtrAddr(exta);
+    basic_struct* s = basic_new_heap();
+
+    CWRAPPER_OUTPUT_TYPE exception = basic_cos(s, a);
+    if (exception)
+        Rf_error(exception_message(exception));
+
+    SEXP outptr = PROTECT(R_MakeExternalPtr(s, Rf_mkString("basic_struct*"), R_NilValue));
+    R_RegisterCFinalizerEx(outptr, _basic_heap_finalizer, TRUE);
+
+    UNPROTECT(1);
+    return outptr;
+}
+
+SEXP c_basic_tan(SEXP exta) {
+    if (NULL == R_ExternalPtrAddr(exta))
+        Rf_error("Invalid pointer");
+    basic_struct* a = (basic_struct*) R_ExternalPtrAddr(exta);
+    basic_struct* s = basic_new_heap();
+
+    CWRAPPER_OUTPUT_TYPE exception = basic_tan(s, a);
+    if (exception)
+        Rf_error(exception_message(exception));
+
+    SEXP outptr = PROTECT(R_MakeExternalPtr(s, Rf_mkString("basic_struct*"), R_NilValue));
+    R_RegisterCFinalizerEx(outptr, _basic_heap_finalizer, TRUE);
+
+    UNPROTECT(1);
+    return outptr;
+}
+
+/*******************************************************************************
+ * //! Assigns s = asin(a).
+ * CWRAPPER_OUTPUT_TYPE basic_asin(basic s, const basic a);
+ * //! Assigns s = acos(a).
+ * CWRAPPER_OUTPUT_TYPE basic_acos(basic s, const basic a);
+ * //! Assigns s = atan(a).
+ * CWRAPPER_OUTPUT_TYPE basic_atan(basic s, const basic a);
+ *******************************************************************************/
+
+SEXP c_basic_asin(SEXP exta) {
+    if (NULL == R_ExternalPtrAddr(exta))
+        Rf_error("Invalid pointer");
+    basic_struct* a = (basic_struct*) R_ExternalPtrAddr(exta);
+    basic_struct* s = basic_new_heap();
+
+    CWRAPPER_OUTPUT_TYPE exception = basic_asin(s, a);
+    if (exception)
+        Rf_error(exception_message(exception));
+
+    SEXP outptr = PROTECT(R_MakeExternalPtr(s, Rf_mkString("basic_struct*"), R_NilValue));
+    R_RegisterCFinalizerEx(outptr, _basic_heap_finalizer, TRUE);
+
+    UNPROTECT(1);
+    return outptr;
+}
+
+SEXP c_basic_acos(SEXP exta) {
+    if (NULL == R_ExternalPtrAddr(exta))
+        Rf_error("Invalid pointer");
+    basic_struct* a = (basic_struct*) R_ExternalPtrAddr(exta);
+    basic_struct* s = basic_new_heap();
+
+    CWRAPPER_OUTPUT_TYPE exception = basic_acos(s, a);
+    if (exception)
+        Rf_error(exception_message(exception));
+
+    SEXP outptr = PROTECT(R_MakeExternalPtr(s, Rf_mkString("basic_struct*"), R_NilValue));
+    R_RegisterCFinalizerEx(outptr, _basic_heap_finalizer, TRUE);
+
+    UNPROTECT(1);
+    return outptr;
+}
+
+SEXP c_basic_atan(SEXP exta) {
+    if (NULL == R_ExternalPtrAddr(exta))
+        Rf_error("Invalid pointer");
+    basic_struct* a = (basic_struct*) R_ExternalPtrAddr(exta);
+    basic_struct* s = basic_new_heap();
+
+    CWRAPPER_OUTPUT_TYPE exception = basic_atan(s, a);
+    if (exception)
+        Rf_error(exception_message(exception));
+
+    SEXP outptr = PROTECT(R_MakeExternalPtr(s, Rf_mkString("basic_struct*"), R_NilValue));
+    R_RegisterCFinalizerEx(outptr, _basic_heap_finalizer, TRUE);
+
+    UNPROTECT(1);
+    return outptr;
+}
+
+
+/*******************************************************************************
+ * //! Assigns s = csc(a).
+ * CWRAPPER_OUTPUT_TYPE basic_csc(basic s, const basic a);
+ * //! Assigns s = sec(a).
+ * CWRAPPER_OUTPUT_TYPE basic_sec(basic s, const basic a);
+ * //! Assigns s = cot(a).
+ * CWRAPPER_OUTPUT_TYPE basic_cot(basic s, const basic a);
+ *******************************************************************************/
+
+SEXP c_basic_csc(SEXP exta) {
+    if (NULL == R_ExternalPtrAddr(exta))
+        Rf_error("Invalid pointer");
+    basic_struct* a = (basic_struct*) R_ExternalPtrAddr(exta);
+    basic_struct* s = basic_new_heap();
+
+    CWRAPPER_OUTPUT_TYPE exception = basic_csc(s, a);
+    if (exception)
+        Rf_error(exception_message(exception));
+
+    SEXP outptr = PROTECT(R_MakeExternalPtr(s, Rf_mkString("basic_struct*"), R_NilValue));
+    R_RegisterCFinalizerEx(outptr, _basic_heap_finalizer, TRUE);
+
+    UNPROTECT(1);
+    return outptr;
+}
+
+SEXP c_basic_sec(SEXP exta) {
+    if (NULL == R_ExternalPtrAddr(exta))
+        Rf_error("Invalid pointer");
+    basic_struct* a = (basic_struct*) R_ExternalPtrAddr(exta);
+    basic_struct* s = basic_new_heap();
+
+    CWRAPPER_OUTPUT_TYPE exception = basic_sec(s, a);
+    if (exception)
+        Rf_error(exception_message(exception));
+
+    SEXP outptr = PROTECT(R_MakeExternalPtr(s, Rf_mkString("basic_struct*"), R_NilValue));
+    R_RegisterCFinalizerEx(outptr, _basic_heap_finalizer, TRUE);
+
+    UNPROTECT(1);
+    return outptr;
+}
+
+SEXP c_basic_cot(SEXP exta) {
+    if (NULL == R_ExternalPtrAddr(exta))
+        Rf_error("Invalid pointer");
+    basic_struct* a = (basic_struct*) R_ExternalPtrAddr(exta);
+    basic_struct* s = basic_new_heap();
+
+    CWRAPPER_OUTPUT_TYPE exception = basic_cot(s, a);
+    if (exception)
+        Rf_error(exception_message(exception));
+
+    SEXP outptr = PROTECT(R_MakeExternalPtr(s, Rf_mkString("basic_struct*"), R_NilValue));
+    R_RegisterCFinalizerEx(outptr, _basic_heap_finalizer, TRUE);
+
+    UNPROTECT(1);
+    return outptr;
+}
+
+
+/*******************************************************************************
+ * //! Assigns s = acsc(a).
+ * CWRAPPER_OUTPUT_TYPE basic_acsc(basic s, const basic a);
+ * //! Assigns s = asec(a).
+ * CWRAPPER_OUTPUT_TYPE basic_asec(basic s, const basic a);
+ * //! Assigns s = acot(a).
+ * CWRAPPER_OUTPUT_TYPE basic_acot(basic s, const basic a);
+ *******************************************************************************/
+
+SEXP c_basic_acsc(SEXP exta) {
+    if (NULL == R_ExternalPtrAddr(exta))
+        Rf_error("Invalid pointer");
+    basic_struct* a = (basic_struct*) R_ExternalPtrAddr(exta);
+    basic_struct* s = basic_new_heap();
+
+    CWRAPPER_OUTPUT_TYPE exception = basic_acsc(s, a);
+    if (exception)
+        Rf_error(exception_message(exception));
+
+    SEXP outptr = PROTECT(R_MakeExternalPtr(s, Rf_mkString("basic_struct*"), R_NilValue));
+    R_RegisterCFinalizerEx(outptr, _basic_heap_finalizer, TRUE);
+
+    UNPROTECT(1);
+    return outptr;
+}
+
+SEXP c_basic_asec(SEXP exta) {
+    if (NULL == R_ExternalPtrAddr(exta))
+        Rf_error("Invalid pointer");
+    basic_struct* a = (basic_struct*) R_ExternalPtrAddr(exta);
+    basic_struct* s = basic_new_heap();
+
+    CWRAPPER_OUTPUT_TYPE exception = basic_asec(s, a);
+    if (exception)
+        Rf_error(exception_message(exception));
+
+    SEXP outptr = PROTECT(R_MakeExternalPtr(s, Rf_mkString("basic_struct*"), R_NilValue));
+    R_RegisterCFinalizerEx(outptr, _basic_heap_finalizer, TRUE);
+
+    UNPROTECT(1);
+    return outptr;
+}
+
+SEXP c_basic_acot(SEXP exta) {
+    if (NULL == R_ExternalPtrAddr(exta))
+        Rf_error("Invalid pointer");
+    basic_struct* a = (basic_struct*) R_ExternalPtrAddr(exta);
+    basic_struct* s = basic_new_heap();
+
+    CWRAPPER_OUTPUT_TYPE exception = basic_acot(s, a);
+    if (exception)
+        Rf_error(exception_message(exception));
+
+    SEXP outptr = PROTECT(R_MakeExternalPtr(s, Rf_mkString("basic_struct*"), R_NilValue));
+    R_RegisterCFinalizerEx(outptr, _basic_heap_finalizer, TRUE);
+
+    UNPROTECT(1);
+    return outptr;
+}
+
+
+/*******************************************************************************
+ * //! Assigns s = sinh(a).
+ * CWRAPPER_OUTPUT_TYPE basic_sinh(basic s, const basic a);
+ * //! Assigns s = cosh(a).
+ * CWRAPPER_OUTPUT_TYPE basic_cosh(basic s, const basic a);
+ * //! Assigns s = tanh(a).
+ * CWRAPPER_OUTPUT_TYPE basic_tanh(basic s, const basic a);
+ *******************************************************************************/
+
+SEXP c_basic_sinh(SEXP exta) {
+    if (NULL == R_ExternalPtrAddr(exta))
+        Rf_error("Invalid pointer");
+    basic_struct* a = (basic_struct*) R_ExternalPtrAddr(exta);
+    basic_struct* s = basic_new_heap();
+
+    CWRAPPER_OUTPUT_TYPE exception = basic_sinh(s, a);
+    if (exception)
+        Rf_error(exception_message(exception));
+
+    SEXP outptr = PROTECT(R_MakeExternalPtr(s, Rf_mkString("basic_struct*"), R_NilValue));
+    R_RegisterCFinalizerEx(outptr, _basic_heap_finalizer, TRUE);
+
+    UNPROTECT(1);
+    return outptr;
+}
+
+SEXP c_basic_cosh(SEXP exta) {
+    if (NULL == R_ExternalPtrAddr(exta))
+        Rf_error("Invalid pointer");
+    basic_struct* a = (basic_struct*) R_ExternalPtrAddr(exta);
+    basic_struct* s = basic_new_heap();
+
+    CWRAPPER_OUTPUT_TYPE exception = basic_cosh(s, a);
+    if (exception)
+        Rf_error(exception_message(exception));
+
+    SEXP outptr = PROTECT(R_MakeExternalPtr(s, Rf_mkString("basic_struct*"), R_NilValue));
+    R_RegisterCFinalizerEx(outptr, _basic_heap_finalizer, TRUE);
+
+    UNPROTECT(1);
+    return outptr;
+}
+
+SEXP c_basic_tanh(SEXP exta) {
+    if (NULL == R_ExternalPtrAddr(exta))
+        Rf_error("Invalid pointer");
+    basic_struct* a = (basic_struct*) R_ExternalPtrAddr(exta);
+    basic_struct* s = basic_new_heap();
+
+    CWRAPPER_OUTPUT_TYPE exception = basic_tanh(s, a);
+    if (exception)
+        Rf_error(exception_message(exception));
+
+    SEXP outptr = PROTECT(R_MakeExternalPtr(s, Rf_mkString("basic_struct*"), R_NilValue));
+    R_RegisterCFinalizerEx(outptr, _basic_heap_finalizer, TRUE);
+
+    UNPROTECT(1);
+    return outptr;
+}
+
+/*******************************************************************************
+ * //! Assigns s = asinh(a).
+ * CWRAPPER_OUTPUT_TYPE basic_asinh(basic s, const basic a);
+ * //! Assigns s = acosh(a).
+ * CWRAPPER_OUTPUT_TYPE basic_acosh(basic s, const basic a);
+ * //! Assigns s = atanh(a).
+ * CWRAPPER_OUTPUT_TYPE basic_atanh(basic s, const basic a);
+ *******************************************************************************/
+
+SEXP c_basic_asinh(SEXP exta) {
+    if (NULL == R_ExternalPtrAddr(exta))
+        Rf_error("Invalid pointer");
+    basic_struct* a = (basic_struct*) R_ExternalPtrAddr(exta);
+    basic_struct* s = basic_new_heap();
+
+    CWRAPPER_OUTPUT_TYPE exception = basic_asinh(s, a);
+    if (exception)
+        Rf_error(exception_message(exception));
+
+    SEXP outptr = PROTECT(R_MakeExternalPtr(s, Rf_mkString("basic_struct*"), R_NilValue));
+    R_RegisterCFinalizerEx(outptr, _basic_heap_finalizer, TRUE);
+
+    UNPROTECT(1);
+    return outptr;
+}
+
+SEXP c_basic_acosh(SEXP exta) {
+    if (NULL == R_ExternalPtrAddr(exta))
+        Rf_error("Invalid pointer");
+    basic_struct* a = (basic_struct*) R_ExternalPtrAddr(exta);
+    basic_struct* s = basic_new_heap();
+
+    CWRAPPER_OUTPUT_TYPE exception = basic_acosh(s, a);
+    if (exception)
+        Rf_error(exception_message(exception));
+
+    SEXP outptr = PROTECT(R_MakeExternalPtr(s, Rf_mkString("basic_struct*"), R_NilValue));
+    R_RegisterCFinalizerEx(outptr, _basic_heap_finalizer, TRUE);
+
+    UNPROTECT(1);
+    return outptr;
+}
+
+SEXP c_basic_atanh(SEXP exta) {
+    if (NULL == R_ExternalPtrAddr(exta))
+        Rf_error("Invalid pointer");
+    basic_struct* a = (basic_struct*) R_ExternalPtrAddr(exta);
+    basic_struct* s = basic_new_heap();
+
+    CWRAPPER_OUTPUT_TYPE exception = basic_atanh(s, a);
+    if (exception)
+        Rf_error(exception_message(exception));
+
+    SEXP outptr = PROTECT(R_MakeExternalPtr(s, Rf_mkString("basic_struct*"), R_NilValue));
+    R_RegisterCFinalizerEx(outptr, _basic_heap_finalizer, TRUE);
+
+    UNPROTECT(1);
+    return outptr;
+}
+
+/*******************************************************************************
+ * //! Assigns s = csch(a).
+ * CWRAPPER_OUTPUT_TYPE basic_csch(basic s, const basic a);
+ * //! Assigns s = sech(a).
+ * CWRAPPER_OUTPUT_TYPE basic_sech(basic s, const basic a);
+ * //! Assigns s = coth(a).
+ * CWRAPPER_OUTPUT_TYPE basic_coth(basic s, const basic a);
+ *******************************************************************************/
+
+SEXP c_basic_csch(SEXP exta) {
+    if (NULL == R_ExternalPtrAddr(exta))
+        Rf_error("Invalid pointer");
+    basic_struct* a = (basic_struct*) R_ExternalPtrAddr(exta);
+    basic_struct* s = basic_new_heap();
+
+    CWRAPPER_OUTPUT_TYPE exception = basic_csch(s, a);
+    if (exception)
+        Rf_error(exception_message(exception));
+
+    SEXP outptr = PROTECT(R_MakeExternalPtr(s, Rf_mkString("basic_struct*"), R_NilValue));
+    R_RegisterCFinalizerEx(outptr, _basic_heap_finalizer, TRUE);
+
+    UNPROTECT(1);
+    return outptr;
+}
+
+SEXP c_basic_sech(SEXP exta) {
+    if (NULL == R_ExternalPtrAddr(exta))
+        Rf_error("Invalid pointer");
+    basic_struct* a = (basic_struct*) R_ExternalPtrAddr(exta);
+    basic_struct* s = basic_new_heap();
+
+    CWRAPPER_OUTPUT_TYPE exception = basic_sech(s, a);
+    if (exception)
+        Rf_error(exception_message(exception));
+
+    SEXP outptr = PROTECT(R_MakeExternalPtr(s, Rf_mkString("basic_struct*"), R_NilValue));
+    R_RegisterCFinalizerEx(outptr, _basic_heap_finalizer, TRUE);
+
+    UNPROTECT(1);
+    return outptr;
+}
+
+SEXP c_basic_coth(SEXP exta) {
+    if (NULL == R_ExternalPtrAddr(exta))
+        Rf_error("Invalid pointer");
+    basic_struct* a = (basic_struct*) R_ExternalPtrAddr(exta);
+    basic_struct* s = basic_new_heap();
+
+    CWRAPPER_OUTPUT_TYPE exception = basic_coth(s, a);
+    if (exception)
+        Rf_error(exception_message(exception));
+
+    SEXP outptr = PROTECT(R_MakeExternalPtr(s, Rf_mkString("basic_struct*"), R_NilValue));
+    R_RegisterCFinalizerEx(outptr, _basic_heap_finalizer, TRUE);
+
+    UNPROTECT(1);
+    return outptr;
+}
+
+/*******************************************************************************
+ * //! Assigns s = acsch(a).
+ * CWRAPPER_OUTPUT_TYPE basic_acsch(basic s, const basic a);
+ * //! Assigns s = asech(a).
+ * CWRAPPER_OUTPUT_TYPE basic_asech(basic s, const basic a);
+ * //! Assigns s = acoth(a).
+ * CWRAPPER_OUTPUT_TYPE basic_acoth(basic s, const basic a);
+ *******************************************************************************/
+
+SEXP c_basic_acsch(SEXP exta) {
+    if (NULL == R_ExternalPtrAddr(exta))
+        Rf_error("Invalid pointer");
+    basic_struct* a = (basic_struct*) R_ExternalPtrAddr(exta);
+    basic_struct* s = basic_new_heap();
+
+    CWRAPPER_OUTPUT_TYPE exception = basic_acsch(s, a);
+    if (exception)
+        Rf_error(exception_message(exception));
+
+    SEXP outptr = PROTECT(R_MakeExternalPtr(s, Rf_mkString("basic_struct*"), R_NilValue));
+    R_RegisterCFinalizerEx(outptr, _basic_heap_finalizer, TRUE);
+
+    UNPROTECT(1);
+    return outptr;
+}
+
+SEXP c_basic_asech(SEXP exta) {
+    if (NULL == R_ExternalPtrAddr(exta))
+        Rf_error("Invalid pointer");
+    basic_struct* a = (basic_struct*) R_ExternalPtrAddr(exta);
+    basic_struct* s = basic_new_heap();
+
+    CWRAPPER_OUTPUT_TYPE exception = basic_asech(s, a);
+    if (exception)
+        Rf_error(exception_message(exception));
+
+    SEXP outptr = PROTECT(R_MakeExternalPtr(s, Rf_mkString("basic_struct*"), R_NilValue));
+    R_RegisterCFinalizerEx(outptr, _basic_heap_finalizer, TRUE);
+
+    UNPROTECT(1);
+    return outptr;
+}
+
+SEXP c_basic_acoth(SEXP exta) {
+    if (NULL == R_ExternalPtrAddr(exta))
+        Rf_error("Invalid pointer");
+    basic_struct* a = (basic_struct*) R_ExternalPtrAddr(exta);
+    basic_struct* s = basic_new_heap();
+
+    CWRAPPER_OUTPUT_TYPE exception = basic_acoth(s, a);
+    if (exception)
+        Rf_error(exception_message(exception));
+
+    SEXP outptr = PROTECT(R_MakeExternalPtr(s, Rf_mkString("basic_struct*"), R_NilValue));
+    R_RegisterCFinalizerEx(outptr, _basic_heap_finalizer, TRUE);
+
+    UNPROTECT(1);
+    return outptr;
+}
+
+
+/*******************************************************************************
+ * //! Assigns s = lambertw(a).
+ * CWRAPPER_OUTPUT_TYPE basic_lambertw(basic s, const basic a);
+ * //! Assigns s = zeta(a).
+ * CWRAPPER_OUTPUT_TYPE basic_zeta(basic s, const basic a);
+ * //! Assigns s = dirichlet_eta(a).
+ * CWRAPPER_OUTPUT_TYPE basic_dirichlet_eta(basic s, const basic a);
+ * //! Assigns s = gamma(a).
+ * CWRAPPER_OUTPUT_TYPE basic_gamma(basic s, const basic a);
+ * //! Assigns s = sqrt(a).
+ * CWRAPPER_OUTPUT_TYPE basic_sqrt(basic s, const basic a);
+ * //! Assigns s = exp(a).
+ * CWRAPPER_OUTPUT_TYPE basic_exp(basic s, const basic a);
+ * //! Assigns s = log(a).
+ * CWRAPPER_OUTPUT_TYPE basic_log(basic s, const basic a);
+ *******************************************************************************/
+
+SEXP c_basic_lambertw(SEXP exta) {
+    if (NULL == R_ExternalPtrAddr(exta))
+        Rf_error("Invalid pointer");
+    basic_struct* a = (basic_struct*) R_ExternalPtrAddr(exta);
+    basic_struct* s = basic_new_heap();
+
+    CWRAPPER_OUTPUT_TYPE exception = basic_lambertw(s, a);
+    if (exception)
+        Rf_error(exception_message(exception));
+
+    SEXP outptr = PROTECT(R_MakeExternalPtr(s, Rf_mkString("basic_struct*"), R_NilValue));
+    R_RegisterCFinalizerEx(outptr, _basic_heap_finalizer, TRUE);
+
+    UNPROTECT(1);
+    return outptr;
+}
+
+SEXP c_basic_zeta(SEXP exta) {
+    if (NULL == R_ExternalPtrAddr(exta))
+        Rf_error("Invalid pointer");
+    basic_struct* a = (basic_struct*) R_ExternalPtrAddr(exta);
+    basic_struct* s = basic_new_heap();
+
+    CWRAPPER_OUTPUT_TYPE exception = basic_zeta(s, a);
+    if (exception)
+        Rf_error(exception_message(exception));
+
+    SEXP outptr = PROTECT(R_MakeExternalPtr(s, Rf_mkString("basic_struct*"), R_NilValue));
+    R_RegisterCFinalizerEx(outptr, _basic_heap_finalizer, TRUE);
+
+    UNPROTECT(1);
+    return outptr;
+}
+
+SEXP c_basic_dirichlet_eta(SEXP exta) {
+    if (NULL == R_ExternalPtrAddr(exta))
+        Rf_error("Invalid pointer");
+    basic_struct* a = (basic_struct*) R_ExternalPtrAddr(exta);
+    basic_struct* s = basic_new_heap();
+
+    CWRAPPER_OUTPUT_TYPE exception = basic_dirichlet_eta(s, a);
+    if (exception)
+        Rf_error(exception_message(exception));
+
+    SEXP outptr = PROTECT(R_MakeExternalPtr(s, Rf_mkString("basic_struct*"), R_NilValue));
+    R_RegisterCFinalizerEx(outptr, _basic_heap_finalizer, TRUE);
+
+    UNPROTECT(1);
+    return outptr;
+}
+
+SEXP c_basic_gamma(SEXP exta) {
+    if (NULL == R_ExternalPtrAddr(exta))
+        Rf_error("Invalid pointer");
+    basic_struct* a = (basic_struct*) R_ExternalPtrAddr(exta);
+    basic_struct* s = basic_new_heap();
+
+    CWRAPPER_OUTPUT_TYPE exception = basic_gamma(s, a);
+    if (exception)
+        Rf_error(exception_message(exception));
+
+    SEXP outptr = PROTECT(R_MakeExternalPtr(s, Rf_mkString("basic_struct*"), R_NilValue));
+    R_RegisterCFinalizerEx(outptr, _basic_heap_finalizer, TRUE);
+
+    UNPROTECT(1);
+    return outptr;
+}
+
+SEXP c_basic_sqrt(SEXP exta) {
+    if (NULL == R_ExternalPtrAddr(exta))
+        Rf_error("Invalid pointer");
+    basic_struct* a = (basic_struct*) R_ExternalPtrAddr(exta);
+    basic_struct* s = basic_new_heap();
+
+    CWRAPPER_OUTPUT_TYPE exception = basic_sqrt(s, a);
+    if (exception)
+        Rf_error(exception_message(exception));
+
+    SEXP outptr = PROTECT(R_MakeExternalPtr(s, Rf_mkString("basic_struct*"), R_NilValue));
+    R_RegisterCFinalizerEx(outptr, _basic_heap_finalizer, TRUE);
+
+    UNPROTECT(1);
+    return outptr;
+}
+
+SEXP c_basic_exp(SEXP exta) {
+    if (NULL == R_ExternalPtrAddr(exta))
+        Rf_error("Invalid pointer");
+    basic_struct* a = (basic_struct*) R_ExternalPtrAddr(exta);
+    basic_struct* s = basic_new_heap();
+
+    CWRAPPER_OUTPUT_TYPE exception = basic_exp(s, a);
+    if (exception)
+        Rf_error(exception_message(exception));
+
+    SEXP outptr = PROTECT(R_MakeExternalPtr(s, Rf_mkString("basic_struct*"), R_NilValue));
+    R_RegisterCFinalizerEx(outptr, _basic_heap_finalizer, TRUE);
+
+    UNPROTECT(1);
+    return outptr;
+}
+
+SEXP c_basic_log(SEXP exta) {
+    if (NULL == R_ExternalPtrAddr(exta))
+        Rf_error("Invalid pointer");
+    basic_struct* a = (basic_struct*) R_ExternalPtrAddr(exta);
+    basic_struct* s = basic_new_heap();
+
+    CWRAPPER_OUTPUT_TYPE exception = basic_log(s, a);
+    if (exception)
+        Rf_error(exception_message(exception));
+
+    SEXP outptr = PROTECT(R_MakeExternalPtr(s, Rf_mkString("basic_struct*"), R_NilValue));
+    R_RegisterCFinalizerEx(outptr, _basic_heap_finalizer, TRUE);
+
+    UNPROTECT(1);
+    return outptr;
+}
+
+
+
+
