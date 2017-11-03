@@ -305,4 +305,13 @@ api_basic_pow <- function (ptra, ptrb) {
     .Call("c_basic_pow", ptra, ptrb)
 }
 
+## Diff
+#' @useDynLib symengine c_basic_diff
+#' @export
+api_basic_diff <- function (ptrexpr, ptrsym) {
+    ptrexpr <- as(ptrexpr, "externalptr")
+    ptrsym  <- as(ptrsym , "externalptr")
+    stopifnot(api_basic_type(ptrsym) == "Symbol")
+    .Call("c_basic_diff", ptrexpr, ptrsym)
+}
 
