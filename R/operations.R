@@ -99,6 +99,12 @@ setMethod("sqrt", c(x = "Basic"),
     }
 )
 
+setMethod("exp", c(x = "Basic"),
+    function (x) {
+        new("Basic", api_basic_exp(S(x)))
+    }
+)
+
 
 ## Trigonometry functions  =====================================================
 
