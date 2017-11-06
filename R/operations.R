@@ -68,6 +68,13 @@ diff <- function (expr, sym) {
     new("Basic", api_basic_diff(expr, sym))
 }
 
+#' @export
+expand <- function (expr) {
+    expr <- S(expr)
+    new("Basic", api_basic_expand(expr))
+}
+
+
 
 ## Trigonometry functions  =====================================================
 
