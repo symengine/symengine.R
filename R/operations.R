@@ -87,6 +87,11 @@ setMethod("+", c(e1 = "Basic", e2 = "missing"),
     }
 )
 
+setMethod("abs", c(x = "Basic"),
+    function (x) {
+        new("Basic", api_basic_abs(S(x)))
+    }
+)
 
 
 ## Trigonometry functions  =====================================================
