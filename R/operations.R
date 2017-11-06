@@ -74,6 +74,19 @@ expand <- function (expr) {
     new("Basic", api_basic_expand(expr))
 }
 
+# api_basic_neg
+setMethod("-", c(e1 = "Basic", e2 = "missing"),
+    function (e1, e2) {
+        new("Basic", api_basic_neg(S(e1)))
+    }
+)
+
+setMethod("+", c(e1 = "Basic", e2 = "missing"),
+    function (e1, e2) {
+        new("Basic", S(e1)@.xData)
+    }
+)
+
 
 
 ## Trigonometry functions  =====================================================
@@ -134,3 +147,4 @@ setMethod("atan", c(x = "Basic"), Trigonometry$atan)
 setMethod("sinpi", c(x = "Basic"), function(x) sin(x * Constant("pi")))
 setMethod("cospi", c(x = "Basic"), function(x) cos(x * Constant("pi")))
 setMethod("tanpi", c(x = "Basic"), function(x) tan(x * Constant("pi")))
+
