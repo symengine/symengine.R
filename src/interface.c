@@ -1286,5 +1286,31 @@ SEXP c_basic_log(SEXP exta) {
 }
 
 
+/*******************************************************************************
+ * //! substitutes a basic 'a' with another basic 'b',
+ * //! in the given basic 'e' and returns it through basic 's'
+ * CWRAPPER_OUTPUT_TYPE basic_subs2(basic s, const basic e, const basic a, const basic b);
+ *******************************************************************************/
+
+SEXP c_basic_subs2(SEXP exte, SEXP exta, SEXP extb) {
+    if (NULL == R_ExternalPtrAddr(exte) || NULL == R_ExternalPtrAddr(exta) ||
+        NULL == R_ExternalPtrAddr(extb))
+        Rf_error("Invalid pointer");
+    basic_struct* e = (basic_struct*) R_ExternalPtrAddr(exte);
+    basic_struct* a = (basic_struct*) R_ExternalPtrAddr(exta);
+    basic_struct* b = (basic_struct*) R_ExternalPtrAddr(extb);
+    basic_struct* s = basic_new_heap();
+
+    CWRAPPER_OUTPUT_TYPE exception = basic_subs2(s, e, a, b);
+    if (exception)
+        Rf_error(exception_message(exception));
+
+    SEXP outptr = PROTECT(R_MakeExternalPtr(s, Rf_mkString("basic_struct*"), R_NilValue));
+    R_RegisterCFinalizerEx(outptr, _basic_heap_finalizer, TRUE);
+
+    UNPROTECT(1);
+    return outptr;
+}
+
 
 

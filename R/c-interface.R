@@ -485,3 +485,13 @@ api_basic_log <- api_basic_log
 #' @useDynLib symengine c_basic_log
 NULL
 
+## subs
+#' @useDynLib symengine c_basic_subs2
+#' @export
+api_basic_subs2 <- function (ptrexpr, ptrold, ptrnew) {
+    ptrexpr <- as(ptrexpr, "externalptr")
+    ptrold  <- as(ptrold , "externalptr")
+    ptrnew  <- as(ptrnew , "externalptr")
+    .Call("c_basic_subs2", ptrexpr, ptrold, ptrnew)
+}
+

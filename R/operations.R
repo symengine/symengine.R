@@ -74,6 +74,14 @@ expand <- function (expr) {
     new("Basic", api_basic_expand(expr))
 }
 
+#' @export
+subs <- function (expr, old, new) {
+    expr <- S(expr)
+    old  <- S(old)
+    new  <- S(new)
+    new("Basic", api_basic_subs2(expr, old, new))
+}
+
 # api_basic_neg
 setMethod("-", c(e1 = "Basic", e2 = "missing"),
     function (e1, e2) {
@@ -104,6 +112,8 @@ setMethod("exp", c(x = "Basic"),
         new("Basic", api_basic_exp(S(x)))
     }
 )
+
+# TODO: log
 
 
 ## Trigonometry functions  =====================================================
