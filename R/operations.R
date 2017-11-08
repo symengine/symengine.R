@@ -76,6 +76,7 @@ expand <- function (expr) {
 
 #' @export
 evalf <- function (expr, bits = 53L, to = c("real", "complex")) {
+    expr    <- S(expr)
     to_real <- identical(match.arg(to), "real")
     new("Basic", api_basic_evalf(expr, bits = bits, real = to_real))
     # TODO: convert ans to double or mpfr
