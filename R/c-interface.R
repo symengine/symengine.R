@@ -495,3 +495,13 @@ api_basic_subs2 <- function (ptrexpr, ptrold, ptrnew) {
     .Call("c_basic_subs2", ptrexpr, ptrold, ptrnew)
 }
 
+## evalf
+#' @useDynLib symengine c_basic_evalf
+#' @export
+api_basic_evalf <- function(ptrb, bits = 53L, real = TRUE) {
+    ptrb <- as(ptrb, "externalptr")
+    bits <- as.integer(bits)
+    real <- as.logical(real)
+    .Call("c_basic_evalf", ptrb, bits, real)
+}
+

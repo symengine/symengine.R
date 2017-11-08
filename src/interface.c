@@ -1312,5 +1312,28 @@ SEXP c_basic_subs2(SEXP exte, SEXP exta, SEXP extb) {
     return outptr;
 }
 
+/*******************************************************************************
+ * //! Evaluate b and assign the value to s
+ * CWRAPPER_OUTPUT_TYPE basic_evalf(basic s, const basic b, unsigned long bits, int real);
+ *******************************************************************************/
+
+SEXP c_basic_evalf(SEXP extb, SEXP bits, SEXP real) {
+    if (NULL == R_ExternalPtrAddr(extb))
+        Rf_error("Invalid pointer");
+    unsigned long n_bits = Rf_asInteger(bits);
+    int           i_real = Rf_asLogical(real);
+    basic_struct* b = (basic_struct*) R_ExternalPtrAddr(extb);
+    basic_struct* s = basic_new_heap();
+
+    CWRAPPER_OUTPUT_TYPE exception = basic_evalf(s, b, n_bits, i_real);
+    if (exception)
+        Rf_error(exception_message(exception));
+
+    SEXP outptr = PROTECT(R_MakeExternalPtr(s, Rf_mkString("basic_struct*"), R_NilValue));
+    R_RegisterCFinalizerEx(outptr, _basic_heap_finalizer, TRUE);
+
+    UNPROTECT(1);
+    return outptr;
+}
 
 
