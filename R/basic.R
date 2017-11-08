@@ -195,4 +195,14 @@ setMethod("S", c(x = "externalptr"),
     }
 )
 
+#' @export
+setMethod("S", c(x = "formula"),
+    function (x) {
+        stopifnot(length(x) == 2)  # TODO
+        name <- x[[2]]
+        stopifnot(is.symbol(name)) # TODO
+        Symbol(deparse(name))
+    }
+)
+
 
