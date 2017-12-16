@@ -87,19 +87,14 @@ SEXP c_new_heap_symbol(SEXP RString) {
     const char* str_symbol = CHAR(Rf_asChar(RString));
     
     //REprintf("Debug> c_new_heap_symbol: The extracted string is '%s'\n", str_symbol);
-    
-    basic_struct* symbol = basic_new_heap();
-    CWRAPPER_OUTPUT_TYPE exception = symbol_set(symbol, str_symbol);
+
+    SEXP outptr = PROTECT(ptr_emptybasic());
+    CWRAPPER_OUTPUT_TYPE exception =
+        symbol_set((basic_struct*) EXTPTR_PTR(outptr), str_symbol);
     
     // Handle exception
     if (exception)
         Rf_error(exception_message(exception));
-    
-    SEXP outptr = PROTECT(
-        R_MakeExternalPtr(symbol, Rf_mkString("basic_struct*"), R_NilValue)
-    );
-    
-    R_RegisterCFinalizerEx(outptr, _basic_heap_finalizer, TRUE);
     
     UNPROTECT(1);
     return outptr;
