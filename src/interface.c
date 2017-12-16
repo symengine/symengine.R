@@ -54,7 +54,7 @@ SEXP c_symengine_have_component(SEXP s) {
     return Rf_ScalarLogical(symengine_have_component(str));
 }
 
-// Basic Symbol Initiator and Finalizer //======================================
+// Basic Finalizer //===========================================================
 
 static void _basic_heap_finalizer(SEXP ext) {
     if (NULL == R_ExternalPtrAddr(ext)) {
@@ -66,6 +66,22 @@ static void _basic_heap_finalizer(SEXP ext) {
     basic_free_heap(symbol);
     R_ClearExternalPtr(ext);
 }
+
+
+// Helper Function to Create a External Ptr to an empty Basic //================
+// TODO: use macro instead of function?
+
+SEXP ptr_emptybasic () {
+    basic_struct* ptr = basic_new_heap();
+    SEXP out = PROTECT(R_MakeExternalPtr(ptr, Rf_mkString("basic_struct*"), R_NilValue));
+    R_RegisterCFinalizerEx(out, _basic_heap_finalizer, TRUE);
+    UNPROTECT(1);
+    return out;
+}
+
+
+
+// Basic Symbol Initiator //====================================================
 
 SEXP c_new_heap_symbol(SEXP RString) {
     const char* str_symbol = CHAR(Rf_asChar(RString));

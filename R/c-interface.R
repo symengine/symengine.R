@@ -7,6 +7,12 @@ api_ptr_tag <- function (ptr) {
     .Call("R_ExternalPtrTag", ptr)
 }
 
+#' @export
+api_ptr_emptybasic <- function () {
+    warning("Should not be used in R side, only for testing", immediate. = TRUE)
+    .Call("ptr_emptybasic")
+}
+
 
 ## Logo and Version  ===========================================================
 
