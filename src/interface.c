@@ -88,11 +88,10 @@ SEXP c_new_heap_symbol(SEXP RString) {
     
     //REprintf("Debug> c_new_heap_symbol: The extracted string is '%s'\n", str_symbol);
 
-    SEXP outptr = PROTECT(ptr_emptybasic());
-    CWRAPPER_OUTPUT_TYPE exception =
-        symbol_set((basic_struct*) EXTPTR_PTR(outptr), str_symbol);
-    
-    // Handle exception
+    SEXP          outptr = PROTECT(ptr_emptybasic());
+    basic_struct* symbol = (basic_struct*) EXTPTR_PTR(outptr);
+
+    CWRAPPER_OUTPUT_TYPE exception = symbol_set(symbol, str_symbol);
     if (exception)
         Rf_error(exception_message(exception));
     
