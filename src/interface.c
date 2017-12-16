@@ -194,17 +194,14 @@ SEXP c_builtin_const(SEXP id_which) {
 
 SEXP c_make_const(SEXP string) {
     const char* str = CHAR(Rf_asChar(string));
-    basic_struct* s = basic_new_heap();
+
+    SEXP          out = PROTECT(ptr_emptybasic());
+    basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
     
     basic_const_set(s, str);
     
-    SEXP outptr = PROTECT(
-        R_MakeExternalPtr(s, Rf_mkString("basic_struct*"), R_NilValue)
-    );
-    R_RegisterCFinalizerEx(outptr, _basic_heap_finalizer, TRUE);
-    
     UNPROTECT(1);
-    return outptr;
+    return out;
 }
 
 
