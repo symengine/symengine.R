@@ -211,37 +211,31 @@ SEXP c_make_const(SEXP string) {
 SEXP c_integer_from_int(SEXP x) {
     int i = Rf_asInteger(x);
 
-    basic_struct* s = basic_new_heap();
+    SEXP          out = PROTECT(ptr_emptybasic());
+    basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
+
     // CWRAPPER_OUTPUT_TYPE integer_set_si(basic s, long i);
     CWRAPPER_OUTPUT_TYPE exception = integer_set_si(s, i);
     if (exception)
         Rf_error(exception_message(exception));
 
-    SEXP outptr = PROTECT(
-        R_MakeExternalPtr(s, Rf_mkString("basic_struct*"), R_NilValue)
-    );
-    R_RegisterCFinalizerEx(outptr, _basic_heap_finalizer, TRUE);
-
     UNPROTECT(1);
-    return outptr;
+    return out;
 }
 
 SEXP c_integer_from_str(SEXP string) {
     const char* str = CHAR(Rf_asChar(string));
 
-    basic_struct* s = basic_new_heap();
+    SEXP          out = PROTECT(ptr_emptybasic());
+    basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
+
     // CWRAPPER_OUTPUT_TYPE integer_set_str(basic s, const char *c);
     CWRAPPER_OUTPUT_TYPE exception = integer_set_str(s, str);
     if (exception)
         Rf_error(exception_message(exception));
 
-    SEXP outptr = PROTECT(
-        R_MakeExternalPtr(s, Rf_mkString("basic_struct*"), R_NilValue)
-    );
-    R_RegisterCFinalizerEx(outptr, _basic_heap_finalizer, TRUE);
-
     UNPROTECT(1);
-    return outptr;
+    return out;
 }
 
 SEXP c_integer_get_int(SEXP ext) {
