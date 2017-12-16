@@ -102,16 +102,14 @@ SEXP c_new_heap_symbol(SEXP RString) {
 SEXP c_parse_str(SEXP RString) {
     const char* str = CHAR(Rf_asChar(RString));
     
-    basic_struct* s = basic_new_heap();
+    SEXP          outptr = PROTECT(ptr_emptybasic());
+    basic_struct* s      = (basic_struct*) EXTPTR_PTR(outptr);
+
     CWRAPPER_OUTPUT_TYPE exception = basic_parse2(s, str, 1);
     
     if (exception)
         Rf_error(exception_message(exception));
     
-    SEXP outptr = PROTECT(
-        R_MakeExternalPtr(s, Rf_mkString("basic_struct*"), R_NilValue)
-    );
-    R_RegisterCFinalizerEx(outptr, _basic_heap_finalizer, TRUE);
     UNPROTECT(1);
     return outptr;
 }
