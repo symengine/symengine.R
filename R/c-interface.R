@@ -8,9 +8,9 @@ api_ptr_tag <- function (ptr) {
 }
 
 #' @export
-api_ptr_emptybasic <- function () {
+api_new_ptr_emptybasic <- function () {
     warning("Should not be used in R side, only for testing", immediate. = TRUE)
-    .Call("ptr_emptybasic")
+    .Call("new_ptr_emptybasic")
 }
 
 
