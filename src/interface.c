@@ -168,7 +168,8 @@ SEXP c_basic_type(SEXP ext) {
 SEXP c_builtin_const(SEXP id_which) {
     int id = Rf_asInteger(id_which);
     
-    basic_struct* s = basic_new_heap();
+    SEXP          out = PROTECT(ptr_emptybasic());
+    basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
     
     switch(id) {
         case  1: basic_const_zero             (s); break;
@@ -186,11 +187,6 @@ SEXP c_builtin_const(SEXP id_which) {
         case 13: basic_const_nan              (s); break;
         default: Rf_error("<internal> Unrecognized id for constant");
     }
-    
-    SEXP out = PROTECT(
-        R_MakeExternalPtr(s, Rf_mkString("basic_struct*"), R_NilValue)
-    );
-    R_RegisterCFinalizerEx(out, _basic_heap_finalizer, TRUE);
     
     UNPROTECT(1);
     return out;
