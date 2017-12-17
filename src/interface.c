@@ -96,7 +96,7 @@ SEXP c_new_heap_symbol(SEXP RString) {
     //REprintf("Debug> c_new_heap_symbol: The extracted string is '%s'\n", str_symbol);
 
     SEXP          outptr = PROTECT(new_ptr_emptybasic());
-    basic_struct* symbol = (basic_struct*) EXTPTR_PTR(outptr);
+    basic_struct* symbol = (basic_struct*) R_ExternalPtrAddr(outptr);
 
     hold_cwrapper_exception(symbol_set(symbol, str_symbol));
     
@@ -108,7 +108,7 @@ SEXP c_parse_str(SEXP RString) {
     const char* str = CHAR(Rf_asChar(RString));
     
     SEXP          outptr = PROTECT(new_ptr_emptybasic());
-    basic_struct* s      = (basic_struct*) EXTPTR_PTR(outptr);
+    basic_struct* s      = (basic_struct*) R_ExternalPtrAddr(outptr);
 
     hold_cwrapper_exception(basic_parse2(s, str, 1));
     
@@ -171,7 +171,7 @@ SEXP c_builtin_const(SEXP id_which) {
     int id = Rf_asInteger(id_which);
     
     SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
     
     switch(id) {
         case  1: basic_const_zero             (s); break;
@@ -198,7 +198,7 @@ SEXP c_make_const(SEXP string) {
     const char* str = CHAR(Rf_asChar(string));
 
     SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
     
     basic_const_set(s, str);
     
@@ -214,7 +214,7 @@ SEXP c_integer_from_int(SEXP x) {
     int i = Rf_asInteger(x);
 
     SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
     // CWRAPPER_OUTPUT_TYPE integer_set_si(basic s, long i);
     hold_cwrapper_exception(integer_set_si(s, i));
@@ -227,7 +227,7 @@ SEXP c_integer_from_str(SEXP string) {
     const char* str = CHAR(Rf_asChar(string));
 
     SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
     // CWRAPPER_OUTPUT_TYPE integer_set_str(basic s, const char *c);
     hold_cwrapper_exception(integer_set_str(s, str));
@@ -261,7 +261,7 @@ SEXP c_realdouble_from_d(SEXP x) {
     double d = Rf_asReal(x);
 
     SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
     hold_cwrapper_exception(real_double_set_d(s, d));
 
@@ -398,7 +398,7 @@ SEXP c_basic_add(SEXP exta, SEXP extb) {
     basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
     basic_struct* b   = (basic_struct*) R_ExternalPtrAddr(extb);
     SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
     hold_cwrapper_exception(basic_add(s, a, b));
 
@@ -412,7 +412,7 @@ SEXP c_basic_sub(SEXP exta, SEXP extb) {
     basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
     basic_struct* b   = (basic_struct*) R_ExternalPtrAddr(extb);
     SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
     hold_cwrapper_exception(basic_sub(s, a, b));
     
@@ -426,7 +426,7 @@ SEXP c_basic_mul(SEXP exta, SEXP extb) {
     basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
     basic_struct* b   = (basic_struct*) R_ExternalPtrAddr(extb);
     SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
     hold_cwrapper_exception(basic_mul(s, a, b));
 
@@ -440,7 +440,7 @@ SEXP c_basic_div(SEXP exta, SEXP extb) {
     basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
     basic_struct* b   = (basic_struct*) R_ExternalPtrAddr(extb);
     SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
     
     hold_cwrapper_exception(basic_div(s, a, b));
 
@@ -454,7 +454,7 @@ SEXP c_basic_pow(SEXP exta, SEXP extb) {
     basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
     basic_struct* b   = (basic_struct*) R_ExternalPtrAddr(extb);
     SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
     
     hold_cwrapper_exception(basic_pow(s, a, b));
 
@@ -475,7 +475,7 @@ SEXP c_basic_diff(SEXP extexpr, SEXP extsym) {
     basic_struct* expr = (basic_struct*) R_ExternalPtrAddr(extexpr);
     basic_struct* sym  = (basic_struct*) R_ExternalPtrAddr(extsym);
     SEXP          out  = PROTECT(new_ptr_emptybasic());
-    basic_struct* s    = (basic_struct*) EXTPTR_PTR(out);
+    basic_struct* s    = (basic_struct*) R_ExternalPtrAddr(out);
 
     hold_cwrapper_exception(basic_diff(s, expr, sym));
 
@@ -523,7 +523,7 @@ SEXP c_basic_expand(SEXP exta) {
         Rf_error("Invalid pointer");
     basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
     SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
     hold_cwrapper_exception(basic_expand(s, a));
 
@@ -536,7 +536,7 @@ SEXP c_basic_neg(SEXP exta) {
         Rf_error("Invalid pointer");
     basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
     SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
     hold_cwrapper_exception(basic_neg(s, a));
 
@@ -549,7 +549,7 @@ SEXP c_basic_abs(SEXP exta) {
         Rf_error("Invalid pointer");
     basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
     SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
     hold_cwrapper_exception(basic_abs(s, a));
 
@@ -569,7 +569,7 @@ SEXP c_basic_erf(SEXP exta) {
         Rf_error("Invalid pointer");
     basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
     SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
     hold_cwrapper_exception(basic_erf(s, a));
 
@@ -582,7 +582,7 @@ SEXP c_basic_erfc(SEXP exta) {
         Rf_error("Invalid pointer");
     basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
     SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
     hold_cwrapper_exception(basic_erfc(s, a));
 
@@ -605,7 +605,7 @@ SEXP c_basic_sin(SEXP exta) {
         Rf_error("Invalid pointer");
     basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
     SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
     hold_cwrapper_exception(basic_sin(s, a));
 
@@ -618,7 +618,7 @@ SEXP c_basic_cos(SEXP exta) {
         Rf_error("Invalid pointer");
     basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
     SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
     hold_cwrapper_exception(basic_cos(s, a));
 
@@ -631,7 +631,7 @@ SEXP c_basic_tan(SEXP exta) {
         Rf_error("Invalid pointer");
     basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
     SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
     hold_cwrapper_exception(basic_tan(s, a));
 
@@ -653,7 +653,7 @@ SEXP c_basic_asin(SEXP exta) {
         Rf_error("Invalid pointer");
     basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
     SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
     hold_cwrapper_exception(basic_asin(s, a));
 
@@ -666,7 +666,7 @@ SEXP c_basic_acos(SEXP exta) {
         Rf_error("Invalid pointer");
     basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
     SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
     hold_cwrapper_exception(basic_acos(s, a));
 
@@ -679,7 +679,7 @@ SEXP c_basic_atan(SEXP exta) {
         Rf_error("Invalid pointer");
     basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
     SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
     hold_cwrapper_exception(basic_atan(s, a));
 
@@ -702,7 +702,7 @@ SEXP c_basic_csc(SEXP exta) {
         Rf_error("Invalid pointer");
     basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
     SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
     hold_cwrapper_exception(basic_csc(s, a));
 
@@ -715,7 +715,7 @@ SEXP c_basic_sec(SEXP exta) {
         Rf_error("Invalid pointer");
     basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
     SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
     hold_cwrapper_exception(basic_sec(s, a));
 
@@ -728,7 +728,7 @@ SEXP c_basic_cot(SEXP exta) {
         Rf_error("Invalid pointer");
     basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
     SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
     hold_cwrapper_exception(basic_cot(s, a));
 
@@ -751,7 +751,7 @@ SEXP c_basic_acsc(SEXP exta) {
         Rf_error("Invalid pointer");
     basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
     SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
     hold_cwrapper_exception(basic_acsc(s, a));
 
@@ -764,7 +764,7 @@ SEXP c_basic_asec(SEXP exta) {
         Rf_error("Invalid pointer");
     basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
     SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
     hold_cwrapper_exception(basic_asec(s, a));
 
@@ -777,7 +777,7 @@ SEXP c_basic_acot(SEXP exta) {
         Rf_error("Invalid pointer");
     basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
     SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
     hold_cwrapper_exception(basic_acot(s, a));
 
@@ -800,7 +800,7 @@ SEXP c_basic_sinh(SEXP exta) {
         Rf_error("Invalid pointer");
     basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
     SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
     hold_cwrapper_exception(basic_sinh(s, a));
 
@@ -813,7 +813,7 @@ SEXP c_basic_cosh(SEXP exta) {
         Rf_error("Invalid pointer");
     basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
     SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
     hold_cwrapper_exception(basic_cosh(s, a));
 
@@ -826,7 +826,7 @@ SEXP c_basic_tanh(SEXP exta) {
         Rf_error("Invalid pointer");
     basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
     SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
     hold_cwrapper_exception(basic_tanh(s, a));
 
@@ -848,7 +848,7 @@ SEXP c_basic_asinh(SEXP exta) {
         Rf_error("Invalid pointer");
     basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
     SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
     hold_cwrapper_exception(basic_asinh(s, a));
 
@@ -861,7 +861,7 @@ SEXP c_basic_acosh(SEXP exta) {
         Rf_error("Invalid pointer");
     basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
     SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
     hold_cwrapper_exception(basic_acosh(s, a));
 
@@ -874,7 +874,7 @@ SEXP c_basic_atanh(SEXP exta) {
         Rf_error("Invalid pointer");
     basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
     SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
     hold_cwrapper_exception(basic_atanh(s, a));
 
@@ -896,7 +896,7 @@ SEXP c_basic_csch(SEXP exta) {
         Rf_error("Invalid pointer");
     basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
     SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
     hold_cwrapper_exception(basic_csch(s, a));
 
@@ -909,7 +909,7 @@ SEXP c_basic_sech(SEXP exta) {
         Rf_error("Invalid pointer");
     basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
     SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
     hold_cwrapper_exception(basic_sech(s, a));
 
@@ -922,7 +922,7 @@ SEXP c_basic_coth(SEXP exta) {
         Rf_error("Invalid pointer");
     basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
     SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
     hold_cwrapper_exception(basic_coth(s, a));
 
@@ -944,7 +944,7 @@ SEXP c_basic_acsch(SEXP exta) {
         Rf_error("Invalid pointer");
     basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
     SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
     hold_cwrapper_exception(basic_acsch(s, a));
 
@@ -957,7 +957,7 @@ SEXP c_basic_asech(SEXP exta) {
         Rf_error("Invalid pointer");
     basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
     SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
     hold_cwrapper_exception(basic_asech(s, a));
 
@@ -970,7 +970,7 @@ SEXP c_basic_acoth(SEXP exta) {
         Rf_error("Invalid pointer");
     basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
     SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
     hold_cwrapper_exception(basic_acoth(s, a));
 
@@ -1001,7 +1001,7 @@ SEXP c_basic_lambertw(SEXP exta) {
         Rf_error("Invalid pointer");
     basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
     SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
     hold_cwrapper_exception(basic_lambertw(s, a));
 
@@ -1014,7 +1014,7 @@ SEXP c_basic_zeta(SEXP exta) {
         Rf_error("Invalid pointer");
     basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
     SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
     hold_cwrapper_exception(basic_zeta(s, a));
 
@@ -1027,7 +1027,7 @@ SEXP c_basic_dirichlet_eta(SEXP exta) {
         Rf_error("Invalid pointer");
     basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
     SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
     hold_cwrapper_exception(basic_dirichlet_eta(s, a));
 
@@ -1040,7 +1040,7 @@ SEXP c_basic_gamma(SEXP exta) {
         Rf_error("Invalid pointer");
     basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
     SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
     hold_cwrapper_exception(basic_gamma(s, a));
 
@@ -1053,7 +1053,7 @@ SEXP c_basic_sqrt(SEXP exta) {
         Rf_error("Invalid pointer");
     basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
     SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
     hold_cwrapper_exception(basic_sqrt(s, a));
 
@@ -1066,7 +1066,7 @@ SEXP c_basic_exp(SEXP exta) {
         Rf_error("Invalid pointer");
     basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
     SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
     hold_cwrapper_exception(basic_exp(s, a));
 
@@ -1079,7 +1079,7 @@ SEXP c_basic_log(SEXP exta) {
         Rf_error("Invalid pointer");
     basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
     SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
     hold_cwrapper_exception(basic_log(s, a));
 
@@ -1102,7 +1102,7 @@ SEXP c_basic_subs2(SEXP exte, SEXP exta, SEXP extb) {
     basic_struct* a = (basic_struct*) R_ExternalPtrAddr(exta);
     basic_struct* b = (basic_struct*) R_ExternalPtrAddr(extb);
     SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
     hold_cwrapper_exception(basic_subs2(s, e, a, b));
 
@@ -1122,7 +1122,7 @@ SEXP c_basic_evalf(SEXP extb, SEXP bits, SEXP real) {
     int           i_real = Rf_asLogical(real);
     basic_struct* b = (basic_struct*) R_ExternalPtrAddr(extb);
     SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
     hold_cwrapper_exception(basic_evalf(s, b, n_bits, i_real));
 
