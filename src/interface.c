@@ -98,9 +98,7 @@ SEXP c_new_heap_symbol(SEXP RString) {
     SEXP          outptr = PROTECT(new_ptr_emptybasic());
     basic_struct* symbol = (basic_struct*) EXTPTR_PTR(outptr);
 
-    CWRAPPER_OUTPUT_TYPE exception = symbol_set(symbol, str_symbol);
-    if (exception)
-        Rf_error(exception_message(exception));
+    hold_cwrapper_exception(symbol_set(symbol, str_symbol));
     
     UNPROTECT(1);
     return outptr;
@@ -112,10 +110,7 @@ SEXP c_parse_str(SEXP RString) {
     SEXP          outptr = PROTECT(new_ptr_emptybasic());
     basic_struct* s      = (basic_struct*) EXTPTR_PTR(outptr);
 
-    CWRAPPER_OUTPUT_TYPE exception = basic_parse2(s, str, 1);
-    
-    if (exception)
-        Rf_error(exception_message(exception));
+    hold_cwrapper_exception(basic_parse2(s, str, 1));
     
     UNPROTECT(1);
     return outptr;
@@ -222,9 +217,7 @@ SEXP c_integer_from_int(SEXP x) {
     basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
 
     // CWRAPPER_OUTPUT_TYPE integer_set_si(basic s, long i);
-    CWRAPPER_OUTPUT_TYPE exception = integer_set_si(s, i);
-    if (exception)
-        Rf_error(exception_message(exception));
+    hold_cwrapper_exception(integer_set_si(s, i));
 
     UNPROTECT(1);
     return out;
@@ -237,9 +230,7 @@ SEXP c_integer_from_str(SEXP string) {
     basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
 
     // CWRAPPER_OUTPUT_TYPE integer_set_str(basic s, const char *c);
-    CWRAPPER_OUTPUT_TYPE exception = integer_set_str(s, str);
-    if (exception)
-        Rf_error(exception_message(exception));
+    hold_cwrapper_exception(integer_set_str(s, str));
 
     UNPROTECT(1);
     return out;
@@ -272,9 +263,7 @@ SEXP c_realdouble_from_d(SEXP x) {
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
 
-    CWRAPPER_OUTPUT_TYPE exception = real_double_set_d(s, d);
-    if (exception)
-        Rf_error(exception_message(exception));
+    hold_cwrapper_exception(real_double_set_d(s, d));
 
     UNPROTECT(1);
     return out;
@@ -411,9 +400,7 @@ SEXP c_basic_add(SEXP exta, SEXP extb) {
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
 
-    CWRAPPER_OUTPUT_TYPE exception = basic_add(s, a, b);
-    if (exception)
-        Rf_error(exception_message(exception));
+    hold_cwrapper_exception(basic_add(s, a, b));
 
     UNPROTECT(1);
     return out;
@@ -427,9 +414,7 @@ SEXP c_basic_sub(SEXP exta, SEXP extb) {
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
 
-    CWRAPPER_OUTPUT_TYPE exception = basic_sub(s, a, b);
-    if (exception)
-        Rf_error(exception_message(exception));
+    hold_cwrapper_exception(basic_sub(s, a, b));
     
     UNPROTECT(1);
     return out;
@@ -443,9 +428,7 @@ SEXP c_basic_mul(SEXP exta, SEXP extb) {
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
 
-    CWRAPPER_OUTPUT_TYPE exception = basic_mul(s, a, b);
-    if (exception)
-        Rf_error(exception_message(exception));
+    hold_cwrapper_exception(basic_mul(s, a, b));
 
     UNPROTECT(1);
     return out;
@@ -459,9 +442,7 @@ SEXP c_basic_div(SEXP exta, SEXP extb) {
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
     
-    CWRAPPER_OUTPUT_TYPE exception = basic_div(s, a, b);
-    if (exception)
-        Rf_error(exception_message(exception));
+    hold_cwrapper_exception(basic_div(s, a, b));
 
     UNPROTECT(1);
     return out;
@@ -475,9 +456,7 @@ SEXP c_basic_pow(SEXP exta, SEXP extb) {
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
     
-    CWRAPPER_OUTPUT_TYPE exception = basic_pow(s, a, b);
-    if (exception)
-        Rf_error(exception_message(exception));
+    hold_cwrapper_exception(basic_pow(s, a, b));
 
     UNPROTECT(1);
     return out;
@@ -498,9 +477,7 @@ SEXP c_basic_diff(SEXP extexpr, SEXP extsym) {
     SEXP          out  = PROTECT(new_ptr_emptybasic());
     basic_struct* s    = (basic_struct*) EXTPTR_PTR(out);
 
-    CWRAPPER_OUTPUT_TYPE exception = basic_diff(s, expr, sym);
-    if (exception)
-        Rf_error(exception_message(exception));
+    hold_cwrapper_exception(basic_diff(s, expr, sym));
 
     UNPROTECT(1);
     return out;
@@ -548,9 +525,7 @@ SEXP c_basic_expand(SEXP exta) {
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
 
-    CWRAPPER_OUTPUT_TYPE exception = basic_expand(s, a);
-    if (exception)
-        Rf_error(exception_message(exception));
+    hold_cwrapper_exception(basic_expand(s, a));
 
     UNPROTECT(1);
     return out;
@@ -563,9 +538,7 @@ SEXP c_basic_neg(SEXP exta) {
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
 
-    CWRAPPER_OUTPUT_TYPE exception = basic_neg(s, a);
-    if (exception)
-        Rf_error(exception_message(exception));
+    hold_cwrapper_exception(basic_neg(s, a));
 
     UNPROTECT(1);
     return out;
@@ -578,9 +551,7 @@ SEXP c_basic_abs(SEXP exta) {
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
 
-    CWRAPPER_OUTPUT_TYPE exception = basic_abs(s, a);
-    if (exception)
-        Rf_error(exception_message(exception));
+    hold_cwrapper_exception(basic_abs(s, a));
 
     UNPROTECT(1);
     return out;
@@ -600,9 +571,7 @@ SEXP c_basic_erf(SEXP exta) {
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
 
-    CWRAPPER_OUTPUT_TYPE exception = basic_erf(s, a);
-    if (exception)
-        Rf_error(exception_message(exception));
+    hold_cwrapper_exception(basic_erf(s, a));
 
     UNPROTECT(1);
     return out;
@@ -615,9 +584,7 @@ SEXP c_basic_erfc(SEXP exta) {
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
 
-    CWRAPPER_OUTPUT_TYPE exception = basic_erfc(s, a);
-    if (exception)
-        Rf_error(exception_message(exception));
+    hold_cwrapper_exception(basic_erfc(s, a));
 
     UNPROTECT(1);
     return out;
@@ -640,9 +607,7 @@ SEXP c_basic_sin(SEXP exta) {
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
 
-    CWRAPPER_OUTPUT_TYPE exception = basic_sin(s, a);
-    if (exception)
-        Rf_error(exception_message(exception));
+    hold_cwrapper_exception(basic_sin(s, a));
 
     UNPROTECT(1);
     return out;
@@ -655,9 +620,7 @@ SEXP c_basic_cos(SEXP exta) {
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
 
-    CWRAPPER_OUTPUT_TYPE exception = basic_cos(s, a);
-    if (exception)
-        Rf_error(exception_message(exception));
+    hold_cwrapper_exception(basic_cos(s, a));
 
     UNPROTECT(1);
     return out;
@@ -670,9 +633,7 @@ SEXP c_basic_tan(SEXP exta) {
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
 
-    CWRAPPER_OUTPUT_TYPE exception = basic_tan(s, a);
-    if (exception)
-        Rf_error(exception_message(exception));
+    hold_cwrapper_exception(basic_tan(s, a));
 
     UNPROTECT(1);
     return out;
@@ -694,9 +655,7 @@ SEXP c_basic_asin(SEXP exta) {
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
 
-    CWRAPPER_OUTPUT_TYPE exception = basic_asin(s, a);
-    if (exception)
-        Rf_error(exception_message(exception));
+    hold_cwrapper_exception(basic_asin(s, a));
 
     UNPROTECT(1);
     return out;
@@ -709,9 +668,7 @@ SEXP c_basic_acos(SEXP exta) {
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
 
-    CWRAPPER_OUTPUT_TYPE exception = basic_acos(s, a);
-    if (exception)
-        Rf_error(exception_message(exception));
+    hold_cwrapper_exception(basic_acos(s, a));
 
     UNPROTECT(1);
     return out;
@@ -724,9 +681,7 @@ SEXP c_basic_atan(SEXP exta) {
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
 
-    CWRAPPER_OUTPUT_TYPE exception = basic_atan(s, a);
-    if (exception)
-        Rf_error(exception_message(exception));
+    hold_cwrapper_exception(basic_atan(s, a));
 
     UNPROTECT(1);
     return out;
@@ -749,9 +704,7 @@ SEXP c_basic_csc(SEXP exta) {
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
 
-    CWRAPPER_OUTPUT_TYPE exception = basic_csc(s, a);
-    if (exception)
-        Rf_error(exception_message(exception));
+    hold_cwrapper_exception(basic_csc(s, a));
 
     UNPROTECT(1);
     return out;
@@ -764,9 +717,7 @@ SEXP c_basic_sec(SEXP exta) {
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
 
-    CWRAPPER_OUTPUT_TYPE exception = basic_sec(s, a);
-    if (exception)
-        Rf_error(exception_message(exception));
+    hold_cwrapper_exception(basic_sec(s, a));
 
     UNPROTECT(1);
     return out;
@@ -779,9 +730,7 @@ SEXP c_basic_cot(SEXP exta) {
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
 
-    CWRAPPER_OUTPUT_TYPE exception = basic_cot(s, a);
-    if (exception)
-        Rf_error(exception_message(exception));
+    hold_cwrapper_exception(basic_cot(s, a));
 
     UNPROTECT(1);
     return out;
@@ -804,9 +753,7 @@ SEXP c_basic_acsc(SEXP exta) {
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
 
-    CWRAPPER_OUTPUT_TYPE exception = basic_acsc(s, a);
-    if (exception)
-        Rf_error(exception_message(exception));
+    hold_cwrapper_exception(basic_acsc(s, a));
 
     UNPROTECT(1);
     return out;
@@ -819,9 +766,7 @@ SEXP c_basic_asec(SEXP exta) {
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
 
-    CWRAPPER_OUTPUT_TYPE exception = basic_asec(s, a);
-    if (exception)
-        Rf_error(exception_message(exception));
+    hold_cwrapper_exception(basic_asec(s, a));
 
     UNPROTECT(1);
     return out;
@@ -834,9 +779,7 @@ SEXP c_basic_acot(SEXP exta) {
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
 
-    CWRAPPER_OUTPUT_TYPE exception = basic_acot(s, a);
-    if (exception)
-        Rf_error(exception_message(exception));
+    hold_cwrapper_exception(basic_acot(s, a));
 
     UNPROTECT(1);
     return out;
@@ -859,9 +802,7 @@ SEXP c_basic_sinh(SEXP exta) {
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
 
-    CWRAPPER_OUTPUT_TYPE exception = basic_sinh(s, a);
-    if (exception)
-        Rf_error(exception_message(exception));
+    hold_cwrapper_exception(basic_sinh(s, a));
 
     UNPROTECT(1);
     return out;
@@ -874,9 +815,7 @@ SEXP c_basic_cosh(SEXP exta) {
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
 
-    CWRAPPER_OUTPUT_TYPE exception = basic_cosh(s, a);
-    if (exception)
-        Rf_error(exception_message(exception));
+    hold_cwrapper_exception(basic_cosh(s, a));
 
     UNPROTECT(1);
     return out;
@@ -889,9 +828,7 @@ SEXP c_basic_tanh(SEXP exta) {
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
 
-    CWRAPPER_OUTPUT_TYPE exception = basic_tanh(s, a);
-    if (exception)
-        Rf_error(exception_message(exception));
+    hold_cwrapper_exception(basic_tanh(s, a));
 
     UNPROTECT(1);
     return out;
@@ -913,9 +850,7 @@ SEXP c_basic_asinh(SEXP exta) {
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
 
-    CWRAPPER_OUTPUT_TYPE exception = basic_asinh(s, a);
-    if (exception)
-        Rf_error(exception_message(exception));
+    hold_cwrapper_exception(basic_asinh(s, a));
 
     UNPROTECT(1);
     return out;
@@ -928,9 +863,7 @@ SEXP c_basic_acosh(SEXP exta) {
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
 
-    CWRAPPER_OUTPUT_TYPE exception = basic_acosh(s, a);
-    if (exception)
-        Rf_error(exception_message(exception));
+    hold_cwrapper_exception(basic_acosh(s, a));
 
     UNPROTECT(1);
     return out;
@@ -943,9 +876,7 @@ SEXP c_basic_atanh(SEXP exta) {
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
 
-    CWRAPPER_OUTPUT_TYPE exception = basic_atanh(s, a);
-    if (exception)
-        Rf_error(exception_message(exception));
+    hold_cwrapper_exception(basic_atanh(s, a));
 
     UNPROTECT(1);
     return out;
@@ -967,9 +898,7 @@ SEXP c_basic_csch(SEXP exta) {
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
 
-    CWRAPPER_OUTPUT_TYPE exception = basic_csch(s, a);
-    if (exception)
-        Rf_error(exception_message(exception));
+    hold_cwrapper_exception(basic_csch(s, a));
 
     UNPROTECT(1);
     return out;
@@ -982,9 +911,7 @@ SEXP c_basic_sech(SEXP exta) {
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
 
-    CWRAPPER_OUTPUT_TYPE exception = basic_sech(s, a);
-    if (exception)
-        Rf_error(exception_message(exception));
+    hold_cwrapper_exception(basic_sech(s, a));
 
     UNPROTECT(1);
     return out;
@@ -997,9 +924,7 @@ SEXP c_basic_coth(SEXP exta) {
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
 
-    CWRAPPER_OUTPUT_TYPE exception = basic_coth(s, a);
-    if (exception)
-        Rf_error(exception_message(exception));
+    hold_cwrapper_exception(basic_coth(s, a));
 
     UNPROTECT(1);
     return out;
@@ -1021,9 +946,7 @@ SEXP c_basic_acsch(SEXP exta) {
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
 
-    CWRAPPER_OUTPUT_TYPE exception = basic_acsch(s, a);
-    if (exception)
-        Rf_error(exception_message(exception));
+    hold_cwrapper_exception(basic_acsch(s, a));
 
     UNPROTECT(1);
     return out;
@@ -1036,9 +959,7 @@ SEXP c_basic_asech(SEXP exta) {
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
 
-    CWRAPPER_OUTPUT_TYPE exception = basic_asech(s, a);
-    if (exception)
-        Rf_error(exception_message(exception));
+    hold_cwrapper_exception(basic_asech(s, a));
 
     UNPROTECT(1);
     return out;
@@ -1051,9 +972,7 @@ SEXP c_basic_acoth(SEXP exta) {
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
 
-    CWRAPPER_OUTPUT_TYPE exception = basic_acoth(s, a);
-    if (exception)
-        Rf_error(exception_message(exception));
+    hold_cwrapper_exception(basic_acoth(s, a));
 
     UNPROTECT(1);
     return out;
@@ -1084,9 +1003,7 @@ SEXP c_basic_lambertw(SEXP exta) {
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
 
-    CWRAPPER_OUTPUT_TYPE exception = basic_lambertw(s, a);
-    if (exception)
-        Rf_error(exception_message(exception));
+    hold_cwrapper_exception(basic_lambertw(s, a));
 
     UNPROTECT(1);
     return out;
@@ -1099,9 +1016,7 @@ SEXP c_basic_zeta(SEXP exta) {
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
 
-    CWRAPPER_OUTPUT_TYPE exception = basic_zeta(s, a);
-    if (exception)
-        Rf_error(exception_message(exception));
+    hold_cwrapper_exception(basic_zeta(s, a));
 
     UNPROTECT(1);
     return out;
@@ -1114,9 +1029,7 @@ SEXP c_basic_dirichlet_eta(SEXP exta) {
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
 
-    CWRAPPER_OUTPUT_TYPE exception = basic_dirichlet_eta(s, a);
-    if (exception)
-        Rf_error(exception_message(exception));
+    hold_cwrapper_exception(basic_dirichlet_eta(s, a));
 
     UNPROTECT(1);
     return out;
@@ -1129,9 +1042,7 @@ SEXP c_basic_gamma(SEXP exta) {
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
 
-    CWRAPPER_OUTPUT_TYPE exception = basic_gamma(s, a);
-    if (exception)
-        Rf_error(exception_message(exception));
+    hold_cwrapper_exception(basic_gamma(s, a));
 
     UNPROTECT(1);
     return out;
@@ -1144,9 +1055,7 @@ SEXP c_basic_sqrt(SEXP exta) {
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
 
-    CWRAPPER_OUTPUT_TYPE exception = basic_sqrt(s, a);
-    if (exception)
-        Rf_error(exception_message(exception));
+    hold_cwrapper_exception(basic_sqrt(s, a));
 
     UNPROTECT(1);
     return out;
@@ -1159,9 +1068,7 @@ SEXP c_basic_exp(SEXP exta) {
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
 
-    CWRAPPER_OUTPUT_TYPE exception = basic_exp(s, a);
-    if (exception)
-        Rf_error(exception_message(exception));
+    hold_cwrapper_exception(basic_exp(s, a));
 
     UNPROTECT(1);
     return out;
@@ -1174,9 +1081,7 @@ SEXP c_basic_log(SEXP exta) {
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
 
-    CWRAPPER_OUTPUT_TYPE exception = basic_log(s, a);
-    if (exception)
-        Rf_error(exception_message(exception));
+    hold_cwrapper_exception(basic_log(s, a));
 
     UNPROTECT(1);
     return out;
@@ -1199,9 +1104,7 @@ SEXP c_basic_subs2(SEXP exte, SEXP exta, SEXP extb) {
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
 
-    CWRAPPER_OUTPUT_TYPE exception = basic_subs2(s, e, a, b);
-    if (exception)
-        Rf_error(exception_message(exception));
+    hold_cwrapper_exception(basic_subs2(s, e, a, b));
 
     UNPROTECT(1);
     return out;
@@ -1221,9 +1124,7 @@ SEXP c_basic_evalf(SEXP extb, SEXP bits, SEXP real) {
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) EXTPTR_PTR(out);
 
-    CWRAPPER_OUTPUT_TYPE exception = basic_evalf(s, b, n_bits, i_real);
-    if (exception)
-        Rf_error(exception_message(exception));
+    hold_cwrapper_exception(basic_evalf(s, b, n_bits, i_real));
 
     UNPROTECT(1);
     return out;
