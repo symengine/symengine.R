@@ -12,7 +12,7 @@
 
 // Utils //=====================================================================
 
-const char* exception_message(CWRAPPER_OUTPUT_TYPE id) {
+static const char* exception_message(CWRAPPER_OUTPUT_TYPE id) {
     // Refer:
     // https://github.com/symengine/symengine/blob/master/symengine/symengine_exception.h
     switch(id) {
@@ -31,6 +31,13 @@ const char* exception_message(CWRAPPER_OUTPUT_TYPE id) {
         default:
             return "<internal> Exception code not matched"              ;
     }
+}
+
+static void hold_cwrapper_exception(CWRAPPER_OUTPUT_TYPE output) {
+    if (output)
+        Rf_error(exception_message(output));
+    else
+        return;
 }
 
 
