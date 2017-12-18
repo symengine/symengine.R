@@ -85,7 +85,15 @@ SEXP new_ptr_emptybasic () {
     return out;
 }
 
+// Helper Function to Check EXTPTR //===========================================
 
+static inline void check_basic_ptr(SEXP ext) {
+    if (NULL == R_ExternalPtrAddr(ext))
+        Rf_error("Invalid pointer\n");
+    if (R_ExternalPtrTag(ext) != "basic_struct*")
+        Rf_error("Tag of the pointer does not match to 'basic_struct*'\n");
+    return;
+}
 
 // Basic Symbol Initiator //====================================================
 
