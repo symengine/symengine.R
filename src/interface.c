@@ -33,7 +33,7 @@ static const char* exception_message(CWRAPPER_OUTPUT_TYPE id) {
     }
 }
 
-static void hold_cwrapper_exception(CWRAPPER_OUTPUT_TYPE output) {
+static inline void hold_cwrapper_exception(CWRAPPER_OUTPUT_TYPE output) {
     if (output)
         Rf_error(exception_message(output));
     else
@@ -76,7 +76,6 @@ static void _basic_heap_finalizer(SEXP ext) {
 
 
 // Helper Function to Create a External Ptr to an empty Basic //================
-// TODO: use macro instead of function?
 
 SEXP new_ptr_emptybasic () {
     basic_struct* ptr = basic_new_heap();
