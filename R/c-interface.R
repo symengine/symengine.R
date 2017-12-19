@@ -136,10 +136,7 @@ api_integer_from_str <- function (x) {
 #' @useDynLib symengine c_integer_get_int
 #' @export
 api_integer_get_int <- function (ptr) {
-    if (typeof(ptr) == "S4")
-        ptr <- as(ptr, "externalptr")
-    else
-        stopifnot(typeof(ptr) == "externalptr")
+    ptr <- as(ptr, "externalptr")
     
     stopifnot(api_is_a_Integer(ptr))
     .Call("c_integer_get_int", ptr)
@@ -185,38 +182,15 @@ api_realdouble_get_d <- function (ptr) {
 #' @useDynLib symengine c_is_a_RealMPFR
 #' @useDynLib symengine c_is_a_ComplexMPC
 NULL
-
-.function_template <- function (c_call, envir = parent.frame()) {
-    f <- bquote(function (ptr) {
-        if (typeof(ptr) == "S4")
-            ptr <- as(ptr, "externalptr")
-        else
-            stopifnot(typeof(ptr) == "externalptr")
-        .Call(.(c_call), ptr)
-    })
-    eval(f, envir = envir)
-}
-
-#' @export
-api_is_a_Number            <- .function_template("c_is_a_Number")
-#' @export
-api_is_a_Integer           <- .function_template("c_is_a_Integer")
-#' @export
-api_is_a_Rational          <- .function_template("c_is_a_Rational")
-#' @export
-api_is_a_Symbol            <- .function_template("c_is_a_Symbol")
-#' @export
-api_is_a_Complex           <- .function_template("c_is_a_Complex")
-#' @export
-api_is_a_RealDouble        <- .function_template("c_is_a_RealDouble")
-#' @export
-api_is_a_ComplexDouble     <- .function_template("c_is_a_ComplexDouble")
-#' @export
-api_is_a_RealMPFR          <- .function_template("c_is_a_RealMPFR")
-#' @export
-api_is_a_ComplexMPC        <- .function_template("c_is_a_ComplexMPC")
-
-rm(.function_template)
+api_is_a_Number        <- function(ptr) .Call("c_is_a_Number"        , as(ptr, "externalptr"))
+api_is_a_Integer       <- function(ptr) .Call("c_is_a_Integer"       , as(ptr, "externalptr"))
+api_is_a_Rational      <- function(ptr) .Call("c_is_a_Rational"      , as(ptr, "externalptr"))
+api_is_a_Symbol        <- function(ptr) .Call("c_is_a_Symbol"        , as(ptr, "externalptr"))
+api_is_a_Complex       <- function(ptr) .Call("c_is_a_Complex"       , as(ptr, "externalptr"))
+api_is_a_RealDouble    <- function(ptr) .Call("c_is_a_RealDouble"    , as(ptr, "externalptr"))
+api_is_a_ComplexDouble <- function(ptr) .Call("c_is_a_ComplexDouble" , as(ptr, "externalptr"))
+api_is_a_RealMPFR      <- function(ptr) .Call("c_is_a_RealMPFR"      , as(ptr, "externalptr"))
+api_is_a_ComplexMPC    <- function(ptr) .Call("c_is_a_ComplexMPC"    , as(ptr, "externalptr"))
 
 
 ## Number is  ==================================================================
@@ -224,11 +198,7 @@ rm(.function_template)
 #' @useDynLib symengine c_number_is_zero
 #' @export
 api_number_is_zero <- function (ptr) {
-    if (typeof(ptr) == "S4")
-        ptr <- as(ptr, "externalptr")
-    else
-        stopifnot(typeof(ptr) == "externalptr")
-    
+    ptr <- as(ptr, "externalptr")
     stopifnot(api_is_a_Number(ptr))
     .Call("c_number_is_zero", ptr)
 }
@@ -236,11 +206,7 @@ api_number_is_zero <- function (ptr) {
 #' @useDynLib symengine c_number_is_negative
 #' @export
 api_number_is_negative <- function (ptr) {
-    if (typeof(ptr) == "S4")
-        ptr <- as(ptr, "externalptr")
-    else
-        stopifnot(typeof(ptr) == "externalptr")
-    
+    ptr <- as(ptr, "externalptr")
     stopifnot(api_is_a_Number(ptr))
     .Call("c_number_is_negative", ptr)
 }
@@ -248,11 +214,7 @@ api_number_is_negative <- function (ptr) {
 #' @useDynLib symengine c_number_is_positive
 #' @export
 api_number_is_positive <- function (ptr) {
-    if (typeof(ptr) == "S4")
-        ptr <- as(ptr, "externalptr")
-    else
-        stopifnot(typeof(ptr) == "externalptr")
-    
+    ptr <- as(ptr, "externalptr")
     stopifnot(api_is_a_Number(ptr))
     .Call("c_number_is_positive", ptr)
 }
@@ -260,11 +222,7 @@ api_number_is_positive <- function (ptr) {
 #' @useDynLib symengine c_number_is_complex
 #' @export
 api_number_is_complex <- function (ptr) {
-    if (typeof(ptr) == "S4")
-        ptr <- as(ptr, "externalptr")
-    else
-        stopifnot(typeof(ptr) == "externalptr")
-    
+    ptr <- as(ptr, "externalptr")
     stopifnot(api_is_a_Number(ptr))
     .Call("c_number_is_complex", ptr)
 }
