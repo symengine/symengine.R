@@ -1,13 +1,11 @@
 
 ## Utils  ======================================================================
 
-#' @export
 api_ptr_tag <- function (ptr) {
     ptr <- as(ptr, "externalptr")
     .Call("R_ExternalPtrTag", ptr)
 }
 
-#' @export
 api_new_ptr_emptybasic <- function () {
     warning("Should not be used in R side, only for testing", immediate. = TRUE)
     .Call("new_ptr_emptybasic")
@@ -16,18 +14,15 @@ api_new_ptr_emptybasic <- function () {
 
 ## Logo and Version  ===========================================================
 
-#' @export
 api_symengine_logo <- function () {
     s <- .Call("c_ascii_art_str")   
     s
 }
 
-#' @export
 api_symengine_version <- function () {
     .Call("c_symengine_version")
 }
 
-#' @export
 api_symengine_have_component <- function (
     which = c("mpfr", "flint", "arb", "mpc", "ecm",
               "primesieve", "piranha", "boost", "pthread", "llvm"))
@@ -39,25 +34,21 @@ api_symengine_have_component <- function (
 
 ## New Symbols  ================================================================
 
-#' @export
 api_new_symbol <- function (string) {
     .Call("c_new_heap_symbol", string)
 }
 
-#' @export
 api_parse_str <- function (string) {
     .Call("c_parse_str", string)
 }
 
 ## Accessors for Basic  ========================================================
 
-#' @export
 api_basic_str <- function (ptr) {
     ptr <- as(ptr, "externalptr")
     .Call("c_basic_str", ptr)
 }
 
-#' @export
 api_basic_str_julia <- function (ptr) {
     # I do not know all the difference between `basic_str` and `basic_str_julia`,
     # but `basic_str_julia` will show Pow with `^` instead of `**`.
@@ -66,7 +57,6 @@ api_basic_str_julia <- function (ptr) {
 }
 
 
-#' @export
 api_basic_type <- function (ptr) {
     if (typeof(ptr) == "S4")
         ptr <- as(ptr, "externalptr")
@@ -79,7 +69,6 @@ api_basic_type <- function (ptr) {
 
 ## Constants  ==================================================================
 
-#' @export
 api_builtin_const <- function (which) {
     id <- switch(which,
         "zero"         =  1L  ,
@@ -100,14 +89,12 @@ api_builtin_const <- function (which) {
     .Call("c_builtin_const", id)
 }
 
-#' @export
 api_make_const <- function (string) {
     .Call("c_make_const", string)
 }
 
 ## Integer  ====================================================================
 
-#' @export
 api_integer_from_int <- function (x) {
     if (is.na(x) || is.infinite(x) || is.nan(x))
         warning("TODO: to support NA, Inf and NaN")
@@ -116,12 +103,10 @@ api_integer_from_int <- function (x) {
     .Call("c_integer_from_int", x)
 }
 
-#' @export
 api_integer_from_str <- function (x) {
     .Call("c_integer_from_str", x)
 }
 
-#' @export
 api_integer_get_int <- function (ptr) {
     ptr <- as(ptr, "externalptr")
     
@@ -132,7 +117,6 @@ api_integer_get_int <- function (ptr) {
 
 ## Real  =======================================================================
 
-#' @export
 api_realdouble_from_d <- function (x) {
     # It seems that NA, Inf and NaN are directly supported, why??
     #
@@ -143,7 +127,6 @@ api_realdouble_from_d <- function (x) {
     .Call("c_realdouble_from_d", x)
 }
 
-#' @export
 api_realdouble_get_d <- function (ptr) {
     if (typeof(ptr) == "S4")
         ptr <- as(ptr, "externalptr")
@@ -170,28 +153,24 @@ api_is_a_ComplexMPC    <- function(ptr) .Call("c_is_a_ComplexMPC"    , as(ptr, "
 
 ## Number is  ==================================================================
 
-#' @export
 api_number_is_zero <- function (ptr) {
     ptr <- as(ptr, "externalptr")
     stopifnot(api_is_a_Number(ptr))
     .Call("c_number_is_zero", ptr)
 }
 
-#' @export
 api_number_is_negative <- function (ptr) {
     ptr <- as(ptr, "externalptr")
     stopifnot(api_is_a_Number(ptr))
     .Call("c_number_is_negative", ptr)
 }
 
-#' @export
 api_number_is_positive <- function (ptr) {
     ptr <- as(ptr, "externalptr")
     stopifnot(api_is_a_Number(ptr))
     .Call("c_number_is_positive", ptr)
 }
 
-#' @export
 api_number_is_complex <- function (ptr) {
     ptr <- as(ptr, "externalptr")
     stopifnot(api_is_a_Number(ptr))
@@ -200,35 +179,30 @@ api_number_is_complex <- function (ptr) {
 
 ## Operations  =================================================================
 
-#' @export
 api_basic_add <- function (ptra, ptrb) {
     ptra <- as(ptra, "externalptr")
     ptrb <- as(ptrb, "externalptr")
     .Call("c_basic_add", ptra, ptrb)
 }
 
-#' @export
 api_basic_sub <- function (ptra, ptrb) {
     ptra <- as(ptra, "externalptr")
     ptrb <- as(ptrb, "externalptr")
     .Call("c_basic_sub", ptra, ptrb)
 }
 
-#' @export
 api_basic_mul <- function (ptra, ptrb) {
     ptra <- as(ptra, "externalptr")
     ptrb <- as(ptrb, "externalptr")
     .Call("c_basic_mul", ptra, ptrb)
 }
 
-#' @export
 api_basic_div <- function (ptra, ptrb) {
     ptra <- as(ptra, "externalptr")
     ptrb <- as(ptrb, "externalptr")
     .Call("c_basic_div", ptra, ptrb)
 }
 
-#' @export
 api_basic_pow <- function (ptra, ptrb) {
     ptra <- as(ptra, "externalptr")
     ptrb <- as(ptrb, "externalptr")
@@ -236,7 +210,6 @@ api_basic_pow <- function (ptra, ptrb) {
 }
 
 ## Diff
-#' @export
 api_basic_diff <- function (ptrexpr, ptrsym) {
     ptrexpr <- as(ptrexpr, "externalptr")
     ptrsym  <- as(ptrsym , "externalptr")
@@ -245,21 +218,18 @@ api_basic_diff <- function (ptrexpr, ptrsym) {
 }
 
 
-#' @export
 api_basic_eq <- function (ptra, ptrb) {
     ptra <- as(ptra, "externalptr")
     ptrb <- as(ptrb, "externalptr")
     .Call("c_basic_eq", ptra, ptrb)
 }
 
-#' @export
 api_basic_neq <- function (ptra, ptrb) {
     ptra <- as(ptra, "externalptr")
     ptrb <- as(ptrb, "externalptr")
     .Call("c_basic_neq", ptra, ptrb)
 }
 
-#' @export
 api_basic_hash <- function (ptr) {
     .Call("c_basic_hash", as(ptr, "externalptr"))
 }
@@ -306,82 +276,45 @@ if (FALSE) {
 rm(.flist)
 
 
-#' @export
 api_basic_expand <- api_basic_expand
-#' @export
 api_basic_neg <- api_basic_neg
-#' @export
 api_basic_abs <- api_basic_abs
-#' @export
 api_basic_erf <- api_basic_erf
-#' @export
 api_basic_erfc <- api_basic_erfc
-#' @export
 api_basic_sin <- api_basic_sin
-#' @export
 api_basic_cos <- api_basic_cos
-#' @export
 api_basic_tan <- api_basic_tan
-#' @export
 api_basic_asin <- api_basic_asin
-#' @export
 api_basic_acos <- api_basic_acos
-#' @export
 api_basic_atan <- api_basic_atan
-#' @export
 api_basic_csc <- api_basic_csc
-#' @export
 api_basic_sec <- api_basic_sec
-#' @export
 api_basic_cot <- api_basic_cot
-#' @export
 api_basic_acsc <- api_basic_acsc
-#' @export
 api_basic_asec <- api_basic_asec
-#' @export
 api_basic_acot <- api_basic_acot
-#' @export
 api_basic_sinh <- api_basic_sinh
-#' @export
 api_basic_cosh <- api_basic_cosh
-#' @export
 api_basic_tanh <- api_basic_tanh
-#' @export
 api_basic_asinh <- api_basic_asinh
-#' @export
 api_basic_acosh <- api_basic_acosh
-#' @export
 api_basic_atanh <- api_basic_atanh
-#' @export
 api_basic_csch <- api_basic_csch
-#' @export
 api_basic_sech <- api_basic_sech
-#' @export
 api_basic_coth <- api_basic_coth
-#' @export
 api_basic_acsch <- api_basic_acsch
-#' @export
 api_basic_asech <- api_basic_asech
-#' @export
 api_basic_acoth <- api_basic_acoth
-#' @export
 api_basic_lambertw <- api_basic_lambertw
-#' @export
 api_basic_zeta <- api_basic_zeta
-#' @export
 api_basic_dirichlet_eta <- api_basic_dirichlet_eta
-#' @export
 api_basic_gamma <- api_basic_gamma
-#' @export
 api_basic_sqrt <- api_basic_sqrt
-#' @export
 api_basic_exp <- api_basic_exp
-#' @export
 api_basic_log <- api_basic_log
 
 
 ## subs
-#' @export
 api_basic_subs2 <- function (ptrexpr, ptrold, ptrnew) {
     ptrexpr <- as(ptrexpr, "externalptr")
     ptrold  <- as(ptrold , "externalptr")
@@ -390,7 +323,6 @@ api_basic_subs2 <- function (ptrexpr, ptrold, ptrnew) {
 }
 
 ## evalf
-#' @export
 api_basic_evalf <- function(ptrb, bits = 53L, real = TRUE) {
     ptrb <- as(ptrb, "externalptr")
     bits <- as.integer(bits)
