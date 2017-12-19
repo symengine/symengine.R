@@ -497,6 +497,7 @@ SEXP c_basic_neq(SEXP exta, SEXP extb) {
 
 // The Util Function To Wrap One-Argument Functions //==========================
 
+static inline
 SEXP call_basic_func_onearg(SEXP exta,
                             CWRAPPER_OUTPUT_TYPE (* func)(basic, const basic)) {
     check_basic_ptr(exta);
@@ -521,39 +522,15 @@ SEXP call_basic_func_onearg(SEXP exta,
  *******************************************************************************/
 
 SEXP c_basic_expand(SEXP exta) {
-    check_basic_ptr(exta);
-    basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
-    SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
-
-    hold_cwrapper_exception(basic_expand(s, a));
-
-    UNPROTECT(1);
-    return out;
+    return call_basic_func_onearg(exta, basic_expand);
 }
 
 SEXP c_basic_neg(SEXP exta) {
-    check_basic_ptr(exta);
-    basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
-    SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
-
-    hold_cwrapper_exception(basic_neg(s, a));
-
-    UNPROTECT(1);
-    return out;
+    return call_basic_func_onearg(exta, basic_neg);
 }
 
 SEXP c_basic_abs(SEXP exta) {
-    check_basic_ptr(exta);
-    basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
-    SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
-
-    hold_cwrapper_exception(basic_abs(s, a));
-
-    UNPROTECT(1);
-    return out;
+    return call_basic_func_onearg(exta, basic_abs);
 }
 
 /*******************************************************************************
@@ -564,27 +541,11 @@ SEXP c_basic_abs(SEXP exta) {
  *******************************************************************************/
 
 SEXP c_basic_erf(SEXP exta) {
-    check_basic_ptr(exta);
-    basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
-    SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
-
-    hold_cwrapper_exception(basic_erf(s, a));
-
-    UNPROTECT(1);
-    return out;
+    return call_basic_func_onearg(exta, basic_erf);
 }
 
 SEXP c_basic_erfc(SEXP exta) {
-    check_basic_ptr(exta);
-    basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
-    SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
-
-    hold_cwrapper_exception(basic_erfc(s, a));
-
-    UNPROTECT(1);
-    return out;
+    return call_basic_func_onearg(exta, basic_erfc);
 }
 
 
@@ -598,39 +559,15 @@ SEXP c_basic_erfc(SEXP exta) {
  *******************************************************************************/
 
 SEXP c_basic_sin(SEXP exta) {
-    check_basic_ptr(exta);
-    basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
-    SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
-
-    hold_cwrapper_exception(basic_sin(s, a));
-
-    UNPROTECT(1);
-    return out;
+    return call_basic_func_onearg(exta, basic_sin);
 }
 
 SEXP c_basic_cos(SEXP exta) {
-    check_basic_ptr(exta);
-    basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
-    SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
-
-    hold_cwrapper_exception(basic_cos(s, a));
-
-    UNPROTECT(1);
-    return out;
+    return call_basic_func_onearg(exta, basic_cos);
 }
 
 SEXP c_basic_tan(SEXP exta) {
-    check_basic_ptr(exta);
-    basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
-    SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
-
-    hold_cwrapper_exception(basic_tan(s, a));
-
-    UNPROTECT(1);
-    return out;
+    return call_basic_func_onearg(exta, basic_tan);
 }
 
 /*******************************************************************************
@@ -643,39 +580,15 @@ SEXP c_basic_tan(SEXP exta) {
  *******************************************************************************/
 
 SEXP c_basic_asin(SEXP exta) {
-    check_basic_ptr(exta);
-    basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
-    SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
-
-    hold_cwrapper_exception(basic_asin(s, a));
-
-    UNPROTECT(1);
-    return out;
+    return call_basic_func_onearg(exta, basic_asin);
 }
 
 SEXP c_basic_acos(SEXP exta) {
-    check_basic_ptr(exta);
-    basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
-    SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
-
-    hold_cwrapper_exception(basic_acos(s, a));
-
-    UNPROTECT(1);
-    return out;
+    return call_basic_func_onearg(exta, basic_acos);
 }
 
 SEXP c_basic_atan(SEXP exta) {
-    check_basic_ptr(exta);
-    basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
-    SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
-
-    hold_cwrapper_exception(basic_atan(s, a));
-
-    UNPROTECT(1);
-    return out;
+    return call_basic_func_onearg(exta, basic_atan);
 }
 
 
@@ -689,39 +602,15 @@ SEXP c_basic_atan(SEXP exta) {
  *******************************************************************************/
 
 SEXP c_basic_csc(SEXP exta) {
-    check_basic_ptr(exta);
-    basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
-    SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
-
-    hold_cwrapper_exception(basic_csc(s, a));
-
-    UNPROTECT(1);
-    return out;
+    return call_basic_func_onearg(exta, basic_csc);
 }
 
 SEXP c_basic_sec(SEXP exta) {
-    check_basic_ptr(exta);
-    basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
-    SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
-
-    hold_cwrapper_exception(basic_sec(s, a));
-
-    UNPROTECT(1);
-    return out;
+    return call_basic_func_onearg(exta, basic_sec);
 }
 
 SEXP c_basic_cot(SEXP exta) {
-    check_basic_ptr(exta);
-    basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
-    SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
-
-    hold_cwrapper_exception(basic_cot(s, a));
-
-    UNPROTECT(1);
-    return out;
+    return call_basic_func_onearg(exta, basic_cot);
 }
 
 
@@ -735,39 +624,15 @@ SEXP c_basic_cot(SEXP exta) {
  *******************************************************************************/
 
 SEXP c_basic_acsc(SEXP exta) {
-    check_basic_ptr(exta);
-    basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
-    SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
-
-    hold_cwrapper_exception(basic_acsc(s, a));
-
-    UNPROTECT(1);
-    return out;
+    return call_basic_func_onearg(exta, basic_acsc);
 }
 
 SEXP c_basic_asec(SEXP exta) {
-    check_basic_ptr(exta);
-    basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
-    SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
-
-    hold_cwrapper_exception(basic_asec(s, a));
-
-    UNPROTECT(1);
-    return out;
+    return call_basic_func_onearg(exta, basic_asec);
 }
 
 SEXP c_basic_acot(SEXP exta) {
-    check_basic_ptr(exta);
-    basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
-    SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
-
-    hold_cwrapper_exception(basic_acot(s, a));
-
-    UNPROTECT(1);
-    return out;
+    return call_basic_func_onearg(exta, basic_acot);
 }
 
 
@@ -781,39 +646,15 @@ SEXP c_basic_acot(SEXP exta) {
  *******************************************************************************/
 
 SEXP c_basic_sinh(SEXP exta) {
-    check_basic_ptr(exta);
-    basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
-    SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
-
-    hold_cwrapper_exception(basic_sinh(s, a));
-
-    UNPROTECT(1);
-    return out;
+    return call_basic_func_onearg(exta, basic_sinh);
 }
 
 SEXP c_basic_cosh(SEXP exta) {
-    check_basic_ptr(exta);
-    basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
-    SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
-
-    hold_cwrapper_exception(basic_cosh(s, a));
-
-    UNPROTECT(1);
-    return out;
+    return call_basic_func_onearg(exta, basic_cosh);
 }
 
 SEXP c_basic_tanh(SEXP exta) {
-    check_basic_ptr(exta);
-    basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
-    SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
-
-    hold_cwrapper_exception(basic_tanh(s, a));
-
-    UNPROTECT(1);
-    return out;
+    return call_basic_func_onearg(exta, basic_tanh);
 }
 
 /*******************************************************************************
@@ -826,39 +667,15 @@ SEXP c_basic_tanh(SEXP exta) {
  *******************************************************************************/
 
 SEXP c_basic_asinh(SEXP exta) {
-    check_basic_ptr(exta);
-    basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
-    SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
-
-    hold_cwrapper_exception(basic_asinh(s, a));
-
-    UNPROTECT(1);
-    return out;
+    return call_basic_func_onearg(exta, basic_asinh);
 }
 
 SEXP c_basic_acosh(SEXP exta) {
-    check_basic_ptr(exta);
-    basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
-    SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
-
-    hold_cwrapper_exception(basic_acosh(s, a));
-
-    UNPROTECT(1);
-    return out;
+    return call_basic_func_onearg(exta, basic_acosh);
 }
 
 SEXP c_basic_atanh(SEXP exta) {
-    check_basic_ptr(exta);
-    basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
-    SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
-
-    hold_cwrapper_exception(basic_atanh(s, a));
-
-    UNPROTECT(1);
-    return out;
+    return call_basic_func_onearg(exta, basic_atanh);
 }
 
 /*******************************************************************************
@@ -871,39 +688,15 @@ SEXP c_basic_atanh(SEXP exta) {
  *******************************************************************************/
 
 SEXP c_basic_csch(SEXP exta) {
-    check_basic_ptr(exta);
-    basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
-    SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
-
-    hold_cwrapper_exception(basic_csch(s, a));
-
-    UNPROTECT(1);
-    return out;
+    return call_basic_func_onearg(exta, basic_csch);
 }
 
 SEXP c_basic_sech(SEXP exta) {
-    check_basic_ptr(exta);
-    basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
-    SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
-
-    hold_cwrapper_exception(basic_sech(s, a));
-
-    UNPROTECT(1);
-    return out;
+    return call_basic_func_onearg(exta, basic_sech);
 }
 
 SEXP c_basic_coth(SEXP exta) {
-    check_basic_ptr(exta);
-    basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
-    SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
-
-    hold_cwrapper_exception(basic_coth(s, a));
-
-    UNPROTECT(1);
-    return out;
+    return call_basic_func_onearg(exta, basic_coth);
 }
 
 /*******************************************************************************
@@ -916,39 +709,15 @@ SEXP c_basic_coth(SEXP exta) {
  *******************************************************************************/
 
 SEXP c_basic_acsch(SEXP exta) {
-    check_basic_ptr(exta);
-    basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
-    SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
-
-    hold_cwrapper_exception(basic_acsch(s, a));
-
-    UNPROTECT(1);
-    return out;
+    return call_basic_func_onearg(exta, basic_acsch);
 }
 
 SEXP c_basic_asech(SEXP exta) {
-    check_basic_ptr(exta);
-    basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
-    SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
-
-    hold_cwrapper_exception(basic_asech(s, a));
-
-    UNPROTECT(1);
-    return out;
+    return call_basic_func_onearg(exta, basic_asech);
 }
 
 SEXP c_basic_acoth(SEXP exta) {
-    check_basic_ptr(exta);
-    basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
-    SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
-
-    hold_cwrapper_exception(basic_acoth(s, a));
-
-    UNPROTECT(1);
-    return out;
+    return call_basic_func_onearg(exta, basic_acoth);
 }
 
 
@@ -970,87 +739,31 @@ SEXP c_basic_acoth(SEXP exta) {
  *******************************************************************************/
 
 SEXP c_basic_lambertw(SEXP exta) {
-    check_basic_ptr(exta);
-    basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
-    SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
-
-    hold_cwrapper_exception(basic_lambertw(s, a));
-
-    UNPROTECT(1);
-    return out;
+    return call_basic_func_onearg(exta, basic_lambertw);
 }
 
 SEXP c_basic_zeta(SEXP exta) {
-    check_basic_ptr(exta);
-    basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
-    SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
-
-    hold_cwrapper_exception(basic_zeta(s, a));
-
-    UNPROTECT(1);
-    return out;
+    return call_basic_func_onearg(exta, basic_zeta);
 }
 
 SEXP c_basic_dirichlet_eta(SEXP exta) {
-    check_basic_ptr(exta);
-    basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
-    SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
-
-    hold_cwrapper_exception(basic_dirichlet_eta(s, a));
-
-    UNPROTECT(1);
-    return out;
+    return call_basic_func_onearg(exta, basic_dirichlet_eta);
 }
 
 SEXP c_basic_gamma(SEXP exta) {
-    check_basic_ptr(exta);
-    basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
-    SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
-
-    hold_cwrapper_exception(basic_gamma(s, a));
-
-    UNPROTECT(1);
-    return out;
+    return call_basic_func_onearg(exta, basic_gamma);
 }
 
 SEXP c_basic_sqrt(SEXP exta) {
-    check_basic_ptr(exta);
-    basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
-    SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
-
-    hold_cwrapper_exception(basic_sqrt(s, a));
-
-    UNPROTECT(1);
-    return out;
+    return call_basic_func_onearg(exta, basic_sqrt);
 }
 
 SEXP c_basic_exp(SEXP exta) {
-    check_basic_ptr(exta);
-    basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
-    SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
-
-    hold_cwrapper_exception(basic_exp(s, a));
-
-    UNPROTECT(1);
-    return out;
+    return call_basic_func_onearg(exta, basic_exp);
 }
 
 SEXP c_basic_log(SEXP exta) {
-    check_basic_ptr(exta);
-    basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
-    SEXP          out = PROTECT(new_ptr_emptybasic());
-    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
-
-    hold_cwrapper_exception(basic_log(s, a));
-
-    UNPROTECT(1);
-    return out;
+    return call_basic_func_onearg(exta, basic_log);
 }
 
 
