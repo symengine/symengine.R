@@ -15,8 +15,7 @@ api_new_ptr_emptybasic <- function () {
 ## Logo and Version  ===========================================================
 
 api_symengine_logo <- function () {
-    s <- .Call("c_ascii_art_str")   
-    s
+    .Call("c_ascii_art_str")   
 }
 
 api_symengine_version <- function () {
@@ -58,12 +57,7 @@ api_basic_str_julia <- function (ptr) {
 
 
 api_basic_type <- function (ptr) {
-    if (typeof(ptr) == "S4")
-        ptr <- as(ptr, "externalptr")
-    else
-        stopifnot(typeof(ptr) == "externalptr")
-    
-    .Call("c_basic_type", ptr)
+    .Call("c_basic_type", as(ptr, "externalptr"))
 }
 
 
