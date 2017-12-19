@@ -296,6 +296,12 @@ api_basic_neq <- function (ptra, ptrb) {
     .Call("c_basic_neq", ptra, ptrb)
 }
 
+#' @useDynLib symengine c_basic_hash
+#' @export
+api_basic_hash <- function (ptr) {
+    .Call("c_basic_hash", as(ptr, "externalptr"))
+}
+
 if (FALSE) {
     api_basic_eq(S("x == x"), S("y == y"))
     api_basic_neq(S("x == x"), S("y == y"))

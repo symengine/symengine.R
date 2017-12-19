@@ -477,6 +477,22 @@ SEXP c_basic_neq(SEXP exta, SEXP extb) {
 }
 
 
+/*******************************************************************************
+ * //! returns the hash of the Basic object
+ * size_t basic_hash(const basic self);
+ *******************************************************************************/
+
+SEXP c_basic_hash(SEXP ext) {
+    check_basic_ptr(ext);
+    basic_struct* b = (basic_struct*) R_ExternalPtrAddr(ext);
+    size_t hash = basic_hash(b);
+    char str[256] = "";
+    snprintf(str, sizeof(str), "%zu", hash);
+    return Rf_mkString(str);
+}
+
+
+
 // The Util Function To Wrap One-Argument Functions //==========================
 
 static inline
