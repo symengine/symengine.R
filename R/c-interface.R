@@ -16,20 +16,17 @@ api_new_ptr_emptybasic <- function () {
 
 ## Logo and Version  ===========================================================
 
-#' @useDynLib symengine c_ascii_art_str
 #' @export
 api_symengine_logo <- function () {
     s <- .Call("c_ascii_art_str")   
     s
 }
 
-#' @useDynLib symengine c_symengine_version
 #' @export
 api_symengine_version <- function () {
     .Call("c_symengine_version")
 }
 
-#' @useDynLib symengine c_symengine_have_component
 #' @export
 api_symengine_have_component <- function (
     which = c("mpfr", "flint", "arb", "mpc", "ecm",
@@ -42,13 +39,11 @@ api_symengine_have_component <- function (
 
 ## New Symbols  ================================================================
 
-#' @useDynLib symengine c_new_heap_symbol
 #' @export
 api_new_symbol <- function (string) {
     .Call("c_new_heap_symbol", string)
 }
 
-#' @useDynLib symengine c_parse_str
 #' @export
 api_parse_str <- function (string) {
     .Call("c_parse_str", string)
@@ -56,14 +51,12 @@ api_parse_str <- function (string) {
 
 ## Accessors for Basic  ========================================================
 
-#' @useDynLib symengine c_basic_str
 #' @export
 api_basic_str <- function (ptr) {
     ptr <- as(ptr, "externalptr")
     .Call("c_basic_str", ptr)
 }
 
-#' @useDynLib symengine c_basic_str_julia
 #' @export
 api_basic_str_julia <- function (ptr) {
     # I do not know all the difference between `basic_str` and `basic_str_julia`,
@@ -73,7 +66,6 @@ api_basic_str_julia <- function (ptr) {
 }
 
 
-#' @useDynLib symengine c_basic_type
 #' @export
 api_basic_type <- function (ptr) {
     if (typeof(ptr) == "S4")
@@ -87,7 +79,6 @@ api_basic_type <- function (ptr) {
 
 ## Constants  ==================================================================
 
-#' @useDynLib symengine c_builtin_const
 #' @export
 api_builtin_const <- function (which) {
     id <- switch(which,
@@ -109,7 +100,6 @@ api_builtin_const <- function (which) {
     .Call("c_builtin_const", id)
 }
 
-#' @useDynLib symengine c_make_const
 #' @export
 api_make_const <- function (string) {
     .Call("c_make_const", string)
@@ -117,7 +107,6 @@ api_make_const <- function (string) {
 
 ## Integer  ====================================================================
 
-#' @useDynLib symengine c_integer_from_int
 #' @export
 api_integer_from_int <- function (x) {
     if (is.na(x) || is.infinite(x) || is.nan(x))
@@ -127,13 +116,11 @@ api_integer_from_int <- function (x) {
     .Call("c_integer_from_int", x)
 }
 
-#' @useDynLib symengine c_integer_from_str
 #' @export
 api_integer_from_str <- function (x) {
     .Call("c_integer_from_str", x)
 }
 
-#' @useDynLib symengine c_integer_get_int
 #' @export
 api_integer_get_int <- function (ptr) {
     ptr <- as(ptr, "externalptr")
@@ -145,7 +132,6 @@ api_integer_get_int <- function (ptr) {
 
 ## Real  =======================================================================
 
-#' @useDynLib symengine c_realdouble_from_d
 #' @export
 api_realdouble_from_d <- function (x) {
     # It seems that NA, Inf and NaN are directly supported, why??
@@ -157,7 +143,6 @@ api_realdouble_from_d <- function (x) {
     .Call("c_realdouble_from_d", x)
 }
 
-#' @useDynLib symengine c_realdouble_get_d
 #' @export
 api_realdouble_get_d <- function (ptr) {
     if (typeof(ptr) == "S4")
@@ -172,16 +157,6 @@ api_realdouble_get_d <- function (ptr) {
 ## Basic: is_a_XXX  ============================================================
 
 
-#' @useDynLib symengine c_is_a_Number
-#' @useDynLib symengine c_is_a_Integer
-#' @useDynLib symengine c_is_a_Rational
-#' @useDynLib symengine c_is_a_Symbol
-#' @useDynLib symengine c_is_a_Complex
-#' @useDynLib symengine c_is_a_RealDouble
-#' @useDynLib symengine c_is_a_ComplexDouble
-#' @useDynLib symengine c_is_a_RealMPFR
-#' @useDynLib symengine c_is_a_ComplexMPC
-NULL
 api_is_a_Number        <- function(ptr) .Call("c_is_a_Number"        , as(ptr, "externalptr"))
 api_is_a_Integer       <- function(ptr) .Call("c_is_a_Integer"       , as(ptr, "externalptr"))
 api_is_a_Rational      <- function(ptr) .Call("c_is_a_Rational"      , as(ptr, "externalptr"))
@@ -195,7 +170,6 @@ api_is_a_ComplexMPC    <- function(ptr) .Call("c_is_a_ComplexMPC"    , as(ptr, "
 
 ## Number is  ==================================================================
 
-#' @useDynLib symengine c_number_is_zero
 #' @export
 api_number_is_zero <- function (ptr) {
     ptr <- as(ptr, "externalptr")
@@ -203,7 +177,6 @@ api_number_is_zero <- function (ptr) {
     .Call("c_number_is_zero", ptr)
 }
 
-#' @useDynLib symengine c_number_is_negative
 #' @export
 api_number_is_negative <- function (ptr) {
     ptr <- as(ptr, "externalptr")
@@ -211,7 +184,6 @@ api_number_is_negative <- function (ptr) {
     .Call("c_number_is_negative", ptr)
 }
 
-#' @useDynLib symengine c_number_is_positive
 #' @export
 api_number_is_positive <- function (ptr) {
     ptr <- as(ptr, "externalptr")
@@ -219,7 +191,6 @@ api_number_is_positive <- function (ptr) {
     .Call("c_number_is_positive", ptr)
 }
 
-#' @useDynLib symengine c_number_is_complex
 #' @export
 api_number_is_complex <- function (ptr) {
     ptr <- as(ptr, "externalptr")
@@ -229,7 +200,6 @@ api_number_is_complex <- function (ptr) {
 
 ## Operations  =================================================================
 
-#' @useDynLib symengine c_basic_add
 #' @export
 api_basic_add <- function (ptra, ptrb) {
     ptra <- as(ptra, "externalptr")
@@ -237,7 +207,6 @@ api_basic_add <- function (ptra, ptrb) {
     .Call("c_basic_add", ptra, ptrb)
 }
 
-#' @useDynLib symengine c_basic_sub
 #' @export
 api_basic_sub <- function (ptra, ptrb) {
     ptra <- as(ptra, "externalptr")
@@ -245,7 +214,6 @@ api_basic_sub <- function (ptra, ptrb) {
     .Call("c_basic_sub", ptra, ptrb)
 }
 
-#' @useDynLib symengine c_basic_mul
 #' @export
 api_basic_mul <- function (ptra, ptrb) {
     ptra <- as(ptra, "externalptr")
@@ -253,7 +221,6 @@ api_basic_mul <- function (ptra, ptrb) {
     .Call("c_basic_mul", ptra, ptrb)
 }
 
-#' @useDynLib symengine c_basic_div
 #' @export
 api_basic_div <- function (ptra, ptrb) {
     ptra <- as(ptra, "externalptr")
@@ -261,7 +228,6 @@ api_basic_div <- function (ptra, ptrb) {
     .Call("c_basic_div", ptra, ptrb)
 }
 
-#' @useDynLib symengine c_basic_pow
 #' @export
 api_basic_pow <- function (ptra, ptrb) {
     ptra <- as(ptra, "externalptr")
@@ -270,7 +236,6 @@ api_basic_pow <- function (ptra, ptrb) {
 }
 
 ## Diff
-#' @useDynLib symengine c_basic_diff
 #' @export
 api_basic_diff <- function (ptrexpr, ptrsym) {
     ptrexpr <- as(ptrexpr, "externalptr")
@@ -280,7 +245,6 @@ api_basic_diff <- function (ptrexpr, ptrsym) {
 }
 
 
-#' @useDynLib symengine c_basic_eq
 #' @export
 api_basic_eq <- function (ptra, ptrb) {
     ptra <- as(ptra, "externalptr")
@@ -288,7 +252,6 @@ api_basic_eq <- function (ptra, ptrb) {
     .Call("c_basic_eq", ptra, ptrb)
 }
 
-#' @useDynLib symengine c_basic_neq
 #' @export
 api_basic_neq <- function (ptra, ptrb) {
     ptra <- as(ptra, "externalptr")
@@ -296,7 +259,6 @@ api_basic_neq <- function (ptra, ptrb) {
     .Call("c_basic_neq", ptra, ptrb)
 }
 
-#' @useDynLib symengine c_basic_hash
 #' @export
 api_basic_hash <- function (ptr) {
     .Call("c_basic_hash", as(ptr, "externalptr"))
@@ -417,46 +379,8 @@ api_basic_exp <- api_basic_exp
 #' @export
 api_basic_log <- api_basic_log
 
-#' @useDynLib symengine c_basic_expand
-#' @useDynLib symengine c_basic_neg
-#' @useDynLib symengine c_basic_abs
-#' @useDynLib symengine c_basic_erf
-#' @useDynLib symengine c_basic_erfc
-#' @useDynLib symengine c_basic_sin
-#' @useDynLib symengine c_basic_cos
-#' @useDynLib symengine c_basic_tan
-#' @useDynLib symengine c_basic_asin
-#' @useDynLib symengine c_basic_acos
-#' @useDynLib symengine c_basic_atan
-#' @useDynLib symengine c_basic_csc
-#' @useDynLib symengine c_basic_sec
-#' @useDynLib symengine c_basic_cot
-#' @useDynLib symengine c_basic_acsc
-#' @useDynLib symengine c_basic_asec
-#' @useDynLib symengine c_basic_acot
-#' @useDynLib symengine c_basic_sinh
-#' @useDynLib symengine c_basic_cosh
-#' @useDynLib symengine c_basic_tanh
-#' @useDynLib symengine c_basic_asinh
-#' @useDynLib symengine c_basic_acosh
-#' @useDynLib symengine c_basic_atanh
-#' @useDynLib symengine c_basic_csch
-#' @useDynLib symengine c_basic_sech
-#' @useDynLib symengine c_basic_coth
-#' @useDynLib symengine c_basic_acsch
-#' @useDynLib symengine c_basic_asech
-#' @useDynLib symengine c_basic_acoth
-#' @useDynLib symengine c_basic_lambertw
-#' @useDynLib symengine c_basic_zeta
-#' @useDynLib symengine c_basic_dirichlet_eta
-#' @useDynLib symengine c_basic_gamma
-#' @useDynLib symengine c_basic_sqrt
-#' @useDynLib symengine c_basic_exp
-#' @useDynLib symengine c_basic_log
-NULL
 
 ## subs
-#' @useDynLib symengine c_basic_subs2
 #' @export
 api_basic_subs2 <- function (ptrexpr, ptrold, ptrnew) {
     ptrexpr <- as(ptrexpr, "externalptr")
@@ -466,7 +390,6 @@ api_basic_subs2 <- function (ptrexpr, ptrold, ptrnew) {
 }
 
 ## evalf
-#' @useDynLib symengine c_basic_evalf
 #' @export
 api_basic_evalf <- function(ptrb, bits = 53L, real = TRUE) {
     ptrb <- as(ptrb, "externalptr")
