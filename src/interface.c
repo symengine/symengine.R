@@ -495,6 +495,21 @@ SEXP c_basic_neq(SEXP exta, SEXP extb) {
 }
 
 
+// The Util Function To Wrap One-Argument Functions //==========================
+
+SEXP call_basic_func_onearg(SEXP exta,
+                            CWRAPPER_OUTPUT_TYPE (* func)(basic, const basic)) {
+    check_basic_ptr(exta);
+    basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
+    SEXP          out = PROTECT(new_ptr_emptybasic());
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
+
+    hold_cwrapper_exception(func(s, a));
+
+    UNPROTECT(1);
+    return out;
+}
+
 
 /*******************************************************************************
  * //! Expands the expr a and assigns to s.
