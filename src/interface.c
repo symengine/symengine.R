@@ -90,7 +90,7 @@ SEXP new_ptr_emptybasic () {
 static inline void check_basic_ptr(SEXP ext) {
     if (NULL == R_ExternalPtrAddr(ext))
         Rf_error("Invalid pointer\n");
-    if (R_ExternalPtrTag(ext) != "basic_struct*")
+    if (!R_compute_identical(R_ExternalPtrTag(ext), Rf_mkString("basic_struct*"), 15))
         Rf_error("Tag of the pointer does not match to 'basic_struct*'\n");
     return;
 }
