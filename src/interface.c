@@ -278,89 +278,71 @@ SEXP c_realdouble_get_d(SEXP ext) {
 
 
 
+// The Util Function to Wrap is_a_XXX Functions //================================
+
+static inline
+SEXP call_basic_is_xxx(SEXP ext, int (* func)(const basic)) {
+    check_basic_ptr(ext);
+    basic_struct* b = (basic_struct*) R_ExternalPtrAddr(ext);
+    return Rf_ScalarLogical(func(b));
+}
 
 // Basic: is_a_XXX  //============================================================
 
 
 SEXP c_is_a_Number(SEXP ext) {
-    check_basic_ptr(ext);
-    basic_struct* b = (basic_struct*) R_ExternalPtrAddr(ext);
-    return Rf_ScalarLogical(is_a_Number(b));
+    return call_basic_is_xxx(ext, is_a_Number);
 }
 
 SEXP c_is_a_Integer(SEXP ext) {
-    check_basic_ptr(ext);
-    basic_struct* b = (basic_struct*) R_ExternalPtrAddr(ext);
-    return Rf_ScalarLogical(is_a_Integer(b));
+    return call_basic_is_xxx(ext, is_a_Integer);
 }
 
 SEXP c_is_a_Rational(SEXP ext) {
-    check_basic_ptr(ext);
-    basic_struct* b = (basic_struct*) R_ExternalPtrAddr(ext);
-    return Rf_ScalarLogical(is_a_Rational(b));
+    return call_basic_is_xxx(ext, is_a_Rational);
 }
 
 SEXP c_is_a_Symbol(SEXP ext) {
-    check_basic_ptr(ext);
-    basic_struct* b = (basic_struct*) R_ExternalPtrAddr(ext);
-    return Rf_ScalarLogical(is_a_Symbol(b));
+    return call_basic_is_xxx(ext, is_a_Symbol);
 }
 
 SEXP c_is_a_Complex(SEXP ext) {
-    check_basic_ptr(ext);
-    basic_struct* b = (basic_struct*) R_ExternalPtrAddr(ext);
-    return Rf_ScalarLogical(is_a_Complex(b));
+    return call_basic_is_xxx(ext, is_a_Complex);
 }
 
 SEXP c_is_a_RealDouble(SEXP ext) {
-    check_basic_ptr(ext);
-    basic_struct* b = (basic_struct*) R_ExternalPtrAddr(ext);
-    return Rf_ScalarLogical(is_a_RealDouble(b));
+    return call_basic_is_xxx(ext, is_a_RealDouble);
 }
 
 SEXP c_is_a_ComplexDouble(SEXP ext) {
-    check_basic_ptr(ext);
-    basic_struct* b = (basic_struct*) R_ExternalPtrAddr(ext);
-    return Rf_ScalarLogical(is_a_ComplexDouble(b));
+    return call_basic_is_xxx(ext, is_a_ComplexDouble);
 }
 
 SEXP c_is_a_RealMPFR(SEXP ext) {
-    check_basic_ptr(ext);
-    basic_struct* b = (basic_struct*) R_ExternalPtrAddr(ext);
-    return Rf_ScalarLogical(is_a_RealMPFR(b));
+    return call_basic_is_xxx(ext, is_a_RealMPFR);
 }
 
 SEXP c_is_a_ComplexMPC(SEXP ext) {
-    check_basic_ptr(ext);
-    basic_struct* b = (basic_struct*) R_ExternalPtrAddr(ext);
-    return Rf_ScalarLogical(is_a_ComplexMPC(b));
+    return call_basic_is_xxx(ext, is_a_ComplexMPC);
 }
 
 
 // Number  //===================================================================
 
 SEXP c_number_is_zero(SEXP ext) {
-    check_basic_ptr(ext);
-    basic_struct* b = (basic_struct*) R_ExternalPtrAddr(ext);
-    return Rf_ScalarLogical(number_is_zero(b));
+    return call_basic_is_xxx(ext, number_is_zero);
 }
 
 SEXP c_number_is_negative(SEXP ext) {
-    check_basic_ptr(ext);
-    basic_struct* b = (basic_struct*) R_ExternalPtrAddr(ext);
-    return Rf_ScalarLogical(number_is_negative(b));
+    return call_basic_is_xxx(ext, number_is_negative);
 }
 
 SEXP c_number_is_positive(SEXP ext) {
-    check_basic_ptr(ext);
-    basic_struct* b = (basic_struct*) R_ExternalPtrAddr(ext);
-    return Rf_ScalarLogical(number_is_positive(b));
+    return call_basic_is_xxx(ext, number_is_positive);
 }
 
 SEXP c_number_is_complex(SEXP ext) {
-    check_basic_ptr(ext);
-    basic_struct* b = (basic_struct*) R_ExternalPtrAddr(ext);
-    return Rf_ScalarLogical(number_is_complex(b));
+    return call_basic_is_xxx(ext, number_is_complex);
 }
 
 
