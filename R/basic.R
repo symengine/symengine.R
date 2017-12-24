@@ -58,7 +58,12 @@ if (FALSE) {
 ## Constant  ===================================================================
 
 #' @export
-Constant <- function (
+Constant <- function (name) {
+    new("Basic", api_make_const(name)) 
+}
+
+#' @export
+BuiltinConstant <- function (
     which = c(
         "zero",
         "one",
@@ -73,22 +78,11 @@ Constant <- function (
         "NegInf",
         "ComplexInf",
         "Nan"
-    ),
-    mk = NULL
+    )
 )
 {
-    if (missing(which)) {
-        if (is.null(mk))
-            stop("Missing both arguments ", sQuote("which"), " and ", sQuote("mk"))
-        return(new("Basic", api_make_const(mk)))
-    }
-    
     which <- match.arg(which)
-    if (!is.null(mk))
-        warning("Ignoring argument ", sQuote("mk"))
-    
-    ptr <- api_builtin_const(which = which)
-    new("Basic", ptr)
+    new("Basic", api_builtin_const(which))
 }
 
 ## Integer  ====================================================================
