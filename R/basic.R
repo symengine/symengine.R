@@ -199,4 +199,23 @@ setMethod("S", c(x = "formula"),
     }
 )
 
+## Hash and Eq  ================================================================
+
+#' @export
+Hash <- function (x) {
+    api_basic_hash(x)
+}
+
+#' @export
+Eq <- function (a, b) {
+    api_basic_eq(a, b)
+}
+
+#' @export
+Neq <- function (a, b) {
+    api_basic_neq(a, b)
+}
+
+
+
 

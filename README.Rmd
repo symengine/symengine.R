@@ -20,8 +20,7 @@ knitr::opts_chunk$set(
 
 This is an experiment to provide a R interface to the
 [SymEngine library](https://github.com/symengine/symengine).
-
-Not fully functional yet, but if you are interested, please contact
+It is still in progress, but if you are interested, please contact
 Jialin Ma <marlin-@gmx.cn> and Isuru Fernando <isuruf@gmail.com>.
 
 This project is expected to be a GSoC 2018 project under the organization
@@ -30,42 +29,289 @@ of The R Project for Statistical Computing.
 
 ## Installation
 
-Currently you need to have SymEngine library installed on your computer, please
-follow the instruction at https://github.com/symengine/symengine/, or do the following:
+Currently you need to manually compile and install
+[SymEngine](https://github.com/symengine/symengine/) on your computer first
+(Windows may not be supported yet).
+For example, with the following steps:
+
+First, you will need to install prerequisites and some optional dependencies.
+For example on Debian-based system:
 
 ```sh
-git clone git@github.com:symengine/symengine.git
+sudo apt-get install cmake libgmp-dev libmpfr-dev libmpc-dev binutils-dev
+```
+
+Second, download the source of symengine.
+
+```sh
+git clone git@github.com:symengine/symengine.git  # Download the source
 cd symengine
+```
+
+Then use `cmake` to configure the compilation options and installation path.
+SymEngine can be compiled with support of external libraries, such as mpfr,
+mpc, etc. See the full list of available `cmake` options at
+https://github.com/symengine/symengine/.
+For example, use the following command:
+
+```sh
+cmake -DCMAKE_INSTALL_PREFIX:PATH="/usr/local" \ # Default installation prefix
+    -DCMAKE_BUILD_TYPE=Debug \
+    -DWITH_SYMENGINE_ASSERT=ON \
+    -DWITH_MPFR=ON \
+    -DWITH_MPC=ON \
+    -DWITH_OPENMP=ON \
+    -DWITH_BFD=yes \
+    .
+```
+
+Then compile and install SymEngine to your computer with:
+
+```
 make
 sudo make install
 ```
 
-In the future, the SymEngine library may be contained in the package so that no
-external libraries will be needed.
+Once successful, install the R package from github with:
 
-Then install the R package from github with:
-
-```{r, eval = FALSE}
-# install.packages("devtools")
+```{r, eval=FALSE}
 devtools::install_github("Marlin-Na/symengine.R")
 ```
 
-If you run into problems installing the package, please let me know.
-
-
-## Example
-
-Here are some examples showing the currently available functionalities.
-
 ```{r}
 library(symengine)
-S("k*x + b")     # Parse a string to expression
-Integer(2^10)
-Integer(2^10) ^ 9L
-Integer(2^10) ^ 9L * Symbol("x")
-x <- Symbol("x")
-y <- Symbol("y")
-4L * (x + y) - 2L * x
 ```
 
-## TODO
+In the future, the SymEngine library may be contained in the package so that
+there will be no need to manually install it.
+
+If you run into problems installing the package, please let me know.
+
+## Usage
+
+### Symbol
+
+A symbol or variable can be constructed from character.
+
+```{r}
+(x <- Symbol("x"))
+(y <- Symbol("y"))
+x ^ y
+```
+
+### Integer, RealDouble, RealMPFR
+
+There are explicit constructors for such types:
+
+```{r}
+Integer(42L)
+RealDouble(base::pi)
+```
+
+For large integer and high-precision floating number that R can not hold,
+you can construct "Integer" or "RealMPFR" from character. For example:
+
+```{r}
+8615937169318
+as.integer(8615937169318)
+Integer("8615937169318")
+Integer("8615937169318") ^ 9L
+```
+
+```{r, eval=FALSE}
+# TODO, currently not available
+RealMPFR("3.1415926535897932384626433832795028841971693993751058209", bits = 70)
+```
+
+Comparing with the `mpfr` function in `Rmpfr` package:
+
+```{r}
+Rmpfr::mpfr("3.1415926535897932384626433832795028841971693993751058209", precbits = 70)
+```
+
+Or simply use the SymEngine parser instead of the explicit constructors:
+
+```{r}
+S("8615937169318")
+S("3.1415926535897932384626433832795028841971693993751058209")
+```
+
+### Complex, ComplexDouble and ComplexMPC
+
+There will be explicit constructors (TODO):
+
+```{r}
+```
+
+Or use the parser:
+
+```{r}
+S("6 + 9I")
+```
+
+Or use:
+
+```{r}
+6L + 9L * BuiltinConstant("I")
+```
+
+The `mpc` library is used for holding complex number with arbitrary precision,
+similar to `mpfr` library for floating number.
+
+```{r}
+S("2.3 + 23.9999999999999999999I")
+```
+
+### Constants
+
+For example:
+
+```{r}
+Constant("pi")
+sin(Constant("pi") / 2L)
+```
+
+### Generic Conversion and Parser
+
+As already showed in the above examples, `S` converts a R object to SymEngine object.
+When the input is a character, it will parse the expression to produce appropriate object.
+
+```{r}
+S(6L)
+S(4.2)
+```
+
+```{r}
+(x <- S("x"))
+(k <- S(~ k))          # Currently only work with "symbol"
+(b <- Constant("b"))
+S("k * x + b")
+k * x + b
+```
+
+```{r}
+S("pi")
+S("sin(pi)")
+```
+
+```{r}
+S("(tan(x) + sin(x))^2")
+S("a + 2 >= a")
+```
+
+### Substitue a Variable
+
+Substitute a variable with another one:
+
+```{r}
+x <- S("x")
+a <- S("a")
+(expr <- (tan(x) + sin(x) + a) ^ 2L)
+```
+
+```{r}
+subs(expr, "x", "a")
+subs(expr, "x", 3.1415926)
+subs(expr, "x", Constant("pi"))
+subs(expr, "x", Constant("pi") * 2L/3L)
+```
+
+### Expand an Expression
+
+```{r}
+expr
+expand(expr)
+```
+
+### Derivative
+
+```{r}
+expr
+diff(expr, "x")
+diff(expr, "a")
+```
+
+### Evaluate an Expression
+
+```{r}
+evalf(Constant("pi"), bits = 999)
+```
+
+### Object Equality and Hash
+
+```{r}
+Eq(x + y, S("x + y"))
+Neq(x + y, S("x + y"))
+```
+
+```{r}
+tan(x)
+sin(x)/cos(x)
+Eq(tan(x), sin(x)/cos(x)) # Different internal representation
+```
+
+```{r}
+Hash(tan(x))
+Hash(sin(x)/cos(x))
+```
+
+### N Theory
+
+TODO
+
+### FunctionSymbol
+
+TODO
+
+```{r}
+S("f(x, y)")
+```
+
+### Lambdify
+
+TODO
+
+### Vector
+
+TODO
+
+### Matrix (DenseMatrix and SparseMatrix)
+
+TODO
+
+
+## Under the Hood
+
+The SymEngine objects are implemented with "externalptr":
+
+```{r}
+x <- Symbol(~ x)
+str(x)
+```
+
+See "src/interface.c" for the C code that wraps the symengine api.
+
+
+## Related R Packages
+
+- There are several functions in base R for defferentiation, integration, solving
+  system of equations, etc. E.g. `solve`, `stats::D`, `stats::deriv`, `stats::integrate`,
+  `stats::numericDeriv`.
+
+- R package [`Deriv`](https://github.com/sgsokol/Deriv) for symbolic differentiation,
+  it allows user to supply custom rules for differentiation.
+- R package `numDeriv` for calculating numerical approximations to derivatives.
+
+- R package `gmp` and `Rmpfr` provide multiple precision arithmetic and floating
+  point operations. They also include some special functions, e.g. `Rmpfr::integrateR`
+  for numerical integration.
+
+- R package `mpc` available at [R forge](http://mpc.r-forge.r-project.org/). It
+  provides multiple precision arithmetic for complex numbers.
+
+- R package [`rSymPy`](https://cran.r-project.org/web/packages/rSymPy/index.html)
+  provides an interface to 'SymPy' library in python via rJava.
+- R package [`Ryacas`](https://cran.r-project.org/web/packages/Ryacas/index.html)
+  provides an interface to the 'Yacas' computer algebra system.
+  It is easier to install compared to `rSymPy`.
+
