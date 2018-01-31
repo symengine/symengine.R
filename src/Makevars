@@ -1,2 +1,1 @@
-PKG_LIBS= -lgmp -lsymengine 
-PKG_CPPFLAGS= -I/usr/include/ -I/usr/local/include
+PKG_LIBS=`"${R_HOME}/bin/R" --vanilla --slave -e 'Rlibsymengine::PkgLibsFlags()'`
