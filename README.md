@@ -12,44 +12,21 @@ This project is expected to be a GSoC 2018 project under the organization of The
 Installation
 ------------
 
-Currently you need to manually compile and install [SymEngine](https://github.com/symengine/symengine/) on your computer first (Windows may not be supported yet). For example, with the following steps:
+Note: It is not supported on Windows yet.
 
-First, you will need to install prerequisites and some optional dependencies. For example on Debian-based system:
-
-``` sh
-sudo apt-get install cmake libgmp-dev libmpfr-dev libmpc-dev binutils-dev
-```
-
-Second, download the source of symengine.
+First, ensure you have some prerequisites installed, for example on Debian-based system:
 
 ``` sh
-git clone git@github.com:symengine/symengine.git  # Download the source
-cd symengine
+sudo apt-get install cmake libgmp-dev libmpfr-dev libmpc-dev
 ```
 
-Then use `cmake` to configure the compilation options and installation path. SymEngine can be compiled with support of external libraries, such as mpfr, mpc, etc. See the full list of available `cmake` options at <https://github.com/symengine/symengine/>. For example, use the following command:
-
-``` sh
-cmake -DCMAKE_INSTALL_PREFIX:PATH="/usr/local" \ # Default installation prefix
-    -DCMAKE_BUILD_TYPE=Debug \
-    -DWITH_SYMENGINE_ASSERT=ON \
-    -DWITH_MPFR=ON \
-    -DWITH_MPC=ON \
-    -DWITH_OPENMP=ON \
-    -DWITH_BFD=yes \
-    .
-```
-
-Then compile and install SymEngine to your computer with:
-
-    make
-    sudo make install
-
-Once successful, install the R package from github with:
+Then in R
 
 ``` r
 devtools::install_github("Marlin-Na/symengine.R")
 ```
+
+Please report any problem installing the package on your system.
 
 ``` r
 library(symengine)
@@ -65,10 +42,6 @@ library(symengine)
 #> 
 #>     diff
 ```
-
-In the future, the SymEngine library may be contained in the package so that there will be no need to manually install it.
-
-If you run into problems installing the package, please let me know.
 
 Usage
 -----
