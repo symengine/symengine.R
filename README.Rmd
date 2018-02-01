@@ -44,6 +44,10 @@ Then in R
 devtools::install_github("Marlin-Na/symengine.R")
 ```
 
+This package has a build-time dependency of the
+[Rlibsymengine](https://github.com/marlin-na/Rlibsymengine) package,
+which should be automatically installed using devtools above.
+
 Please report any problem installing the package on your system.
 
 ```{r}
