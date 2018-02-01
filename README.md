@@ -309,3 +309,16 @@ Related R Packages
 
 -   R package [`rSymPy`](https://cran.r-project.org/web/packages/rSymPy/index.html) provides an interface to 'SymPy' library in python via rJava.
 -   R package [`Ryacas`](https://cran.r-project.org/web/packages/Ryacas/index.html) provides an interface to the 'Yacas' computer algebra system. It is easier to install compared to `rSymPy`.
+
+Notes on some dependencies
+--------------------------
+
+The SymEngine library can optionally depend on some external libraries, which is configured by CMake, see the list of CMake options in [README of SymEngine](https://github.com/symengine/symengine/README.md) and the [configure script](https://github.com/Marlin-Na/Rlibsymengine/blob/master/configure) of Rlibsymengine.
+
+A few notes:
+
+1.  `GMP` (GNU Multiple Precision Arithmetic Library) is a C library that can be used to store and do arithmetic calculation with big integers and rationals. It has an R interface ([gmp](https://github.com/cran/gmp/blob/master/DESCRIPTION) package).
+
+2.  `mpfr` (Multiple Precision Floating-Point Reliable) is a C library that depends on the `GMP` library and is used for arbitrary precision floating number arithmetic calculations. It has an R interface ([Rmpfr](https://github.com/cran/Rmpfr) package). This is an optional dependency for SymEngine.
+
+3.  `mpc` () is a C library that extends the `mpfr` library for the arithmetic of complex numbers with arbitrarily precision. There is a R package `mpc` which is not on CRAN, but [available](http://mpc.r-forge.r-project.org/) at R forge.
