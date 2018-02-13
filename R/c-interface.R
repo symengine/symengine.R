@@ -63,25 +63,19 @@ api_basic_type <- function (ptr) {
 
 ## Constants  ==================================================================
 
-api_builtin_const <- function (which) {
-    id <- switch(which,
-        "zero"         =  1L  ,
-        "one"          =  2L  ,
-        "minus_one"    =  3L  ,
-        "I"            =  4L  ,
-        "pi"           =  5L  ,
-        "E"            =  6L  ,
-        "EulerGamma"   =  7L  ,
-        "Catalan"      =  8L  ,
-        "GoldenRatio"  =  9L  ,
-        "Inf"          = 10L  ,
-        "NegInf"       = 11L  ,
-        "ComplexInf"   = 12L  ,
-        "Nan"          = 13L  ,
-        stop("Not a builtin constant")
-    )
-    .Call("c_builtin_const", id)
-}
+api_const_zero             <- function () .Call("c_const_zero")
+api_const_one              <- function () .Call("c_const_one")
+api_const_minus_one        <- function () .Call("c_const_minus_one")
+api_const_I                <- function () .Call("c_const_I")
+api_const_pi               <- function () .Call("c_const_pi")
+api_const_E                <- function () .Call("c_const_E")
+api_const_EulerGamma       <- function () .Call("c_const_EulerGamma")
+api_const_Catalan          <- function () .Call("c_const_Catalan")
+api_const_GoldenRatio      <- function () .Call("c_const_GoldenRatio")
+api_const_infinity         <- function () .Call("c_const_infinity")
+api_const_neginfinity      <- function () .Call("c_const_neginfinity")
+api_const_complex_infinity <- function () .Call("c_const_complex_infinity")
+api_const_nan              <- function () .Call("c_const_nan")
 
 api_make_const <- function (string) {
     .Call("c_make_const", string)

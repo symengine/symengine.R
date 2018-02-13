@@ -99,26 +99,26 @@ static inline void check_basic_ptr(SEXP ext) {
 
 SEXP c_new_heap_symbol(SEXP RString) {
     const char* str_symbol = CHAR(Rf_asChar(RString));
-    
+
     //REprintf("Debug> c_new_heap_symbol: The extracted string is '%s'\n", str_symbol);
 
     SEXP          outptr = PROTECT(new_ptr_emptybasic());
     basic_struct* symbol = (basic_struct*) R_ExternalPtrAddr(outptr);
 
     hold_cwrapper_exception(symbol_set(symbol, str_symbol));
-    
+
     UNPROTECT(1);
     return outptr;
 }
 
 SEXP c_parse_str(SEXP RString) {
     const char* str = CHAR(Rf_asChar(RString));
-    
+
     SEXP          outptr = PROTECT(new_ptr_emptybasic());
     basic_struct* s      = (basic_struct*) R_ExternalPtrAddr(outptr);
 
     hold_cwrapper_exception(basic_parse2(s, str, 1));
-    
+
     UNPROTECT(1);
     return outptr;
 }
@@ -128,81 +128,79 @@ SEXP c_parse_str(SEXP RString) {
 
 SEXP c_basic_str(SEXP ext) {
     check_basic_ptr(ext);
-    
+
     basic_struct* symbol = (basic_struct*) R_ExternalPtrAddr(ext);
-    
+
     char* str = basic_str(symbol);
     SEXP out = PROTECT(Rf_mkString(str));
     basic_str_free(str);
-    
+
     UNPROTECT(1);
     return(out);
 }
 
 SEXP c_basic_str_julia(SEXP ext) {
     check_basic_ptr(ext);
-    
+
     basic_struct* symbol = (basic_struct*) R_ExternalPtrAddr(ext);
-    
+
     char* str = basic_str_julia(symbol);
     SEXP out = PROTECT(Rf_mkString(str));
     basic_str_free(str);
-    
+
     UNPROTECT(1);
     return(out);
 }
 
 SEXP c_basic_type(SEXP ext) {
     check_basic_ptr(ext);
-    
+
     basic_struct* symbol = (basic_struct*) R_ExternalPtrAddr(ext);
-    
+
     TypeID typeid = basic_get_type(symbol);
-    
+
     char* classname = basic_get_class_from_id(typeid);
     SEXP out = PROTECT(Rf_mkString(classname));
-    
+
     UNPROTECT(1);
     return out;
 }
 
 // Constants //=================================================================
 
-SEXP c_builtin_const(SEXP id_which) {
-    int id = Rf_asInteger(id_which);
-    
+static inline
+SEXP call_get_const(void (* func)(basic)) {
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
-    
-    switch(id) {
-        case  1: basic_const_zero             (s); break;
-        case  2: basic_const_one              (s); break;
-        case  3: basic_const_minus_one        (s); break;
-        case  4: basic_const_I                (s); break;
-        case  5: basic_const_pi               (s); break;
-        case  6: basic_const_E                (s); break;
-        case  7: basic_const_EulerGamma       (s); break;
-        case  8: basic_const_Catalan          (s); break;
-        case  9: basic_const_GoldenRatio      (s); break;
-        case 10: basic_const_infinity         (s); break;
-        case 11: basic_const_neginfinity      (s); break;
-        case 12: basic_const_complex_infinity (s); break;
-        case 13: basic_const_nan              (s); break;
-        default: Rf_error("<internal> Unrecognized id for constant");
-    }
-    
+
+    func(s);
+
     UNPROTECT(1);
     return out;
 }
+
+SEXP c_const_zero()             { return call_get_const(basic_const_zero); }
+SEXP c_const_one()              { return call_get_const(basic_const_one); }
+SEXP c_const_minus_one()        { return call_get_const(basic_const_minus_one); }
+SEXP c_const_I()                { return call_get_const(basic_const_I); }
+SEXP c_const_pi()               { return call_get_const(basic_const_pi); }
+SEXP c_const_E()                { return call_get_const(basic_const_E); }
+SEXP c_const_EulerGamma()       { return call_get_const(basic_const_EulerGamma); }
+SEXP c_const_Catalan()          { return call_get_const(basic_const_Catalan); }
+SEXP c_const_GoldenRatio()      { return call_get_const(basic_const_GoldenRatio); }
+SEXP c_const_infinity()         { return call_get_const(basic_const_infinity); }
+SEXP c_const_neginfinity()      { return call_get_const(basic_const_neginfinity); }
+SEXP c_const_complex_infinity() { return call_get_const(basic_const_complex_infinity); }
+SEXP c_const_nan()              { return call_get_const(basic_const_nan); }
 
 SEXP c_make_const(SEXP string) {
     const char* str = CHAR(Rf_asChar(string));
 
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
-    
+
     basic_const_set(s, str);
-    
+
     UNPROTECT(1);
     return out;
 }
@@ -384,7 +382,7 @@ SEXP c_basic_sub(SEXP exta, SEXP extb) {
     basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
     hold_cwrapper_exception(basic_sub(s, a, b));
-    
+
     UNPROTECT(1);
     return out;
 }
@@ -410,7 +408,7 @@ SEXP c_basic_div(SEXP exta, SEXP extb) {
     basic_struct* b   = (basic_struct*) R_ExternalPtrAddr(extb);
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
-    
+
     hold_cwrapper_exception(basic_div(s, a, b));
 
     UNPROTECT(1);
@@ -424,7 +422,7 @@ SEXP c_basic_pow(SEXP exta, SEXP extb) {
     basic_struct* b   = (basic_struct*) R_ExternalPtrAddr(extb);
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
-    
+
     hold_cwrapper_exception(basic_pow(s, a, b));
 
     UNPROTECT(1);
@@ -805,5 +803,3 @@ SEXP c_basic_evalf(SEXP extb, SEXP bits, SEXP real) {
     UNPROTECT(1);
     return out;
 }
-
-
