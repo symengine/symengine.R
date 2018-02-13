@@ -62,29 +62,6 @@ Constant <- function (name) {
     new("Basic", api_make_const(name)) 
 }
 
-#' @export
-BuiltinConstant <- function (
-    which = c(
-        "zero",
-        "one",
-        "minus_one",
-        "I",
-        "pi",
-        "E",
-        "EulerGamma",
-        "Catalan",
-        "GoldenRatio",
-        "Inf",
-        "NegInf",
-        "ComplexInf",
-        "Nan"
-    )
-)
-{
-    which <- match.arg(which)
-    new("Basic", api_builtin_const(which))
-}
-
 ## Integer  ====================================================================
 
 #' @export
