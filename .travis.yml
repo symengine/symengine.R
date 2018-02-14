@@ -14,11 +14,11 @@ addons:
 
 env:
   # Debug builds:
-  - R_VERSION="3.3" BUILD_TYPE="Debug" WITH_BFD="yes"
-  - R_VERSION="3.4" BUILD_TYPE="Debug" WITH_BFD="yes"
+  #- R_VERSION="3.3" BUILD_TYPE="Debug" WITH_BFD="yes"
+  #- R_VERSION="3.4" BUILD_TYPE="Debug" WITH_BFD="yes"
 
   # Release builds:
-  - R_VERSION="3.3"
+  #- R_VERSION="3.3"
   - R_VERSION="3.4"
 
 before_install:
@@ -57,6 +57,7 @@ install:
 script:
   - R CMD build .
   - R CMD check *.tar.gz
+  - cat $R_SOURCE_DIR/symengine.Rcheck/00install.out || exit 0
 
 notifications:
   email: false
