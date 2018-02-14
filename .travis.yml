@@ -33,6 +33,7 @@ install:
   - export TEST_CPP="no"
   - export MAKEFLAGS="-j2"
 
+  - cd $HOME
   - git clone https://github.com/symengine/symengine symengine-cpp
   - cd symengine-cpp
   - export SOURCE_DIR=`pwd`
@@ -50,8 +51,8 @@ install:
 
   # Setup travis for R
   - conda install r-base=$R_VERSION r-gmp r-crayon r-testthat
-  - source activate
   - cd $R_SOURCE_DIR
+  - export PATH="$our_install_dir:$PATH"
 
 script:
   - R CMD build .
