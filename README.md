@@ -122,8 +122,8 @@ S("6 + 9I")
 Or use:
 
 ``` r
-6L + 9L * BuiltinConstant("I")
-#> (Complex)    6 + 9*I
+6L + 9L * Constant("I")
+#> (Add)    6 + 9*i
 ```
 
 The `mpc` library is used for holding complex number with arbitrary precision, similar to `mpfr` library for floating number.
