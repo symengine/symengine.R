@@ -49,7 +49,7 @@ install:
   - unset MAKEFLAGS
 
   # Setup travis for R
-  - conda install "r-base=$R_VERSION r-gmp r-crayon r-testthat"
+  - conda install r-base=$R_VERSION r-gmp r-crayon r-testthat
   - source activate
   - cd $R_SOURCE_DIR
 
