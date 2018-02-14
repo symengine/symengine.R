@@ -1,19 +1,57 @@
-# R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
+language: cpp
+os:
+  - linux
+  #- osx
+sudo: false
+osx_image: xcode6.4
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - binutils-dev
+    - g++-4.7
 
-language: R
-sudo: required
-cache: packages
+env:
+  # Debug builds:
+  - R_VERSION="3.3" BUILD_TYPE="Debug" WITH_BFD="yes"
+  - R_VERSION="3.4" BUILD_TYPE="Debug" WITH_BFD="yes"
 
-apt_packages:
-  - libmpc-dev
-  - libmpfr-dev
+  # Release builds:
+  - R_VERSION="3.3"
+  - R_VERSION="3.4"
 
-before_script:
-  - predir=`pwd`
-  - cd /tmp
-  - git clone https://github.com/symengine/symengine.git
-  - cd symengine
-  - cmake -DWITH_SYMENGINE_ASSERT=ON -DWITH_MPFR=ON -DCMAKE_BUILD_TYPE=Debug .
-  - make
-  - sudo make install
-  - cd $predir
+before_install:
+- |
+   if [ "${TRAVIS_OS_NAME}" == "osx" ]; then
+     command curl -sSL https://rvm.io/mpapis.asc | gpg --import -;
+     rvm get head || true
+   fi
+
+install:
+  - export R_SOURCE_DIR=`pwd`
+  - export TEST_CPP="no"
+  - export MAKEFLAGS="-j2"
+
+  - git clone https://github.com/symengine/symengine symengine-cpp
+  - cd symengine-cpp
+  - export SOURCE_DIR=`pwd`
+  - git checkout `cat ../symengine_version.txt`
+  - cd ..
+
+  # Setup travis for C++ library
+  - cd $SOURCE_DIR
+  - source bin/install_travis.sh
+
+  # Build C++ library
+  - cd $SOURCE_DIR
+  - bin/test_travis.sh
+  - unset MAKEFLAGS
+
+  # Setup travis for R
+  - conda install "r-base=$R_VERSION"
+  - source activate
+
+notifications:
+  email: false
+
