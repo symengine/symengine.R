@@ -1,1 +1,2 @@
-PKG_LIBS=`"${R_HOME}/bin/R" --vanilla --slave -e 'Rlibsymengine::PkgLibsFlags()'`
+PKG_LIBS=`cmake --find-package -DNAME=SymEngine -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=LINK`
+
