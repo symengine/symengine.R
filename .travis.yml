@@ -16,11 +16,15 @@ addons:
     - texlive-fonts-extra
 
 env:
-  # Debug builds:
-  - R_VERSION="3.4" BUILD_TYPE="Debug" WITH_BFD="yes" WITH_MPC="yes"
+  matrix:
+    - R_VERSION="3.4" WITH_MPC="yes"
 
-  # Release builds:
-  - R_VERSION="3.4" WITH_MPC="yes"
+matrix:
+  include:
+    - env: R_VERSION="3.4" BUILD_TYPE="Debug" WITH_BFD="yes" WITH_MPC="yes"
+      os: linux
+    - env: R_VERSION="3.4" BUILD_TYPE="Debug" WITH_MPC="yes"
+      os: osx
 
 before_install:
 - |
