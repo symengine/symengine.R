@@ -34,7 +34,7 @@ install:
   - export MAKEFLAGS="-j2"
 
   # R packages to install using conda
-  - export conda_pkgs="r-base=$R_VERSION r-gmp r-crayon r-testthat
+  - export conda_pkgs="r-base=$R_VERSION libgfortran r-gmp r-crayon r-testthat"
 
   - cd $HOME
   - git clone https://github.com/symengine/symengine symengine-cpp
@@ -53,12 +53,17 @@ install:
   - unset MAKEFLAGS
 
   # Setup travis for R
-  - cd $R_SOURCE_DIR
   - export PATH="$our_install_dir:$PATH"
+  # r-base from conda needs a libgfortran
+  - cd $our_install_dir/lib
+  - ln -s libgfortran.so.3 libgfortran.so
+
+  - cd $R_SOURCE_DIR
 
 script:
   - R CMD build .
   - R CMD check *.tar.gz
+  - ls $our_install_dir/lib
   - cat $R_SOURCE_DIR/symengine.Rcheck/00install.out || exit 0
 
 notifications:
