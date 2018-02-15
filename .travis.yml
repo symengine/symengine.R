@@ -12,6 +12,7 @@ addons:
     - binutils-dev
     - g++-4.7
     - texlive-latex-extra
+    - texlive-fonts-extra
 
 env:
   # Debug builds:
