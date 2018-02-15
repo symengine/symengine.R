@@ -38,6 +38,12 @@ install:
   - if [ "${TRAVIS_OS_NAME}" == "osx" ]; then
         export CC=clang;
         export CXX=clang++;
+        curl -fLo "/tmp/BasicTeX.pkg" --retry 3 http://mirror.ctan.org/systems/mac/mactex/BasicTeX.pkg;
+        sudo installer -pkg "/tmp/BasicTeX.pkg" -target /;
+        rm /tmp/BasicTeX.pkg;
+        export PATH="/usr/texbin:/Library/TeX/texbin:$PATH";
+        sudo tlmgr update --self;
+        sudo tlmgr install inconsolata upquote courier courier-scaled helvetic;
     fi
 
   # R packages to install using conda
