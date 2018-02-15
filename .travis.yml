@@ -35,6 +35,10 @@ install:
   - export R_SOURCE_DIR=`pwd`
   - export TEST_CPP="no"
   - export MAKEFLAGS="-j2"
+  - if [ "${TRAVIS_OS_NAME}" == "osx" ]; then
+        export CC=clang;
+        export CXX=clang++;
+    fi
 
   # R packages to install using conda
   - export conda_pkgs="r-base=$R_VERSION libgfortran r-gmp r-crayon r-testthat"
