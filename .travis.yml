@@ -14,7 +14,7 @@ addons:
 r:
   - 3.4
 
-#env:
+# env:
   # Debug builds:
   #- R_VERSION="3.3" BUILD_TYPE="Debug" WITH_BFD="yes"
   #- R_VERSION="3.4" BUILD_TYPE="Debug" WITH_BFD="yes"
