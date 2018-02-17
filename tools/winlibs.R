@@ -1,4 +1,6 @@
 
+stopifnot(file.exists("../DESCRIPTION"))
+
 if (!file.exists("../windows/usr/include/symengine/cwrapper.h")) {
     machine <- Sys.info()[["machine"]]
 
