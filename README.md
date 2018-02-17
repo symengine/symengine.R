@@ -3,7 +3,7 @@
 symengine
 =========
 
-[![Travis-CI Build Status](https://travis-ci.org/Marlin-Na/symengine.R.svg?branch=master)](https://travis-ci.org/Marlin-Na/symengine.R)
+[![Travis-CI Build Status](https://travis-ci.org/symengine/symengine.R.svg?branch=master)](https://travis-ci.org/symengine/symengine.R)
 
 This is an experiment to provide a R interface to the [SymEngine library](https://github.com/symengine/symengine). It is still in progress, but if you are interested, please contact Jialin Ma <marlin-@gmx.cn> and Isuru Fernando <isuruf@gmail.com>.
 
