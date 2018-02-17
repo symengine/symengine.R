@@ -13,7 +13,7 @@ if (!file.exists("../windows/usr/include/symengine/cwrapper.h")) {
 
     download.file(link, "lib.tar.bz2", quiet = FALSE)
     dir.create("../windows")
-    untar("lib.tar.bz2", exdir = "../windows")
+    untar("lib.tar.bz2", exdir = "../windows", tar = "internal")
     unlink("lib.tar.bz2")
 }
 
