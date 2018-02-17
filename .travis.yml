@@ -1,9 +1,10 @@
-language: cpp
+language: r
+cache: packages
+warnings_are_errors: false
 os:
   - linux
   - osx
 sudo: false
-osx_image: xcode6.4
 addons:
   apt:
     sources:
@@ -11,20 +12,17 @@ addons:
     packages:
     - binutils-dev
     - g++-4.7
-    - texlive-latex-extra
-    - texlive-fonts-recommended
-    - texlive-fonts-extra
+r:
+  - 3.4
 
-env:
-  matrix:
-    - R_VERSION="3.4" WITH_MPC="yes"
+# env:
+  # Debug builds:
+  #- R_VERSION="3.3" BUILD_TYPE="Debug" WITH_BFD="yes"
+  #- R_VERSION="3.4" BUILD_TYPE="Debug" WITH_BFD="yes"
 
-matrix:
-  include:
-    - env: R_VERSION="3.4" BUILD_TYPE="Debug" WITH_BFD="yes" WITH_MPC="yes"
-      os: linux
-    - env: R_VERSION="3.4" BUILD_TYPE="Debug" WITH_MPC="yes"
-      os: osx
+  # Release builds:
+  #- R_VERSION="3.3"
+  #- R_VERSION="3.4"
 
 before_install:
 - |
@@ -33,53 +31,31 @@ before_install:
      rvm get head || true
    fi
 
-install:
-  - export R_SOURCE_DIR=`pwd`
-  - export TEST_CPP="no"
-  - export MAKEFLAGS="-j2"
-  - if [ "${TRAVIS_OS_NAME}" == "osx" ]; then
-        export CC=clang;
-        export CXX=clang++;
-        curl -fLo "/tmp/BasicTeX.pkg" --retry 3 http://mirror.ctan.org/systems/mac/mactex/BasicTeX.pkg;
-        sudo installer -pkg "/tmp/BasicTeX.pkg" -target /;
-        rm /tmp/BasicTeX.pkg;
-        export PATH="/usr/texbin:/Library/TeX/texbin:$PATH";
-        sudo tlmgr update --self;
-        sudo tlmgr install inconsolata upquote courier courier-scaled helvetic;
-    fi
+- export R_SOURCE_DIR=`pwd`
+- export TEST_CPP="no"
+- export MAKEFLAGS="-j2"
+- if [ "${TRAVIS_OS_NAME}" == "osx" ]; then
+    export CC=clang;
+    export CXX=clang++;
+  fi
 
-  # R packages to install using conda
-  - export conda_pkgs="r-base=$R_VERSION libgfortran r-gmp r-crayon r-testthat"
+- cd $HOME
+- git clone https://github.com/symengine/symengine symengine-cpp
+- cd symengine-cpp
+- export SOURCE_DIR=`pwd`
+- git checkout `cat ../symengine_version.txt`
+- cd ..
 
-  - cd $HOME
-  - git clone https://github.com/symengine/symengine symengine-cpp
-  - cd symengine-cpp
-  - export SOURCE_DIR=`pwd`
-  - git checkout `cat ../symengine_version.txt`
-  - cd ..
+# Setup travis for C++ library
+- cd $SOURCE_DIR
+- source bin/install_travis.sh
 
-  # Setup travis for C++ library
-  - cd $SOURCE_DIR
-  - source bin/install_travis.sh
+# Build C++ library
+- cd $SOURCE_DIR
+- bin/test_travis.sh
+- unset MAKEFLAGS
 
-  # Build C++ library
-  - cd $SOURCE_DIR
-  - bin/test_travis.sh
-  - unset MAKEFLAGS
-
-  # Setup travis for R
-  - export PATH="$our_install_dir:$PATH"
-  # r-base from conda needs a libgfortran
-  - cd $our_install_dir/lib
-  - ln -s libgfortran.so.3 libgfortran.so
-
-  - cd $R_SOURCE_DIR
-
-script:
-  - R CMD build .
-  - R CMD check *.tar.gz
-  - cat $R_SOURCE_DIR/symengine.Rcheck/00check.log || exit 0
-  - cat $R_SOURCE_DIR/symengine.Rcheck/00install.out || exit 0
+- cd $R_SOURCE_DIR
 
 notifications:
   email: false
