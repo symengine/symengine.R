@@ -91,4 +91,42 @@ SEXP sexp_basic_const(SEXP string) {
 }
 
 
+static inline
+SEXP call_get_const(void (* func)(basic)) {
+    SEXP          out = PROTECT(sexp_basic());
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
+
+    func(s);
+
+    UNPROTECT(1);
+    return out;
+}
+
+// [[Rcpp::export(".basic_const_zero")]]
+SEXP sexp_const_zero()             { return call_get_const(basic_const_zero); }
+// [[Rcpp::export(".basic_const_one")]]
+SEXP sexp_const_one()              { return call_get_const(basic_const_one); }
+// [[Rcpp::export(".basic_const_minus_one")]]
+SEXP sexp_const_minus_one()        { return call_get_const(basic_const_minus_one); }
+// [[Rcpp::export(".basic_const_I")]]
+SEXP sexp_const_I()                { return call_get_const(basic_const_I); }
+// [[Rcpp::export(".basic_const_pi")]]
+SEXP sexp_const_pi()               { return call_get_const(basic_const_pi); }
+// [[Rcpp::export(".basic_const_E")]]
+SEXP sexp_const_E()                { return call_get_const(basic_const_E); }
+// [[Rcpp::export(".basic_const_EulerGamma")]]
+SEXP sexp_const_EulerGamma()       { return call_get_const(basic_const_EulerGamma); }
+// [[Rcpp::export(".basic_const_Catalan")]]
+SEXP sexp_const_Catalan()          { return call_get_const(basic_const_Catalan); }
+// [[Rcpp::export(".basic_const_GoldenRatio")]]
+SEXP sexp_const_GoldenRatio()      { return call_get_const(basic_const_GoldenRatio); }
+// [[Rcpp::export(".basic_const_infinity")]]
+SEXP sexp_const_infinity()         { return call_get_const(basic_const_infinity); }
+// [[Rcpp::export(".basic_const_neginfinity")]]
+SEXP sexp_const_neginfinity()      { return call_get_const(basic_const_neginfinity); }
+// [[Rcpp::export(".basic_const_complex_infinity")]]
+SEXP sexp_const_complex_infinity() { return call_get_const(basic_const_complex_infinity); }
+// [[Rcpp::export(".basic_const_nan")]]
+SEXP sexp_const_nan()              { return call_get_const(basic_const_nan); }
+
 

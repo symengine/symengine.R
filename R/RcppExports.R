@@ -25,6 +25,58 @@
     .Call('_symengine_sexp_basic_const', PACKAGE = 'symengine', string)
 }
 
+.basic_const_zero <- function() {
+    .Call('_symengine_sexp_const_zero', PACKAGE = 'symengine')
+}
+
+.basic_const_one <- function() {
+    .Call('_symengine_sexp_const_one', PACKAGE = 'symengine')
+}
+
+.basic_const_minus_one <- function() {
+    .Call('_symengine_sexp_const_minus_one', PACKAGE = 'symengine')
+}
+
+.basic_const_I <- function() {
+    .Call('_symengine_sexp_const_I', PACKAGE = 'symengine')
+}
+
+.basic_const_pi <- function() {
+    .Call('_symengine_sexp_const_pi', PACKAGE = 'symengine')
+}
+
+.basic_const_E <- function() {
+    .Call('_symengine_sexp_const_E', PACKAGE = 'symengine')
+}
+
+.basic_const_EulerGamma <- function() {
+    .Call('_symengine_sexp_const_EulerGamma', PACKAGE = 'symengine')
+}
+
+.basic_const_Catalan <- function() {
+    .Call('_symengine_sexp_const_Catalan', PACKAGE = 'symengine')
+}
+
+.basic_const_GoldenRatio <- function() {
+    .Call('_symengine_sexp_const_GoldenRatio', PACKAGE = 'symengine')
+}
+
+.basic_const_infinity <- function() {
+    .Call('_symengine_sexp_const_infinity', PACKAGE = 'symengine')
+}
+
+.basic_const_neginfinity <- function() {
+    .Call('_symengine_sexp_const_neginfinity', PACKAGE = 'symengine')
+}
+
+.basic_const_complex_infinity <- function() {
+    .Call('_symengine_sexp_const_complex_infinity', PACKAGE = 'symengine')
+}
+
+.basic_const_nan <- function() {
+    .Call('_symengine_sexp_const_nan', PACKAGE = 'symengine')
+}
+
 .symengine_ascii_art <- function() {
     .Call('_symengine_sexp_symengine_ascii_art', PACKAGE = 'symengine')
 }

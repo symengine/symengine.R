@@ -71,6 +71,136 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// sexp_const_zero
+SEXP sexp_const_zero();
+RcppExport SEXP _symengine_sexp_const_zero() {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    rcpp_result_gen = Rcpp::wrap(sexp_const_zero());
+    return rcpp_result_gen;
+END_RCPP
+}
+// sexp_const_one
+SEXP sexp_const_one();
+RcppExport SEXP _symengine_sexp_const_one() {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    rcpp_result_gen = Rcpp::wrap(sexp_const_one());
+    return rcpp_result_gen;
+END_RCPP
+}
+// sexp_const_minus_one
+SEXP sexp_const_minus_one();
+RcppExport SEXP _symengine_sexp_const_minus_one() {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    rcpp_result_gen = Rcpp::wrap(sexp_const_minus_one());
+    return rcpp_result_gen;
+END_RCPP
+}
+// sexp_const_I
+SEXP sexp_const_I();
+RcppExport SEXP _symengine_sexp_const_I() {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    rcpp_result_gen = Rcpp::wrap(sexp_const_I());
+    return rcpp_result_gen;
+END_RCPP
+}
+// sexp_const_pi
+SEXP sexp_const_pi();
+RcppExport SEXP _symengine_sexp_const_pi() {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    rcpp_result_gen = Rcpp::wrap(sexp_const_pi());
+    return rcpp_result_gen;
+END_RCPP
+}
+// sexp_const_E
+SEXP sexp_const_E();
+RcppExport SEXP _symengine_sexp_const_E() {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    rcpp_result_gen = Rcpp::wrap(sexp_const_E());
+    return rcpp_result_gen;
+END_RCPP
+}
+// sexp_const_EulerGamma
+SEXP sexp_const_EulerGamma();
+RcppExport SEXP _symengine_sexp_const_EulerGamma() {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    rcpp_result_gen = Rcpp::wrap(sexp_const_EulerGamma());
+    return rcpp_result_gen;
+END_RCPP
+}
+// sexp_const_Catalan
+SEXP sexp_const_Catalan();
+RcppExport SEXP _symengine_sexp_const_Catalan() {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    rcpp_result_gen = Rcpp::wrap(sexp_const_Catalan());
+    return rcpp_result_gen;
+END_RCPP
+}
+// sexp_const_GoldenRatio
+SEXP sexp_const_GoldenRatio();
+RcppExport SEXP _symengine_sexp_const_GoldenRatio() {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    rcpp_result_gen = Rcpp::wrap(sexp_const_GoldenRatio());
+    return rcpp_result_gen;
+END_RCPP
+}
+// sexp_const_infinity
+SEXP sexp_const_infinity();
+RcppExport SEXP _symengine_sexp_const_infinity() {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    rcpp_result_gen = Rcpp::wrap(sexp_const_infinity());
+    return rcpp_result_gen;
+END_RCPP
+}
+// sexp_const_neginfinity
+SEXP sexp_const_neginfinity();
+RcppExport SEXP _symengine_sexp_const_neginfinity() {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    rcpp_result_gen = Rcpp::wrap(sexp_const_neginfinity());
+    return rcpp_result_gen;
+END_RCPP
+}
+// sexp_const_complex_infinity
+SEXP sexp_const_complex_infinity();
+RcppExport SEXP _symengine_sexp_const_complex_infinity() {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    rcpp_result_gen = Rcpp::wrap(sexp_const_complex_infinity());
+    return rcpp_result_gen;
+END_RCPP
+}
+// sexp_const_nan
+SEXP sexp_const_nan();
+RcppExport SEXP _symengine_sexp_const_nan() {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    rcpp_result_gen = Rcpp::wrap(sexp_const_nan());
+    return rcpp_result_gen;
+END_RCPP
+}
 // sexp_symengine_ascii_art
 SEXP sexp_symengine_ascii_art();
 RcppExport SEXP _symengine_sexp_symengine_ascii_art() {
@@ -159,6 +289,19 @@ static const R_CallMethodDef CallEntries[] = {
     {"_symengine_sexp_basic_symbol", (DL_FUNC) &_symengine_sexp_basic_symbol, 1},
     {"_symengine_sexp_basic_parse", (DL_FUNC) &_symengine_sexp_basic_parse, 1},
     {"_symengine_sexp_basic_const", (DL_FUNC) &_symengine_sexp_basic_const, 1},
+    {"_symengine_sexp_const_zero", (DL_FUNC) &_symengine_sexp_const_zero, 0},
+    {"_symengine_sexp_const_one", (DL_FUNC) &_symengine_sexp_const_one, 0},
+    {"_symengine_sexp_const_minus_one", (DL_FUNC) &_symengine_sexp_const_minus_one, 0},
+    {"_symengine_sexp_const_I", (DL_FUNC) &_symengine_sexp_const_I, 0},
+    {"_symengine_sexp_const_pi", (DL_FUNC) &_symengine_sexp_const_pi, 0},
+    {"_symengine_sexp_const_E", (DL_FUNC) &_symengine_sexp_const_E, 0},
+    {"_symengine_sexp_const_EulerGamma", (DL_FUNC) &_symengine_sexp_const_EulerGamma, 0},
+    {"_symengine_sexp_const_Catalan", (DL_FUNC) &_symengine_sexp_const_Catalan, 0},
+    {"_symengine_sexp_const_GoldenRatio", (DL_FUNC) &_symengine_sexp_const_GoldenRatio, 0},
+    {"_symengine_sexp_const_infinity", (DL_FUNC) &_symengine_sexp_const_infinity, 0},
+    {"_symengine_sexp_const_neginfinity", (DL_FUNC) &_symengine_sexp_const_neginfinity, 0},
+    {"_symengine_sexp_const_complex_infinity", (DL_FUNC) &_symengine_sexp_const_complex_infinity, 0},
+    {"_symengine_sexp_const_nan", (DL_FUNC) &_symengine_sexp_const_nan, 0},
     {"_symengine_sexp_symengine_ascii_art", (DL_FUNC) &_symengine_sexp_symengine_ascii_art, 0},
     {"_symengine_sexp_symengine_version", (DL_FUNC) &_symengine_sexp_symengine_version, 0},
     {"_symengine_sexp_symengine_have_component", (DL_FUNC) &_symengine_sexp_symengine_have_component, 1},

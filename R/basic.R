@@ -92,7 +92,25 @@ basic_const <- function (name) {
 }
 
 #' @export
-Constant <- basic_const
+Constant <- function (x) {
+    basic_const(x)
+}
+
+.basic_const_zero
+.basic_const_one
+.basic_const_minus_one
+
+basic_I                 <- function () new("Basic", .basic_const_I())
+basic_pi                <- function () new("Basic", .basic_const_pi())
+basic_E                 <- function () new("Basic", .basic_const_E())
+basic_EulerGamma        <- function () new("Basic", .basic_const_EulerGamma())
+basic_Catalan           <- function () new("Basic", .basic_const_Catalan())
+basic_GoldenRatio       <- function () new("Basic", .basic_const_GoldenRatio())
+basic_infinity          <- function () new("Basic", .basic_const_infinity())
+basic_neginfinity       <- function () new("Basic", .basic_const_neginfinity())
+basic_complex_infinity  <- function () new("Basic", .basic_const_complex_infinity())
+basic_nan               <- function () new("Basic", .basic_const_nan())
+
 
 ## Integer  ====================================================================
 
