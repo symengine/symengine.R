@@ -60,6 +60,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// sexp_basic_const
+SEXP sexp_basic_const(SEXP string);
+RcppExport SEXP _symengine_sexp_basic_const(SEXP stringSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type string(stringSEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_basic_const(string));
+    return rcpp_result_gen;
+END_RCPP
+}
 // sexp_symengine_ascii_art
 SEXP sexp_symengine_ascii_art();
 RcppExport SEXP _symengine_sexp_symengine_ascii_art() {
@@ -147,6 +158,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_symengine_sexp_basic_hash", (DL_FUNC) &_symengine_sexp_basic_hash, 1},
     {"_symengine_sexp_basic_symbol", (DL_FUNC) &_symengine_sexp_basic_symbol, 1},
     {"_symengine_sexp_basic_parse", (DL_FUNC) &_symengine_sexp_basic_parse, 1},
+    {"_symengine_sexp_basic_const", (DL_FUNC) &_symengine_sexp_basic_const, 1},
     {"_symengine_sexp_symengine_ascii_art", (DL_FUNC) &_symengine_sexp_symengine_ascii_art, 0},
     {"_symengine_sexp_symengine_version", (DL_FUNC) &_symengine_sexp_symengine_version, 0},
     {"_symengine_sexp_symengine_have_component", (DL_FUNC) &_symengine_sexp_symengine_have_component, 1},

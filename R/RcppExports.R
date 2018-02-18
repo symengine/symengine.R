@@ -21,6 +21,10 @@ basic_parse <- function(RString) {
     .Call('_symengine_sexp_basic_parse', PACKAGE = 'symengine', RString)
 }
 
+basic_const <- function(string) {
+    .Call('_symengine_sexp_basic_const', PACKAGE = 'symengine', string)
+}
+
 .symengine_ascii_art <- function() {
     .Call('_symengine_sexp_symengine_ascii_art', PACKAGE = 'symengine')
 }

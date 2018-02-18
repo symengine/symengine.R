@@ -75,6 +75,19 @@ SEXP sexp_basic_parse(SEXP RString) {
     return out;
 }
 
+// Constants //=================================================================
 
+// [[Rcpp::export("basic_const")]]
+SEXP sexp_basic_const(SEXP string) {
+    const char* str = CHAR(Rf_asChar(string));
+
+    SEXP          out = PROTECT(sexp_basic());
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
+
+    basic_const_set(s, str);
+
+    UNPROTECT(1);
+    return out;
+}
 
 
