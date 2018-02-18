@@ -6,21 +6,7 @@
 #include "utils.h"
 
 
-// Basic Symbol Initiator //====================================================
 
-SEXP c_new_heap_symbol(SEXP RString) {
-    const char* str_symbol = CHAR(Rf_asChar(RString));
-
-    //REprintf("Debug> c_new_heap_symbol: The extracted string is '%s'\n", str_symbol);
-
-    SEXP          outptr = PROTECT(sexp_basic());
-    basic_struct* symbol = (basic_struct*) R_ExternalPtrAddr(outptr);
-
-    hold_exception(symbol_set(symbol, str_symbol));
-
-    UNPROTECT(1);
-    return outptr;
-}
 
 SEXP c_parse_str(SEXP RString) {
     const char* str = CHAR(Rf_asChar(RString));

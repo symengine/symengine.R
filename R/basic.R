@@ -1,4 +1,6 @@
 
+#' @include RcppExports.R
+NULL
 
 setClass("Basic", contains = "externalptr")
 
@@ -29,7 +31,7 @@ setMethod("show", "Basic",
 Symbol <- function (name) {
     # TODO: check NA and empty character?
     # TODO: should only accept character? Or give a warning when not?
-    new("Basic", api_new_symbol(name))
+    new("Basic", .Symbol(name))
 }
 
 

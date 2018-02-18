@@ -5,6 +5,17 @@
 
 using namespace Rcpp;
 
+// sexp_basic_symbol
+SEXP sexp_basic_symbol(SEXP RString);
+RcppExport SEXP _symengine_sexp_basic_symbol(SEXP RStringSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type RString(RStringSEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_basic_symbol(RString));
+    return rcpp_result_gen;
+END_RCPP
+}
 // sexp_symengine_ascii_art
 SEXP sexp_symengine_ascii_art();
 RcppExport SEXP _symengine_sexp_symengine_ascii_art() {
@@ -78,7 +89,6 @@ RcppExport SEXP c_is_a_RealDouble(SEXP);
 RcppExport SEXP c_is_a_RealMPFR(SEXP);
 RcppExport SEXP c_is_a_Symbol(SEXP);
 RcppExport SEXP c_make_const(SEXP);
-RcppExport SEXP c_new_heap_symbol(SEXP);
 RcppExport SEXP c_number_is_complex(SEXP);
 RcppExport SEXP c_number_is_negative(SEXP);
 RcppExport SEXP c_number_is_positive(SEXP);
@@ -88,6 +98,7 @@ RcppExport SEXP c_realdouble_from_d(SEXP);
 RcppExport SEXP c_realdouble_get_d(SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_symengine_sexp_basic_symbol", (DL_FUNC) &_symengine_sexp_basic_symbol, 1},
     {"_symengine_sexp_symengine_ascii_art", (DL_FUNC) &_symengine_sexp_symengine_ascii_art, 0},
     {"_symengine_sexp_symengine_version", (DL_FUNC) &_symengine_sexp_symengine_version, 0},
     {"_symengine_sexp_symengine_have_component", (DL_FUNC) &_symengine_sexp_symengine_have_component, 1},
@@ -132,7 +143,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"c_is_a_RealMPFR",                          (DL_FUNC) &c_is_a_RealMPFR,                          1},
     {"c_is_a_Symbol",                            (DL_FUNC) &c_is_a_Symbol,                            1},
     {"c_make_const",                             (DL_FUNC) &c_make_const,                             1},
-    {"c_new_heap_symbol",                        (DL_FUNC) &c_new_heap_symbol,                        1},
     {"c_number_is_complex",                      (DL_FUNC) &c_number_is_complex,                      1},
     {"c_number_is_negative",                     (DL_FUNC) &c_number_is_negative,                     1},
     {"c_number_is_positive",                     (DL_FUNC) &c_number_is_positive,                     1},

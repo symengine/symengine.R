@@ -10,10 +10,6 @@ api_ptr_tag <- function (ptr) {
 
 ## New Symbols  ================================================================
 
-api_new_symbol <- function (string) {
-    .Call("c_new_heap_symbol", string)
-}
-
 api_parse_str <- function (string) {
     .Call("c_parse_str", string)
 }
