@@ -74,11 +74,13 @@ Symbol <- basic_symbol
 ## Parser  =====================================================================
 
 #' @export
-basic_parse <- basic_parse
+basic_parse <- function (x) {
+    new("Basic", .basic_parse(x))
+}
 
 setMethod("S", c(x = "character"),
     # TODO: additional arguments to specify the type
-    function (x) new("Basic", basic_parse(x))
+    function (x) basic_parse(x)
 )
 
 

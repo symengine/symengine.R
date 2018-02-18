@@ -62,7 +62,7 @@ SEXP sexp_basic_symbol(SEXP RString) {
 
 // Parser // ===================================================================
 
-// [[Rcpp::export("basic_parse")]]
+// [[Rcpp::export(".basic_parse")]]
 SEXP sexp_basic_parse(SEXP RString) {
     const char* str = CHAR(Rf_asChar(RString));
 

@@ -17,7 +17,7 @@
     .Call('_symengine_sexp_basic_symbol', PACKAGE = 'symengine', RString)
 }
 
-basic_parse <- function(RString) {
+.basic_parse <- function(RString) {
     .Call('_symengine_sexp_basic_parse', PACKAGE = 'symengine', RString)
 }
 
