@@ -6,28 +6,6 @@
 #include "utils.h"
 
 
-// SymEngine Logo and Version //================================================
-
-SEXP c_ascii_art_str() {
-    SEXP out = PROTECT(Rf_allocVector(STRSXP, 1));
-    char* s = ascii_art_str();
-    out = Rf_mkString(s);
-    basic_str_free(s);
-    UNPROTECT(1);
-    return out;
-}
-
-SEXP c_symengine_version() {
-    return Rf_mkString(symengine_version());
-}
-
-SEXP c_symengine_have_component(SEXP s) {
-    const char* str = CHAR(Rf_asChar(s));
-    return Rf_ScalarLogical(symengine_have_component(str));
-}
-
-
-
 // Basic Symbol Initiator //====================================================
 
 SEXP c_new_heap_symbol(SEXP RString) {

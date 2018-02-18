@@ -6,29 +6,6 @@ api_ptr_tag <- function (ptr) {
     .Call("R_ExternalPtrTag", ptr)
 }
 
-api_new_ptr_emptybasic <- function () {
-    warning("Should not be used in R side, only for testing", immediate. = TRUE)
-    .Call("new_ptr_emptybasic")
-}
-
-
-## Logo and Version  ===========================================================
-
-api_symengine_logo <- function () {
-    .Call("c_ascii_art_str")   
-}
-
-api_symengine_version <- function () {
-    .Call("c_symengine_version")
-}
-
-api_symengine_have_component <- function (
-    which = c("mpfr", "flint", "arb", "mpc", "ecm",
-              "primesieve", "piranha", "boost", "pthread", "llvm"))
-{
-    vapply(which, FUN.VALUE = logical(1L),
-           function (x) .Call("c_symengine_have_component", x))
-}
 
 
 ## New Symbols  ================================================================

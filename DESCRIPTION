@@ -7,7 +7,8 @@ Depends:
     R (>= 3.4)
 Imports:
     methods,
-    gmp
+    gmp,
+    Rcpp
 Suggests:
     crayon,
     testthat
@@ -18,9 +19,11 @@ LazyData: true
 License: GPL (>= 2)
 RoxygenNote: 6.0.1
 Collate: 
+    'RcppExports.R'
     'basic.R'
     'c-interface.R'
     'constant-bindings.R'
     'misc.R'
     'operations.R'
+    'symengine_info.R'
     'zzz.R'
