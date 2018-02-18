@@ -60,7 +60,7 @@ SEXP c_parse_str(SEXP RString) {
 // Accessors  //================================================================
 
 SEXP c_basic_str(SEXP ext) {
-    check_basic_ptr(ext);
+    sexp_check_basic(ext);
 
     basic_struct* symbol = (basic_struct*) R_ExternalPtrAddr(ext);
 
@@ -73,7 +73,7 @@ SEXP c_basic_str(SEXP ext) {
 }
 
 SEXP c_basic_str_julia(SEXP ext) {
-    check_basic_ptr(ext);
+    sexp_check_basic(ext);
 
     basic_struct* symbol = (basic_struct*) R_ExternalPtrAddr(ext);
 
@@ -86,7 +86,7 @@ SEXP c_basic_str_julia(SEXP ext) {
 }
 
 SEXP c_basic_type(SEXP ext) {
-    check_basic_ptr(ext);
+    sexp_check_basic(ext);
 
     basic_struct* symbol = (basic_struct*) R_ExternalPtrAddr(ext);
 
@@ -169,7 +169,7 @@ SEXP c_integer_from_str(SEXP string) {
 }
 
 SEXP c_integer_get_int(SEXP ext) {
-    check_basic_ptr(ext);
+    sexp_check_basic(ext);
 
     basic_struct* b = (basic_struct*) R_ExternalPtrAddr(ext);
     // signed long integer_get_si(const basic s);
@@ -202,7 +202,7 @@ SEXP c_realdouble_from_d(SEXP x) {
 }
 
 SEXP c_realdouble_get_d(SEXP ext) {
-    check_basic_ptr(ext);
+    sexp_check_basic(ext);
     basic_struct* b = (basic_struct*) R_ExternalPtrAddr(ext);
     return Rf_ScalarReal(real_double_get_d(b));
 }
@@ -213,7 +213,7 @@ SEXP c_realdouble_get_d(SEXP ext) {
 
 static inline
 SEXP call_basic_is_xxx(SEXP ext, int (* func)(const basic)) {
-    check_basic_ptr(ext);
+    sexp_check_basic(ext);
     basic_struct* b = (basic_struct*) R_ExternalPtrAddr(ext);
     return Rf_ScalarLogical(func(b));
 }
@@ -293,8 +293,8 @@ SEXP c_number_is_complex(SEXP ext) {
  *******************************************************************************/
 
 SEXP c_basic_add(SEXP exta, SEXP extb) {
-    check_basic_ptr(exta);
-    check_basic_ptr(extb);
+    sexp_check_basic(exta);
+    sexp_check_basic(extb);
     basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
     basic_struct* b   = (basic_struct*) R_ExternalPtrAddr(extb);
     SEXP          out = PROTECT(sexp_basic());
@@ -307,8 +307,8 @@ SEXP c_basic_add(SEXP exta, SEXP extb) {
 }
 
 SEXP c_basic_sub(SEXP exta, SEXP extb) {
-    check_basic_ptr(exta);
-    check_basic_ptr(extb);
+    sexp_check_basic(exta);
+    sexp_check_basic(extb);
     basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
     basic_struct* b   = (basic_struct*) R_ExternalPtrAddr(extb);
     SEXP          out = PROTECT(sexp_basic());
@@ -321,8 +321,8 @@ SEXP c_basic_sub(SEXP exta, SEXP extb) {
 }
 
 SEXP c_basic_mul(SEXP exta, SEXP extb) {
-    check_basic_ptr(exta);
-    check_basic_ptr(extb);
+    sexp_check_basic(exta);
+    sexp_check_basic(extb);
     basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
     basic_struct* b   = (basic_struct*) R_ExternalPtrAddr(extb);
     SEXP          out = PROTECT(sexp_basic());
@@ -335,8 +335,8 @@ SEXP c_basic_mul(SEXP exta, SEXP extb) {
 }
 
 SEXP c_basic_div(SEXP exta, SEXP extb) {
-    check_basic_ptr(exta);
-    check_basic_ptr(extb);
+    sexp_check_basic(exta);
+    sexp_check_basic(extb);
     basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
     basic_struct* b   = (basic_struct*) R_ExternalPtrAddr(extb);
     SEXP          out = PROTECT(sexp_basic());
@@ -349,8 +349,8 @@ SEXP c_basic_div(SEXP exta, SEXP extb) {
 }
 
 SEXP c_basic_pow(SEXP exta, SEXP extb) {
-    check_basic_ptr(exta);
-    check_basic_ptr(extb);
+    sexp_check_basic(exta);
+    sexp_check_basic(extb);
     basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
     basic_struct* b   = (basic_struct*) R_ExternalPtrAddr(extb);
     SEXP          out = PROTECT(sexp_basic());
@@ -370,8 +370,8 @@ SEXP c_basic_pow(SEXP exta, SEXP extb) {
  *******************************************************************************/
 
 SEXP c_basic_diff(SEXP extexpr, SEXP extsym) {
-    check_basic_ptr(extexpr);
-    check_basic_ptr(extsym);
+    sexp_check_basic(extexpr);
+    sexp_check_basic(extsym);
     basic_struct* expr = (basic_struct*) R_ExternalPtrAddr(extexpr);
     basic_struct* sym  = (basic_struct*) R_ExternalPtrAddr(extsym);
     SEXP          out  = PROTECT(sexp_basic());
@@ -392,16 +392,16 @@ SEXP c_basic_diff(SEXP extexpr, SEXP extsym) {
 
 
 SEXP c_basic_eq(SEXP exta, SEXP extb) {
-    check_basic_ptr(exta);
-    check_basic_ptr(extb);
+    sexp_check_basic(exta);
+    sexp_check_basic(extb);
     basic_struct* a = (basic_struct*) R_ExternalPtrAddr(exta);
     basic_struct* b = (basic_struct*) R_ExternalPtrAddr(extb);
     return Rf_ScalarLogical(basic_eq(a, b));
 }
 
 SEXP c_basic_neq(SEXP exta, SEXP extb) {
-    check_basic_ptr(exta);
-    check_basic_ptr(extb);
+    sexp_check_basic(exta);
+    sexp_check_basic(extb);
     basic_struct* a = (basic_struct*) R_ExternalPtrAddr(exta);
     basic_struct* b = (basic_struct*) R_ExternalPtrAddr(extb);
     return Rf_ScalarLogical(basic_neq(a, b));
@@ -414,7 +414,7 @@ SEXP c_basic_neq(SEXP exta, SEXP extb) {
  *******************************************************************************/
 
 SEXP c_basic_hash(SEXP ext) {
-    check_basic_ptr(ext);
+    sexp_check_basic(ext);
     basic_struct* b = (basic_struct*) R_ExternalPtrAddr(ext);
     size_t hash = basic_hash(b);
     char str[256] = "";
@@ -429,7 +429,7 @@ SEXP c_basic_hash(SEXP ext) {
 static inline
 SEXP call_basic_func_onearg(SEXP exta,
                             CWRAPPER_OUTPUT_TYPE (* func)(basic, const basic)) {
-    check_basic_ptr(exta);
+    sexp_check_basic(exta);
     basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
     SEXP          out = PROTECT(sexp_basic());
     basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
@@ -703,9 +703,9 @@ SEXP c_basic_log(SEXP exta) {
  *******************************************************************************/
 
 SEXP c_basic_subs2(SEXP exte, SEXP exta, SEXP extb) {
-    check_basic_ptr(exte);
-    check_basic_ptr(exta);
-    check_basic_ptr(extb);
+    sexp_check_basic(exte);
+    sexp_check_basic(exta);
+    sexp_check_basic(extb);
     basic_struct* e = (basic_struct*) R_ExternalPtrAddr(exte);
     basic_struct* a = (basic_struct*) R_ExternalPtrAddr(exta);
     basic_struct* b = (basic_struct*) R_ExternalPtrAddr(extb);
@@ -724,7 +724,7 @@ SEXP c_basic_subs2(SEXP exte, SEXP exta, SEXP extb) {
  *******************************************************************************/
 
 SEXP c_basic_evalf(SEXP extb, SEXP bits, SEXP real) {
-    check_basic_ptr(extb);
+    sexp_check_basic(extb);
     unsigned long n_bits = Rf_asInteger(bits);
     int           i_real = Rf_asLogical(real);
     basic_struct* b = (basic_struct*) R_ExternalPtrAddr(extb);

@@ -27,7 +27,7 @@ SEXP sexp_basic();
 
 // Helper function to check EXTPTR SEXP of Basic //==============================
 
-static inline void check_basic_ptr(SEXP ext) {
+static inline void sexp_check_basic(SEXP ext) {
     if (NULL == R_ExternalPtrAddr(ext))
         Rf_error("Invalid pointer\n");
     if (!R_compute_identical(R_ExternalPtrTag(ext), Rf_mkString("basic_struct*"), 15))
