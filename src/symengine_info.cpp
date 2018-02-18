@@ -3,7 +3,6 @@
 #include <Rcpp.h>
 #include <symengine/cwrapper.h>
 
-using namespace Rcpp;
 
 // [[Rcpp::export(".symengine_ascii_art")]]
 SEXP sexp_symengine_ascii_art() {
