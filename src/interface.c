@@ -1,40 +1,9 @@
 
 #define R_NO_REMAP
-
-#include <R.h>
 #include <Rinternals.h>
-
 #include <symengine/cwrapper.h>
 
-// Utils //=====================================================================
-
-static const char* exception_message(CWRAPPER_OUTPUT_TYPE id) {
-    // Refer:
-    // https://github.com/symengine/symengine/blob/master/symengine/symengine_exception.h
-    switch(id) {
-        case SYMENGINE_NO_EXCEPTION:
-            return "<internal> No exception, it should not go here"     ;
-        case SYMENGINE_RUNTIME_ERROR:
-            return "SymEngine exception: runtime error"                 ;
-        case SYMENGINE_DIV_BY_ZERO:
-            return "SymEngine exception: div by zero"                   ;
-        case SYMENGINE_NOT_IMPLEMENTED:
-            return "SymEngine exception: not implemented"               ;
-        case SYMENGINE_DOMAIN_ERROR:
-            return "SymEngine exception: domain error"                  ;
-        case SYMENGINE_PARSE_ERROR:
-            return "SymEngine exception: parse error"                   ;
-        default:
-            return "<internal> Exception code not matched"              ;
-    }
-}
-
-static inline void hold_cwrapper_exception(CWRAPPER_OUTPUT_TYPE output) {
-    if (output)
-        Rf_error(exception_message(output));
-    else
-        return;
-}
+#include "utils.h"
 
 
 // SymEngine Logo and Version //================================================
@@ -57,39 +26,7 @@ SEXP c_symengine_have_component(SEXP s) {
     return Rf_ScalarLogical(symengine_have_component(str));
 }
 
-// Basic Finalizer //===========================================================
 
-static void _basic_heap_finalizer(SEXP ext) {
-    if (NULL == R_ExternalPtrAddr(ext)) {
-        REprintf("Debug> _basic_heap_finalizer: Empty ptr\n");
-        return;
-    }
-    //REprintf("Debug> _basic_heap_finalizer: Finalizing\n");
-    basic_struct* symbol = (basic_struct*) R_ExternalPtrAddr(ext);
-    basic_free_heap(symbol);
-    R_ClearExternalPtr(ext);
-}
-
-
-// Helper Function to Create a External Ptr to an empty Basic //================
-
-SEXP new_ptr_emptybasic () {
-    basic_struct* ptr = basic_new_heap();
-    SEXP out = PROTECT(R_MakeExternalPtr(ptr, Rf_mkString("basic_struct*"), R_NilValue));
-    R_RegisterCFinalizerEx(out, _basic_heap_finalizer, TRUE);
-    UNPROTECT(1);
-    return out;
-}
-
-// Helper Function to Check EXTPTR //===========================================
-
-static inline void check_basic_ptr(SEXP ext) {
-    if (NULL == R_ExternalPtrAddr(ext))
-        Rf_error("Invalid pointer\n");
-    if (!R_compute_identical(R_ExternalPtrTag(ext), Rf_mkString("basic_struct*"), 15))
-        Rf_error("Tag of the pointer does not match to 'basic_struct*'\n");
-    return;
-}
 
 // Basic Symbol Initiator //====================================================
 

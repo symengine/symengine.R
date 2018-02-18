@@ -18,7 +18,6 @@ LazyData: true
 License: GPL (>= 2)
 RoxygenNote: 6.0.1
 Collate: 
-    'RcppExports.R'
     'basic.R'
     'c-interface.R'
     'constant-bindings.R'
