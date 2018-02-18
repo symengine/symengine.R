@@ -5,6 +5,17 @@
 
 using namespace Rcpp;
 
+// sexp_basic_type
+SEXP sexp_basic_type(SEXP ext);
+RcppExport SEXP _symengine_sexp_basic_type(SEXP extSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type ext(extSEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_basic_type(ext));
+    return rcpp_result_gen;
+END_RCPP
+}
 // sexp_basic_symbol
 SEXP sexp_basic_symbol(SEXP RString);
 RcppExport SEXP _symengine_sexp_basic_symbol(SEXP RStringSEXP) {
@@ -98,6 +109,7 @@ RcppExport SEXP c_realdouble_from_d(SEXP);
 RcppExport SEXP c_realdouble_get_d(SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_symengine_sexp_basic_type", (DL_FUNC) &_symengine_sexp_basic_type, 1},
     {"_symengine_sexp_basic_symbol", (DL_FUNC) &_symengine_sexp_basic_symbol, 1},
     {"_symengine_sexp_symengine_ascii_art", (DL_FUNC) &_symengine_sexp_symengine_ascii_art, 0},
     {"_symengine_sexp_symengine_version", (DL_FUNC) &_symengine_sexp_symengine_version, 0},

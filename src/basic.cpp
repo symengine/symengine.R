@@ -7,8 +7,21 @@ extern "C" {
   #include "utils.h"
 }
 
+// Accessors // ================================================================
 
-// Symbol ======================================================================
+// [[Rcpp::export(".basic_type")]]
+SEXP sexp_basic_type(SEXP ext) {
+    sexp_check_basic(ext);
+
+    basic_struct* symbol = (basic_struct*) R_ExternalPtrAddr(ext);
+
+    TypeID type_id = basic_get_type(symbol);
+    char* classname = basic_get_class_from_id(type_id);
+
+    return Rf_mkString(classname);
+}
+
+// Symbol // ===================================================================
 
 // [[Rcpp::export(".Symbol")]]
 SEXP sexp_basic_symbol(SEXP RString) {
