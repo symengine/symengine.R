@@ -34,6 +34,16 @@ SEXP sexp_basic_str(SEXP ext) {
     return(out);
 }
 
+// [[Rcpp::export(".basic_hash")]]
+SEXP sexp_basic_hash(SEXP ext) {
+    sexp_check_basic(ext);
+    basic_struct* b = (basic_struct*) R_ExternalPtrAddr(ext);
+    size_t hash = basic_hash(b);
+    char str[256] = "";
+    snprintf(str, sizeof(str), "%zu", hash);
+    return Rf_mkString(str);
+}
+
 
 // Symbol // ===================================================================
 

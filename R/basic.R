@@ -37,6 +37,11 @@ basic_str <- function (x) {
 
 setMethod("as.character", c(x = "Basic"), basic_str)
 
+#' @export
+basic_hash <- function (x) {
+    .basic_hash(as(x, "externalptr"))
+}
+
 ## Symbol  =====================================================================
 
 #' @export

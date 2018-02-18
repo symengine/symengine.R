@@ -9,6 +9,10 @@
     .Call('_symengine_sexp_basic_str', PACKAGE = 'symengine', ext)
 }
 
+.basic_hash <- function(ext) {
+    .Call('_symengine_sexp_basic_hash', PACKAGE = 'symengine', ext)
+}
+
 .Symbol <- function(RString) {
     .Call('_symengine_sexp_basic_symbol', PACKAGE = 'symengine', RString)
 }
