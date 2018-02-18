@@ -85,12 +85,12 @@ setMethod("S", c(x = "character"),
 ## Constant  ===================================================================
 
 #' @export
-basic_const <- basic_const
+basic_const <- function (name) {
+    new("Basic", .basic_const(name))
+}
 
 #' @export
-Constant <- function (name) {
-    new("Basic", basic_const(name)) 
-}
+Constant <- basic_const
 
 ## Integer  ====================================================================
 

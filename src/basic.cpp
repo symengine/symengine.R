@@ -77,7 +77,7 @@ SEXP sexp_basic_parse(SEXP RString) {
 
 // Constants //=================================================================
 
-// [[Rcpp::export("basic_const")]]
+// [[Rcpp::export(".basic_const")]]
 SEXP sexp_basic_const(SEXP string) {
     const char* str = CHAR(Rf_asChar(string));
 
