@@ -37,7 +37,7 @@ static void _basic_heap_finalizer(SEXP ext) {
     R_ClearExternalPtr(ext);
 }
 
-SEXP new_ptr_emptybasic () {
+SEXP sexp_basic () {
     basic_struct* ptr = basic_new_heap();
     SEXP out = PROTECT(R_MakeExternalPtr(ptr, Rf_mkString("basic_struct*"), R_NilValue));
     R_RegisterCFinalizerEx(out, _basic_heap_finalizer, TRUE);

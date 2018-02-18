@@ -23,7 +23,7 @@ static inline void hold_exception(CWRAPPER_OUTPUT_TYPE output) {
 
 // Helper function to initialize an EXTPTR SEXP with empty Basic ================
 
-SEXP new_ptr_emptybasic();
+SEXP sexp_basic();
 
 // Helper function to check EXTPTR SEXP of Basic //==============================
 
