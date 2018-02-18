@@ -60,3 +60,21 @@ SEXP sexp_basic_symbol(SEXP RString) {
     return out;
 }
 
+// Parser // ===================================================================
+
+// [[Rcpp::export("basic_parse")]]
+SEXP sexp_basic_parse(SEXP RString) {
+    const char* str = CHAR(Rf_asChar(RString));
+
+    SEXP          out = PROTECT(sexp_basic());
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
+
+    hold_exception(basic_parse2(s, str, 1));
+
+    UNPROTECT(1);
+    return out;
+}
+
+
+
+

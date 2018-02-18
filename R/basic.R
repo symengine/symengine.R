@@ -4,6 +4,9 @@ NULL
 
 setClass("Basic", contains = "externalptr")
 
+#' @export
+setGeneric("S", def = function (x, ...) standardGeneric("S"))
+
 ## Show Methods ================================================================
 
 setMethod("show", "Basic",
@@ -64,6 +67,16 @@ Symbol <- function (name) {
 # dots <- function (...) {
 #     eval(substitute(alist(...)))
 # }
+
+## Parser  =====================================================================
+
+#' @export
+basic_parse <- basic_parse
+
+setMethod("S", c(x = "character"),
+    # TODO: additional arguments to specify the type
+    function (x) new("Basic", basic_parse(x))
+)
 
 
 ## Constant  ===================================================================
@@ -139,16 +152,6 @@ if (FALSE) {
 
 ## S  ==========================================================================
 
-#' @export
-setGeneric("S", def = function (x, ...) standardGeneric("S"))
-
-#' @export
-setMethod("S", c(x = "character"),
-    function (x) {
-        # TODO: additional arguments to specify the type
-        new("Basic", api_parse_str(x))
-    }
-)
 
 #' @export
 setMethod("S", c(x = "integer"),
