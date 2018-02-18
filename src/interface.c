@@ -38,7 +38,7 @@ SEXP c_new_heap_symbol(SEXP RString) {
     SEXP          outptr = PROTECT(new_ptr_emptybasic());
     basic_struct* symbol = (basic_struct*) R_ExternalPtrAddr(outptr);
 
-    hold_cwrapper_exception(symbol_set(symbol, str_symbol));
+    hold_exception(symbol_set(symbol, str_symbol));
 
     UNPROTECT(1);
     return outptr;
@@ -50,7 +50,7 @@ SEXP c_parse_str(SEXP RString) {
     SEXP          outptr = PROTECT(new_ptr_emptybasic());
     basic_struct* s      = (basic_struct*) R_ExternalPtrAddr(outptr);
 
-    hold_cwrapper_exception(basic_parse2(s, str, 1));
+    hold_exception(basic_parse2(s, str, 1));
 
     UNPROTECT(1);
     return outptr;
@@ -149,7 +149,7 @@ SEXP c_integer_from_int(SEXP x) {
     basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
     // CWRAPPER_OUTPUT_TYPE integer_set_si(basic s, long i);
-    hold_cwrapper_exception(integer_set_si(s, i));
+    hold_exception(integer_set_si(s, i));
 
     UNPROTECT(1);
     return out;
@@ -162,7 +162,7 @@ SEXP c_integer_from_str(SEXP string) {
     basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
     // CWRAPPER_OUTPUT_TYPE integer_set_str(basic s, const char *c);
-    hold_cwrapper_exception(integer_set_str(s, str));
+    hold_exception(integer_set_str(s, str));
 
     UNPROTECT(1);
     return out;
@@ -195,7 +195,7 @@ SEXP c_realdouble_from_d(SEXP x) {
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
-    hold_cwrapper_exception(real_double_set_d(s, d));
+    hold_exception(real_double_set_d(s, d));
 
     UNPROTECT(1);
     return out;
@@ -300,7 +300,7 @@ SEXP c_basic_add(SEXP exta, SEXP extb) {
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
-    hold_cwrapper_exception(basic_add(s, a, b));
+    hold_exception(basic_add(s, a, b));
 
     UNPROTECT(1);
     return out;
@@ -314,7 +314,7 @@ SEXP c_basic_sub(SEXP exta, SEXP extb) {
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
-    hold_cwrapper_exception(basic_sub(s, a, b));
+    hold_exception(basic_sub(s, a, b));
 
     UNPROTECT(1);
     return out;
@@ -328,7 +328,7 @@ SEXP c_basic_mul(SEXP exta, SEXP extb) {
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
-    hold_cwrapper_exception(basic_mul(s, a, b));
+    hold_exception(basic_mul(s, a, b));
 
     UNPROTECT(1);
     return out;
@@ -342,7 +342,7 @@ SEXP c_basic_div(SEXP exta, SEXP extb) {
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
-    hold_cwrapper_exception(basic_div(s, a, b));
+    hold_exception(basic_div(s, a, b));
 
     UNPROTECT(1);
     return out;
@@ -356,7 +356,7 @@ SEXP c_basic_pow(SEXP exta, SEXP extb) {
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
-    hold_cwrapper_exception(basic_pow(s, a, b));
+    hold_exception(basic_pow(s, a, b));
 
     UNPROTECT(1);
     return out;
@@ -377,7 +377,7 @@ SEXP c_basic_diff(SEXP extexpr, SEXP extsym) {
     SEXP          out  = PROTECT(new_ptr_emptybasic());
     basic_struct* s    = (basic_struct*) R_ExternalPtrAddr(out);
 
-    hold_cwrapper_exception(basic_diff(s, expr, sym));
+    hold_exception(basic_diff(s, expr, sym));
 
     UNPROTECT(1);
     return out;
@@ -434,7 +434,7 @@ SEXP call_basic_func_onearg(SEXP exta,
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
-    hold_cwrapper_exception(func(s, a));
+    hold_exception(func(s, a));
 
     UNPROTECT(1);
     return out;
@@ -712,7 +712,7 @@ SEXP c_basic_subs2(SEXP exte, SEXP exta, SEXP extb) {
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
-    hold_cwrapper_exception(basic_subs2(s, e, a, b));
+    hold_exception(basic_subs2(s, e, a, b));
 
     UNPROTECT(1);
     return out;
@@ -731,7 +731,7 @@ SEXP c_basic_evalf(SEXP extb, SEXP bits, SEXP real) {
     SEXP          out = PROTECT(new_ptr_emptybasic());
     basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
-    hold_cwrapper_exception(basic_evalf(s, b, n_bits, i_real));
+    hold_exception(basic_evalf(s, b, n_bits, i_real));
 
     UNPROTECT(1);
     return out;

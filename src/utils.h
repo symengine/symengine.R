@@ -14,7 +14,7 @@
 
 const char* _exception_message_from_cwrapper(CWRAPPER_OUTPUT_TYPE id);
 
-static inline void hold_cwrapper_exception(CWRAPPER_OUTPUT_TYPE output) {
+static inline void hold_exception(CWRAPPER_OUTPUT_TYPE output) {
     if (output)
         Rf_error(_exception_message_from_cwrapper(output));
     else
