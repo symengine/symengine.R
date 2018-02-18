@@ -47,7 +47,7 @@ SEXP sexp_basic_hash(SEXP ext) {
 
 // Symbol // ===================================================================
 
-// [[Rcpp::export("basic_symbol")]]
+// [[Rcpp::export(".basic_symbol")]]
 SEXP sexp_basic_symbol(SEXP RString) {
     const char* str_symbol = CHAR(Rf_asChar(RString));
 
@@ -89,5 +89,6 @@ SEXP sexp_basic_const(SEXP string) {
     UNPROTECT(1);
     return out;
 }
+
 
 

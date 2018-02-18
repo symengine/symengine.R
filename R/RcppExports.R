@@ -13,7 +13,7 @@
     .Call('_symengine_sexp_basic_hash', PACKAGE = 'symengine', ext)
 }
 
-basic_symbol <- function(RString) {
+.basic_symbol <- function(RString) {
     .Call('_symengine_sexp_basic_symbol', PACKAGE = 'symengine', RString)
 }
 

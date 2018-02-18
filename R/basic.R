@@ -48,14 +48,14 @@ basic_hash <- function (x) {
 ## Symbol  =====================================================================
 
 #' @export
-basic_symbol <- basic_symbol
-
-#' @export
-Symbol <- function (name) {
+basic_symbol <- function (name) {
     # TODO: check NA and empty character?
     # TODO: should only accept character? Or give a warning when not?
-    new("Basic", basic_symbol(name))
+    new("Basic", .basic_symbol(name))
 }
+
+#' @export
+Symbol <- basic_symbol
 
 
 # vars_init <- function (...) {
