@@ -35,14 +35,6 @@ Symbol <- function (name) {
 }
 
 
-if (FALSE) {
-    Symbol("a")
-    Symbol(NA_character_)
-    Symbol("")
-    Symbol(42L)
-    Symbol(Inf)
-}
-
 # vars_init <- function (...) {
 #     stop("TODO")
 #     args <- dots(...)
