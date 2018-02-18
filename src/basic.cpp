@@ -21,6 +21,20 @@ SEXP sexp_basic_type(SEXP ext) {
     return Rf_mkString(classname);
 }
 
+// [[Rcpp::export(".basic_str")]]
+SEXP sexp_basic_str(SEXP ext) {
+    sexp_check_basic(ext);
+    basic_struct* symbol = (basic_struct*) R_ExternalPtrAddr(ext);
+
+    char* str = basic_str_julia(symbol);
+    SEXP out = PROTECT(Rf_mkString(str));
+    basic_str_free(str);
+
+    UNPROTECT(1);
+    return(out);
+}
+
+
 // Symbol // ===================================================================
 
 // [[Rcpp::export(".Symbol")]]

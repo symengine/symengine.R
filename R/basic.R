@@ -30,6 +30,13 @@ basic_type <- function (x) {
     .basic_type(as(x, "externalptr"))
 }
 
+#' @export
+basic_str <- function (x) {
+    .basic_str(as(x, "externalptr"))
+}
+
+setMethod("as.character", c(x = "Basic"), basic_str)
+
 ## Symbol  =====================================================================
 
 #' @export
