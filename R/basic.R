@@ -7,6 +7,12 @@ setClass("Basic", contains = "externalptr")
 #' @export
 setGeneric("S", def = function (x, ...) standardGeneric("S"))
 
+## Get tag of an external ptr ==================================================
+
+ptr_tag <- function (x) {
+    .Call("R_ExternalPtrTag", as(x, "externalptr"))
+}
+
 ## Show Methods ================================================================
 
 setMethod("show", "Basic",
@@ -201,7 +207,7 @@ setMethod("S", c(x = "Basic"),
 #' @export
 setMethod("S", c(x = "externalptr"),
     function (x) {
-        stopifnot(identical(api_ptr_tag(x), "basic_struct*"))
+        stopifnot(identical(ptr_tag(x), "basic_struct*"))
         new("Basic", x)
     }
 )

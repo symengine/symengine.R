@@ -1,10 +1,6 @@
 
 ## Utils  ======================================================================
 
-api_ptr_tag <- function (ptr) {
-    ptr <- as(ptr, "externalptr")
-    .Call("R_ExternalPtrTag", ptr)
-}
 
 
 
