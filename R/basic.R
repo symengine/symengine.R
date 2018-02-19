@@ -13,8 +13,8 @@ setMethod("show", "Basic",
     function (object) {
         ptr <- as(object, "externalptr")
         
-        type <- sprintf("(%s)", api_basic_type(ptr))
-        str  <- api_basic_str_julia(ptr)
+        type <- sprintf("(%s)", basic_type(ptr))
+        str  <- basic_str(ptr)
         
         if (requireNamespace("crayon", quietly = TRUE)) {
             #str  <- crayon::yellow(str)
@@ -220,7 +220,7 @@ setMethod("S", c(x = "formula"),
 
 #' @export
 Hash <- function (x) {
-    api_basic_hash(x)
+    basic_hash(x)
 }
 
 #' @export

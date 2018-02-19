@@ -8,51 +8,11 @@ api_ptr_tag <- function (ptr) {
 
 
 
-## New Symbols  ================================================================
-
-api_parse_str <- function (string) {
-    .Call("c_parse_str", string)
-}
-
-## Accessors for Basic  ========================================================
-
-api_basic_str <- function (ptr) {
-    ptr <- as(ptr, "externalptr")
-    .Call("c_basic_str", ptr)
-}
-
-api_basic_str_julia <- function (ptr) {
-    # I do not know all the difference between `basic_str` and `basic_str_julia`,
-    # but `basic_str_julia` will show Pow with `^` instead of `**`.
-    ptr <- as(ptr, "externalptr")
-    .Call("c_basic_str_julia", ptr)
-}
 
 
-api_basic_type <- function (ptr) {
-    .Call("c_basic_type", as(ptr, "externalptr"))
-}
 
 
-## Constants  ==================================================================
 
-api_const_zero             <- function () .Call("c_const_zero")
-api_const_one              <- function () .Call("c_const_one")
-api_const_minus_one        <- function () .Call("c_const_minus_one")
-api_const_I                <- function () .Call("c_const_I")
-api_const_pi               <- function () .Call("c_const_pi")
-api_const_E                <- function () .Call("c_const_E")
-api_const_EulerGamma       <- function () .Call("c_const_EulerGamma")
-api_const_Catalan          <- function () .Call("c_const_Catalan")
-api_const_GoldenRatio      <- function () .Call("c_const_GoldenRatio")
-api_const_infinity         <- function () .Call("c_const_infinity")
-api_const_neginfinity      <- function () .Call("c_const_neginfinity")
-api_const_complex_infinity <- function () .Call("c_const_complex_infinity")
-api_const_nan              <- function () .Call("c_const_nan")
-
-api_make_const <- function (string) {
-    .Call("c_make_const", string)
-}
 
 ## Integer  ====================================================================
 
@@ -189,10 +149,6 @@ api_basic_neq <- function (ptra, ptrb) {
     ptra <- as(ptra, "externalptr")
     ptrb <- as(ptrb, "externalptr")
     .Call("c_basic_neq", ptra, ptrb)
-}
-
-api_basic_hash <- function (ptr) {
-    .Call("c_basic_hash", as(ptr, "externalptr"))
 }
 
 if (FALSE) {
