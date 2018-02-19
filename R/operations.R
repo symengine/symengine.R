@@ -183,3 +183,15 @@ setMethod("sinpi", c(x = "Basic"), function(x) sin(x * Constant("pi")))
 setMethod("cospi", c(x = "Basic"), function(x) cos(x * Constant("pi")))
 setMethod("tanpi", c(x = "Basic"), function(x) tan(x * Constant("pi")))
 
+
+## Equality  ===================================================================
+
+setMethod("==", c(e1 = "Basic", e2 = "Basic"),
+    function(e1, e2) api_basic_eq(e1, e2)
+)
+
+setMethod("!=", c(e1 = "Basic", e2 = "Basic"),
+    function(e1, e2) api_basic_neq(e1, e2)
+)
+
+    
