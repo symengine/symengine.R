@@ -10,26 +10,6 @@
 
 
 
-## Integer  ====================================================================
-
-api_integer_from_int <- function (x) {
-    if (is.na(x) || is.infinite(x) || is.nan(x))
-        warning("TODO: to support NA, Inf and NaN")
-    
-    stopifnot(is.integer(x)) # or as.integer(x)?
-    .Call("c_integer_from_int", x)
-}
-
-api_integer_from_str <- function (x) {
-    .Call("c_integer_from_str", x)
-}
-
-api_integer_get_int <- function (ptr) {
-    ptr <- as(ptr, "externalptr")
-    
-    stopifnot(api_is_a_Integer(ptr))
-    .Call("c_integer_get_int", ptr)
-}
 
 
 ## Real  =======================================================================

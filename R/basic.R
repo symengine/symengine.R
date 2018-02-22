@@ -120,39 +120,61 @@ basic_nan               <- function () new("Basic", .basic_const_nan())
 
 ## Integer  ====================================================================
 
+basic_integer_fromint <- function (x) {
+    new("Basic", .basic_integer_fromint(x))
+}
+basic_integer_fromstr <- function (x) {
+    new("Basic", .basic_integer_fromstr(x))
+}
+
 #' @export
 Integer <- function (x) {
+    if (is.na(x) || is.infinite(x) || is.nan(x))
+        stop("NA, Inf, NaN can not be converted to Integer")
+    
     # TODO: should also support bigz (from gmp package), etc.
     if (is.integer(x))
-        return(new("Basic", api_integer_from_int(x)))
+        return(new("Basic", basic_integer_fromint(x)))
     if (is.double(x))
         # Not all double value can be coerced to integer (i.e. int type), thus I use character.
         # This is a hack to generate the string representation of the integer part in case
         # the number is large. (e.g. `as.character(2^99)` or `format(2^99, digits=22)` won't work)
         # Any better way?
-        #return(new("Basic", api_integer_from_str(as.character(trunc(x)))))
-        return(new("Basic", api_integer_from_str(as.character(gmp::as.bigz(x)))))
+        #return(new("Basic",  basic_integer_fromstr(as.character(trunc(x)))))
+        return(new("Basic", basic_integer_fromstr(as.character(gmp::as.bigz(x)))))
     if (is.character(x))
-        return(new("Basic", api_integer_from_str(x)))
+        return(new("Basic", basic_integer_fromstr(x)))
     
     stop(sQuote(class(x)), " class is not supported")
 }
 
+basic_integer_getint <- function (x) {
+    .basic_integer_getint(as(x, "externalptr"))
+}
+
+setMethod("as.integer", c(x = "Basic"),
+    function (x) {
+        if (api_is_a_Integer(x))
+            return(basic_integer_getint(x))
+        stop("Not implemented")
+    }
+)
+
 if (FALSE) {
     (i <- Integer(as.character(- 2^31)))     # -base::.Machine$integer.max - 1L
-    str(api_integer_get_int(i))
+    str(as.integer(i))
     
     (i <- Integer(as.character(- 2^31 + 1))) # -base::.Machine$integer.max
-    str(api_integer_get_int(i))
+    str(as.integer(i))
     
     (i <- Integer(NA_integer_))
-    str(api_integer_get_int(i))
+    str(as.integer(i))
     
     (i <- Integer(Inf))
-    str(api_integer_get_int(i))
+    str(as.integer(i))
     
     (i <- Integer(NaN))
-    str(api_integer_get_int(i))
+    str(as.integer(i))
 }
 
 ## RealDouble  =================================================================

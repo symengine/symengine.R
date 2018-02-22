@@ -201,6 +201,39 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// sexp_basic_integer_fromint
+SEXP sexp_basic_integer_fromint(SEXP x);
+RcppExport SEXP _symengine_sexp_basic_integer_fromint(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_basic_integer_fromint(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sexp_basic_integer_fromstr
+SEXP sexp_basic_integer_fromstr(SEXP RString);
+RcppExport SEXP _symengine_sexp_basic_integer_fromstr(SEXP RStringSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type RString(RStringSEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_basic_integer_fromstr(RString));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sexp_basic_integer_getint
+SEXP sexp_basic_integer_getint(SEXP ext);
+RcppExport SEXP _symengine_sexp_basic_integer_getint(SEXP extSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type ext(extSEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_basic_integer_getint(ext));
+    return rcpp_result_gen;
+END_RCPP
+}
 // sexp_symengine_ascii_art
 SEXP sexp_symengine_ascii_art();
 RcppExport SEXP _symengine_sexp_symengine_ascii_art() {
@@ -244,9 +277,6 @@ RcppExport SEXP c_basic_neq(SEXP, SEXP);
 RcppExport SEXP c_basic_pow(SEXP, SEXP);
 RcppExport SEXP c_basic_sub(SEXP, SEXP);
 RcppExport SEXP c_basic_subs2(SEXP, SEXP, SEXP);
-RcppExport SEXP c_integer_from_int(SEXP);
-RcppExport SEXP c_integer_from_str(SEXP);
-RcppExport SEXP c_integer_get_int(SEXP);
 RcppExport SEXP c_is_a_Complex(SEXP);
 RcppExport SEXP c_is_a_ComplexDouble(SEXP);
 RcppExport SEXP c_is_a_ComplexMPC(SEXP);
@@ -283,6 +313,9 @@ static const R_CallMethodDef CallEntries[] = {
     {"_symengine_sexp_const_neginfinity", (DL_FUNC) &_symengine_sexp_const_neginfinity, 0},
     {"_symengine_sexp_const_complex_infinity", (DL_FUNC) &_symengine_sexp_const_complex_infinity, 0},
     {"_symengine_sexp_const_nan", (DL_FUNC) &_symengine_sexp_const_nan, 0},
+    {"_symengine_sexp_basic_integer_fromint", (DL_FUNC) &_symengine_sexp_basic_integer_fromint, 1},
+    {"_symengine_sexp_basic_integer_fromstr", (DL_FUNC) &_symengine_sexp_basic_integer_fromstr, 1},
+    {"_symengine_sexp_basic_integer_getint", (DL_FUNC) &_symengine_sexp_basic_integer_getint, 1},
     {"_symengine_sexp_symengine_ascii_art", (DL_FUNC) &_symengine_sexp_symengine_ascii_art, 0},
     {"_symengine_sexp_symengine_version", (DL_FUNC) &_symengine_sexp_symengine_version, 0},
     {"_symengine_sexp_symengine_have_component", (DL_FUNC) &_symengine_sexp_symengine_have_component, 1},
@@ -297,9 +330,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"c_basic_pow",                              (DL_FUNC) &c_basic_pow,                              2},
     {"c_basic_sub",                              (DL_FUNC) &c_basic_sub,                              2},
     {"c_basic_subs2",                            (DL_FUNC) &c_basic_subs2,                            3},
-    {"c_integer_from_int",                       (DL_FUNC) &c_integer_from_int,                       1},
-    {"c_integer_from_str",                       (DL_FUNC) &c_integer_from_str,                       1},
-    {"c_integer_get_int",                        (DL_FUNC) &c_integer_get_int,                        1},
     {"c_is_a_Complex",                           (DL_FUNC) &c_is_a_Complex,                           1},
     {"c_is_a_ComplexDouble",                     (DL_FUNC) &c_is_a_ComplexDouble,                     1},
     {"c_is_a_ComplexMPC",                        (DL_FUNC) &c_is_a_ComplexMPC,                        1},

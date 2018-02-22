@@ -1,5 +1,6 @@
 
 #define R_NO_REMAP
+#include <R.h>
 #include <Rcpp.h>
 #include <symengine/cwrapper.h>
 
@@ -128,5 +129,57 @@ SEXP sexp_const_neginfinity()      { return call_get_const(basic_const_neginfini
 SEXP sexp_const_complex_infinity() { return call_get_const(basic_const_complex_infinity); }
 // [[Rcpp::export(".basic_const_nan")]]
 SEXP sexp_const_nan()              { return call_get_const(basic_const_nan); }
+
+
+// Integer //===================================================================
+
+
+// [[Rcpp::export(".basic_integer_fromint")]]
+SEXP sexp_basic_integer_fromint(SEXP x) {
+    int i = Rf_asInteger(x);
+
+    if (i == R_NaInt) // R_NaInt == INT_MIN
+        Rf_error("NA value is not allowed");
+
+    SEXP          out = PROTECT(sexp_basic());
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
+
+    // CWRAPPER_OUTPUT_TYPE integer_set_si(basic s, long i);
+    hold_exception(integer_set_si(s, i));
+
+    UNPROTECT(1);
+    return out;
+}
+
+// [[Rcpp::export(".basic_integer_fromstr")]]
+SEXP sexp_basic_integer_fromstr(SEXP RString) {
+    const char* str = CHAR(Rf_asChar(RString));
+
+    SEXP          out = PROTECT(sexp_basic());
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
+
+    // CWRAPPER_OUTPUT_TYPE integer_set_str(basic s, const char *c);
+    hold_exception(integer_set_str(s, str));
+
+    UNPROTECT(1);
+    return out;
+}
+
+// [[Rcpp::export(".basic_integer_getint")]]
+SEXP sexp_basic_integer_getint(SEXP ext) {
+    
+    sexp_check_basic(ext);
+
+    basic_struct* b = (basic_struct*) R_ExternalPtrAddr(ext);
+    signed long si = integer_get_si(b);
+    // Note that INT_MIN is used as NA_integer_ in R
+    if (si >= (INT_MIN + 1) && si <= INT_MAX)
+        return Rf_ScalarInteger(si);
+    else {
+        // TODO
+        Rf_error("Number %ld can not be coerced to integer range", si);
+    }
+}
+
 
 

@@ -10,49 +10,6 @@
 
 
 
-// Integer  //====================================================================
-
-
-SEXP c_integer_from_int(SEXP x) {
-    int i = Rf_asInteger(x);
-
-    SEXP          out = PROTECT(sexp_basic());
-    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
-
-    // CWRAPPER_OUTPUT_TYPE integer_set_si(basic s, long i);
-    hold_exception(integer_set_si(s, i));
-
-    UNPROTECT(1);
-    return out;
-}
-
-SEXP c_integer_from_str(SEXP string) {
-    const char* str = CHAR(Rf_asChar(string));
-
-    SEXP          out = PROTECT(sexp_basic());
-    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
-
-    // CWRAPPER_OUTPUT_TYPE integer_set_str(basic s, const char *c);
-    hold_exception(integer_set_str(s, str));
-
-    UNPROTECT(1);
-    return out;
-}
-
-SEXP c_integer_get_int(SEXP ext) {
-    sexp_check_basic(ext);
-
-    basic_struct* b = (basic_struct*) R_ExternalPtrAddr(ext);
-    // signed long integer_get_si(const basic s);
-    signed long si = integer_get_si(b);
-    // Note that INT_MIN is used as NA_integer_ in R
-    if (si >= (INT_MIN + 1) && si <= INT_MAX)
-        return Rf_ScalarInteger(si);
-    else {
-        // TODO
-        Rf_error("Number %ld can not be coerced to integer range", si);
-    }
-}
 
 
 

@@ -77,6 +77,18 @@
     .Call('_symengine_sexp_const_nan', PACKAGE = 'symengine')
 }
 
+.basic_integer_fromint <- function(x) {
+    .Call('_symengine_sexp_basic_integer_fromint', PACKAGE = 'symengine', x)
+}
+
+.basic_integer_fromstr <- function(RString) {
+    .Call('_symengine_sexp_basic_integer_fromstr', PACKAGE = 'symengine', RString)
+}
+
+.basic_integer_getint <- function(ext) {
+    .Call('_symengine_sexp_basic_integer_getint', PACKAGE = 'symengine', ext)
+}
+
 .symengine_ascii_art <- function() {
     .Call('_symengine_sexp_symengine_ascii_art', PACKAGE = 'symengine')
 }
