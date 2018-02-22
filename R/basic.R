@@ -180,7 +180,7 @@ if (FALSE) {
 ## RealDouble  =================================================================
 
 basic_realdouble <- function (x) {
-    new("Basic", basic_realdouble(x))
+    new("Basic", .basic_realdouble(x))
 }
 
 basic_realdouble_getd <- function (ptr) {

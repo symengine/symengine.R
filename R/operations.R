@@ -1,4 +1,8 @@
 
+#' @include basic.R
+NULL
+
+
 setMethods <- function (f, signatures=list(), definition,
                         where=topenv(parent.frame()), ...) {
     for (signature in signatures)
@@ -6,7 +10,68 @@ setMethods <- function (f, signatures=list(), definition,
 }
 
 
-#' @include basic.R
+
+basic_add <- function (a, b) {
+    new("Basic", .basic_add(as(a, "externalptr"), as(b, "externalptr")))
+}
+basic_sub <- function (a, b) {
+    new("Basic", .basic_sub(as(a, "externalptr"), as(b, "externalptr")))
+}
+basic_mul <- function (a, b) {
+    new("Basic", .basic_mul(as(a, "externalptr"), as(b, "externalptr")))
+}
+basic_div <- function (a, b) {
+    new("Basic", .basic_div(as(a, "externalptr"), as(b, "externalptr")))
+}
+basic_pow <- function (a, b) {
+    new("Basic", .basic_pow(as(a, "externalptr"), as(b, "externalptr")))
+}
+
+
+basic_diff <- function (expr, sym) {
+    new("Basic", .basic_diff(as(expr, "externalptr"), as(sym, "externalptr")))
+}
+
+basic_expand <- basic_expand
+basic_neg <- basic_neg
+basic_abs <- basic_abs
+basic_erf <- basic_erf
+basic_erfc <- basic_erfc
+basic_sin <- basic_sin
+basic_cos <- basic_cos
+basic_tan <- basic_tan
+basic_asin <- basic_asin
+basic_acos <- basic_acos
+basic_atan <- basic_atan
+basic_csc <- basic_csc
+basic_sec <- basic_sec
+basic_cot <- basic_cot
+basic_acsc <- basic_acsc
+basic_asec <- basic_asec
+basic_acot <- basic_acot
+basic_sinh <- basic_sinh
+basic_cosh <- basic_cosh
+basic_tanh <- basic_tanh
+basic_asinh <- basic_asinh
+basic_acosh <- basic_acosh
+basic_atanh <- basic_atanh
+basic_csch <- basic_csch
+basic_sech <- basic_sech
+basic_coth <- basic_coth
+basic_acsch <- basic_acsch
+basic_asech <- basic_asech
+basic_acoth <- basic_acoth
+basic_lambertw <- basic_lambertw
+basic_zeta <- basic_zeta
+basic_dirichlet_eta <- basic_dirichlet_eta
+basic_gamma <- basic_gamma
+basic_sqrt <- basic_sqrt
+basic_exp <- basic_exp
+basic_log <- basic_log
+
+
+
+
 
 setMethods("+",
     list(c(e1 = "Basic", e2 = "Basic"),
@@ -14,7 +79,7 @@ setMethods("+",
          c(e1 = "ANY"  , e2 = "Basic")),
     
     function (e1, e2) {
-        new("Basic", api_basic_add(S(e1), S(e2)))
+        basic_add(S(e1), S(e2))
     }
 )
 
@@ -24,7 +89,7 @@ setMethods("-",
          c(e1 = "ANY"  , e2 = "Basic")),
     
     function (e1, e2) {
-        new("Basic", api_basic_sub(S(e1), S(e2)))
+        basic_sub(S(e1), S(e2))
     }
 )
 
@@ -34,7 +99,7 @@ setMethods("*",
          c(e1 = "ANY"  , e2 = "Basic")),
     
     function (e1, e2) {
-        new("Basic", api_basic_mul(S(e1), S(e2)))
+        basic_mul(S(e1), S(e2))
     }
 )
 
@@ -44,7 +109,7 @@ setMethods("/",
          c(e1 = "ANY"  , e2 = "Basic")),
     
     function (e1, e2) {
-        new("Basic", api_basic_div(S(e1), S(e2)))
+        basic_div(S(e1), S(e2))
     }
 )
 
@@ -54,7 +119,7 @@ setMethods("^",
          c(e1 = "ANY"  , e2 = "Basic")),
     
     function (e1, e2) {
-        new("Basic", api_basic_pow(S(e1), S(e2)))
+        basic_pow(S(e1), S(e2))
     }
 )
 
@@ -63,61 +128,43 @@ diff <- function (expr, sym) {
     expr <- S(expr)
     if (is.character(sym))
         sym <- S(sym)
-    if (api_basic_type(sym) != "Symbol")
-        stop("sym should be a ", sQuote("Symbol"), ", got ", sQuote(api_basic_type(sym)))
-    new("Basic", api_basic_diff(expr, sym))
+    #if (basic_type(sym) != "Symbol")
+    #    stop("sym should be a ", sQuote("Symbol"), ", got ", sQuote(basic_type(sym)))
+    basic_diff(expr, sym)
 }
 
 #' @export
 expand <- function (expr) {
-    expr <- S(expr)
-    new("Basic", api_basic_expand(expr))
+    basic_expand(S(expr))
 }
 
-#' @export
-evalf <- function (expr, bits = 53L, to = c("real", "complex")) {
-    expr    <- S(expr)
-    to_real <- identical(match.arg(to), "real")
-    new("Basic", api_basic_evalf(expr, bits = bits, real = to_real))
-    # TODO: convert ans to double or mpfr
-}
-
-#' @export
-subs <- function (expr, old, new) {
-    expr <- S(expr)
-    old  <- S(old)
-    new  <- S(new)
-    new("Basic", api_basic_subs2(expr, old, new))
-}
-
-# api_basic_neg
 setMethod("-", c(e1 = "Basic", e2 = "missing"),
     function (e1, e2) {
-        new("Basic", api_basic_neg(S(e1)))
+        basic_neg(S(e1))
     }
 )
 
 setMethod("+", c(e1 = "Basic", e2 = "missing"),
     function (e1, e2) {
-        new("Basic", S(e1)@.xData)
+        e1
     }
 )
 
 setMethod("abs", c(x = "Basic"),
     function (x) {
-        new("Basic", api_basic_abs(S(x)))
+        basic_abs(S(x))
     }
 )
 
 setMethod("sqrt", c(x = "Basic"),
     function (x) {
-        new("Basic", api_basic_sqrt(S(x)))
+        basic_sqrt(S(x))
     }
 )
 
 setMethod("exp", c(x = "Basic"),
     function (x) {
-        new("Basic", api_basic_exp(S(x)))
+        basic_exp(S(x))
     }
 )
 
@@ -134,7 +181,7 @@ Trigonometry <- (function() {
     for (i in seq_along(ans)) {
         ans[[i]] <- eval(envir = parent.frame(),
             bquote(function (x) {
-                new("Basic", .(as.name(paste0("api_basic_", deparse(flist[[i]]))))(S(x)))
+                .(as.name(paste0("basic_", deparse(flist[[i]]))))(S(x))
             }
         ))
         names(ans)[i] <- deparse(flist[[i]])
@@ -182,6 +229,28 @@ setMethod("atan", c(x = "Basic"), Trigonometry$atan)
 setMethod("sinpi", c(x = "Basic"), function(x) sin(x * Constant("pi")))
 setMethod("cospi", c(x = "Basic"), function(x) cos(x * Constant("pi")))
 setMethod("tanpi", c(x = "Basic"), function(x) tan(x * Constant("pi")))
+
+
+
+# ---------------------<<<<
+
+
+#' @export
+evalf <- function (expr, bits = 53L, to = c("real", "complex")) {
+    expr    <- S(expr)
+    to_real <- identical(match.arg(to), "real")
+    new("Basic", api_basic_evalf(expr, bits = bits, real = to_real))
+    # TODO: convert ans to double or mpfr
+}
+
+#' @export
+subs <- function (expr, old, new) {
+    expr <- S(expr)
+    old  <- S(old)
+    new  <- S(new)
+    new("Basic", api_basic_subs2(expr, old, new))
+}
+
 
 
 ## Equality  ===================================================================
