@@ -234,6 +234,28 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// sexp_basic_realdouble
+SEXP sexp_basic_realdouble(SEXP x);
+RcppExport SEXP _symengine_sexp_basic_realdouble(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_basic_realdouble(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sexp_basic_realdouble_getd
+SEXP sexp_basic_realdouble_getd(SEXP ext);
+RcppExport SEXP _symengine_sexp_basic_realdouble_getd(SEXP extSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type ext(extSEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_basic_realdouble_getd(ext));
+    return rcpp_result_gen;
+END_RCPP
+}
 // sexp_symengine_ascii_art
 SEXP sexp_symengine_ascii_art();
 RcppExport SEXP _symengine_sexp_symengine_ascii_art() {
@@ -316,6 +338,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_symengine_sexp_basic_integer_fromint", (DL_FUNC) &_symengine_sexp_basic_integer_fromint, 1},
     {"_symengine_sexp_basic_integer_fromstr", (DL_FUNC) &_symengine_sexp_basic_integer_fromstr, 1},
     {"_symengine_sexp_basic_integer_getint", (DL_FUNC) &_symengine_sexp_basic_integer_getint, 1},
+    {"_symengine_sexp_basic_realdouble", (DL_FUNC) &_symengine_sexp_basic_realdouble, 1},
+    {"_symengine_sexp_basic_realdouble_getd", (DL_FUNC) &_symengine_sexp_basic_realdouble_getd, 1},
     {"_symengine_sexp_symengine_ascii_art", (DL_FUNC) &_symengine_sexp_symengine_ascii_art, 0},
     {"_symengine_sexp_symengine_version", (DL_FUNC) &_symengine_sexp_symengine_version, 0},
     {"_symengine_sexp_symengine_have_component", (DL_FUNC) &_symengine_sexp_symengine_have_component, 1},

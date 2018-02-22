@@ -89,6 +89,14 @@
     .Call('_symengine_sexp_basic_integer_getint', PACKAGE = 'symengine', ext)
 }
 
+.basic_realdouble <- function(x) {
+    .Call('_symengine_sexp_basic_realdouble', PACKAGE = 'symengine', x)
+}
+
+.basic_realdouble_getd <- function(ext) {
+    .Call('_symengine_sexp_basic_realdouble_getd', PACKAGE = 'symengine', ext)
+}
+
 .symengine_ascii_art <- function() {
     .Call('_symengine_sexp_symengine_ascii_art', PACKAGE = 'symengine')
 }

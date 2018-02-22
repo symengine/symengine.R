@@ -181,5 +181,26 @@ SEXP sexp_basic_integer_getint(SEXP ext) {
     }
 }
 
+// Real    //===================================================================
+
+// [[Rcpp::export(".basic_realdouble")]]
+SEXP sexp_basic_realdouble(SEXP x) {
+    double d = Rf_asReal(x);
+
+    SEXP          out = PROTECT(sexp_basic());
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
+
+    hold_exception(real_double_set_d(s, d));
+
+    UNPROTECT(1);
+    return out;
+}
+
+// [[Rcpp::export(".basic_realdouble_getd")]]
+SEXP sexp_basic_realdouble_getd(SEXP ext) {
+    sexp_check_basic(ext);
+    basic_struct* b = (basic_struct*) R_ExternalPtrAddr(ext);
+    return Rf_ScalarReal(real_double_get_d(b));
+}
 
 

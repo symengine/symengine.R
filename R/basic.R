@@ -179,29 +179,44 @@ if (FALSE) {
 
 ## RealDouble  =================================================================
 
+basic_realdouble <- function (x) {
+    new("Basic", basic_realdouble(x))
+}
+
+basic_realdouble_getd <- function (ptr) {
+    .basic_realdouble_getd(as(ptr, "externalptr"))
+}
+
+
 #' @export
 RealDouble <- function (x) {
-    # TODO: how to deal with NA (of character, logical), Inf, NaN?
-    if (is.integer(x))
-        return(new("Basic", api_realdouble_from_d(as.double(x))))
-    if (is.double(x))
-        return(new("Basic", api_realdouble_from_d(x)))
+    # integer or double
+    if (is.numeric(x))
+        return(basic_realdouble(x))
     
     stop(sQuote(class(x)), " class is not supported")
 }
 
+setMethod("as.double", c(x = "Basic"),
+    function (x) {
+        if (api_is_a_RealDouble(x))
+            return(basic_realdouble_getd(x))
+        stop("Not implemented")
+    }
+)
+
 if (FALSE) {
     (d <- RealDouble(NA_integer_))
-    str(api_realdouble_get_d(d))
+    str(as.double(d))
     
     (d <- RealDouble(NaN))
-    str(api_realdouble_get_d(d))
+    str(as.double(d))
     
     (d <- RealDouble(Inf))
-    str(api_realdouble_get_d(d))
+    str(as.double(d))
     
     (d <- RealDouble(-Inf))
-    str(api_realdouble_get_d(d))
+    str(as.double(d))
 }
 
 ## S  ==========================================================================
