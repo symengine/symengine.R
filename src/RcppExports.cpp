@@ -312,8 +312,6 @@ RcppExport SEXP c_number_is_complex(SEXP);
 RcppExport SEXP c_number_is_negative(SEXP);
 RcppExport SEXP c_number_is_positive(SEXP);
 RcppExport SEXP c_number_is_zero(SEXP);
-RcppExport SEXP c_realdouble_from_d(SEXP);
-RcppExport SEXP c_realdouble_get_d(SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
     {"_symengine_sexp_basic_type", (DL_FUNC) &_symengine_sexp_basic_type, 1},
@@ -367,8 +365,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"c_number_is_negative",                     (DL_FUNC) &c_number_is_negative,                     1},
     {"c_number_is_positive",                     (DL_FUNC) &c_number_is_positive,                     1},
     {"c_number_is_zero",                         (DL_FUNC) &c_number_is_zero,                         1},
-    {"c_realdouble_from_d",                      (DL_FUNC) &c_realdouble_from_d,                      1},
-    {"c_realdouble_get_d",                       (DL_FUNC) &c_realdouble_get_d,                       1},
     {NULL, NULL, 0}
 };
 

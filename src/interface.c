@@ -15,26 +15,6 @@
 
 
 
-// Real  //=======================================================================
-
-SEXP c_realdouble_from_d(SEXP x) {
-    double d = Rf_asReal(x);
-
-    SEXP          out = PROTECT(sexp_basic());
-    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
-
-    hold_exception(real_double_set_d(s, d));
-
-    UNPROTECT(1);
-    return out;
-}
-
-SEXP c_realdouble_get_d(SEXP ext) {
-    sexp_check_basic(ext);
-    basic_struct* b = (basic_struct*) R_ExternalPtrAddr(ext);
-    return Rf_ScalarReal(real_double_get_d(b));
-}
-
 
 
 // The Util Function to Wrap is_a_XXX Functions //================================
