@@ -38,6 +38,30 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// sexp_basic_eq
+SEXP sexp_basic_eq(SEXP exta, SEXP extb);
+RcppExport SEXP _symengine_sexp_basic_eq(SEXP extaSEXP, SEXP extbSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type exta(extaSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type extb(extbSEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_basic_eq(exta, extb));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sexp_basic_neq
+SEXP sexp_basic_neq(SEXP exta, SEXP extb);
+RcppExport SEXP _symengine_sexp_basic_neq(SEXP extaSEXP, SEXP extbSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type exta(extaSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type extb(extbSEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_basic_neq(exta, extb));
+    return rcpp_result_gen;
+END_RCPP
+}
 // sexp_basic_symbol
 SEXP sexp_basic_symbol(SEXP RString);
 RcppExport SEXP _symengine_sexp_basic_symbol(SEXP RStringSEXP) {
@@ -926,13 +950,13 @@ END_RCPP
 }
 
 RcppExport SEXP R_ExternalPtrTag(SEXP);
-RcppExport SEXP c_basic_eq(SEXP, SEXP);
-RcppExport SEXP c_basic_neq(SEXP, SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
     {"_symengine_sexp_basic_type", (DL_FUNC) &_symengine_sexp_basic_type, 1},
     {"_symengine_sexp_basic_str", (DL_FUNC) &_symengine_sexp_basic_str, 1},
     {"_symengine_sexp_basic_hash", (DL_FUNC) &_symengine_sexp_basic_hash, 1},
+    {"_symengine_sexp_basic_eq", (DL_FUNC) &_symengine_sexp_basic_eq, 2},
+    {"_symengine_sexp_basic_neq", (DL_FUNC) &_symengine_sexp_basic_neq, 2},
     {"_symengine_sexp_basic_symbol", (DL_FUNC) &_symengine_sexp_basic_symbol, 1},
     {"_symengine_sexp_basic_parse", (DL_FUNC) &_symengine_sexp_basic_parse, 1},
     {"_symengine_sexp_basic_const", (DL_FUNC) &_symengine_sexp_basic_const, 1},
@@ -1015,8 +1039,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_symengine_sexp_symengine_version", (DL_FUNC) &_symengine_sexp_symengine_version, 0},
     {"_symengine_sexp_symengine_have_component", (DL_FUNC) &_symengine_sexp_symengine_have_component, 1},
     {"R_ExternalPtrTag",                         (DL_FUNC) &R_ExternalPtrTag,                         1},
-    {"c_basic_eq",                               (DL_FUNC) &c_basic_eq,                               2},
-    {"c_basic_neq",                              (DL_FUNC) &c_basic_neq,                              2},
     {NULL, NULL, 0}
 };
 

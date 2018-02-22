@@ -2,10 +2,8 @@
 
 S3method(print,symengine.trigonometry)
 export(Constant)
-export(Eq)
 export(Hash)
 export(Integer)
-export(Neq)
 export(RealDouble)
 export(S)
 export(Symbol)

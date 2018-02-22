@@ -45,6 +45,28 @@ SEXP sexp_basic_hash(SEXP ext) {
     return Rf_mkString(str);
 }
 
+// [[Rcpp::export(".basic_eq")]]
+SEXP sexp_basic_eq(SEXP exta, SEXP extb) {
+    sexp_check_basic(exta);
+    sexp_check_basic(extb);
+    basic_struct* a = (basic_struct*) R_ExternalPtrAddr(exta);
+    basic_struct* b = (basic_struct*) R_ExternalPtrAddr(extb);
+    return Rf_ScalarLogical(basic_eq(a, b));
+}
+
+// [[Rcpp::export(".basic_neq")]]
+SEXP sexp_basic_neq(SEXP exta, SEXP extb) {
+    sexp_check_basic(exta);
+    sexp_check_basic(extb);
+    basic_struct* a = (basic_struct*) R_ExternalPtrAddr(exta);
+    basic_struct* b = (basic_struct*) R_ExternalPtrAddr(extb);
+    return Rf_ScalarLogical(basic_neq(a, b));
+}
+
+
+
+
+
 
 // Symbol // ===================================================================
 

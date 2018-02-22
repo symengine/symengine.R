@@ -13,6 +13,14 @@
     .Call('_symengine_sexp_basic_hash', PACKAGE = 'symengine', ext)
 }
 
+.basic_eq <- function(exta, extb) {
+    .Call('_symengine_sexp_basic_eq', PACKAGE = 'symengine', exta, extb)
+}
+
+.basic_neq <- function(exta, extb) {
+    .Call('_symengine_sexp_basic_neq', PACKAGE = 'symengine', exta, extb)
+}
+
 .basic_symbol <- function(RString) {
     .Call('_symengine_sexp_basic_symbol', PACKAGE = 'symengine', RString)
 }

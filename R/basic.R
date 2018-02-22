@@ -46,11 +46,6 @@ basic_str <- function (x) {
 
 setMethod("as.character", c(x = "Basic"), basic_str)
 
-#' @export
-basic_hash <- function (x) {
-    .basic_hash(as(x, "externalptr"))
-}
-
 ## Symbol  =====================================================================
 
 #' @export
@@ -296,20 +291,35 @@ setMethod("S", c(x = "formula"),
 ## Hash and Eq  ================================================================
 
 #' @export
+basic_hash <- function (x) {
+    .basic_hash(as(x, "externalptr"))
+}
+
+#' @export
 Hash <- function (x) {
     basic_hash(x)
 }
 
-#' @export
-Eq <- function (a, b) {
-    api_basic_eq(a, b)
+basic_eq <- function (a, b) {
+    .basic_eq(a@.xData, b@.xData)
 }
 
-#' @export
-Neq <- function (a, b) {
-    api_basic_neq(a, b)
+basic_neq <- function (a, b) {
+    .basic_neq(a@.xData, b@.xData)
 }
 
+setMethod("==", c(e1 = "Basic", e2 = "Basic"),
+    function(e1, e2) basic_eq(e1, e2)
+)
 
+setMethod("!=", c(e1 = "Basic", e2 = "Basic"),
+    function(e1, e2) basic_neq(e1, e2)
+)
+
+if (FALSE) {
+    S("x == x") == S("y == y")
+    S("x == x") != S("y == y")
+    S("x + 1 > x") == S("x + 2 > x + 1")
+}
 
 

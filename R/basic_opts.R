@@ -256,23 +256,3 @@ evalf <- function (expr, bits = 53L, to = c("real", "complex")) {
     basic_evalf(expr, bits = bits, real = to_real)
 }
 
-
-
-# ---------------------<<<<
-
-
-
-
-
-
-
-## Equality  ===================================================================
-
-setMethod("==", c(e1 = "Basic", e2 = "Basic"),
-    function(e1, e2) api_basic_eq(e1, e2)
-)
-
-setMethod("!=", c(e1 = "Basic", e2 = "Basic"),
-    function(e1, e2) api_basic_neq(e1, e2)
-)
-
