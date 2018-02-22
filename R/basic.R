@@ -46,6 +46,64 @@ basic_str <- function (x) {
 
 setMethod("as.character", c(x = "Basic"), basic_str)
 
+## Hash and Eq  ================================================================
+
+#' @export
+basic_hash <- function (x) {
+    .basic_hash(as(x, "externalptr"))
+}
+
+#' @export
+Hash <- function (x) {
+    basic_hash(x)
+}
+
+basic_eq <- function (a, b) {
+    .basic_eq(a@.xData, b@.xData)
+}
+
+basic_neq <- function (a, b) {
+    .basic_neq(a@.xData, b@.xData)
+}
+
+setMethod("==", c(e1 = "Basic", e2 = "Basic"),
+    function(e1, e2) basic_eq(e1, e2)
+)
+
+setMethod("!=", c(e1 = "Basic", e2 = "Basic"),
+    function(e1, e2) basic_neq(e1, e2)
+)
+
+if (FALSE) {
+    S("x == x") == S("y == y")
+    S("x == x") != S("y == y")
+    S("x + 1 > x") == S("x + 2 > x + 1")
+}
+
+
+## Basic: is_a_XXX  ============================================================
+
+basic_isNumber         <- function(x) .basic_isNumber(x@.xData)
+basic_isInteger        <- function(x) .basic_isInteger(x@.xData)
+basic_isRational       <- function(x) .basic_isRational(x@.xData)
+basic_isSymbol         <- function(x) .basic_isSymbol(x@.xData)
+basic_isComplex        <- function(x) .basic_isComplex(x@.xData)
+basic_isRealDouble     <- function(x) .basic_isRealDouble(x@.xData)
+basic_isComplexDouble  <- function(x) .basic_isComplexDouble(x@.xData)
+basic_isRealMPFR       <- function(x) .basic_isRealMPFR(x@.xData)
+basic_isComplexMPC     <- function(x) .basic_isComplexMPC(x@.xData)
+
+basic_num_iszero       <- function(x) .basic_num_iszero(x@.xData)
+basic_num_isnegative   <- function(x) .basic_num_isnegative(x@.xData)
+basic_num_ispositive   <- function(x) .basic_num_ispositive(x@.xData)
+basic_num_iscomplex    <- function(x) .basic_num_iscomplex(x@.xData)
+
+
+
+
+
+
+
 ## Symbol  =====================================================================
 
 #' @export
@@ -214,33 +272,6 @@ if (FALSE) {
     str(as.double(d))
 }
 
-## Basic: is_a_XXX  ============================================================
-
-
-basic_isNumber         <- function(x) .basic_isNumber(x@.xData)
-basic_isInteger        <- function(x) .basic_isInteger(x@.xData)
-basic_isRational       <- function(x) .basic_isRational(x@.xData)
-basic_isSymbol         <- function(x) .basic_isSymbol(x@.xData)
-basic_isComplex        <- function(x) .basic_isComplex(x@.xData)
-basic_isRealDouble     <- function(x) .basic_isRealDouble(x@.xData)
-basic_isComplexDouble  <- function(x) .basic_isComplexDouble(x@.xData)
-basic_isRealMPFR       <- function(x) .basic_isRealMPFR(x@.xData)
-basic_isComplexMPC     <- function(x) .basic_isComplexMPC(x@.xData)
-
-basic_num_iszero       <- function(x) .basic_num_iszero(x@.xData)
-basic_num_isnegative   <- function(x) .basic_num_isnegative(x@.xData)
-basic_num_ispositive   <- function(x) .basic_num_ispositive(x@.xData)
-basic_num_iscomplex    <- function(x) .basic_num_iscomplex(x@.xData)
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -287,40 +318,6 @@ setMethod("S", c(x = "formula"),
         Symbol(deparse(name))
     }
 )
-
-## Hash and Eq  ================================================================
-
-#' @export
-basic_hash <- function (x) {
-    .basic_hash(as(x, "externalptr"))
-}
-
-#' @export
-Hash <- function (x) {
-    basic_hash(x)
-}
-
-basic_eq <- function (a, b) {
-    .basic_eq(a@.xData, b@.xData)
-}
-
-basic_neq <- function (a, b) {
-    .basic_neq(a@.xData, b@.xData)
-}
-
-setMethod("==", c(e1 = "Basic", e2 = "Basic"),
-    function(e1, e2) basic_eq(e1, e2)
-)
-
-setMethod("!=", c(e1 = "Basic", e2 = "Basic"),
-    function(e1, e2) basic_neq(e1, e2)
-)
-
-if (FALSE) {
-    S("x == x") == S("y == y")
-    S("x == x") != S("y == y")
-    S("x + 1 > x") == S("x + 2 > x + 1")
-}
 
 
 ## ActiveBindings  =============================================================
