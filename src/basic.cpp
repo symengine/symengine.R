@@ -204,4 +204,48 @@ SEXP sexp_basic_realdouble_getd(SEXP ext) {
 }
 
 
+// Basic: is_a_XXX  //============================================================
+
+static inline
+SEXP call_basic_is_xxx(SEXP ext, int (* func)(const basic)) {
+    sexp_check_basic(ext);
+    basic_struct* b = (basic_struct*) R_ExternalPtrAddr(ext);
+    return Rf_ScalarLogical(func(b));
+}
+
+
+// [[Rcpp::export(".basic_isNumber")]]
+SEXP sexp_basic_isNumber(SEXP ext)        {return call_basic_is_xxx(ext, is_a_Number);}
+// [[Rcpp::export(".basic_isInteger")]]
+SEXP sexp_basic_isInteger(SEXP ext)       {return call_basic_is_xxx(ext, is_a_Integer);}
+// [[Rcpp::export(".basic_isRational")]]
+SEXP sexp_basic_isRational(SEXP ext)      {return call_basic_is_xxx(ext, is_a_Rational);}
+// [[Rcpp::export(".basic_isSymbol")]]
+SEXP sexp_basic_isSymbol(SEXP ext)        {return call_basic_is_xxx(ext, is_a_Symbol);}
+// [[Rcpp::export(".basic_isComplex")]]
+SEXP sexp_basic_isComplex(SEXP ext)       {return call_basic_is_xxx(ext, is_a_Complex);}
+// [[Rcpp::export(".basic_isRealDouble")]]
+SEXP sexp_basic_isRealDouble(SEXP ext)    {return call_basic_is_xxx(ext, is_a_RealDouble);}
+// [[Rcpp::export(".basic_isComplexDouble")]]
+SEXP sexp_basic_isComplexDouble(SEXP ext) {return call_basic_is_xxx(ext, is_a_ComplexDouble);}
+// [[Rcpp::export(".basic_isRealMPFR")]]
+SEXP sexp_basic_isRealMPFR(SEXP ext)      {return call_basic_is_xxx(ext, is_a_RealMPFR);}
+// [[Rcpp::export(".basic_isComplexMPC")]]
+SEXP sexp_basic_isComplexMPC(SEXP ext)    {return call_basic_is_xxx(ext, is_a_ComplexMPC);}
+
+// [[Rcpp::export(".basic_num_iszero")]]
+SEXP sexp_basic_num_iszero(SEXP ext)     {return call_basic_is_xxx(ext, number_is_zero);}
+// [[Rcpp::export(".basic_num_isnegative")]]
+SEXP sexp_basic_num_isnegative(SEXP ext) {return call_basic_is_xxx(ext, number_is_negative);}
+// [[Rcpp::export(".basic_num_ispositive")]]
+SEXP sexp_basic_num_ispositive(SEXP ext) {return call_basic_is_xxx(ext, number_is_positive);}
+// [[Rcpp::export(".basic_num_iscomplex")]]
+SEXP sexp_basic_num_iscomplex(SEXP ext)  {return call_basic_is_xxx(ext, number_is_complex);}
+
+
+
+
+
+
+
 

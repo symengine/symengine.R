@@ -97,6 +97,58 @@
     .Call('_symengine_sexp_basic_realdouble_getd', PACKAGE = 'symengine', ext)
 }
 
+.basic_isNumber <- function(ext) {
+    .Call('_symengine_sexp_basic_isNumber', PACKAGE = 'symengine', ext)
+}
+
+.basic_isInteger <- function(ext) {
+    .Call('_symengine_sexp_basic_isInteger', PACKAGE = 'symengine', ext)
+}
+
+.basic_isRational <- function(ext) {
+    .Call('_symengine_sexp_basic_isRational', PACKAGE = 'symengine', ext)
+}
+
+.basic_isSymbol <- function(ext) {
+    .Call('_symengine_sexp_basic_isSymbol', PACKAGE = 'symengine', ext)
+}
+
+.basic_isComplex <- function(ext) {
+    .Call('_symengine_sexp_basic_isComplex', PACKAGE = 'symengine', ext)
+}
+
+.basic_isRealDouble <- function(ext) {
+    .Call('_symengine_sexp_basic_isRealDouble', PACKAGE = 'symengine', ext)
+}
+
+.basic_isComplexDouble <- function(ext) {
+    .Call('_symengine_sexp_basic_isComplexDouble', PACKAGE = 'symengine', ext)
+}
+
+.basic_isRealMPFR <- function(ext) {
+    .Call('_symengine_sexp_basic_isRealMPFR', PACKAGE = 'symengine', ext)
+}
+
+.basic_isComplexMPC <- function(ext) {
+    .Call('_symengine_sexp_basic_isComplexMPC', PACKAGE = 'symengine', ext)
+}
+
+.basic_num_iszero <- function(ext) {
+    .Call('_symengine_sexp_basic_num_iszero', PACKAGE = 'symengine', ext)
+}
+
+.basic_num_isnegative <- function(ext) {
+    .Call('_symengine_sexp_basic_num_isnegative', PACKAGE = 'symengine', ext)
+}
+
+.basic_num_ispositive <- function(ext) {
+    .Call('_symengine_sexp_basic_num_ispositive', PACKAGE = 'symengine', ext)
+}
+
+.basic_num_iscomplex <- function(ext) {
+    .Call('_symengine_sexp_basic_num_iscomplex', PACKAGE = 'symengine', ext)
+}
+
 .basic_add <- function(exta, extb) {
     .Call('_symengine_sexp_basic_add', PACKAGE = 'symengine', exta, extb)
 }

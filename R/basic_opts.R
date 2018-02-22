@@ -276,4 +276,3 @@ setMethod("!=", c(e1 = "Basic", e2 = "Basic"),
     function(e1, e2) api_basic_neq(e1, e2)
 )
 
-    

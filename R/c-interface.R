@@ -14,45 +14,6 @@
 
 
 
-## Basic: is_a_XXX  ============================================================
-
-
-api_is_a_Number        <- function(ptr) .Call("c_is_a_Number"        , as(ptr, "externalptr"))
-api_is_a_Integer       <- function(ptr) .Call("c_is_a_Integer"       , as(ptr, "externalptr"))
-api_is_a_Rational      <- function(ptr) .Call("c_is_a_Rational"      , as(ptr, "externalptr"))
-api_is_a_Symbol        <- function(ptr) .Call("c_is_a_Symbol"        , as(ptr, "externalptr"))
-api_is_a_Complex       <- function(ptr) .Call("c_is_a_Complex"       , as(ptr, "externalptr"))
-api_is_a_RealDouble    <- function(ptr) .Call("c_is_a_RealDouble"    , as(ptr, "externalptr"))
-api_is_a_ComplexDouble <- function(ptr) .Call("c_is_a_ComplexDouble" , as(ptr, "externalptr"))
-api_is_a_RealMPFR      <- function(ptr) .Call("c_is_a_RealMPFR"      , as(ptr, "externalptr"))
-api_is_a_ComplexMPC    <- function(ptr) .Call("c_is_a_ComplexMPC"    , as(ptr, "externalptr"))
-
-
-## Number is  ==================================================================
-
-api_number_is_zero <- function (ptr) {
-    ptr <- as(ptr, "externalptr")
-    stopifnot(api_is_a_Number(ptr))
-    .Call("c_number_is_zero", ptr)
-}
-
-api_number_is_negative <- function (ptr) {
-    ptr <- as(ptr, "externalptr")
-    stopifnot(api_is_a_Number(ptr))
-    .Call("c_number_is_negative", ptr)
-}
-
-api_number_is_positive <- function (ptr) {
-    ptr <- as(ptr, "externalptr")
-    stopifnot(api_is_a_Number(ptr))
-    .Call("c_number_is_positive", ptr)
-}
-
-api_number_is_complex <- function (ptr) {
-    ptr <- as(ptr, "externalptr")
-    stopifnot(api_is_a_Number(ptr))
-    .Call("c_number_is_complex", ptr)
-}
 
 # ==============================================
 

@@ -154,7 +154,7 @@ basic_integer_getint <- function (x) {
 
 setMethod("as.integer", c(x = "Basic"),
     function (x) {
-        if (api_is_a_Integer(x))
+        if (basic_isInteger(x))
             return(basic_integer_getint(x))
         stop("Not implemented")
     }
@@ -199,7 +199,7 @@ RealDouble <- function (x) {
 
 setMethod("as.double", c(x = "Basic"),
     function (x) {
-        if (api_is_a_RealDouble(x))
+        if (basic_isRealDouble(x))
             return(basic_realdouble_getd(x))
         stop("Not implemented")
     }
@@ -218,6 +218,40 @@ if (FALSE) {
     (d <- RealDouble(-Inf))
     str(as.double(d))
 }
+
+## Basic: is_a_XXX  ============================================================
+
+
+basic_isNumber         <- function(x) .basic_isNumber(x@.xData)
+basic_isInteger        <- function(x) .basic_isInteger(x@.xData)
+basic_isRational       <- function(x) .basic_isRational(x@.xData)
+basic_isSymbol         <- function(x) .basic_isSymbol(x@.xData)
+basic_isComplex        <- function(x) .basic_isComplex(x@.xData)
+basic_isRealDouble     <- function(x) .basic_isRealDouble(x@.xData)
+basic_isComplexDouble  <- function(x) .basic_isComplexDouble(x@.xData)
+basic_isRealMPFR       <- function(x) .basic_isRealMPFR(x@.xData)
+basic_isComplexMPC     <- function(x) .basic_isComplexMPC(x@.xData)
+
+basic_num_iszero       <- function(x) .basic_num_iszero(x@.xData)
+basic_num_isnegative   <- function(x) .basic_num_isnegative(x@.xData)
+basic_num_ispositive   <- function(x) .basic_num_ispositive(x@.xData)
+basic_num_iscomplex    <- function(x) .basic_num_iscomplex(x@.xData)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## S  ==========================================================================
 
