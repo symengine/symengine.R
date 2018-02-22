@@ -22,7 +22,6 @@ Collate:
     'RcppExports.R'
     'basic.R'
     'basic_opts.R'
-    'constant-bindings.R'
     'misc.R'
     'symengine_info.R'
     'zzz.R'
