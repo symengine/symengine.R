@@ -75,22 +75,3 @@ if (FALSE) {
 }
 
 
-## Functions with one argument
-
-
-## subs
-api_basic_subs2 <- function (ptrexpr, ptrold, ptrnew) {
-    ptrexpr <- as(ptrexpr, "externalptr")
-    ptrold  <- as(ptrold , "externalptr")
-    ptrnew  <- as(ptrnew , "externalptr")
-    .Call("c_basic_subs2", ptrexpr, ptrold, ptrnew)
-}
-
-## evalf
-api_basic_evalf <- function(ptrb, bits = 53L, real = TRUE) {
-    ptrb <- as(ptrb, "externalptr")
-    bits <- as.integer(bits)
-    real <- as.logical(real)
-    .Call("c_basic_evalf", ptrb, bits, real)
-}
-

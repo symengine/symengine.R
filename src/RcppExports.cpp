@@ -724,6 +724,32 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// sexp_basic_subs2
+SEXP sexp_basic_subs2(SEXP exte, SEXP exta, SEXP extb);
+RcppExport SEXP _symengine_sexp_basic_subs2(SEXP exteSEXP, SEXP extaSEXP, SEXP extbSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type exte(exteSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type exta(extaSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type extb(extbSEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_basic_subs2(exte, exta, extb));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sexp_basic_evalf
+SEXP sexp_basic_evalf(SEXP extb, SEXP bits, SEXP real);
+RcppExport SEXP _symengine_sexp_basic_evalf(SEXP extbSEXP, SEXP bitsSEXP, SEXP realSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type extb(extbSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type bits(bitsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type real(realSEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_basic_evalf(extb, bits, real));
+    return rcpp_result_gen;
+END_RCPP
+}
 // sexp_symengine_ascii_art
 SEXP sexp_symengine_ascii_art();
 RcppExport SEXP _symengine_sexp_symengine_ascii_art() {
@@ -758,9 +784,7 @@ END_RCPP
 
 RcppExport SEXP R_ExternalPtrTag(SEXP);
 RcppExport SEXP c_basic_eq(SEXP, SEXP);
-RcppExport SEXP c_basic_evalf(SEXP, SEXP, SEXP);
 RcppExport SEXP c_basic_neq(SEXP, SEXP);
-RcppExport SEXP c_basic_subs2(SEXP, SEXP, SEXP);
 RcppExport SEXP c_is_a_Complex(SEXP);
 RcppExport SEXP c_is_a_ComplexDouble(SEXP);
 RcppExport SEXP c_is_a_ComplexMPC(SEXP);
@@ -842,14 +866,14 @@ static const R_CallMethodDef CallEntries[] = {
     {"_symengine_sexp_basic_sqrt", (DL_FUNC) &_symengine_sexp_basic_sqrt, 1},
     {"_symengine_sexp_basic_exp", (DL_FUNC) &_symengine_sexp_basic_exp, 1},
     {"_symengine_sexp_basic_log", (DL_FUNC) &_symengine_sexp_basic_log, 1},
+    {"_symengine_sexp_basic_subs2", (DL_FUNC) &_symengine_sexp_basic_subs2, 3},
+    {"_symengine_sexp_basic_evalf", (DL_FUNC) &_symengine_sexp_basic_evalf, 3},
     {"_symengine_sexp_symengine_ascii_art", (DL_FUNC) &_symengine_sexp_symengine_ascii_art, 0},
     {"_symengine_sexp_symengine_version", (DL_FUNC) &_symengine_sexp_symengine_version, 0},
     {"_symengine_sexp_symengine_have_component", (DL_FUNC) &_symengine_sexp_symengine_have_component, 1},
     {"R_ExternalPtrTag",                         (DL_FUNC) &R_ExternalPtrTag,                         1},
     {"c_basic_eq",                               (DL_FUNC) &c_basic_eq,                               2},
-    {"c_basic_evalf",                            (DL_FUNC) &c_basic_evalf,                            3},
     {"c_basic_neq",                              (DL_FUNC) &c_basic_neq,                              2},
-    {"c_basic_subs2",                            (DL_FUNC) &c_basic_subs2,                            3},
     {"c_is_a_Complex",                           (DL_FUNC) &c_is_a_Complex,                           1},
     {"c_is_a_ComplexDouble",                     (DL_FUNC) &c_is_a_ComplexDouble,                     1},
     {"c_is_a_ComplexMPC",                        (DL_FUNC) &c_is_a_ComplexMPC,                        1},

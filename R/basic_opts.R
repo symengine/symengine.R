@@ -231,16 +231,14 @@ setMethod("cospi", c(x = "Basic"), function(x) cos(x * Constant("pi")))
 setMethod("tanpi", c(x = "Basic"), function(x) tan(x * Constant("pi")))
 
 
+basic_subs2 <- function (expr, old, new) {
+    expr@.xData <- .basic_subs2(expr@.xData, old@.xData, new@.xData)
+    expr
+}
 
-# ---------------------<<<<
-
-
-#' @export
-evalf <- function (expr, bits = 53L, to = c("real", "complex")) {
-    expr    <- S(expr)
-    to_real <- identical(match.arg(to), "real")
-    new("Basic", api_basic_evalf(expr, bits = bits, real = to_real))
-    # TODO: convert ans to double or mpfr
+basic_evalf <- function(x, bits = 53L, real = TRUE) {
+    x@.xData <- .basic_evalf(x@.xData, bits, real)
+    x
 }
 
 #' @export
@@ -248,8 +246,23 @@ subs <- function (expr, old, new) {
     expr <- S(expr)
     old  <- S(old)
     new  <- S(new)
-    new("Basic", api_basic_subs2(expr, old, new))
+    basic_subs2(expr, old, new)
 }
+
+#' @export
+evalf <- function (expr, bits = 53L, to = c("real", "complex")) {
+    expr    <- S(expr)
+    to_real <- identical(match.arg(to), "real")
+    basic_evalf(expr, bits = bits, real = to_real)
+}
+
+
+
+# ---------------------<<<<
+
+
+
+
 
 
 

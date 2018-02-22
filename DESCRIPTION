@@ -21,9 +21,9 @@ RoxygenNote: 6.0.1
 Collate: 
     'RcppExports.R'
     'basic.R'
+    'basic_opts.R'
     'c-interface.R'
     'constant-bindings.R'
     'misc.R'
-    'operations.R'
     'symengine_info.R'
     'zzz.R'

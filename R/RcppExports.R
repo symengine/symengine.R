@@ -265,6 +265,14 @@ basic_log <- function(exta) {
     .Call('_symengine_sexp_basic_log', PACKAGE = 'symengine', exta)
 }
 
+.basic_subs2 <- function(exte, exta, extb) {
+    .Call('_symengine_sexp_basic_subs2', PACKAGE = 'symengine', exte, exta, extb)
+}
+
+.basic_evalf <- function(extb, bits, real) {
+    .Call('_symengine_sexp_basic_evalf', PACKAGE = 'symengine', extb, bits, real)
+}
+
 .symengine_ascii_art <- function() {
     .Call('_symengine_sexp_symengine_ascii_art', PACKAGE = 'symengine')
 }

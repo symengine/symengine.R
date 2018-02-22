@@ -143,4 +143,35 @@ SEXP sexp_basic_log           (SEXP exta) {return wrap_basic_func_onearg(exta, b
 
 
 
+// [[Rcpp::export(".basic_subs2")]]
+SEXP sexp_basic_subs2(SEXP exte, SEXP exta, SEXP extb) {
+    sexp_check_basic(exte);
+    sexp_check_basic(exta);
+    sexp_check_basic(extb);
+    basic_struct* e = (basic_struct*) R_ExternalPtrAddr(exte);
+    basic_struct* a = (basic_struct*) R_ExternalPtrAddr(exta);
+    basic_struct* b = (basic_struct*) R_ExternalPtrAddr(extb);
+    SEXP          out = PROTECT(sexp_basic());
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
+
+    hold_exception(basic_subs2(s, e, a, b));
+
+    UNPROTECT(1);
+    return out;
+}
+
+// [[Rcpp::export(".basic_evalf")]]
+SEXP sexp_basic_evalf(SEXP extb, SEXP bits, SEXP real) {
+    sexp_check_basic(extb);
+    unsigned long n_bits = Rf_asInteger(bits);
+    int           i_real = Rf_asLogical(real);
+    basic_struct* b = (basic_struct*) R_ExternalPtrAddr(extb);
+    SEXP          out = PROTECT(sexp_basic());
+    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
+
+    hold_exception(basic_evalf(s, b, n_bits, i_real));
+
+    UNPROTECT(1);
+    return out;
+}
 
