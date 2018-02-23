@@ -38,7 +38,7 @@ SEXP sexp_basic_div(SEXP exta, SEXP extb) {return call_twoarg_opt(basic_div, ext
 SEXP sexp_basic_pow(SEXP exta, SEXP extb) {return call_twoarg_opt(basic_pow, exta, extb);}
 
 // [[Rcpp::export(".basic_diff")]]
-SEXP sexp_basic_diff(SEXP exta, SEXP extb) {return call_twoarg_opt(basic_pow, exta, extb);}
+SEXP sexp_basic_diff(SEXP exta, SEXP extb) {return call_twoarg_opt(basic_diff, exta, extb);}
 
 
 // Here we also do conversion from S4 to externalptr, and initialization of the output
