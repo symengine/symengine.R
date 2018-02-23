@@ -181,147 +181,147 @@
     .Call('_symengine_sexp_basic_diff', PACKAGE = 'symengine', exta, extb)
 }
 
-basic_expand <- function(exta) {
+.basic_expand <- function(exta) {
     .Call('_symengine_sexp_basic_expand', PACKAGE = 'symengine', exta)
 }
 
-basic_neg <- function(exta) {
+.basic_neg <- function(exta) {
     .Call('_symengine_sexp_basic_neg', PACKAGE = 'symengine', exta)
 }
 
-basic_abs <- function(exta) {
+.basic_abs <- function(exta) {
     .Call('_symengine_sexp_basic_abs', PACKAGE = 'symengine', exta)
 }
 
-basic_erf <- function(exta) {
+.basic_erf <- function(exta) {
     .Call('_symengine_sexp_basic_erf', PACKAGE = 'symengine', exta)
 }
 
-basic_erfc <- function(exta) {
+.basic_erfc <- function(exta) {
     .Call('_symengine_sexp_basic_erfc', PACKAGE = 'symengine', exta)
 }
 
-basic_sin <- function(exta) {
+.basic_sin <- function(exta) {
     .Call('_symengine_sexp_basic_sin', PACKAGE = 'symengine', exta)
 }
 
-basic_cos <- function(exta) {
+.basic_cos <- function(exta) {
     .Call('_symengine_sexp_basic_cos', PACKAGE = 'symengine', exta)
 }
 
-basic_tan <- function(exta) {
+.basic_tan <- function(exta) {
     .Call('_symengine_sexp_basic_tan', PACKAGE = 'symengine', exta)
 }
 
-basic_asin <- function(exta) {
+.basic_asin <- function(exta) {
     .Call('_symengine_sexp_basic_asin', PACKAGE = 'symengine', exta)
 }
 
-basic_acos <- function(exta) {
+.basic_acos <- function(exta) {
     .Call('_symengine_sexp_basic_acos', PACKAGE = 'symengine', exta)
 }
 
-basic_atan <- function(exta) {
+.basic_atan <- function(exta) {
     .Call('_symengine_sexp_basic_atan', PACKAGE = 'symengine', exta)
 }
 
-basic_csc <- function(exta) {
+.basic_csc <- function(exta) {
     .Call('_symengine_sexp_basic_csc', PACKAGE = 'symengine', exta)
 }
 
-basic_sec <- function(exta) {
+.basic_sec <- function(exta) {
     .Call('_symengine_sexp_basic_sec', PACKAGE = 'symengine', exta)
 }
 
-basic_cot <- function(exta) {
+.basic_cot <- function(exta) {
     .Call('_symengine_sexp_basic_cot', PACKAGE = 'symengine', exta)
 }
 
-basic_acsc <- function(exta) {
+.basic_acsc <- function(exta) {
     .Call('_symengine_sexp_basic_acsc', PACKAGE = 'symengine', exta)
 }
 
-basic_asec <- function(exta) {
+.basic_asec <- function(exta) {
     .Call('_symengine_sexp_basic_asec', PACKAGE = 'symengine', exta)
 }
 
-basic_acot <- function(exta) {
+.basic_acot <- function(exta) {
     .Call('_symengine_sexp_basic_acot', PACKAGE = 'symengine', exta)
 }
 
-basic_sinh <- function(exta) {
+.basic_sinh <- function(exta) {
     .Call('_symengine_sexp_basic_sinh', PACKAGE = 'symengine', exta)
 }
 
-basic_cosh <- function(exta) {
+.basic_cosh <- function(exta) {
     .Call('_symengine_sexp_basic_cosh', PACKAGE = 'symengine', exta)
 }
 
-basic_tanh <- function(exta) {
+.basic_tanh <- function(exta) {
     .Call('_symengine_sexp_basic_tanh', PACKAGE = 'symengine', exta)
 }
 
-basic_asinh <- function(exta) {
+.basic_asinh <- function(exta) {
     .Call('_symengine_sexp_basic_asinh', PACKAGE = 'symengine', exta)
 }
 
-basic_acosh <- function(exta) {
+.basic_acosh <- function(exta) {
     .Call('_symengine_sexp_basic_acosh', PACKAGE = 'symengine', exta)
 }
 
-basic_atanh <- function(exta) {
+.basic_atanh <- function(exta) {
     .Call('_symengine_sexp_basic_atanh', PACKAGE = 'symengine', exta)
 }
 
-basic_csch <- function(exta) {
+.basic_csch <- function(exta) {
     .Call('_symengine_sexp_basic_csch', PACKAGE = 'symengine', exta)
 }
 
-basic_sech <- function(exta) {
+.basic_sech <- function(exta) {
     .Call('_symengine_sexp_basic_sech', PACKAGE = 'symengine', exta)
 }
 
-basic_coth <- function(exta) {
+.basic_coth <- function(exta) {
     .Call('_symengine_sexp_basic_coth', PACKAGE = 'symengine', exta)
 }
 
-basic_acsch <- function(exta) {
+.basic_acsch <- function(exta) {
     .Call('_symengine_sexp_basic_acsch', PACKAGE = 'symengine', exta)
 }
 
-basic_asech <- function(exta) {
+.basic_asech <- function(exta) {
     .Call('_symengine_sexp_basic_asech', PACKAGE = 'symengine', exta)
 }
 
-basic_acoth <- function(exta) {
+.basic_acoth <- function(exta) {
     .Call('_symengine_sexp_basic_acoth', PACKAGE = 'symengine', exta)
 }
 
-basic_lambertw <- function(exta) {
+.basic_lambertw <- function(exta) {
     .Call('_symengine_sexp_basic_lambertw', PACKAGE = 'symengine', exta)
 }
 
-basic_zeta <- function(exta) {
+.basic_zeta <- function(exta) {
     .Call('_symengine_sexp_basic_zeta', PACKAGE = 'symengine', exta)
 }
 
-basic_dirichlet_eta <- function(exta) {
+.basic_dirichlet_eta <- function(exta) {
     .Call('_symengine_sexp_basic_dirichlet_eta', PACKAGE = 'symengine', exta)
 }
 
-basic_gamma <- function(exta) {
+.basic_gamma <- function(exta) {
     .Call('_symengine_sexp_basic_gamma', PACKAGE = 'symengine', exta)
 }
 
-basic_sqrt <- function(exta) {
+.basic_sqrt <- function(exta) {
     .Call('_symengine_sexp_basic_sqrt', PACKAGE = 'symengine', exta)
 }
 
-basic_exp <- function(exta) {
+.basic_exp <- function(exta) {
     .Call('_symengine_sexp_basic_exp', PACKAGE = 'symengine', exta)
 }
 
-basic_log <- function(exta) {
+.basic_log <- function(exta) {
     .Call('_symengine_sexp_basic_log', PACKAGE = 'symengine', exta)
 }
 
