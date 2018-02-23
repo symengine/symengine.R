@@ -1,7 +1,7 @@
 
 # Links against the downloaded binaries
-PKG_CPPFLAGS= -I../windows/usr/include
-PKG_LIBS= -L../windows/usr/lib -lsymengine -lmpc -lmpfr -lgmp_static
+PKG_CPPFLAGS= -I../win-symengine/Library/include -I../win-mpc/Library/include
+PKG_LIBS= -L../win-symengine/Library/lib -L../win-mpc/Library/lib -lsymengine -lmpc -lmpfr -lgmp
 
 all: clean winlibs
 
@@ -10,4 +10,4 @@ clean:
 
 winlibs:
 	"${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe" "../tools/winlibs.R"
-	
+
