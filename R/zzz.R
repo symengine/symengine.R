@@ -4,15 +4,14 @@
     # Check whether symengine is available, and give verbose message if not.
     # Also check gmp library or MPFR library.
     
-    version <- api_symengine_version()
+    version <- symengine_version()
     msg <- sprintf("SymEngine Version: %s", version)
     if (requireNamespace("crayon", quietly = TRUE))
         msg <- crayon::yellow(msg)
     packageStartupMessage(msg)
     
-    logo <- api_symengine_logo()
+    logo <- symengine_ascii_art()
     if (requireNamespace("crayon", quietly = TRUE)) {
-        logo  <- strsplit(logo, "\n")[[1]]
         pres  <- substring(logo, 1, 16)
         posts <- substring(logo, 17)
         

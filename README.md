@@ -234,9 +234,9 @@ evalf(Constant("pi"), bits = 999)
 ### Object Equality and Hash
 
 ``` r
-Eq(x + y, S("x + y"))
+x + y == S("x + y")
 #> [1] TRUE
-Neq(x + y, S("x + y"))
+x + y != S("x + y")
 #> [1] FALSE
 ```
 
@@ -245,7 +245,7 @@ tan(x)
 #> (Tan)    tan(x)
 sin(x)/cos(x)
 #> (Mul)    sin(x)/cos(x)
-Eq(tan(x), sin(x)/cos(x)) # Different internal representation
+tan(x) == sin(x)/cos(x) # Different internal representation
 #> [1] FALSE
 ```
 
