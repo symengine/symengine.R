@@ -208,14 +208,14 @@ evalf(Constant("pi"), bits = 999)
 ### Object Equality and Hash
 
 ```{r}
-Eq(x + y, S("x + y"))
-Neq(x + y, S("x + y"))
+x + y == S("x + y")
+x + y != S("x + y")
 ```
 
 ```{r}
 tan(x)
 sin(x)/cos(x)
-Eq(tan(x), sin(x)/cos(x)) # Different internal representation
+tan(x) == sin(x)/cos(x) # Different internal representation
 ```
 
 ```{r}
