@@ -16,7 +16,7 @@ cache:
 # Adapt as necessary starting from here
 
 build_script:
-  - wget https://www.stats.ox.ac.uk/pub/Rtools/goodies/multilib/local323.zip
+  - curl -o local323.zip https://www.stats.ox.ac.uk/pub/Rtools/goodies/multilib/local323.zip
   - unzip local323.zip -d local323
   
   - travis-tool.sh install_deps
