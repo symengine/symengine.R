@@ -16,7 +16,16 @@ cache:
 # Adapt as necessary starting from here
 
 build_script:
+  - wget https://www.stats.ox.ac.uk/pub/Rtools/goodies/multilib/local323.zip
+  - unzip local323.zip -d local323
+  
   - travis-tool.sh install_deps
+
+environment:
+  global:
+    # Manually set Make variables
+    LIB_GMP: local323/
+    LIB_MPFR: local323/
 
 test_script:
   - travis-tool.sh run_tests
