@@ -1,9 +1,7 @@
 
 # Links against the downloaded binaries
-#PKG_CPPFLAGS= -I../win-symengine/Library/include -I../win-mpc/Library/include -I$(LIB_MPFR)/include -I$(LIB_GMP)/include
-#PKG_LIBS= -L../win-symengine/Library/lib -L../win-mpc/Library/lib -L$(LIB_MPFR)/lib/$(R_ARCH) -L$(LIB_GMP)/lib/$(R_ARCH) -lsymengine -lmpc -lmpfr -lgmp
-PKG_CPPFLAGS= -I../win-symengine/Library/include -I$(LIB_MPFR)/include -I$(LIB_GMP)/include
-PKG_LIBS= -L../win-symengine/Library/lib -L$(LIB_MPFR)/lib/$(R_ARCH) -L$(LIB_GMP)/lib/$(R_ARCH) -lsymengine -lmpfr -lgmp
+PKG_CPPFLAGS= -I../win-symengine/Library/include -I../win-mpc/Library/include -I$(LIB_MPFR)/include -I$(LIB_GMP)/include
+PKG_LIBS= -L../win-symengine/Library/lib -L../win-mpc/Library/lib -L$(LIB_MPFR)/lib/$(R_ARCH) -L$(LIB_GMP)/lib/$(R_ARCH) -lsymengine -lmpc -lmpfr -lgmp
 
 all: clean winlibs
 
