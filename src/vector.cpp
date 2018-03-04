@@ -92,7 +92,7 @@ SEXP vecbasic_concentrate(SEXP dots) {
         } else if (R_compute_identical(R_ExternalPtrTag(VECTOR_ELT(dots, i)), Rf_mkString("CVecBasic*"), 15)) {
             vecbasic_concentrate_vec(out, VECTOR_ELT(dots, i));
         } else {
-            Rf_error("The %dth object's type is error'", i);
+            Rf_error("The %dth object's type is error'", i + 1);
         }
     }
     UNPROTECT(1);

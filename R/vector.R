@@ -87,7 +87,7 @@ setMethod("length", "VecBasic",
 
 vecbasic_concentrate <- function(...) {
     lt = list(...)
-    for (i in 1:length(lt)) {
+    for (i in seq_along(lt)) {
         lt[[i]] = as(lt[[i]], "externalptr")
     }
     new("VecBasic", .vecbasic_concentrate(lt))
@@ -98,7 +98,6 @@ vecbasic_get <- function(vec, n) {
 }
 
 # For now, the index should be valid.
-# If indexs are all zero, it return empty vector.
 vecbasic_subset <- function(vec, idx) {
     idx <- as.integer(idx)
     len_idx <- length(idx)
