@@ -114,7 +114,7 @@ basic_struct* elt_basic(SEXP x) {
     }
     
     if (NULL == out)
-        Rf_error("Invalid pointer");
+        Rf_error("Invalid pointer for 'Basic'");
     
     return out;
 }
@@ -140,7 +140,7 @@ CVecBasic* elt_vecbasic(SEXP x) {
     }
     
     if (NULL == out)
-        Rf_error("Invalid pointer");
+        Rf_error("Invalid pointer for 'VecBasic'");
     
     return out;
 }
