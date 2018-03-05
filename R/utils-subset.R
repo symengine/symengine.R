@@ -3,12 +3,13 @@
 
 normalizeSingleBracketSubscript <- function (i, x) {
     .by.numeric <- function (i, x) {
+        x_NROW <- NROW(x)
         i <- as.integer(i)
         if (anyNA(i))
             stop("Subscript contains NAs")
         i_max <- max(i)
         i_min <- min(i)
-        if (i_max > NROW(x))
+        if (i_max > x_NROW)
             stop("Subscript contains out-of-bounds indices")
         
         if (i_min < 0L) {

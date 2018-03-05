@@ -69,12 +69,16 @@ setMethod("[[", c(x = "VecBasic", i = "numeric", j = "ANY"),
     }
 )
 
-setMethod("[", c(x = "VecBasic", i = "numeric", j = "ANY", drop = "ANY"),
-    function (x, i, j, ..., drop = TRUE) {
+setMethod("[", c(x = "VecBasic"),
+    function(x, i, j, ..., drop = TRUE) {
         if (!missing(...))
             warning("Extra arguments are ignored")
+        if (!missing(drop))
+            warning("Supplied argument 'drop' is ignored")
         if (!missing(j))
             stop("incorrect number of dimensions")
+        if (missing(i))
+            return(x)
         i <- normalizeSingleBracketSubscript(i, x)
         vecbasic_subset(x, i)
     }
