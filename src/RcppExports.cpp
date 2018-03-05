@@ -948,6 +948,52 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// sexp_vecbasic_length
+size_t sexp_vecbasic_length(SEXP ext);
+RcppExport SEXP _symengine_sexp_vecbasic_length(SEXP extSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type ext(extSEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_vecbasic_length(ext));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sexp_vecbasic_concentrate
+SEXP sexp_vecbasic_concentrate(SEXP dots);
+RcppExport SEXP _symengine_sexp_vecbasic_concentrate(SEXP dotsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type dots(dotsSEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_vecbasic_concentrate(dots));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sexp_vecbasic_subset
+SEXP sexp_vecbasic_subset(SEXP ext, SEXP idx);
+RcppExport SEXP _symengine_sexp_vecbasic_subset(SEXP extSEXP, SEXP idxSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type ext(extSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type idx(idxSEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_vecbasic_subset(ext, idx));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sexp_vecbasic_get
+SEXP sexp_vecbasic_get(SEXP ext, SEXP n);
+RcppExport SEXP _symengine_sexp_vecbasic_get(SEXP extSEXP, SEXP nSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type ext(extSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type n(nSEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_vecbasic_get(ext, n));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 RcppExport SEXP R_ExternalPtrTag(SEXP);
 
@@ -1038,6 +1084,10 @@ static const R_CallMethodDef CallEntries[] = {
     {"_symengine_sexp_symengine_ascii_art", (DL_FUNC) &_symengine_sexp_symengine_ascii_art, 0},
     {"_symengine_sexp_symengine_version", (DL_FUNC) &_symengine_sexp_symengine_version, 0},
     {"_symengine_sexp_symengine_have_component", (DL_FUNC) &_symengine_sexp_symengine_have_component, 1},
+    {"_symengine_sexp_vecbasic_length", (DL_FUNC) &_symengine_sexp_vecbasic_length, 1},
+    {"_symengine_sexp_vecbasic_concentrate", (DL_FUNC) &_symengine_sexp_vecbasic_concentrate, 1},
+    {"_symengine_sexp_vecbasic_subset", (DL_FUNC) &_symengine_sexp_vecbasic_subset, 2},
+    {"_symengine_sexp_vecbasic_get", (DL_FUNC) &_symengine_sexp_vecbasic_get, 2},
     {"R_ExternalPtrTag",                         (DL_FUNC) &R_ExternalPtrTag,                         1},
     {NULL, NULL, 0}
 };

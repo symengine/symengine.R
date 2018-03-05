@@ -24,4 +24,6 @@ Collate:
     'basic_opts.R'
     'misc.R'
     'symengine_info.R'
+    'utils-subset.R'
+    'vector.R'
     'zzz.R'

@@ -345,3 +345,19 @@ symengine_version <- function() {
     .Call('_symengine_sexp_symengine_have_component', PACKAGE = 'symengine', s)
 }
 
+.vecbasic_length <- function(ext) {
+    .Call('_symengine_sexp_vecbasic_length', PACKAGE = 'symengine', ext)
+}
+
+.vecbasic <- function(dots) {
+    .Call('_symengine_sexp_vecbasic_concentrate', PACKAGE = 'symengine', dots)
+}
+
+.vecbasic_subset <- function(ext, idx) {
+    .Call('_symengine_sexp_vecbasic_subset', PACKAGE = 'symengine', ext, idx)
+}
+
+.vecbasic_get <- function(ext, n) {
+    .Call('_symengine_sexp_vecbasic_get', PACKAGE = 'symengine', ext, n)
+}
+

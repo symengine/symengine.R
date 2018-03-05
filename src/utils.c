@@ -45,3 +45,21 @@ SEXP sexp_basic () {
     return out;
 }
 
+static void _vecbasic_finalizer(SEXP ext) {
+    if (NULL == R_ExternalPtrAddr(ext)) {
+        REprintf("Debug> _vecbasic_finalizer: Empty ptr\n");
+        return;
+    }
+    CVecBasic* vec = (CVecBasic*) R_ExternalPtrAddr(ext);
+    vecbasic_free(vec);
+    R_ClearExternalPtr(ext);
+}
+
+SEXP sexp_vecbasic () {
+    CVecBasic* ptr = vecbasic_new();
+    SEXP out = PROTECT(R_MakeExternalPtr(ptr, Rf_mkString("CVecBasic*"), R_NilValue));
+    R_RegisterCFinalizerEx(out, _vecbasic_finalizer, TRUE);
+    UNPROTECT(1);
+    return out;
+}
+
