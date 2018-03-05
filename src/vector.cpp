@@ -44,8 +44,8 @@ SEXP sexp_vecbasic_subset(SEXP ext, SEXP idx) {
     SEXP a = PROTECT(sexp_basic());
     basic_struct* val = (basic_struct*) R_ExternalPtrAddr(a);
     for (int i = 0; i < Rf_length(idx); i++) {
-        vecbasic_get(inv, ids[i] - 1, val);
-        vecbasic_push_back(outv, val);
+        hold_exception(vecbasic_get(inv, ids[i] - 1, val));
+        hold_exception(vecbasic_push_back(outv, val));
     }
     
     UNPROTECT(2);
@@ -91,8 +91,8 @@ void _vecbasic_append_sexp(CVecBasic* self, SEXP ext) {
         SEXP a = PROTECT(sexp_basic());
         basic_struct* val = (basic_struct*) R_ExternalPtrAddr(a);
         for (size_t i = 0; i < vecbasic_size(toappend); i++) {
-            vecbasic_get(toappend, i, val);
-            vecbasic_push_back(self, val);
+            hold_exception(vecbasic_get(toappend, i, val));
+            hold_exception(vecbasic_push_back(self, val));
         }
         UNPROTECT(1);
         
