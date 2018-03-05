@@ -71,12 +71,12 @@ setMethod("[[", c(x = "VecBasic", i = "numeric", j = "ANY"),
 
 setMethod("[", c(x = "VecBasic", i = "numeric", j = "ANY", drop = "ANY"),
     function (x, i, j, ..., drop = TRUE) {
-        # TODO: normalize the index
         if (!missing(...))
             warning("Extra arguments are ignored")
         if (!missing(j))
             stop("incorrect number of dimensions")
-        vecbasic_subset(x, as.integer(i))
+        i <- normalizeSingleBracketSubscript(i, x)
+        vecbasic_subset(x, i)
     }
 )
 
