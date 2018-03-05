@@ -84,3 +84,15 @@ setMethod("[", c(x = "VecBasic"),
     }
 )
 
+#' @export
+setGeneric("as.list")
+
+setMethod("as.list", c(x = "VecBasic"),
+    function(x) {
+        ans <- vector("list", length(x))
+        for (i in seq_along(ans))
+            ans[[i]] <- x[[i]]
+        ans
+    }
+)
+
