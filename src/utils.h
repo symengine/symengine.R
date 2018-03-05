@@ -38,7 +38,7 @@ SEXP sexp_basic_s4() {
 
 static inline
 SEXP sexp_vecbasic_s4() {
-    SEXP empty = PROTECT(R_do_new_object(R_getClassDef("Basic")));
+    SEXP empty = PROTECT(R_do_new_object(R_getClassDef("VecBasic")));
     SEXP out   = PROTECT(R_do_slot_assign(empty, Rf_mkString(".xData"), sexp_vecbasic()));
     UNPROTECT(2);
     return out;
