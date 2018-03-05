@@ -26,7 +26,28 @@ static inline void hold_exception(CWRAPPER_OUTPUT_TYPE output) {
 SEXP sexp_basic();
 SEXP sexp_vecbasic();
 
+// Initialize new Basic/VecBasic S4 object //===================================
+
+static inline
+SEXP sexp_basic_s4() {
+    SEXP empty = PROTECT(R_do_new_object(R_getClassDef("Basic")));
+    SEXP out   = PROTECT(R_do_slot_assign(empty, Rf_mkString(".xData"), sexp_basic()));
+    UNPROTECT(2);
+    return out;
+}
+
+static inline
+SEXP sexp_vecbasic_s4() {
+    SEXP empty = PROTECT(R_do_new_object(R_getClassDef("Basic")));
+    SEXP out   = PROTECT(R_do_slot_assign(empty, Rf_mkString(".xData"), sexp_vecbasic()));
+    UNPROTECT(2);
+    return out;
+}
+
+
 // Helper function to check EXTPTR SEXP of Basic //==============================
+
+// We may not need them anymore
 
 static inline void sexp_check_basic(SEXP ext) {
     if (NULL == R_ExternalPtrAddr(ext))
@@ -43,6 +64,88 @@ static inline void sexp_check_vecbasic(SEXP ext) {
         Rf_error("Tag of the pointer does not match to 'CVecBasic*'\n");
     return;
 }
+
+// Helper function to check whether an externalptr is basic or vecbasic ========
+
+static inline
+int is_basic(SEXP x) {
+    if (TYPEOF(x) == EXTPTRSXP)
+        return R_compute_identical(R_ExternalPtrTag(x),
+                                   Rf_mkString("basic_struct*"), 15);
+    else if (TYPEOF(x) == S4SXP)
+        return R_compute_identical(R_ExternalPtrTag(R_do_slot(x, Rf_mkString(".xData"))),
+                                   Rf_mkString("basic_struct*"), 15);
+    else
+        Rf_error("Internal: not a S4 or an externalptr");
+}
+
+static inline
+int is_vecbasic(SEXP x) {
+    if (TYPEOF(x) == EXTPTRSXP)
+        return R_compute_identical(R_ExternalPtrTag(x),
+                                   Rf_mkString("CVecBasic*"), 15);
+    else if (TYPEOF(x) == S4SXP)
+        return R_compute_identical(R_ExternalPtrTag(R_do_slot(x, Rf_mkString(".xData"))),
+                                   Rf_mkString("CVecBasic*"), 15);
+    else
+        Rf_error("Internal: not a S4 or an externalptr");
+}
+
+// Helper function to extract basic_struct*/CVecBasic* from S4 or externalptr ==
+
+static inline
+basic_struct* elt_basic(SEXP x) {
+    // We do not check whether x is a basic here,
+    // thus when using it, always add "if (is_basic(x))"
+    basic_struct* out;
+    
+    switch(TYPEOF(x)) {
+    
+    case S4SXP :
+        out = (basic_struct*) R_ExternalPtrAddr(R_do_slot(x, Rf_mkString(".xData")));
+        break;
+        
+    case EXTPTRSXP :
+        out = (basic_struct*) R_ExternalPtrAddr(x);
+        break;
+        
+    default :
+        Rf_error("Internal");
+    }
+    
+    if (NULL == out)
+        Rf_error("Invalid pointer");
+    
+    return out;
+}
+
+static inline
+CVecBasic* elt_vecbasic(SEXP x) {
+    // We do not check whether x is a vecbasic here,
+    // thus when using it, always add "if (is_vecbasic(x))"
+    CVecBasic* out;
+    
+    switch(TYPEOF(x)) {
+    
+    case S4SXP :
+        out = (CVecBasic*) R_ExternalPtrAddr(R_do_slot(x, Rf_mkString(".xData")));
+        break;
+        
+    case EXTPTRSXP :
+        out = (CVecBasic*) R_ExternalPtrAddr(x);
+        break;
+        
+    default :
+        Rf_error("Internal");
+    }
+    
+    if (NULL == out)
+        Rf_error("Invalid pointer");
+    
+    return out;
+}
+
+
 
 #endif // _Rsymengine_utils_
 
