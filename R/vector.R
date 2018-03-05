@@ -4,137 +4,79 @@ NULL
 ## Vector    ===================================================================
 setClass("VecBasic", contains = "externalptr")
 
-vecbasic_new <- function() {
-    new("VecBasic", .vecbasic_new())
+#' @export
+vecbasic <- function(...) {
+    # Currently we do conversion in this way, however we should in future have
+    # C-level function for conversion to basic to reduce overhead.
+    lt <- lapply(unname(list(...)), function(x) {
+        if (is(x, "Basic") || is(x, "VecBasic"))
+            return(x@.xData)
+        else
+            return(S(x)@.xData)
+    })
+    new("VecBasic", .vecbasic(lt))
 }
 
-vecbasic_push_back <- function(vec, val) {
-    .vecbasic_push_back(vec@.xData, val@.xData)
-    vec
+vecbasic_subset <- function(vec, idx) {
+    # idx can only be integer vector
+    new("VecBasic", .vecbasic_subset(vec@.xData, idx));
 }
 
 vecbasic_get <- function(vec, n) {
-    res <- S("tmp")
-    .vecbasic_get(vec@.xData, n, res@.xData)
-    res
+    # n can only be integer
+    new("Basic", .vecbasic_get(vec@.xData, n))
 }
 
-vecbasic_set <- function(vec, n, val) {
-    .vecbasic_set(vec@.xData, n, val@.xData)
-    vec
-}
-
-vecbasic_size <- function(vec) {
-    .vecbasic_size(vec@.xData)
-}
-
-vecbasic_erase <- function(vec, n) {
-    .vecbasic_erase(vec@.xData, n)
-    vec
-}
-
-basic_max <- function(vec) {
-    res <- S("tmp")
-    .basic_max(res@.xData, vec@.xData)
-    res
-}
-
-basic_min <- function(vec) {
-    res <- S("tmp")
-    .basic_min(res@.xData, vec@.xData)
-    res
-}
-
-setMethod("max", "VecBasic",
-    function (x) {
-        ptr <- as(x, "externalptr")
-        basic_max(x)
-    }
-)
-
-setMethod("min", "VecBasic",
-    function (x) {
-        ptr <- as(x, "externalptr")
-        basic_min(x)
-    }
-)
-
-setMethod("show", "VecBasic",
-    function (object) {
-        ptr <- as(object, "VecBasic")
-        n <- vecbasic_size(ptr)
-        if (n == 0) {
-            cat("Empty vector.")
-        } else {
-            til = min(10, n)
-            for (id in 1:til) {
-                obj <- vecbasic_get(ptr, id)
-                show(obj)
-            }
-            if (til < n) {
-                cat(n - til, "Symbols not printed.")
-            }
-        }
-        invisible()
+setMethods("c", list(c(x = "VecBasic"), c(x = "Basic")),
+    function (x, ...) {
+        vecbasic(x, ...)
     }
 )
 
 setMethod("length", "VecBasic",
     function(x) {
-        vecbasic_size(x)
+        .vecbasic_length(x@.xData)
     }
 )
 
-vecbasic_concentrate <- function(...) {
-    lt = list(...)
-    for (i in seq_along(lt)) {
-        lt[[i]] = as(lt[[i]], "externalptr")
-    }
-    new("VecBasic", .vecbasic_concentrate(lt))
-}
-
-vecbasic_get <- function(vec, n) {
-    new("Basic", .vecbasic_get(as(vec, "externalptr"), n))
-}
-
-# For now, the index should be valid.
-vecbasic_subset <- function(vec, idx) {
-    idx <- as.integer(idx)
-    len_idx <- length(idx)
-    len_vec <- length(vec)
-    mi = min(idx)
-    ma = max(idx)
-    valid_idx <- as.integer(1:len_vec)
-    if (mi == 0 && ma == 0) {
-        stop("not implement")
-    } else if (mi < 0 && ma > 0) {
-        stop("only 0's may be mixed with negative subscripts")
-    } else if (mi < 0) {
-        valid_idx <- setdiff(valid_idx, -idx)
-    } else if (ma > 0) {
-        if (ma > len_vec) {
-            stop("not implement")
+setMethod("show", "VecBasic",
+    function (object) {
+        cat(sprintf("VecBasic of length %s\n", length(object)))
+        
+        ids <- vector("character", length(object))
+        str <- vector("character", length(object))
+        
+        for (i in seq_along(object)) {
+            ids[[i]] <- paste0("[", i, "]")
+            str[[i]] <- basic_str(object[[i]])
         }
-        valid_idx <- idx
+        format(ids)
+        format(str)
+        lines <- paste(ids, str)
+        cat(lines, sep = "\n")
+        cat("\n")
     }
-    new("VecBasic", .vecbasic_subset(as(vec, "externalptr"), valid_idx));
-}
+)
 
 setMethod("[[", c(x = "VecBasic", i = "numeric", j = "ANY"),
     function(x, i, j, ...) {
-        if (!missing(j)) {
+        # TODO: normalize the index
+        if (!missing(...))
+            warning("Extra arguments are ignored")
+        if (!missing(j))
             stop("incorrect number of dimensions")
-        }
-        vecbasic_get(x, i)
+        vecbasic_get(x, as.integer(i))
     }
 )
 
 setMethod("[", c(x = "VecBasic", i = "numeric", j = "ANY", drop = "ANY"),
     function (x, i, j, ..., drop = TRUE) {
-        if (!missing(j)) {
+        # TODO: normalize the index
+        if (!missing(...))
+            warning("Extra arguments are ignored")
+        if (!missing(j))
             stop("incorrect number of dimensions")
-        }
-        vecbasic_subset(x, i)
+        vecbasic_subset(x, as.integer(i))
     }
 )
 
