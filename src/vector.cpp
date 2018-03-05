@@ -88,13 +88,13 @@ void _vecbasic_append_sexp(CVecBasic* self, SEXP ext) {
         
         CVecBasic* toappend = (CVecBasic*) R_ExternalPtrAddr(ext);
         
-        basic_struct* val;
-        basic_new_stack(val);
+        SEXP a = PROTECT(sexp_basic());
+        basic_struct* val = (basic_struct*) R_ExternalPtrAddr(a);
         for (size_t i = 0; i < vecbasic_size(toappend); i++) {
             vecbasic_get(toappend, i, val);
             vecbasic_push_back(self, val);
         }
-        basic_free_stack(val);
+        UNPROTECT(1);
         
         return;
     }
