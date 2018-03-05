@@ -14,17 +14,17 @@ vecbasic <- function(...) {
         else
             return(S(x))
     })
-    new("VecBasic", .vecbasic(lt))
+    .vecbasic(lt)
 }
 
 vecbasic_subset <- function(vec, idx) {
     # idx can only be integer vector
-    new("VecBasic", .vecbasic_subset(vec, idx));
+    .vecbasic_subset(vec, idx)
 }
 
 vecbasic_get <- function(vec, n) {
     # n can only be integer
-    new("Basic", .vecbasic_get(vec, n))
+    .vecbasic_get(vec, n)
 }
 
 setMethods("c", list(c(x = "VecBasic"), c(x = "Basic")),

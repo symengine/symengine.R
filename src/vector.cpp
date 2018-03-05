@@ -20,7 +20,7 @@ static inline void _vecbasic_append_sexp(CVecBasic* self, SEXP ext);
 
 // [[Rcpp::export(".vecbasic")]]
 SEXP sexp_vecbasic_concentrate(SEXP dots) {
-    SEXP       out = PROTECT(sexp_vecbasic());
+    SEXP       out = PROTECT(sexp_vecbasic_s4());
     CVecBasic* vec = elt_vecbasic(out);
     
     for (R_xlen_t i = 0; i < Rf_length(dots); i++)
@@ -36,7 +36,7 @@ SEXP sexp_vecbasic_subset(SEXP ext, SEXP idx) {
         Rf_error("Internal? Index must be integer");
     
     CVecBasic* inv  = elt_vecbasic(ext);
-    SEXP       out  = PROTECT(sexp_vecbasic());
+    SEXP       out  = PROTECT(sexp_vecbasic_s4());
     CVecBasic* outv = elt_vecbasic(out);
     int*       ids  = INTEGER(idx);
     
@@ -54,7 +54,7 @@ SEXP sexp_vecbasic_subset(SEXP ext, SEXP idx) {
 
 // [[Rcpp::export(".vecbasic_get")]]
 SEXP sexp_vecbasic_get(SEXP ext, SEXP n) {
-    SEXP          out  = PROTECT(sexp_basic());
+    SEXP          out  = PROTECT(sexp_basic_s4());
     basic_struct* outv = elt_basic(out);
     
     // Currently vecbasic_get is implemented with vecbasic_subset, then extract the value
