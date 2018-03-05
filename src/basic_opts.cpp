@@ -41,8 +41,6 @@ SEXP sexp_basic_pow(SEXP exta, SEXP extb) {return call_twoarg_opt(basic_pow, ext
 SEXP sexp_basic_diff(SEXP exta, SEXP extb) {return call_twoarg_opt(basic_diff, exta, extb);}
 
 
-// Here we also do conversion from S4 to externalptr, and initialization of the output
-// S4 object. In other functions, they are done in the R level.
 static inline
 SEXP wrap_basic_func_onearg(SEXP exta,
                             CWRAPPER_OUTPUT_TYPE (* func)(basic, const basic)) {
