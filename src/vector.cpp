@@ -89,7 +89,7 @@ SEXP sexp_vecbasic_assign(SEXP ext1, SEXP idx, SEXP ext2) {
     basic_struct* val = elt_basic(a);
     int*          ids = INTEGER(idx);
     for (int i = 0; i < Rf_length(idx); i++) {
-        hold_exception(vecbasic_get(inv2, ids[i] - 1, val));
+        hold_exception(vecbasic_get(inv2, i, val));
         hold_exception(vecbasic_set(outv, ids[i] - 1, val));
     }
 
