@@ -10,21 +10,21 @@ vecbasic <- function(...) {
     # C-level function for conversion to basic to reduce overhead.
     lt <- lapply(unname(list(...)), function(x) {
         if (is(x, "Basic") || is(x, "VecBasic"))
-            return(x@.xData)
+            return(x)
         else
-            return(S(x)@.xData)
+            return(S(x))
     })
-    new("VecBasic", .vecbasic(lt))
+    .vecbasic(lt)
 }
 
 vecbasic_subset <- function(vec, idx) {
     # idx can only be integer vector
-    new("VecBasic", .vecbasic_subset(vec@.xData, idx));
+    .vecbasic_subset(vec, idx)
 }
 
 vecbasic_get <- function(vec, n) {
     # n can only be integer
-    new("Basic", .vecbasic_get(vec@.xData, n))
+    .vecbasic_get(vec, n)
 }
 
 setMethods("c", list(c(x = "VecBasic"), c(x = "Basic")),
@@ -35,7 +35,7 @@ setMethods("c", list(c(x = "VecBasic"), c(x = "Basic")),
 
 setMethod("length", "VecBasic",
     function(x) {
-        .vecbasic_length(x@.xData)
+        .vecbasic_length(x)
     }
 )
 
