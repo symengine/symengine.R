@@ -74,6 +74,30 @@ SEXP sexp_vecbasic_get(SEXP ext, SEXP n) {
     return out;
 }
 
+// [[Rcpp::export(".vecbasic_assign")]]
+SEXP sexp_vecbasic_assign(SEXP ext1, SEXP idx, SEXP ext2) {
+    SEXP          out = PROTECT(sexp_vecbasic_s4());
+    CVecBasic*   outv = elt_vecbasic(out);
+
+    CVecBasic*   inv1 = elt_vecbasic(ext1);
+    CVecBasic*   inv2 = elt_vecbasic(ext2);
+    SEXP            a = PROTECT(sexp_basic_s4());
+    basic_struct* val = elt_basic(a);
+    int*          ids = INTEGER(idx);
+    int           flag;
+    for (size_t i = 0; i < Rf_length(idx); i++) {
+        flag = (ids[i] == 0) ? 0 : ((ids[i] < 0) ? -1 : 1); 
+        switch(flag) {
+            case  1: hold_exception(vecbasic_get(inv1,  ids[i] - 1, val));  break;
+            case -1: hold_exception(vecbasic_get(inv2, -ids[i] - 1, val));  break;
+        }
+        hold_exception(vecbasic_push_back(outv, val));
+    }
+
+    UNPROTECT(2);
+    return out;
+}
+
 
 static inline
 void _vecbasic_append_sexp(CVecBasic* self, SEXP ext) {

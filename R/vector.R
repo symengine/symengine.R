@@ -27,6 +27,11 @@ vecbasic_get <- function(vec, n) {
     .vecbasic_get(vec, n)
 }
 
+vecbasic_assign <- function(vec1, idx, vec2) {
+    # idx can only be integer vector
+    .vecbasic_assign(vec1, idx, vec2)
+}
+
 setMethods("c", list(c(x = "VecBasic"), c(x = "Basic")),
     function (x, ...) {
         vecbasic(x, ...)
@@ -83,6 +88,22 @@ setMethod("[", c(x = "VecBasic"),
         vecbasic_subset(x, i)
     }
 )
+
+setMethod("[<-", c(x = "VecBasic"), 
+    function (x, i, j, ..., value)  {
+        if (!missing(...))
+            warning("Extra arguments are ignored")
+        if (!missing(j))
+            stop("incorrect number of dimensions")
+        if (missing(i))
+            return(x)
+        if (is(value, "Basic"))
+            value <- vecbasic(value)
+        i <- normalizeSingleBracketReplaceIndex(i, x, value)
+        vecbasic_assign(x, i, value)
+    }
+)
+
 
 #' @export
 setGeneric("as.list")
