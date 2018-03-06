@@ -90,15 +90,11 @@ setMethod("[", c(x = "VecBasic"),
 
 setMethod("[<-", c(x = "VecBasic"), 
     function (x, i, j, ..., value)  {
-        if (!missing(...))
-            warning("Extra arguments are ignored")
-        if (!missing(j))
-            stop("incorrect number of dimensions")
-        if (missing(i))
-            return(x)
+        if (!missing(j) || !missing(...))
+            stop("Invalid subsetting")
         if (is(value, "Basic"))
             value <- vecbasic(value)
-        i <- normalizeSingleBracketReplaceIndex(i, x, value)
+        i <- normalizeSingleBracketSubscript(i, x)
         vecbasic_assign(x, i, value)
     }
 )
