@@ -82,8 +82,7 @@ setMethod("[", c(x = "VecBasic"),
             warning("Supplied argument 'drop' is ignored")
         if (!missing(j))
             stop("incorrect number of dimensions")
-        if (missing(i))
-            return(x)
+        
         i <- normalizeSingleBracketSubscript(i, x)
         vecbasic_subset(x, i)
     }
