@@ -41,6 +41,8 @@ normalizeSingleBracketSubscript <- function (i, x) {
         return(i)
     }
     
+    if (missing(i))
+        return(seq_along(x))
     if (is.numeric(i))
         return(.by.numeric(i, x))
     if (is.logical(i))
