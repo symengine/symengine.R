@@ -76,22 +76,21 @@ SEXP sexp_vecbasic_get(SEXP ext, SEXP n) {
 
 // [[Rcpp::export(".vecbasic_assign")]]
 SEXP sexp_vecbasic_assign(SEXP ext1, SEXP idx, SEXP ext2) {
-    SEXP          out = PROTECT(sexp_vecbasic_s4());
+    // Okay, we use sexp_vecbasic_subset to duplicate the object, seq_len is sugar from Rcpp
+    SEXP          out = PROTECT(sexp_vecbasic_subset(ext1, wrap(Rcpp::seq_len(Rf_length(ext1)))));
     CVecBasic*   outv = elt_vecbasic(out);
-
-    CVecBasic*   inv1 = elt_vecbasic(ext1);
     CVecBasic*   inv2 = elt_vecbasic(ext2);
+    
+    // Sanity check 
+    if (Rf_length(idx) != vecbasic_size(inv2))
+        Rf_error("Internal? Length of index does not equal to length of value");
+    
     SEXP            a = PROTECT(sexp_basic_s4());
     basic_struct* val = elt_basic(a);
     int*          ids = INTEGER(idx);
-    int           flag;
-    for (size_t i = 0; i < Rf_length(idx); i++) {
-        flag = (ids[i] == 0) ? 0 : ((ids[i] < 0) ? -1 : 1); 
-        switch(flag) {
-            case  1: hold_exception(vecbasic_get(inv1,  ids[i] - 1, val));  break;
-            case -1: hold_exception(vecbasic_get(inv2, -ids[i] - 1, val));  break;
-        }
-        hold_exception(vecbasic_push_back(outv, val));
+    for (int i = 0; i < Rf_length(idx); i++) {
+        hold_exception(vecbasic_get(inv2, ids[i] - 1, val));
+        hold_exception(vecbasic_set(outv, ids[i] - 1, val));
     }
 
     UNPROTECT(2);
