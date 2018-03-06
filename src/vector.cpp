@@ -74,10 +74,30 @@ SEXP sexp_vecbasic_get(SEXP ext, SEXP n) {
     return out;
 }
 
+static inline
+SEXP duplicate_vecbasic(SEXP x) {
+    SEXP out = PROTECT(sexp_vecbasic_s4());
+    
+    CVecBasic* outv = elt_vecbasic(out);
+    CVecBasic* inv  = elt_vecbasic(x);
+    int len = vecbasic_size(inv);
+    
+    SEXP a = PROTECT(sexp_basic());
+    basic_struct* val = elt_basic(a);
+    for (int i = 0; i < len; i++) {
+        hold_exception(vecbasic_get(inv, i, val));
+        hold_exception(vecbasic_push_back(outv, val));
+    }
+    
+    UNPROTECT(2);
+    return out;
+}
+
 // [[Rcpp::export(".vecbasic_assign")]]
 SEXP sexp_vecbasic_assign(SEXP ext1, SEXP idx, SEXP ext2) {
-    // Okay, we use sexp_vecbasic_subset to duplicate the object, seq_len is sugar from Rcpp
-    SEXP          out = PROTECT(sexp_vecbasic_subset(ext1, wrap(Rcpp::seq_len(Rf_length(ext1)))));
+    // Duplicate the vecbasic
+    SEXP out = PROTECT(duplicate_vecbasic(ext1));
+    
     CVecBasic*   outv = elt_vecbasic(out);
     CVecBasic*   inv2 = elt_vecbasic(ext2);
     
