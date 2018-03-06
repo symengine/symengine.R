@@ -95,6 +95,23 @@ setMethod("[<-", c(x = "VecBasic"),
         if (is(value, "Basic"))
             value <- vecbasic(value)
         i <- normalizeSingleBracketSubscript(i, x)
+        
+        li <- length(i)
+        lv <- NROW(value)
+        
+        ## There are different results when missing `i` and length(i) == 0
+        ## i.e. a[c()] <- 42, a[] <- 42
+        if (li == 0L)
+            return(x)
+        if (lv == 0L)
+            stop("Replacement has length zero")
+        if (li != lv) {
+            # Recycle of value when length(i) != length(value)
+            if (li%%lv != 0L)
+                warning("Number of values supplied is not a sub-multiple of the ",
+                        "number of values to be replaced")
+            value <- value[rep(seq_len(lv), length.out = li)]
+        }
         vecbasic_assign(x, i, value)
     }
 )
