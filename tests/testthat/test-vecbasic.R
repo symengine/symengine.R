@@ -52,3 +52,47 @@ test_that("Single bracket subscript subsetting", {
     expect_vecbasic_equal(v[], v)
 })
 
+
+test_that("Single bracket subscript replacing", {
+    
+    # Assign vecbasic
+    v  <- vecbasic(1,2,3)
+    v2 <- vecbasic("a","b")
+    v[c(2,3)] <- v2
+    expect_vecbasic_equal(v, vecbasic(1,"a","b"))
+    
+    # Assign vecbasic (with recycling)
+    v  <- vecbasic(1,2,3)
+    v2 <- vecbasic("a")
+    v[c(2,3)] <- v2
+    expect_vecbasic_equal(v, vecbasic(1,"a","a"))
+    
+    # Assign vecbasic (warning with recycling)
+    v  <- vecbasic(1,2,3)
+    v2 <- vecbasic("a","b")
+    expect_warning(v[c(1,2,3)] <- v2, "not a sub-multiple of the number of")
+    expect_vecbasic_equal(v, vecbasic("a","b","a"))
+    
+    # Assign basic (with recycling)
+    v  <- vecbasic(1,2,3)
+    v[c(2,3)] <- S("a")
+    expect_vecbasic_equal(v, vecbasic(1, "a", "a"))
+    
+    # Negative index
+    v  <- vecbasic(1,2,3)
+    v[-1] <- S("a")
+    expect_vecbasic_equal(v, vecbasic(1, "a", "a"))
+    
+    # Check copy-on-modify
+    v1 <- vecbasic(1,2,3)
+    v2 <- v1
+    v2[1] <- S("x")
+    expect_vecbasic_equal(v1, vecbasic(1,2,3))
+    expect_vecbasic_equal(v2, vecbasic("x",2,3))
+    
+    # TODO: check address of v
+})
+
+
+
+
