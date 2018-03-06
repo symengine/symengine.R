@@ -60,7 +60,7 @@ SEXP sexp_vecbasic_get(SEXP ext, SEXP n) {
     // Currently vecbasic_get is implemented with vecbasic_subset, then extract the value
     if (Rf_length(n) == 1) {
         SEXP res = PROTECT(sexp_vecbasic_subset(ext, n));
-        vecbasic_get(elt_vecbasic(res), 0, outv);
+        hold_exception(vecbasic_get(elt_vecbasic(res), 0, outv));
         UNPROTECT(1);
     }
     
@@ -78,7 +78,7 @@ SEXP sexp_vecbasic_get(SEXP ext, SEXP n) {
 static inline
 void _vecbasic_append_sexp(CVecBasic* self, SEXP ext) {
     if (is_basic(ext)) {
-        vecbasic_push_back(self, elt_basic(ext));
+        hold_exception(vecbasic_push_back(self, elt_basic(ext)));
         return;
     }
     if (is_vecbasic(ext)) {
