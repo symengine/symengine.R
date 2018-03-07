@@ -27,6 +27,11 @@ vecbasic_get <- function(vec, n) {
     .vecbasic_get(vec, n)
 }
 
+vecbasic_assign <- function(vec1, idx, vec2) {
+    # idx can only be integer vector
+    .vecbasic_assign(vec1, idx, vec2)
+}
+
 setMethods("c", list(c(x = "VecBasic"), c(x = "Basic")),
     function (x, ...) {
         vecbasic(x, ...)
@@ -77,12 +82,42 @@ setMethod("[", c(x = "VecBasic"),
             warning("Supplied argument 'drop' is ignored")
         if (!missing(j))
             stop("incorrect number of dimensions")
-        if (missing(i))
-            return(x)
+        
         i <- normalizeSingleBracketSubscript(i, x)
         vecbasic_subset(x, i)
     }
 )
+
+setMethod("[<-", c(x = "VecBasic"), 
+    function (x, i, j, ..., value)  {
+        if (!missing(j) || !missing(...))
+            stop("Invalid subsetting")
+        if (is(value, "Basic"))
+            value <- vecbasic(value)
+        i <- normalizeSingleBracketSubscript(i, x)
+        
+        li <- length(i)
+        lv <- NROW(value)
+        
+        ## There are different results when missing `i` and length(i) == 0
+        ## i.e. a[c()] <- 42, a[] <- 42
+        if (li == 0L)
+            return(x)
+        if (lv == 0L)
+            stop("Replacement has length zero")
+        if (li != lv) {
+            # Recycle of value when length(i) != length(value)
+            if (li%%lv != 0L)
+                warning("Number of values supplied is not a sub-multiple of the ",
+                        "number of values to be replaced")
+            # TODO: Currently we expand the value in R, however to be more
+            # efficient, we should handle the recycle in C.
+            value <- value[rep(seq_len(lv), length.out = li)]
+        }
+        vecbasic_assign(x, i, value)
+    }
+)
+
 
 #' @export
 setGeneric("as.list")

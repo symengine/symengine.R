@@ -1,4 +1,3 @@
-
 # Light implementation of S4Vectors::normalizeSingleBracketSubscript
 
 normalizeSingleBracketSubscript <- function (i, x) {
@@ -42,6 +41,8 @@ normalizeSingleBracketSubscript <- function (i, x) {
         return(i)
     }
     
+    if (missing(i))
+        return(seq_along(x))
     if (is.numeric(i))
         return(.by.numeric(i, x))
     if (is.logical(i))
@@ -49,6 +50,5 @@ normalizeSingleBracketSubscript <- function (i, x) {
     
     stop(sprintf("Not implemented for %s", class(i)))
 }
-
 
 

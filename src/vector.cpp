@@ -74,6 +74,49 @@ SEXP sexp_vecbasic_get(SEXP ext, SEXP n) {
     return out;
 }
 
+static inline
+SEXP duplicate_vecbasic(SEXP x) {
+    SEXP out = PROTECT(sexp_vecbasic_s4());
+    
+    CVecBasic* outv = elt_vecbasic(out);
+    CVecBasic* inv  = elt_vecbasic(x);
+    int len = vecbasic_size(inv);
+    
+    SEXP a = PROTECT(sexp_basic());
+    basic_struct* val = elt_basic(a);
+    for (int i = 0; i < len; i++) {
+        hold_exception(vecbasic_get(inv, i, val));
+        hold_exception(vecbasic_push_back(outv, val));
+    }
+    
+    UNPROTECT(2);
+    return out;
+}
+
+// [[Rcpp::export(".vecbasic_assign")]]
+SEXP sexp_vecbasic_assign(SEXP ext1, SEXP idx, SEXP ext2) {
+    // Duplicate the vecbasic
+    SEXP out = PROTECT(duplicate_vecbasic(ext1));
+    
+    CVecBasic*   outv = elt_vecbasic(out);
+    CVecBasic*   inv2 = elt_vecbasic(ext2);
+    
+    // Sanity check 
+    if (Rf_length(idx) != vecbasic_size(inv2))
+        Rf_error("Internal? Length of index does not equal to length of value");
+    
+    SEXP            a = PROTECT(sexp_basic_s4());
+    basic_struct* val = elt_basic(a);
+    int*          ids = INTEGER(idx);
+    for (int i = 0; i < Rf_length(idx); i++) {
+        hold_exception(vecbasic_get(inv2, i, val));
+        hold_exception(vecbasic_set(outv, ids[i] - 1, val));
+    }
+
+    UNPROTECT(2);
+    return out;
+}
+
 
 static inline
 void _vecbasic_append_sexp(CVecBasic* self, SEXP ext) {
