@@ -110,6 +110,8 @@ setMethod("[<-", c(x = "VecBasic"),
             if (li%%lv != 0L)
                 warning("Number of values supplied is not a sub-multiple of the ",
                         "number of values to be replaced")
+            # TODO: Currently we expand the value in R, however to be more
+            # efficient, we should handle the recycle in C.
             value <- value[rep(seq_len(lv), length.out = li)]
         }
         vecbasic_assign(x, i, value)
