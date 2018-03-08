@@ -9,7 +9,24 @@ NULL
 dots <- function (...)
     eval(substitute(alist(...)))
 
+#' Initializing Variables
+#' 
+#' This is a convenient way to initialize variables and assign them in the given
+#' environment.
+#'
+#' @param ... All the arguments will be quoted and parsed, if a argument is named,
+#'     the name will be used as the name of variable to assign, otherwise the
+#'     argument can only be a symbol.
+#' @param .env Environment to assign.
+#'
+#' @return Invisibly returns a list of assigned variables.
 #' @export
+#'
+#' @examples
+#' use_vars(x, y, expr = "a + b", p = 3.14)
+#' p * x + y
+#' expand(expr^2L)
+#' rm(x, y, expr, p)
 use_vars <- function(..., .env = parent.frame()) {
     
     args <- dots(...)
