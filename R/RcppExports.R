@@ -409,6 +409,30 @@ symengine_version <- function() {
     .Call('_symengine_sexp_symengine_have_component', PACKAGE = 'symengine', s)
 }
 
+.vecbasic_add <- function(vec1, vec2) {
+    .Call('_symengine_sexp_vecbasic_add', PACKAGE = 'symengine', vec1, vec2)
+}
+
+.vecbasic_sub <- function(vec1, vec2) {
+    .Call('_symengine_sexp_vecbasic_sub', PACKAGE = 'symengine', vec1, vec2)
+}
+
+.vecbasic_mul <- function(vec1, vec2) {
+    .Call('_symengine_sexp_vecbasic_mul', PACKAGE = 'symengine', vec1, vec2)
+}
+
+.vecbasic_div <- function(vec1, vec2) {
+    .Call('_symengine_sexp_vecbasic_div', PACKAGE = 'symengine', vec1, vec2)
+}
+
+.vecbasic_pow <- function(vec1, vec2) {
+    .Call('_symengine_sexp_vecbasic_pow', PACKAGE = 'symengine', vec1, vec2)
+}
+
+.vecbasic_diff <- function(vec1, vec2) {
+    .Call('_symengine_sexp_vecbasic_diff', PACKAGE = 'symengine', vec1, vec2)
+}
+
 .vecbasic_length <- function(ext) {
     .Call('_symengine_sexp_vecbasic_length', PACKAGE = 'symengine', ext)
 }

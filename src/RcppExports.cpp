@@ -1139,6 +1139,78 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// sexp_vecbasic_add
+SEXP sexp_vecbasic_add(SEXP vec1, SEXP vec2);
+RcppExport SEXP _symengine_sexp_vecbasic_add(SEXP vec1SEXP, SEXP vec2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type vec1(vec1SEXP);
+    Rcpp::traits::input_parameter< SEXP >::type vec2(vec2SEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_vecbasic_add(vec1, vec2));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sexp_vecbasic_sub
+SEXP sexp_vecbasic_sub(SEXP vec1, SEXP vec2);
+RcppExport SEXP _symengine_sexp_vecbasic_sub(SEXP vec1SEXP, SEXP vec2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type vec1(vec1SEXP);
+    Rcpp::traits::input_parameter< SEXP >::type vec2(vec2SEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_vecbasic_sub(vec1, vec2));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sexp_vecbasic_mul
+SEXP sexp_vecbasic_mul(SEXP vec1, SEXP vec2);
+RcppExport SEXP _symengine_sexp_vecbasic_mul(SEXP vec1SEXP, SEXP vec2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type vec1(vec1SEXP);
+    Rcpp::traits::input_parameter< SEXP >::type vec2(vec2SEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_vecbasic_mul(vec1, vec2));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sexp_vecbasic_div
+SEXP sexp_vecbasic_div(SEXP vec1, SEXP vec2);
+RcppExport SEXP _symengine_sexp_vecbasic_div(SEXP vec1SEXP, SEXP vec2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type vec1(vec1SEXP);
+    Rcpp::traits::input_parameter< SEXP >::type vec2(vec2SEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_vecbasic_div(vec1, vec2));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sexp_vecbasic_pow
+SEXP sexp_vecbasic_pow(SEXP vec1, SEXP vec2);
+RcppExport SEXP _symengine_sexp_vecbasic_pow(SEXP vec1SEXP, SEXP vec2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type vec1(vec1SEXP);
+    Rcpp::traits::input_parameter< SEXP >::type vec2(vec2SEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_vecbasic_pow(vec1, vec2));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sexp_vecbasic_diff
+SEXP sexp_vecbasic_diff(SEXP vec1, SEXP vec2);
+RcppExport SEXP _symengine_sexp_vecbasic_diff(SEXP vec1SEXP, SEXP vec2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type vec1(vec1SEXP);
+    Rcpp::traits::input_parameter< SEXP >::type vec2(vec2SEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_vecbasic_diff(vec1, vec2));
+    return rcpp_result_gen;
+END_RCPP
+}
 // sexp_vecbasic_length
 size_t sexp_vecbasic_length(SEXP ext);
 RcppExport SEXP _symengine_sexp_vecbasic_length(SEXP extSEXP) {
@@ -1304,6 +1376,12 @@ static const R_CallMethodDef CallEntries[] = {
     {"_symengine_sexp_symengine_ascii_art", (DL_FUNC) &_symengine_sexp_symengine_ascii_art, 0},
     {"_symengine_sexp_symengine_version", (DL_FUNC) &_symengine_sexp_symengine_version, 0},
     {"_symengine_sexp_symengine_have_component", (DL_FUNC) &_symengine_sexp_symengine_have_component, 1},
+    {"_symengine_sexp_vecbasic_add", (DL_FUNC) &_symengine_sexp_vecbasic_add, 2},
+    {"_symengine_sexp_vecbasic_sub", (DL_FUNC) &_symengine_sexp_vecbasic_sub, 2},
+    {"_symengine_sexp_vecbasic_mul", (DL_FUNC) &_symengine_sexp_vecbasic_mul, 2},
+    {"_symengine_sexp_vecbasic_div", (DL_FUNC) &_symengine_sexp_vecbasic_div, 2},
+    {"_symengine_sexp_vecbasic_pow", (DL_FUNC) &_symengine_sexp_vecbasic_pow, 2},
+    {"_symengine_sexp_vecbasic_diff", (DL_FUNC) &_symengine_sexp_vecbasic_diff, 2},
     {"_symengine_sexp_vecbasic_length", (DL_FUNC) &_symengine_sexp_vecbasic_length, 1},
     {"_symengine_sexp_vecbasic_concentrate", (DL_FUNC) &_symengine_sexp_vecbasic_concentrate, 1},
     {"_symengine_sexp_vecbasic_subset", (DL_FUNC) &_symengine_sexp_vecbasic_subset, 2},
