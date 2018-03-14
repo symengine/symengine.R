@@ -14,19 +14,13 @@ Installation
 
 Note: It is not supported on Windows yet.
 
-First, ensure you have some prerequisites installed, for example on Debian-based system:
+Currently, you will have to install or compile symengine library manually on your computer. Please follow the instruction at <https://github.com/symengine/symengine>.
 
-``` sh
-sudo apt-get install cmake libgmp-dev libmpfr-dev libmpc-dev
-```
-
-Then in R
+Then in R, try
 
 ``` r
-devtools::install_github("Marlin-Na/symengine.R")
+devtools::install_github("symengine/symengine.R")
 ```
-
-This package has a build-time dependency of the [Rlibsymengine](https://github.com/marlin-na/Rlibsymengine) package, which should be automatically installed using devtools above.
 
 Please report any problem installing the package on your system.
 
@@ -275,7 +269,26 @@ TODO
 
 ### Vector
 
-TODO
+``` r
+v <- vecbasic("a", 32L, 32)
+v
+#> VecBasic of length 3
+#> [1] a
+#> [2] 32
+#> [3] 32.0
+v[-1]
+#> VecBasic of length 2
+#> [1] 32
+#> [2] 32.0
+v[[1]]
+#> (Symbol) a
+c(v, S("a + b"))
+#> VecBasic of length 4
+#> [1] a
+#> [2] 32
+#> [3] 32.0
+#> [4] a + b
+```
 
 ### Matrix (DenseMatrix and SparseMatrix)
 
