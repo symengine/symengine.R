@@ -117,19 +117,6 @@ basic_symbol <- function (name) {
 Symbol <- basic_symbol
 
 
-# vars_init <- function (...) {
-#     stop("TODO")
-#     args <- dots(...)
-#     args
-# }
-# 
-# tibble::lst
-# tibble:::lst_quos
-# 
-# dots <- function (...) {
-#     eval(substitute(alist(...)))
-# }
-
 ## Parser  =====================================================================
 
 #' @export
