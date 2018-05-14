@@ -25,8 +25,10 @@ static inline void hold_exception(CWRAPPER_OUTPUT_TYPE output) {
 
 SEXP sexp_basic();
 SEXP sexp_vecbasic();
+SEXP sexp_denseMatrix();
+SEXP sexp_sparseMatrix();
 
-// Initialize new Basic/VecBasic S4 object //===================================
+// Initialize new Basic/VecBasic/Matrix S4 object //===================================
 
 static inline
 SEXP sexp_basic_s4() {
@@ -40,6 +42,22 @@ static inline
 SEXP sexp_vecbasic_s4() {
     SEXP empty = PROTECT(R_do_new_object(R_getClassDef("VecBasic")));
     SEXP out   = PROTECT(R_do_slot_assign(empty, Rf_mkString(".xData"), sexp_vecbasic()));
+    UNPROTECT(2);
+    return out;
+}
+
+static inline
+SEXP sexp_denseMatrix_s4() {
+    SEXP empty = PROTECT(R_do_new_object(R_getClassDef("DenseMatrix")));
+    SEXP out   = PROTECT(R_do_slot_assign(empty, Rf_mkString(".xData"), sexp_denseMatrix()));
+    UNPROTECT(2);
+    return out;
+}
+
+static inline
+SEXP sexp_sparseMatrix_s4() {
+    SEXP empty = PROTECT(R_do_new_object(R_getClassDef("SparseMatrix")));
+    SEXP out   = PROTECT(R_do_slot_assign(empty, Rf_mkString(".xData"), sexp_sparseMatrix()));
     UNPROTECT(2);
     return out;
 }
