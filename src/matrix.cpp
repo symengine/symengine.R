@@ -16,7 +16,6 @@ SEXP sexp_denseMatrix_init(SEXP ext, size_t nrow, size_t ncol) {
     int           idx = 0;
     int           len = vecbasic_size(vec);
     
-
     for (size_t c = 0; c < ncol; c++) {
         for (size_t r = 0; r < nrow; r++) {
             hold_exception(vecbasic_get(vec, idx, val));
@@ -46,4 +45,19 @@ size_t sexp_denseMatrix_cols(SEXP ext) {
     CDenseMatrix* mat  = elt_denseMatrix(ext);
     size_t        ncol = dense_matrix_cols(mat);
     return ncol;
+}
+
+// [[Rcpp::export(".denseMatrix_get")]]
+SEXP sexp_denseMatrix_get(SEXP ext, SEXP i, SEXP j) {
+    SEXP          out  = PROTECT(sexp_basic_s4());
+    basic_struct* outv = elt_basic(out);
+    CDenseMatrix* mat  = elt_denseMatrix(ext);
+
+    if (Rf_length(i) == 1 && Rf_length(j) == 1) {
+        hold_exception(dense_matrix_get_basic(outv, mat,
+            Rf_asInteger(i) - 1, Rf_asInteger(j) - 1));
+    }
+    UNPROTECT(1);
+
+    return out;
 }

@@ -40,6 +40,12 @@ denseMatrix <- function(data = NA, nrow = 1, ncol = 1) {
     .denseMatrix(vec, nrow, ncol)
 }
 
+denseMatrix_get <- function(mat, i, j) {
+    .denseMatrix_get(mat, i, j)
+}
+
+
+
 
 setMethod("show", "DenseMatrix",
     function (object) {
@@ -55,5 +61,14 @@ setMethod("dim", "DenseMatrix",
         nrows = .denseMatrix_rows(x)
         ncols = .denseMatrix_cols(x)
         c(nrows, ncols)
+    }
+)
+
+setMethod("[[", c(x = "DenseMatrix", i = "numeric", j = "numeric"),
+    function(x, i, j, ...) {
+        #TODO: normalize the index
+        if (!missing(...))
+            warning("Extra arguments are ignored")
+        denseMatrix_get(x, as.integer(i), as.integer(j))
     }
 )

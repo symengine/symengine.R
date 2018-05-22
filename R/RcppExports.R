@@ -349,6 +349,10 @@
     .Call('_symengine_sexp_denseMatrix_cols', PACKAGE = 'symengine', ext)
 }
 
+.denseMatrix_get <- function(ext, i, j) {
+    .Call('_symengine_sexp_denseMatrix_get', PACKAGE = 'symengine', ext, i, j)
+}
+
 .symengine_ascii_art <- function() {
     .Call('_symengine_sexp_symengine_ascii_art', PACKAGE = 'symengine')
 }

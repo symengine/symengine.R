@@ -963,6 +963,19 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// sexp_denseMatrix_get
+SEXP sexp_denseMatrix_get(SEXP ext, SEXP i, SEXP j);
+RcppExport SEXP _symengine_sexp_denseMatrix_get(SEXP extSEXP, SEXP iSEXP, SEXP jSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type ext(extSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type i(iSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type j(jSEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_denseMatrix_get(ext, i, j));
+    return rcpp_result_gen;
+END_RCPP
+}
 // sexp_symengine_ascii_art
 SEXP sexp_symengine_ascii_art();
 RcppExport SEXP _symengine_sexp_symengine_ascii_art() {
@@ -1144,6 +1157,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_symengine_sexp_denseMatrix_str", (DL_FUNC) &_symengine_sexp_denseMatrix_str, 1},
     {"_symengine_sexp_denseMatrix_rows", (DL_FUNC) &_symengine_sexp_denseMatrix_rows, 1},
     {"_symengine_sexp_denseMatrix_cols", (DL_FUNC) &_symengine_sexp_denseMatrix_cols, 1},
+    {"_symengine_sexp_denseMatrix_get", (DL_FUNC) &_symengine_sexp_denseMatrix_get, 3},
     {"_symengine_sexp_symengine_ascii_art", (DL_FUNC) &_symengine_sexp_symengine_ascii_art, 0},
     {"_symengine_sexp_symengine_version", (DL_FUNC) &_symengine_sexp_symengine_version, 0},
     {"_symengine_sexp_symengine_have_component", (DL_FUNC) &_symengine_sexp_symengine_have_component, 1},
