@@ -73,8 +73,8 @@ static void _denseMatrix_finalizer(SEXP ext) {
     R_ClearExternalPtr(ext);
 }
 
-SEXP sexp_denseMatrix () {
-    CDenseMatrix* ptr = dense_matrix_new();
+SEXP sexp_denseMatrix (size_t nrow, size_t ncol) {
+    CDenseMatrix* ptr = dense_matrix_new_rows_cols(nrow, ncol);
     SEXP out = PROTECT(R_MakeExternalPtr(ptr, Rf_mkString("CDenseMatrix*"), R_NilValue));
     R_RegisterCFinalizerEx(out, _denseMatrix_finalizer, TRUE);
     UNPROTECT(1);
