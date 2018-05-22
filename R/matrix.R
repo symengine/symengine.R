@@ -68,7 +68,17 @@ setMethod("[[", c(x = "DenseMatrix", i = "numeric", j = "numeric"),
     function(x, i, j, ...) {
         #TODO: normalize the index
         if (!missing(...))
-            warning("Extra arguments are ignored")
+            warning("Extra arguments are ignored");
+        if (length(i) == 0) {
+            stop("attempt to select less than one element in get1index <real>");
+        } else if (length(i) > 1) {
+            stop("attempt to select more than one element in get1index");
+        } else if (length(j) == 0) {
+            stop("attempt to select less than one element in get1index <real>");
+        } else if (length(j) > 1) {
+            stop("attempt to select more than one element in get1index");
+        }
+
         denseMatrix_get(x, as.integer(i), as.integer(j))
     }
 )

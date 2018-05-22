@@ -53,10 +53,9 @@ SEXP sexp_denseMatrix_get(SEXP ext, SEXP i, SEXP j) {
     basic_struct* outv = elt_basic(out);
     CDenseMatrix* mat  = elt_denseMatrix(ext);
 
-    if (Rf_length(i) == 1 && Rf_length(j) == 1) {
-        hold_exception(dense_matrix_get_basic(outv, mat,
-            Rf_asInteger(i) - 1, Rf_asInteger(j) - 1));
-    }
+    hold_exception(dense_matrix_get_basic(outv, mat,
+        Rf_asInteger(i) - 1, Rf_asInteger(j) - 1));
+
     UNPROTECT(1);
 
     return out;
