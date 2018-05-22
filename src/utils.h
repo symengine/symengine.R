@@ -163,6 +163,31 @@ CVecBasic* elt_vecbasic(SEXP x) {
     return out;
 }
 
+static inline
+CDenseMatrix* elt_denseMatrix(SEXP x) {
+    // We do not check whether x is a vecbasic here,
+    // thus when using it, always add "if (is_vecbasic(x))"
+    CDenseMatrix* out;
+    
+    switch(TYPEOF(x)) {
+    
+    case S4SXP :
+        out = (CDenseMatrix*) R_ExternalPtrAddr(R_do_slot(x, Rf_mkString(".xData")));
+        break;
+        
+    case EXTPTRSXP :
+        out = (CDenseMatrix*) R_ExternalPtrAddr(x);
+        break;
+        
+    default :
+        Rf_error("Internal");
+    }
+    
+    if (NULL == out)
+        Rf_error("Invalid pointer for 'DenseMatrix'");
+    
+    return out;
+}
 
 
 #endif // _Rsymengine_utils_
