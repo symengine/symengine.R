@@ -333,6 +333,22 @@
     .Call('_symengine_sexp_basic_num_iscomplex', PACKAGE = 'symengine', ext)
 }
 
+.denseMatrix <- function(ext, nrow, ncol) {
+    .Call('_symengine_sexp_denseMatrix_init', PACKAGE = 'symengine', ext, nrow, ncol)
+}
+
+.denseMatrix_str <- function(ext) {
+    .Call('_symengine_sexp_denseMatrix_str', PACKAGE = 'symengine', ext)
+}
+
+.denseMatrix_rows <- function(ext) {
+    .Call('_symengine_sexp_denseMatrix_rows', PACKAGE = 'symengine', ext)
+}
+
+.denseMatrix_cols <- function(ext) {
+    .Call('_symengine_sexp_denseMatrix_cols', PACKAGE = 'symengine', ext)
+}
+
 .symengine_ascii_art <- function() {
     .Call('_symengine_sexp_symengine_ascii_art', PACKAGE = 'symengine')
 }

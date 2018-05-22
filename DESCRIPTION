@@ -26,4 +26,5 @@ Collate:
     'symengine_info.R'
     'utils-subset.R'
     'vector.R'
+    'matrix.R'
     'zzz.R'
