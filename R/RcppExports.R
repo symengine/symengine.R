@@ -353,6 +353,18 @@
     .Call('_symengine_sexp_denseMatrix_get', PACKAGE = 'symengine', ext, i, j)
 }
 
+.denseMatrix_subset <- function(ext, idxr, idxc) {
+    .Call('_symengine_sexp_denseMatrix_subset', PACKAGE = 'symengine', ext, idxr, idxc)
+}
+
+.denseMatrix_assign <- function(ext1, idxr, idxc, ext2) {
+    .Call('_symengine_sexp_denseMatrix_assign', PACKAGE = 'symengine', ext1, idxr, idxc, ext2)
+}
+
+.denseMatrix_to_vecbasic <- function(ext) {
+    .Call('_symengine_sexp_denseMatrix_to_vecbasic', PACKAGE = 'symengine', ext)
+}
+
 .symengine_ascii_art <- function() {
     .Call('_symengine_sexp_symengine_ascii_art', PACKAGE = 'symengine')
 }

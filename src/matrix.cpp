@@ -60,3 +60,87 @@ SEXP sexp_denseMatrix_get(SEXP ext, SEXP i, SEXP j) {
 
     return out;
 }
+
+// [[Rcpp::export(".denseMatrix_subset")]]
+SEXP sexp_denseMatrix_subset(SEXP ext, SEXP idxr, SEXP idxc) {
+    if (TYPEOF(idxr) != INTSXP || TYPEOF(idxc) != INTSXP)
+        Rf_error("Internal? Index must be integer");
+    
+    CDenseMatrix* inm  = elt_denseMatrix(ext);
+    SEXP          out  = PROTECT(sexp_denseMatrix_s4(Rf_length(idxr), Rf_length(idxc)));
+    CDenseMatrix* outm = elt_denseMatrix(out);
+    int*          idsr = INTEGER(idxr);
+    int*          idsc = INTEGER(idxc);
+    
+    // Used as a temporarily value in the loop
+    SEXP a = PROTECT(sexp_basic());
+    basic_struct* val = elt_basic(a);
+    for (int i = 0; i < Rf_length(idxr); i++) {
+        for (int j = 0; j < Rf_length(idxc); j++) {
+            hold_exception(dense_matrix_get_basic(val, inm, idsr[i] - 1, idsc[j] - 1));
+            hold_exception(dense_matrix_set_basic(outm, i, j, val));
+        }
+    }
+    
+    UNPROTECT(2);
+    return out;
+}
+
+static inline
+SEXP duplicate_denseMatrix(SEXP ext) {
+    size_t        nrow = sexp_denseMatrix_rows(ext);
+    size_t        ncol = sexp_denseMatrix_cols(ext);
+    SEXP          out  = PROTECT(sexp_denseMatrix_s4(nrow, ncol));
+    CDenseMatrix* outm = elt_denseMatrix(out);
+    CDenseMatrix* inm  = elt_denseMatrix(ext);
+    hold_exception(dense_matrix_set(outm, inm));
+    UNPROTECT(1);
+    return out;
+}
+
+// [[Rcpp::export(".denseMatrix_assign")]]
+SEXP sexp_denseMatrix_assign(SEXP ext1, SEXP idxr, SEXP idxc, SEXP ext2) {
+    // Duplicate the denseMatrix
+    SEXP          out  = PROTECT(duplicate_denseMatrix(ext1));
+
+    CDenseMatrix* outm = elt_denseMatrix(out);
+    CVecBasic*    inv  = elt_vecbasic(ext2);
+    size_t        lenv = vecbasic_size(inv);
+    size_t        idx  = 0;
+    SEXP          a    = PROTECT(sexp_basic_s4());
+    basic_struct* val  = elt_basic(a);
+    int*          idsr = INTEGER(idxr);
+    int*          idsc = INTEGER(idxc);
+
+    for (size_t j = 0; j < Rf_length(idxc); j++) {
+        for (size_t i = 0; i < Rf_length(idxr); i++) {
+            hold_exception(vecbasic_get(inv, idx, val));
+            idx = (idx + 1) < lenv ? idx + 1 : 0;
+            hold_exception(dense_matrix_set_basic(outm, idsr[i] - 1, idsc[j] - 1, val));
+        }
+    }
+
+    UNPROTECT(2);
+    return out;
+}
+
+// [[Rcpp::export(".denseMatrix_to_vecbasic")]]
+SEXP sexp_denseMatrix_to_vecbasic(SEXP ext) {
+    SEXP          out  = PROTECT(sexp_vecbasic_s4());
+    CVecBasic*    vec  = elt_vecbasic(out);
+    CDenseMatrix* mat  = elt_denseMatrix(ext);
+    size_t        nrow = sexp_denseMatrix_rows(ext);
+    size_t        ncol = sexp_denseMatrix_cols(ext);
+    SEXP          a    = PROTECT(sexp_basic());
+    basic_struct* val  = elt_basic(a);
+
+    for (size_t j = 0; j < ncol; j++) {
+        for (size_t i = 0; i < nrow; i++) {
+            hold_exception(dense_matrix_get_basic(val, mat, i, j));
+            hold_exception(vecbasic_push_back(vec, val));
+        }
+    }
+
+    UNPROTECT(2);
+    return out;
+}

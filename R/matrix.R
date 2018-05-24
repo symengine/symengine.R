@@ -41,10 +41,23 @@ denseMatrix <- function(data = NA, nrow = 1, ncol = 1) {
 }
 
 denseMatrix_get <- function(mat, i, j) {
+    # i, j can only be integer vector
     .denseMatrix_get(mat, i, j)
 }
 
+denseMatrix_subset <- function(mat, idxr, idxc) {
+    # idx can only be integer vector
+    .denseMatrix_subset(mat, idxr, idxc)
+}
 
+denseMatrix_assign <- function(mat, idxr, idxc, vec) {
+    # idx can only be integer vector
+    .denseMatrix_assign(mat, idxr, idxc, vec)
+}
+
+denseMatrix_to_vecbasic <- function(mat) {
+    .denseMatrix_to_vecbasic(mat)
+}
 
 
 setMethod("show", "DenseMatrix",
@@ -64,6 +77,14 @@ setMethod("dim", "DenseMatrix",
     }
 )
 
+setMethod("length", "DenseMatrix",
+    function(x) {
+        nrows = .denseMatrix_rows(x)
+        ncols = .denseMatrix_cols(x)
+        nrows * ncols
+    }
+)
+
 setMethod("[[", c(x = "DenseMatrix", i = "numeric", j = "numeric"),
     function(x, i, j, ...) {
         #TODO: normalize the index
@@ -80,5 +101,46 @@ setMethod("[[", c(x = "DenseMatrix", i = "numeric", j = "numeric"),
         }
 
         denseMatrix_get(x, as.integer(i), as.integer(j))
+    }
+)
+
+setMethod("[", c(x = "DenseMatrix"),
+    function(x, i, j, ..., drop = TRUE) {
+        if (!missing(...))
+            stop("incorrect number of dimensions")
+        if (!missing(drop))
+            warning("Supplied argument 'drop' is ignored")
+        
+        # use NROW, NCOL to work around for now.
+        i <- normalizeSingleBracketSubscript(i, 1:NROW(x))
+        j <- normalizeSingleBracketSubscript(j, 1:NCOL(x))
+        denseMatrix_subset(x, i, j)
+    }
+)
+
+setMethod("[<-", c(x = "DenseMatrix"),
+    function(x, i, j, ..., value) {
+        if (!missing(...))
+            stop("Invalid subsetting")
+        if (is(value, "Basic"))
+            value <- vecbasic(value)
+        if (is(value, "DenseMatrix"))
+            value <- denseMatrix_to_vecbasic(value)
+        # use NROW, NCOL to work around for now.
+        i <- normalizeSingleBracketSubscript(i, 1:NROW(x))
+        j <- normalizeSingleBracketSubscript(j, 1:NCOL(x))
+
+        li <- length(i)
+        lj <- length(j)
+        lv <- length(value)
+        
+        if (li == 0L || lj == 0L)
+            return(x)
+        if (lv == 0L)
+            stop("Replacement has length zero")
+        if ((li * lj) %% lv != 0L)
+            stop("number of items to replace is not a multiple of replacement length")
+          
+        denseMatrix_assign(x, i, j, value)
     }
 )
