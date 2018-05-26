@@ -112,7 +112,10 @@ setMethod("[", c(x = "DenseMatrix"),
             warning("Supplied argument 'drop' is ignored")
         
         # use NROW, NCOL to work around for now.
-        if (missing(j)) {
+        if (missing(i) && missing(j)) {
+            x
+        }
+        else if (missing(j)) {
             vec <- denseMatrix_to_vecbasic(x)
             vec[i]
         } else {
