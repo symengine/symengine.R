@@ -1,4 +1,4 @@
-
+#' @include vector.R
 setClass("DenseMatrix", contains = "externalptr")
 
 #' @export
@@ -112,9 +112,14 @@ setMethod("[", c(x = "DenseMatrix"),
             warning("Supplied argument 'drop' is ignored")
         
         # use NROW, NCOL to work around for now.
-        i <- normalizeSingleBracketSubscript(i, 1:NROW(x))
-        j <- normalizeSingleBracketSubscript(j, 1:NCOL(x))
-        denseMatrix_subset(x, i, j)
+        if (missing(j)) {
+            vec <- denseMatrix_to_vecbasic(x)
+            vec[i]
+        } else {
+            i <- normalizeSingleBracketSubscript(i, 1:NROW(x))
+            j <- normalizeSingleBracketSubscript(j, 1:NCOL(x))
+            denseMatrix_subset(x, i, j)
+        }
     }
 )
 
