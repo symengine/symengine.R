@@ -152,3 +152,49 @@ setMethod("[<-", c(x = "DenseMatrix"),
         denseMatrix_assign(x, i, j, value)
     }
 )
+
+Rbind <- function(...) {
+    nrow        = 0
+    ncol        = 0
+    have_matrix = FALSE
+    lt <- unname(list(...))
+    
+    for (i in seq_len(length(lt))) {
+        x <- lt[[i]]
+        if (is(x, "Basic")) {
+            ncol    = ncol + 1
+            nrow    = max(nrow, 1)
+            lt[[i]] = vecbasic(x)
+        } else if (is(x, "VecBasic")) {
+            if (!have_matrix)
+                nrow = max(nrow, length(x))
+            ncol = ncol + 1
+        } else if (is(x, "DenseMatrix")) {
+            if (have_matrix && nrow != NROW(x)) {
+                stop(sprintf("number of rows of matrices must match (see arg %d)", i))
+            } else if (!have_matrix) {
+                have_matrix = TRUE
+                nrow = NROW(x)
+            }
+            ncol = ncol + NCOL(x)
+        }
+    }
+    
+    first_warning = TRUE
+    for (i in seq_len(length(lt))) {
+        x <- lt[[i]]
+        if (is(x, "VecBasic")) {
+            if (first_warning && (nrow %% length(x) != 0)) {
+                first_warning = FALSE
+                warning(sprintf("number of rows of result is not a multiple of vector length (arg %d)", i))
+            }
+            idx = rep(seq_len(length(x)), length.out=nrow)
+            lt[[i]] = x[idx]
+        } else if (is(x, "DenseMatrix")) {
+            lt[[i]] = denseMatrix_to_vecbasic(x)
+        }
+    }
+
+    vec <- do.call(vecbasic, lt)
+    .denseMatrix(vec, nrow, ncol)
+}
