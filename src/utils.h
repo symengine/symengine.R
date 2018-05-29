@@ -27,8 +27,9 @@ SEXP sexp_basic();
 SEXP sexp_vecbasic();
 SEXP sexp_denseMatrix(size_t nrow, size_t ncol);
 SEXP sexp_sparseMatrix();
+SEXP sexp_setbasic();
 
-// Initialize new Basic/VecBasic/Matrix S4 object //===================================
+// Initialize new Basic/VecBasic/Matrix/SetBasic S4 object //===================================
 
 static inline
 SEXP sexp_basic_s4() {
@@ -58,6 +59,14 @@ static inline
 SEXP sexp_sparseMatrix_s4() {
     SEXP empty = PROTECT(R_do_new_object(R_getClassDef("SparseMatrix")));
     SEXP out   = PROTECT(R_do_slot_assign(empty, Rf_mkString(".xData"), sexp_sparseMatrix()));
+    UNPROTECT(2);
+    return out;
+}
+
+static inline
+SEXP sexp_setbasic_s4() {
+    SEXP empty = PROTECT(R_do_new_object(R_getClassDef("SetBasic")));
+    SEXP out   = PROTECT(R_do_slot_assign(empty, Rf_mkString(".xData"), sexp_setbasic()));
     UNPROTECT(2);
     return out;
 }
@@ -177,6 +186,32 @@ CDenseMatrix* elt_denseMatrix(SEXP x) {
         
     case EXTPTRSXP :
         out = (CDenseMatrix*) R_ExternalPtrAddr(x);
+        break;
+        
+    default :
+        Rf_error("Internal");
+    }
+    
+    if (NULL == out)
+        Rf_error("Invalid pointer for 'DenseMatrix'");
+    
+    return out;
+}
+
+static inline
+CSetBasic* elt_setbasic(SEXP x) {
+    // We do not check whether x is a vecbasic here,
+    // thus when using it, always add "if (is_vecbasic(x))"
+    CSetBasic* out;
+    
+    switch(TYPEOF(x)) {
+    
+    case S4SXP :
+        out = (CSetBasic*) R_ExternalPtrAddr(R_do_slot(x, Rf_mkString(".xData")));
+        break;
+        
+    case EXTPTRSXP :
+        out = (CSetBasic*) R_ExternalPtrAddr(x);
         break;
         
     default :

@@ -98,3 +98,21 @@ SEXP sexp_sparseMatrix () {
     UNPROTECT(1);
     return out;
 }
+
+static void _setbasic_finalizer(SEXP ext) {
+    if (NULL == R_ExternalPtrAddr(ext)) {
+        REprintf("Debug> _setbasic_finalizer: Empty ptr\n");
+        return;
+    }
+    CSetBasic* vec = (CSetBasic*) R_ExternalPtrAddr(ext);
+    setbasic_free(vec);
+    R_ClearExternalPtr(ext);
+}
+
+SEXP sexp_setbasic () {
+    CSetBasic* ptr = setbasic_new();
+    SEXP out = PROTECT(R_MakeExternalPtr(ptr, Rf_mkString("CSetBasic*"), R_NilValue));
+    R_RegisterCFinalizerEx(out, _setbasic_finalizer, TRUE);
+    UNPROTECT(1);
+    return out;
+}
