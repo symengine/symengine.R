@@ -8,9 +8,14 @@ setClass("VecBasic", contains = "externalptr")
 vecbasic <- function(...) {
     # Currently we do conversion in this way, however we should in future have
     # C-level function for conversion to basic to reduce overhead.
+    # x can not be vector like 1:10
     lt <- lapply(unname(list(...)), function(x) {
         if (is(x, "Basic") || is(x, "VecBasic"))
             return(x)
+        else if (is(x, "DenseMatrix"))
+            return(denseMatrix_to_vecbasic(x))
+        else if (is(x, "SetBasic"))
+            return(setbasic_to_vecbasic(x))
         else
             return(S(x))
     })
