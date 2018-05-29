@@ -365,6 +365,26 @@
     .Call('_symengine_sexp_denseMatrix_to_vecbasic', PACKAGE = 'symengine', ext, row_first)
 }
 
+.setbasic <- function(ext) {
+    .Call('_symengine_sexp_setbasic', PACKAGE = 'symengine', ext)
+}
+
+.setbasic_length <- function(ext) {
+    .Call('_symengine_sexp_setbasic_length', PACKAGE = 'symengine', ext)
+}
+
+.setbasic_subset <- function(ext, idx) {
+    .Call('_symengine_sexp_setbasic_subset', PACKAGE = 'symengine', ext, idx)
+}
+
+.setbasic_get <- function(ext, n) {
+    .Call('_symengine_sexp_setbasic_get', PACKAGE = 'symengine', ext, n)
+}
+
+.setbasic_to_vecbasic <- function(ext) {
+    .Call('_symengine_sexp_setbasic_to_vecbasic', PACKAGE = 'symengine', ext)
+}
+
 .symengine_ascii_art <- function() {
     .Call('_symengine_sexp_symengine_ascii_art', PACKAGE = 'symengine')
 }
