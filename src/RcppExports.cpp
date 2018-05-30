@@ -917,6 +917,41 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// sexp_mapbasic
+SEXP sexp_mapbasic(SEXP key, SEXP mapped);
+RcppExport SEXP _symengine_sexp_mapbasic(SEXP keySEXP, SEXP mappedSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type key(keySEXP);
+    Rcpp::traits::input_parameter< SEXP >::type mapped(mappedSEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_mapbasic(key, mapped));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sexp_mapbasic_length
+size_t sexp_mapbasic_length(SEXP ext);
+RcppExport SEXP _symengine_sexp_mapbasic_length(SEXP extSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type ext(extSEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_mapbasic_length(ext));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sexp_mapbasic_get
+SEXP sexp_mapbasic_get(SEXP ext1, SEXP ext2);
+RcppExport SEXP _symengine_sexp_mapbasic_get(SEXP ext1SEXP, SEXP ext2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type ext1(ext1SEXP);
+    Rcpp::traits::input_parameter< SEXP >::type ext2(ext2SEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_mapbasic_get(ext1, ext2));
+    return rcpp_result_gen;
+END_RCPP
+}
 // sexp_denseMatrix_init
 SEXP sexp_denseMatrix_init(SEXP ext, size_t nrow, size_t ncol, size_t row_first);
 RcppExport SEXP _symengine_sexp_denseMatrix_init(SEXP extSEXP, SEXP nrowSEXP, SEXP ncolSEXP, SEXP row_firstSEXP) {
@@ -1251,6 +1286,9 @@ static const R_CallMethodDef CallEntries[] = {
     {"_symengine_sexp_basic_num_ispositive", (DL_FUNC) &_symengine_sexp_basic_num_ispositive, 1},
     {"_symengine_sexp_basic_num_iscomplex", (DL_FUNC) &_symengine_sexp_basic_num_iscomplex, 1},
     {"_symengine_sexp_denseMatrix_init", (DL_FUNC) &_symengine_sexp_denseMatrix_init, 4},
+    {"_symengine_sexp_mapbasic", (DL_FUNC) &_symengine_sexp_mapbasic, 2},
+    {"_symengine_sexp_mapbasic_length", (DL_FUNC) &_symengine_sexp_mapbasic_length, 1},
+    {"_symengine_sexp_mapbasic_get", (DL_FUNC) &_symengine_sexp_mapbasic_get, 2},
     {"_symengine_sexp_denseMatrix_str", (DL_FUNC) &_symengine_sexp_denseMatrix_str, 1},
     {"_symengine_sexp_denseMatrix_rows", (DL_FUNC) &_symengine_sexp_denseMatrix_rows, 1},
     {"_symengine_sexp_denseMatrix_cols", (DL_FUNC) &_symengine_sexp_denseMatrix_cols, 1},
