@@ -28,8 +28,9 @@ SEXP sexp_vecbasic();
 SEXP sexp_denseMatrix(size_t nrow, size_t ncol);
 SEXP sexp_sparseMatrix();
 SEXP sexp_setbasic();
+SEXP sexp_mapbasic();
 
-// Initialize new Basic/VecBasic/Matrix/SetBasic S4 object //===================================
+// Initialize new Basic/VecBasic/Matrix/SetBasic/MapBasic S4 object //===================================
 
 static inline
 SEXP sexp_basic_s4() {
@@ -67,6 +68,14 @@ static inline
 SEXP sexp_setbasic_s4() {
     SEXP empty = PROTECT(R_do_new_object(R_getClassDef("SetBasic")));
     SEXP out   = PROTECT(R_do_slot_assign(empty, Rf_mkString(".xData"), sexp_setbasic()));
+    UNPROTECT(2);
+    return out;
+}
+
+static inline
+SEXP sexp_mapbasic_s4() {
+    SEXP empty = PROTECT(R_do_new_object(R_getClassDef("MapBasic")));
+    SEXP out   = PROTECT(R_do_slot_assign(empty, Rf_mkString(".xData"), sexp_mapbasic()));
     UNPROTECT(2);
     return out;
 }
@@ -224,6 +233,28 @@ CSetBasic* elt_setbasic(SEXP x) {
     return out;
 }
 
+static inline
+CMapBasicBasic* elt_mapbasic(SEXP x) {
+    CMapBasicBasic* out;
+    
+    switch(TYPEOF(x)) {
+        case S4SXP :
+            out = (CMapBasicBasic*) R_ExternalPtrAddr(R_do_slot(x, Rf_mkString(".xData")));
+            break;
+            
+        case EXTPTRSXP :
+            out = (CMapBasicBasic*) R_ExternalPtrAddr(x);
+            break;
+            
+        default :
+            Rf_error("Internal");
+    }
+    
+    if (NULL == out)
+        Rf_error("Invalid pointer for 'DenseMatrix'");
+    
+    return out;
+}
 
 #endif // _Rsymengine_utils_
 

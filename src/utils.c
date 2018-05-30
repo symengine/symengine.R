@@ -116,3 +116,21 @@ SEXP sexp_setbasic () {
     UNPROTECT(1);
     return out;
 }
+
+static void _mapbasic_finalizer(SEXP ext) {
+    if (NULL == R_ExternalPtrAddr(ext)) {
+        REprintf("Debug> _setbasic_finalizer: Empty ptr\n");
+        return;
+    }
+    CMapBasicBasic* map = (CMapBasicBasic*) R_ExternalPtrAddr(ext);
+    mapbasicbasic_free(map);
+    R_ClearExternalPtr(ext);
+}
+
+SEXP sexp_mapbasic () {
+    CMapBasicBasic* ptr = mapbasicbasic_new();
+    SEXP out = PROTECT(R_MakeExternalPtr(ptr, Rf_mkString("CMapBasicBasic*"), R_NilValue));
+    R_RegisterCFinalizerEx(out, _mapbasic_finalizer, TRUE);
+    UNPROTECT(1);
+    return out;
+}
