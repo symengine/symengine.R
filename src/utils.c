@@ -63,3 +63,38 @@ SEXP sexp_vecbasic () {
     return out;
 }
 
+static void _denseMatrix_finalizer(SEXP ext) {
+    if (NULL == R_ExternalPtrAddr(ext)) {
+        REprintf("Debug> _denseMatrix_finalizer: Empty ptr\n");
+        return;
+    }
+    CDenseMatrix* mat = (CDenseMatrix*) R_ExternalPtrAddr(ext);
+    dense_matrix_free(mat);
+    R_ClearExternalPtr(ext);
+}
+
+SEXP sexp_denseMatrix (size_t nrow, size_t ncol) {
+    CDenseMatrix* ptr = dense_matrix_new_rows_cols(nrow, ncol);
+    SEXP out = PROTECT(R_MakeExternalPtr(ptr, Rf_mkString("CDenseMatrix*"), R_NilValue));
+    R_RegisterCFinalizerEx(out, _denseMatrix_finalizer, TRUE);
+    UNPROTECT(1);
+    return out;
+}
+
+static void _sparseMatrix_finalizer(SEXP ext) {
+    if (NULL == R_ExternalPtrAddr(ext)) {
+        REprintf("Debug> _sparseMatrix_finalizer: Empty ptr\n");
+        return;
+    }
+    CSparseMatrix* mat = (CSparseMatrix*) R_ExternalPtrAddr(ext);
+    sparse_matrix_free(mat);
+    R_ClearExternalPtr(ext);
+}
+
+SEXP sexp_sparseMatrix () {
+    CSparseMatrix* ptr = sparse_matrix_new();
+    SEXP out = PROTECT(R_MakeExternalPtr(ptr, Rf_mkString("CSparseMatrix*"), R_NilValue));
+    R_RegisterCFinalizerEx(out, _sparseMatrix_finalizer, TRUE);
+    UNPROTECT(1);
+    return out;
+}

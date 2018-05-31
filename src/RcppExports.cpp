@@ -917,6 +917,103 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// sexp_denseMatrix_init
+SEXP sexp_denseMatrix_init(SEXP ext, size_t nrow, size_t ncol);
+RcppExport SEXP _symengine_sexp_denseMatrix_init(SEXP extSEXP, SEXP nrowSEXP, SEXP ncolSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type ext(extSEXP);
+    Rcpp::traits::input_parameter< size_t >::type nrow(nrowSEXP);
+    Rcpp::traits::input_parameter< size_t >::type ncol(ncolSEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_denseMatrix_init(ext, nrow, ncol));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sexp_denseMatrix_str
+SEXP sexp_denseMatrix_str(SEXP ext);
+RcppExport SEXP _symengine_sexp_denseMatrix_str(SEXP extSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type ext(extSEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_denseMatrix_str(ext));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sexp_denseMatrix_rows
+size_t sexp_denseMatrix_rows(SEXP ext);
+RcppExport SEXP _symengine_sexp_denseMatrix_rows(SEXP extSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type ext(extSEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_denseMatrix_rows(ext));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sexp_denseMatrix_cols
+size_t sexp_denseMatrix_cols(SEXP ext);
+RcppExport SEXP _symengine_sexp_denseMatrix_cols(SEXP extSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type ext(extSEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_denseMatrix_cols(ext));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sexp_denseMatrix_get
+SEXP sexp_denseMatrix_get(SEXP ext, SEXP i, SEXP j);
+RcppExport SEXP _symengine_sexp_denseMatrix_get(SEXP extSEXP, SEXP iSEXP, SEXP jSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type ext(extSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type i(iSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type j(jSEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_denseMatrix_get(ext, i, j));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sexp_denseMatrix_subset
+SEXP sexp_denseMatrix_subset(SEXP ext, SEXP idxr, SEXP idxc);
+RcppExport SEXP _symengine_sexp_denseMatrix_subset(SEXP extSEXP, SEXP idxrSEXP, SEXP idxcSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type ext(extSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type idxr(idxrSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type idxc(idxcSEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_denseMatrix_subset(ext, idxr, idxc));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sexp_denseMatrix_assign
+SEXP sexp_denseMatrix_assign(SEXP ext1, SEXP idxr, SEXP idxc, SEXP ext2);
+RcppExport SEXP _symengine_sexp_denseMatrix_assign(SEXP ext1SEXP, SEXP idxrSEXP, SEXP idxcSEXP, SEXP ext2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type ext1(ext1SEXP);
+    Rcpp::traits::input_parameter< SEXP >::type idxr(idxrSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type idxc(idxcSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type ext2(ext2SEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_denseMatrix_assign(ext1, idxr, idxc, ext2));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sexp_denseMatrix_to_vecbasic
+SEXP sexp_denseMatrix_to_vecbasic(SEXP ext);
+RcppExport SEXP _symengine_sexp_denseMatrix_to_vecbasic(SEXP extSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type ext(extSEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_denseMatrix_to_vecbasic(ext));
+    return rcpp_result_gen;
+END_RCPP
+}
 // sexp_symengine_ascii_art
 SEXP sexp_symengine_ascii_art();
 RcppExport SEXP _symengine_sexp_symengine_ascii_art() {
@@ -1094,6 +1191,14 @@ static const R_CallMethodDef CallEntries[] = {
     {"_symengine_sexp_basic_num_isnegative", (DL_FUNC) &_symengine_sexp_basic_num_isnegative, 1},
     {"_symengine_sexp_basic_num_ispositive", (DL_FUNC) &_symengine_sexp_basic_num_ispositive, 1},
     {"_symengine_sexp_basic_num_iscomplex", (DL_FUNC) &_symengine_sexp_basic_num_iscomplex, 1},
+    {"_symengine_sexp_denseMatrix_init", (DL_FUNC) &_symengine_sexp_denseMatrix_init, 3},
+    {"_symengine_sexp_denseMatrix_str", (DL_FUNC) &_symengine_sexp_denseMatrix_str, 1},
+    {"_symengine_sexp_denseMatrix_rows", (DL_FUNC) &_symengine_sexp_denseMatrix_rows, 1},
+    {"_symengine_sexp_denseMatrix_cols", (DL_FUNC) &_symengine_sexp_denseMatrix_cols, 1},
+    {"_symengine_sexp_denseMatrix_get", (DL_FUNC) &_symengine_sexp_denseMatrix_get, 3},
+    {"_symengine_sexp_denseMatrix_subset", (DL_FUNC) &_symengine_sexp_denseMatrix_subset, 3},
+    {"_symengine_sexp_denseMatrix_assign", (DL_FUNC) &_symengine_sexp_denseMatrix_assign, 4},
+    {"_symengine_sexp_denseMatrix_to_vecbasic", (DL_FUNC) &_symengine_sexp_denseMatrix_to_vecbasic, 1},
     {"_symengine_sexp_symengine_ascii_art", (DL_FUNC) &_symengine_sexp_symengine_ascii_art, 0},
     {"_symengine_sexp_symengine_version", (DL_FUNC) &_symengine_sexp_symengine_version, 0},
     {"_symengine_sexp_symengine_have_component", (DL_FUNC) &_symengine_sexp_symengine_have_component, 1},
