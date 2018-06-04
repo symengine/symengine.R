@@ -178,15 +178,15 @@ setMethod("[<-", c(x = "DenseMatrix"),
 # define vector-like S4 classUnion for rbind/cbind
 setClassUnion("VecMat", members = c("VecBasic", "DenseMatrix"))
 
-#' @exportMethod rbind
-setGeneric("rbind", signature = "...")
-setMethod("rbind", "VecMat",
+#' @exportMethod cbind
+setGeneric("cbind", signature = "...")
+setMethod("cbind", "VecMat",
     function(..., deparse.level = 1) {
         args <- list(...)
         if(all(vapply(args, is.atomic, NA)))
-            return(base::rbind(..., deparse.level = deparse.level))
+            return(base::cbind(..., deparse.level = deparse.level))
         
-        # rbind for vecbasic, denseMatrix
+        # cbind for vecbasic, denseMatrix
         # currently, all element must be vecbasic/denseMatrix
         nrow        = 0
         ncol        = 0
