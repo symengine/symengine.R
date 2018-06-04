@@ -106,11 +106,22 @@ setMethod("[[", c(x = "DenseMatrix", i = "numeric", j = "numeric"),
 
 setMethod("[", c(x = "DenseMatrix"),
     function(x, i, j, ..., drop = TRUE) {
-        if (!missing(...))
+        args <- as.list(sys.call())[-1L]
+        args$drop <- NULL
+        len <- length(args)
+
+        if (len > 3)
             stop("incorrect number of dimensions")
         if (!missing(drop))
             warning("Supplied argument 'drop' is ignored")
         
+        if (len > 2) {
+            i <- args[[2]]
+            j <- args[[3]]
+            i <- if(missing(i)) 1:NROW(x) else eval(i)
+            j <- if(missing(j)) 1:NCOL(x) else eval(j)
+        }
+
         # use NROW, NCOL to work around for now.
         if (missing(i) && missing(j)) {
             x
@@ -128,12 +139,23 @@ setMethod("[", c(x = "DenseMatrix"),
 
 setMethod("[<-", c(x = "DenseMatrix"),
     function(x, i, j, ..., value) {
-        if (!missing(...))
+        args <- as.list(sys.call())[-1L]
+        len <- length(args)
+
+        if (len > 4)
             stop("Invalid subsetting")
         if (is(value, "Basic"))
             value <- vecbasic(value)
         if (is(value, "DenseMatrix"))
             value <- denseMatrix_to_vecbasic(value)
+        
+        if (len > 2) {
+            i <- args[[2]]
+            j <- args[[3]]
+            i <- if(missing(i)) 1:NROW(x) else eval(i)
+            j <- if(missing(j)) 1:NCOL(x) else eval(j)
+        }
+            
         # use NROW, NCOL to work around for now.
         i <- normalizeSingleBracketSubscript(i, 1:NROW(x))
         j <- normalizeSingleBracketSubscript(j, 1:NCOL(x))
@@ -152,6 +174,8 @@ setMethod("[<-", c(x = "DenseMatrix"),
         denseMatrix_assign(x, i, j, value)
     }
 )
+
+
 
 Rbind <- function(...) {
     nrow        = 0
@@ -198,3 +222,4 @@ Rbind <- function(...) {
     vec <- do.call(vecbasic, lt)
     .denseMatrix(vec, nrow, ncol)
 }
+
