@@ -7,7 +7,7 @@ extern "C" {
 }
 
 // [[Rcpp::export(".denseMatrix")]]
-SEXP sexp_denseMatrix_init(SEXP ext, size_t nrow, size_t ncol) {
+SEXP sexp_denseMatrix_init(SEXP ext, size_t nrow, size_t ncol, size_t row_first=0) {
     SEXP          out = PROTECT(sexp_denseMatrix_s4(nrow, ncol));
     CDenseMatrix* mat = elt_denseMatrix(out);
     CVecBasic*    vec = elt_vecbasic(ext);
@@ -15,12 +15,22 @@ SEXP sexp_denseMatrix_init(SEXP ext, size_t nrow, size_t ncol) {
     basic_struct* val = elt_basic(a);
     int           idx = 0;
     int           len = vecbasic_size(vec);
-    
-    for (size_t c = 0; c < ncol; c++) {
+
+    if (!row_first) {
+        for (size_t c = 0; c < ncol; c++) {
+            for (size_t r = 0; r < nrow; r++) {
+                hold_exception(vecbasic_get(vec, idx, val));
+                idx = (idx + 1) < len ? idx + 1 : 0; 
+                hold_exception(dense_matrix_set_basic(mat, r, c, val));
+            }
+        }
+    } else {
         for (size_t r = 0; r < nrow; r++) {
-            hold_exception(vecbasic_get(vec, idx, val));
-            idx = (idx + 1) < len ? idx + 1 : 0; 
-            hold_exception(dense_matrix_set_basic(mat, r, c, val));
+            for (size_t c = 0; c < ncol; c++) {
+                hold_exception(vecbasic_get(vec, idx, val));
+                idx = (idx + 1) < len ? idx + 1 : 0; 
+                hold_exception(dense_matrix_set_basic(mat, r, c, val));
+            }
         }
     }
     UNPROTECT(2);
@@ -125,7 +135,7 @@ SEXP sexp_denseMatrix_assign(SEXP ext1, SEXP idxr, SEXP idxc, SEXP ext2) {
 }
 
 // [[Rcpp::export(".denseMatrix_to_vecbasic")]]
-SEXP sexp_denseMatrix_to_vecbasic(SEXP ext) {
+SEXP sexp_denseMatrix_to_vecbasic(SEXP ext, size_t row_first=0) {
     SEXP          out  = PROTECT(sexp_vecbasic_s4());
     CVecBasic*    vec  = elt_vecbasic(out);
     CDenseMatrix* mat  = elt_denseMatrix(ext);
@@ -134,13 +144,22 @@ SEXP sexp_denseMatrix_to_vecbasic(SEXP ext) {
     SEXP          a    = PROTECT(sexp_basic());
     basic_struct* val  = elt_basic(a);
 
-    for (size_t j = 0; j < ncol; j++) {
+    if (!row_first) {
+        for (size_t j = 0; j < ncol; j++) {
+            for (size_t i = 0; i < nrow; i++) {
+                hold_exception(dense_matrix_get_basic(val, mat, i, j));
+                hold_exception(vecbasic_push_back(vec, val));
+            }
+        }
+    } else {
         for (size_t i = 0; i < nrow; i++) {
-            hold_exception(dense_matrix_get_basic(val, mat, i, j));
-            hold_exception(vecbasic_push_back(vec, val));
+            for (size_t j = 0; j < ncol; j++) {
+                hold_exception(dense_matrix_get_basic(val, mat, i, j));
+                hold_exception(vecbasic_push_back(vec, val));
+            }
         }
     }
-
+    
     UNPROTECT(2);
     return out;
 }
