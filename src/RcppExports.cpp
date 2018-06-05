@@ -918,15 +918,16 @@ BEGIN_RCPP
 END_RCPP
 }
 // sexp_denseMatrix_init
-SEXP sexp_denseMatrix_init(SEXP ext, size_t nrow, size_t ncol);
-RcppExport SEXP _symengine_sexp_denseMatrix_init(SEXP extSEXP, SEXP nrowSEXP, SEXP ncolSEXP) {
+SEXP sexp_denseMatrix_init(SEXP ext, size_t nrow, size_t ncol, size_t row_first);
+RcppExport SEXP _symengine_sexp_denseMatrix_init(SEXP extSEXP, SEXP nrowSEXP, SEXP ncolSEXP, SEXP row_firstSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type ext(extSEXP);
     Rcpp::traits::input_parameter< size_t >::type nrow(nrowSEXP);
     Rcpp::traits::input_parameter< size_t >::type ncol(ncolSEXP);
-    rcpp_result_gen = Rcpp::wrap(sexp_denseMatrix_init(ext, nrow, ncol));
+    Rcpp::traits::input_parameter< size_t >::type row_first(row_firstSEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_denseMatrix_init(ext, nrow, ncol, row_first));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1004,13 +1005,14 @@ BEGIN_RCPP
 END_RCPP
 }
 // sexp_denseMatrix_to_vecbasic
-SEXP sexp_denseMatrix_to_vecbasic(SEXP ext);
-RcppExport SEXP _symengine_sexp_denseMatrix_to_vecbasic(SEXP extSEXP) {
+SEXP sexp_denseMatrix_to_vecbasic(SEXP ext, size_t row_first);
+RcppExport SEXP _symengine_sexp_denseMatrix_to_vecbasic(SEXP extSEXP, SEXP row_firstSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type ext(extSEXP);
-    rcpp_result_gen = Rcpp::wrap(sexp_denseMatrix_to_vecbasic(ext));
+    Rcpp::traits::input_parameter< size_t >::type row_first(row_firstSEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_denseMatrix_to_vecbasic(ext, row_first));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1191,14 +1193,14 @@ static const R_CallMethodDef CallEntries[] = {
     {"_symengine_sexp_basic_num_isnegative", (DL_FUNC) &_symengine_sexp_basic_num_isnegative, 1},
     {"_symengine_sexp_basic_num_ispositive", (DL_FUNC) &_symengine_sexp_basic_num_ispositive, 1},
     {"_symengine_sexp_basic_num_iscomplex", (DL_FUNC) &_symengine_sexp_basic_num_iscomplex, 1},
-    {"_symengine_sexp_denseMatrix_init", (DL_FUNC) &_symengine_sexp_denseMatrix_init, 3},
+    {"_symengine_sexp_denseMatrix_init", (DL_FUNC) &_symengine_sexp_denseMatrix_init, 4},
     {"_symengine_sexp_denseMatrix_str", (DL_FUNC) &_symengine_sexp_denseMatrix_str, 1},
     {"_symengine_sexp_denseMatrix_rows", (DL_FUNC) &_symengine_sexp_denseMatrix_rows, 1},
     {"_symengine_sexp_denseMatrix_cols", (DL_FUNC) &_symengine_sexp_denseMatrix_cols, 1},
     {"_symengine_sexp_denseMatrix_get", (DL_FUNC) &_symengine_sexp_denseMatrix_get, 3},
     {"_symengine_sexp_denseMatrix_subset", (DL_FUNC) &_symengine_sexp_denseMatrix_subset, 3},
     {"_symengine_sexp_denseMatrix_assign", (DL_FUNC) &_symengine_sexp_denseMatrix_assign, 4},
-    {"_symengine_sexp_denseMatrix_to_vecbasic", (DL_FUNC) &_symengine_sexp_denseMatrix_to_vecbasic, 1},
+    {"_symengine_sexp_denseMatrix_to_vecbasic", (DL_FUNC) &_symengine_sexp_denseMatrix_to_vecbasic, 2},
     {"_symengine_sexp_symengine_ascii_art", (DL_FUNC) &_symengine_sexp_symengine_ascii_art, 0},
     {"_symengine_sexp_symengine_version", (DL_FUNC) &_symengine_sexp_symengine_version, 0},
     {"_symengine_sexp_symengine_have_component", (DL_FUNC) &_symengine_sexp_symengine_have_component, 1},

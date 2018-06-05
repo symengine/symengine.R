@@ -333,8 +333,8 @@
     .Call('_symengine_sexp_basic_num_iscomplex', PACKAGE = 'symengine', ext)
 }
 
-.denseMatrix <- function(ext, nrow, ncol) {
-    .Call('_symengine_sexp_denseMatrix_init', PACKAGE = 'symengine', ext, nrow, ncol)
+.denseMatrix <- function(ext, nrow, ncol, row_first = 0L) {
+    .Call('_symengine_sexp_denseMatrix_init', PACKAGE = 'symengine', ext, nrow, ncol, row_first)
 }
 
 .denseMatrix_str <- function(ext) {
@@ -361,8 +361,8 @@
     .Call('_symengine_sexp_denseMatrix_assign', PACKAGE = 'symengine', ext1, idxr, idxc, ext2)
 }
 
-.denseMatrix_to_vecbasic <- function(ext) {
-    .Call('_symengine_sexp_denseMatrix_to_vecbasic', PACKAGE = 'symengine', ext)
+.denseMatrix_to_vecbasic <- function(ext, row_first = 0L) {
+    .Call('_symengine_sexp_denseMatrix_to_vecbasic', PACKAGE = 'symengine', ext, row_first)
 }
 
 .symengine_ascii_art <- function() {
