@@ -25,8 +25,8 @@ test_that("denseMatrix subset and get", {
 expect_denseMatrix_equal <- function(a, b) {
     expect_true(NROW(a) == NROW(b))
     expect_true(NCOL(a) == NCOL(b))
-    for (i in seq_along(NROW(a))) {
-        for (j in seq_along(NCOL(a))) {
+    for (i in 1:NROW(a)) {
+        for (j in 1:NCOL(a)) {
             expect_true(a[[i,j]] == b[[i,j]])
         }
     }
@@ -106,7 +106,7 @@ test_that("Single bracket subscript replacing", {
     # Negative index
     m1 <- denseMatrix(list("x", "y", 1, 3L), 2, 2)
     m1[-2, 1] <- S("z")
-    expect_denseMatrix_equal(m1, denseMatrix(list("z", "y", "z", 3L), 2, 2))
+    expect_denseMatrix_equal(m1, denseMatrix(list("z", "y", 1, 3L), 2, 2))
 
     # Check copy-on-modify
     m1 <- denseMatrix(list("x", "y", 1, 3L), 2, 2)
