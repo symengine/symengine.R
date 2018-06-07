@@ -1,11 +1,12 @@
 setClass("MapBasic", contains = "externalptr")
 
+#' @export
 mapbasic <- function(key, mapped) {
-    vkey    <- vecbasic(key)
-    vmapped <- vecbasic(mapped)
+    vkey    <- do.call(vecbasic, key)
+    vmapped <- do.call(vecbasic, mapped)
     if (length(vkey) != length(vmapped))
         stop("the length of key and mapped must equal")
-    .mapbasic(key, mapped)
+    .mapbasic(vkey, vmapped)
 }
 
 mapbasic_get <- function(map, key) {
@@ -18,11 +19,17 @@ setMethod("length", "MapBasic",
     }
 )
 
+setMethod("show", "MapBasic",
+    function (object) {
+        cat(sprintf("mapbasic of length %s\n", length(object)))
+    }
+)
+
 setMethod("[[", c(x = "MapBasic", i = "Basic", j = "ANY"),
     function(x, i, j, ...) {
-        if (!missing(...))
-            warning("Extra arguments are ignored")
-        if (!missing(j))
+        args <- as.list(sys.call())[-1L]
+        len <- length(args)
+        if (len > 2)
             stop("incorrect number of dimensions")
         mapbasic_get(x, i)
     }

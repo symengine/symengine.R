@@ -333,11 +333,6 @@
     .Call('_symengine_sexp_basic_num_iscomplex', PACKAGE = 'symengine', ext)
 }
 
-
-.denseMatrix <- function(ext, nrow, ncol, row_first = 0L) {
-    .Call('_symengine_sexp_denseMatrix_init', PACKAGE = 'symengine', ext, nrow, ncol, row_first)
-}
-
 .mapbasic <- function(key, mapped) {
     .Call('_symengine_sexp_mapbasic', PACKAGE = 'symengine', key, mapped)
 }
@@ -348,6 +343,10 @@
 
 .mapbasic_get <- function(ext1, ext2) {
     .Call('_symengine_sexp_mapbasic_get', PACKAGE = 'symengine', ext1, ext2)
+}
+
+.denseMatrix <- function(ext, nrow, ncol, row_first = 0L) {
+    .Call('_symengine_sexp_denseMatrix_init', PACKAGE = 'symengine', ext, nrow, ncol, row_first)
 }
 
 .denseMatrix_str <- function(ext) {

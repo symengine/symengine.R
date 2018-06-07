@@ -57,10 +57,9 @@ setMethod("show", "SetBasic",
 
 setMethod("[[", c(x = "SetBasic", i = "numeric", j = "ANY"),
     function(x, i, j, ...) {
-        # TODO: normalize the index
-        if (!missing(...))
-            warning("Extra arguments are ignored")
-        if (!missing(j))
+        args <- as.list(sys.call())[-1L]
+        len <- length(args)
+        if (len > 2)
             stop("incorrect number of dimensions")
         setbasic_get(x, as.integer(i))
     }
@@ -68,11 +67,12 @@ setMethod("[[", c(x = "SetBasic", i = "numeric", j = "ANY"),
 
 setMethod("[", c(x = "SetBasic"),
     function(x, i, j, ..., drop = TRUE) {
-        if (!missing(...))
-            warning("Extra arguments are ignored")
+        args <- as.list(sys.call())[-1L]
         if (!missing(drop))
             warning("Supplied argument 'drop' is ignored")
-        if (!missing(j))
+        args$drop <- NULL
+        len <- length(args)
+        if (len > 2)
             stop("incorrect number of dimensions")
         
         i <- normalizeSingleBracketSubscript(i, x)
