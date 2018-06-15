@@ -55,5 +55,25 @@ SEXP sexp_vecbasic_pow(SEXP vec1, SEXP vec2)  { return call_twoarg_opt(basic_pow
 // [[Rcpp::export(".vecbasic_diff")]]
 SEXP sexp_vecbasic_diff(SEXP vec1, SEXP vec2) { return call_twoarg_opt(basic_diff, vec1, vec2); }
 
+// [[Rcpp::export(".vecbasic_neg")]]
+SEXP sexp_vecbasic_neg(SEXP vec) {
+    CVecBasic*    inv  = elt_vecbasic(vec);
+    size_t        len  = vecbasic_size(inv);
+    SEXP          out  = PROTECT(sexp_vecbasic_s4());
+    CVecBasic*    outv = elt_vecbasic(out);
+    SEXP          ta   = PROTECT(sexp_basic());
+    SEXP          tb   = PROTECT(sexp_basic());
+    basic_struct* pa   = elt_basic(ta);
+    basic_struct* pb   = elt_basic(tb);
+
+    for (size_t i = 0; i < len; i++) {
+        hold_exception(vecbasic_get(inv, i, pa));
+        hold_exception(basic_neg(pb, pa));
+        hold_exception(vecbasic_push_back(outv, pb));
+    }
+
+    UNPROTECT(3);
+    return out;
+}
 
 

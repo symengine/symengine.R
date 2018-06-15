@@ -433,6 +433,10 @@ symengine_version <- function() {
     .Call('_symengine_sexp_vecbasic_diff', PACKAGE = 'symengine', vec1, vec2)
 }
 
+.vecbasic_neg <- function(vec) {
+    .Call('_symengine_sexp_vecbasic_neg', PACKAGE = 'symengine', vec)
+}
+
 .vecbasic_length <- function(ext) {
     .Call('_symengine_sexp_vecbasic_length', PACKAGE = 'symengine', ext)
 }
