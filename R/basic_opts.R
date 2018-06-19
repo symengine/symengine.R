@@ -131,6 +131,15 @@ setMethods("^",
 
 #' @export
 diff <- function (expr, sym) {
+    # support vecbasic
+    if (class(expr) == "VecBasic" && class(sym) == "VecBasic")
+        l1 <- length(expr)
+        l2 <- length(sym)
+        if (max(l1,l2) %% min(l1,l2))
+            warning("longer object length is not a multiple of shorter object length")
+        return(.vecbasic_diff(expr, sym))
+    # end support
+
     expr <- S(expr)
     if (is.character(sym))
         sym <- S(sym)
@@ -141,6 +150,10 @@ diff <- function (expr, sym) {
 
 #' @export
 expand <- function (expr) {
+    # support vecbasic
+    if (class(expr) == "VecBasic")
+        return(.vecbasic_expand(expr))
+    # end support
     basic_expand(S(expr))
 }
 
@@ -187,7 +200,10 @@ Trigonometry <- (function() {
     for (i in seq_along(ans)) {
         ans[[i]] <- eval(envir = parent.frame(),
             bquote(function (x) {
-                .(as.name(paste0("basic_", deparse(flist[[i]]))))(S(x))
+                if (class(x) == "Basic")
+                    .(as.name(paste0("basic_", deparse(flist[[i]]))))(S(x))
+                if (class(x) == "VecBasic")
+                    .(as.name(paste0(".vecbasic_", deparse(flist[[i]]))))(x)
             }
         ))
         names(ans)[i] <- deparse(flist[[i]])
@@ -225,16 +241,16 @@ print.symengine.trigonometry <- function(x, ...) {
     }
 }
 
-setMethod("sin",  c(x = "Basic"), Trigonometry$sin )
-setMethod("cos",  c(x = "Basic"), Trigonometry$cos )
-setMethod("tan",  c(x = "Basic"), Trigonometry$tan )
-setMethod("acos", c(x = "Basic"), Trigonometry$acos)
-setMethod("asin", c(x = "Basic"), Trigonometry$asin)
-setMethod("atan", c(x = "Basic"), Trigonometry$atan)
+setMethods("sin",  list(c(x = "Basic"),c(x = "VecBasic")), Trigonometry$sin )
+setMethods("cos",  list(c(x = "Basic"),c(x = "VecBasic")), Trigonometry$cos )
+setMethods("tan",  list(c(x = "Basic"),c(x = "VecBasic")), Trigonometry$tan )
+setMethods("acos", list(c(x = "Basic"),c(x = "VecBasic")), Trigonometry$acos)
+setMethods("asin", list(c(x = "Basic"),c(x = "VecBasic")), Trigonometry$asin)
+setMethods("atan", list(c(x = "Basic"),c(x = "VecBasic")), Trigonometry$atan)
 
-setMethod("sinpi", c(x = "Basic"), function(x) sin(x * Constant("pi")))
-setMethod("cospi", c(x = "Basic"), function(x) cos(x * Constant("pi")))
-setMethod("tanpi", c(x = "Basic"), function(x) tan(x * Constant("pi")))
+setMethods("sinpi", list(c(x = "Basic"),c(x = "VecBasic")), function(x) sin(x * Constant("pi")))
+setMethods("cospi", list(c(x = "Basic"),c(x = "VecBasic")), function(x) cos(x * Constant("pi")))
+setMethods("tanpi", list(c(x = "Basic"),c(x = "VecBasic")), function(x) tan(x * Constant("pi")))
 
 
 basic_subs2 <- function (expr, old, new) {
