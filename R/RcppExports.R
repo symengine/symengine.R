@@ -433,8 +433,148 @@ symengine_version <- function() {
     .Call('_symengine_sexp_vecbasic_diff', PACKAGE = 'symengine', vec1, vec2)
 }
 
+.vecbasic_expand <- function(vec) {
+    .Call('_symengine_sexp_vecbasic_expand', PACKAGE = 'symengine', vec)
+}
+
 .vecbasic_neg <- function(vec) {
     .Call('_symengine_sexp_vecbasic_neg', PACKAGE = 'symengine', vec)
+}
+
+.vecbasic_abs <- function(vec) {
+    .Call('_symengine_sexp_vecbasic_abs', PACKAGE = 'symengine', vec)
+}
+
+.vecbasic_erf <- function(vec) {
+    .Call('_symengine_sexp_vecbasic_erf', PACKAGE = 'symengine', vec)
+}
+
+.vecbasic_erfc <- function(vec) {
+    .Call('_symengine_sexp_vecbasic_erfc', PACKAGE = 'symengine', vec)
+}
+
+.vecbasic_sin <- function(vec) {
+    .Call('_symengine_sexp_vecbasic_sin', PACKAGE = 'symengine', vec)
+}
+
+.vecbasic_cos <- function(vec) {
+    .Call('_symengine_sexp_vecbasic_cos', PACKAGE = 'symengine', vec)
+}
+
+.vecbasic_tan <- function(vec) {
+    .Call('_symengine_sexp_vecbasic_tan', PACKAGE = 'symengine', vec)
+}
+
+.vecbasic_asin <- function(vec) {
+    .Call('_symengine_sexp_vecbasic_asin', PACKAGE = 'symengine', vec)
+}
+
+.vecbasic_acos <- function(vec) {
+    .Call('_symengine_sexp_vecbasic_acos', PACKAGE = 'symengine', vec)
+}
+
+.vecbasic_atan <- function(vec) {
+    .Call('_symengine_sexp_vecbasic_atan', PACKAGE = 'symengine', vec)
+}
+
+.vecbasic_csc <- function(vec) {
+    .Call('_symengine_sexp_vecbasic_csc', PACKAGE = 'symengine', vec)
+}
+
+.vecbasic_sec <- function(vec) {
+    .Call('_symengine_sexp_vecbasic_sec', PACKAGE = 'symengine', vec)
+}
+
+.vecbasic_cot <- function(vec) {
+    .Call('_symengine_sexp_vecbasic_cot', PACKAGE = 'symengine', vec)
+}
+
+.vecbasic_acsc <- function(vec) {
+    .Call('_symengine_sexp_vecbasic_acsc', PACKAGE = 'symengine', vec)
+}
+
+.vecbasic_asec <- function(vec) {
+    .Call('_symengine_sexp_vecbasic_asec', PACKAGE = 'symengine', vec)
+}
+
+.vecbasic_acot <- function(vec) {
+    .Call('_symengine_sexp_vecbasic_acot', PACKAGE = 'symengine', vec)
+}
+
+.vecbasic_sinh <- function(vec) {
+    .Call('_symengine_sexp_vecbasic_sinh', PACKAGE = 'symengine', vec)
+}
+
+.vecbasic_cosh <- function(vec) {
+    .Call('_symengine_sexp_vecbasic_cosh', PACKAGE = 'symengine', vec)
+}
+
+.vecbasic_tanh <- function(vec) {
+    .Call('_symengine_sexp_vecbasic_tanh', PACKAGE = 'symengine', vec)
+}
+
+.vecbasic_asinh <- function(vec) {
+    .Call('_symengine_sexp_vecbasic_asinh', PACKAGE = 'symengine', vec)
+}
+
+.vecbasic_acosh <- function(vec) {
+    .Call('_symengine_sexp_vecbasic_acosh', PACKAGE = 'symengine', vec)
+}
+
+.vecbasic_atanh <- function(vec) {
+    .Call('_symengine_sexp_vecbasic_atanh', PACKAGE = 'symengine', vec)
+}
+
+.vecbasic_csch <- function(vec) {
+    .Call('_symengine_sexp_vecbasic_csch', PACKAGE = 'symengine', vec)
+}
+
+.vecbasic_sech <- function(vec) {
+    .Call('_symengine_sexp_vecbasic_sech', PACKAGE = 'symengine', vec)
+}
+
+.vecbasic_coth <- function(vec) {
+    .Call('_symengine_sexp_vecbasic_coth', PACKAGE = 'symengine', vec)
+}
+
+.vecbasic_acsch <- function(vec) {
+    .Call('_symengine_sexp_vecbasic_acsch', PACKAGE = 'symengine', vec)
+}
+
+.vecbasic_asech <- function(vec) {
+    .Call('_symengine_sexp_vecbasic_asech', PACKAGE = 'symengine', vec)
+}
+
+.vecbasic_acoth <- function(vec) {
+    .Call('_symengine_sexp_vecbasic_acoth', PACKAGE = 'symengine', vec)
+}
+
+.vecbasic_lambertw <- function(vec) {
+    .Call('_symengine_sexp_vecbasic_lambertw', PACKAGE = 'symengine', vec)
+}
+
+.vecbasic_zeta <- function(vec) {
+    .Call('_symengine_sexp_vecbasic_zeta', PACKAGE = 'symengine', vec)
+}
+
+.vecbasic_dirichlet_eta <- function(vec) {
+    .Call('_symengine_sexp_vecbasic_dirichlet_eta', PACKAGE = 'symengine', vec)
+}
+
+.vecbasic_gamma <- function(vec) {
+    .Call('_symengine_sexp_vecbasic_gamma', PACKAGE = 'symengine', vec)
+}
+
+.vecbasic_sqrt <- function(vec) {
+    .Call('_symengine_sexp_vecbasic_sqrt', PACKAGE = 'symengine', vec)
+}
+
+.vecbasic_exp <- function(vec) {
+    .Call('_symengine_sexp_vecbasic_exp', PACKAGE = 'symengine', vec)
+}
+
+.vecbasic_log <- function(vec) {
+    .Call('_symengine_sexp_vecbasic_log', PACKAGE = 'symengine', vec)
 }
 
 .vecbasic_length <- function(ext) {

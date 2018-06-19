@@ -99,3 +99,21 @@ setMethod("+", c(e1 = "VecBasic", e2 = "missing"),
         e1
     }
 )
+
+setMethod("abs", c(x = "VecBasic"),
+    function (x) {
+        .vecbasic_abs(x)
+    }
+)
+
+setMethod("sqrt", c(x = "VecBasic"),
+    function (x) {
+        .vecbasic_sqrt(x)
+    }
+)
+
+setMethod("exp", c(x = "VecBasic"),
+    function (x) {
+        .vecbasic_exp(x)
+    }
+)
