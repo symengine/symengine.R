@@ -12,7 +12,7 @@ SEXP sexp_setbasic(SEXP ext) {
     CSetBasic*    set = elt_setbasic(out);
     CVecBasic*    vec = elt_vecbasic(ext);
     size_t        len = vecbasic_size(vec);
-    SEXP          a   = PROTECT(sexp_setbasic());
+    SEXP          a   = PROTECT(sexp_basic());
     basic_struct* val = elt_basic(a);
 
     for (size_t i = 0; i < len; i++) {

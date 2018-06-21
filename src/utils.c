@@ -104,8 +104,8 @@ static void _setbasic_finalizer(SEXP ext) {
         REprintf("Debug> _setbasic_finalizer: Empty ptr\n");
         return;
     }
-    CSetBasic* vec = (CSetBasic*) R_ExternalPtrAddr(ext);
-    setbasic_free(vec);
+    CSetBasic* set = (CSetBasic*) R_ExternalPtrAddr(ext);
+    setbasic_free(set);
     R_ClearExternalPtr(ext);
 }
 
