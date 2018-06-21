@@ -1,119 +1,156 @@
 
-# two arg function
-vecbasic_add <- function(vec1, vec2)  .vecbasic_add(vec1, vec2)
-vecbasic_sub <- function(vec1, vec2)  .vecbasic_sub(vec1, vec2)
-vecbasic_mul <- function(vec1, vec2)  .vecbasic_mul(vec1, vec2)
-vecbasic_div <- function(vec1, vec2)  .vecbasic_div(vec1, vec2)
-vecbasic_pow <- function(vec1, vec2)  .vecbasic_pow(vec1, vec2)
+setClassUnion("BasicType", members = c("Basic", "VecBasic", "DenseMatrix"))
 
-vecbasic_diff <- function(vec1, vec2) .vecbasic_diff(vec1, vec2)
+# Make (x, y) in DenseMatrix > VecBasic > Basic order
+sort_type <- function(x, y) {
+    if (class(y) == "VecBasic") {
+        r <- y
+        y <- x
+        x <- r
+    }
+    if (class(y) == "DenseMatrix") {
+        r <- y
+        y <- x
+        x <- r
+    }
+    result = list()
+    result$x <- x
+    result$y <- y
+    return(result)
+}
 
-setMethods("+",
-    list(c(e1 = "VecBasic", e2 = "VecBasic"),
-         c(e1 = "VecBasic", e2 = "Basic"),
-         c(e1 = "Basic"  , e2 = "VecBasic")),
-    
+to_vecbasic <- function(x) {
+    if (class(x) == "VecBasic")
+        return(x)
+    if (class(x) == "DenseMatrix")
+        return(denseMatrix_to_vecbasic(x))
+    # Basic or ANY
+    return(vecbasic(x))
+}
+
+setMethods <- function (fs=list(), signatures=list(), definitions=list(),
+                        where=topenv(parent.frame()), ...) {
+    for (signature in signatures) {
+        for (i in 1:length(fs)) {
+            setMethod(fs[[i]], signature=signature,
+                definition=definitions[[i]], where=where, ...)
+        }
+        break
+    }
+}
+
+check_matrix_dimension_same <- function(e1, e2) {
+    if (class(e1) == "DenseMatrix" && class(e2) == "DenseMatrix") {
+        d1 <- dim(e1)
+        d2 <- dim(e2)
+        if (any(d1 != d2))
+            stop("non-conformable arrays")
+    }
+}
+
+get_final_output <- function(e, v) {
+    if (class(e) == "DenseMatrix") {
+        d <- dim(e)
+        return(.denseMatrix(v, d[[1]], d[[2]]))
+    }
+    if (class(e) == "VecBasic") {
+        return(v)
+    }
+    # Basic or ANY
+    return(v[[1]])
+}
+
+# Basic operations: +, -, *, /, ^ =============================================
+basicOpList = alist(add, sub, mul, div, pow)
+basicOpFuncs = vector("list", length(basicOpList))
+for (i in seq_along(basicOpFuncs)) {
+    basicOpFuncs[[i]] <- eval(envir = environment(),
+        bquote(function (e1, e2) {
+            check_matrix_dimension_same(e1,e2)
+            r  <- sort_type(e1, e2)
+            e1 <- r$x
+            e2 <- r$y
+            v1 <- to_vecbasic(r$x)
+            v2 <- to_vecbasic(r$y)
+            l1 <- length(v1)
+            l2 <- length(v2)
+            if (max(l1,l2) %% min(l1,l2))
+                warning("longer object length is not a multiple of shorter object length")
+            v  <- .(as.name(paste0(".vecbasic_", deparse(basicOpList[[i]]))))(v1, v2)
+            return(get_final_output(e1, v))
+        }
+    ))
+    names(basicOpFuncs)[i] <- deparse(basicOpList[[i]])
+}
+
+setMethods(list("+", "-", "*", "/", "^"),
+    list(c(e1 = "BasicType", e2 = "ANY"),
+         c(e1 = "ANY", e2 = "BasicType")),
+    basicOpFuncs
+)
+
+setMethod("-", c(e1 = "BasicType", e2 = "missing"),
     function (e1, e2) {
-        v1 <- vecbasic(e1)
-        v2 <- vecbasic(e2)
-        l1 <- length(v1)
-        l2 <- length(v2)
-        if (max(l1,l2) %% min(l1,l2))
-            warning("longer object length is not a multiple of shorter object length")
-        vecbasic_add(v1, v2)
+        v1 <- to_vecbasic(e1)
+        v  <- .vecbasic_neg(v1)
+        return(get_final_output(e1, v))
     }
 )
 
-setMethods("-",
-    list(c(e1 = "VecBasic", e2 = "VecBasic"),
-         c(e1 = "VecBasic", e2 = "Basic"),
-         c(e1 = "Basic"  , e2 = "VecBasic")),
-    
-    function (e1, e2) {
-        v1 <- vecbasic(e1)
-        v2 <- vecbasic(e2)
-        l1 <- length(v1)
-        l2 <- length(v2)
-        if (max(l1,l2) %% min(l1,l2))
-            warning("longer object length is not a multiple of shorter object length")
-        vecbasic_sub(v1, v2)
-    }
-)
-
-setMethods("*",
-    list(c(e1 = "VecBasic", e2 = "VecBasic"),
-         c(e1 = "VecBasic", e2 = "Basic"),
-         c(e1 = "Basic"  , e2 = "VecBasic")),
-    
-    function (e1, e2) {
-        v1 <- vecbasic(e1)
-        v2 <- vecbasic(e2)
-        l1 <- length(v1)
-        l2 <- length(v2)
-        if (max(l1,l2) %% min(l1,l2))
-            warning("longer object length is not a multiple of shorter object length")
-        vecbasic_mul(v1, v2)
-    }
-)
-
-setMethods("/",
-    list(c(e1 = "VecBasic", e2 = "VecBasic"),
-         c(e1 = "VecBasic", e2 = "Basic"),
-         c(e1 = "Basic"  , e2 = "VecBasic")),
-    
-    function (e1, e2) {
-        v1 <- vecbasic(e1)
-        v2 <- vecbasic(e2)
-        l1 <- length(v1)
-        l2 <- length(v2)
-        if (max(l1,l2) %% min(l1,l2))
-            warning("longer object length is not a multiple of shorter object length")
-        vecbasic_div(v1, v2)
-    }
-)
-
-setMethods("^",
-    list(c(e1 = "VecBasic", e2 = "VecBasic"),
-         c(e1 = "VecBasic", e2 = "Basic"),
-         c(e1 = "Basic"  , e2 = "VecBasic")),
-    
-    function (e1, e2) {
-        v1 <- vecbasic(e1)
-        v2 <- vecbasic(e2)
-        l1 <- length(v1)
-        l2 <- length(v2)
-        if (max(l1,l2) %% min(l1,l2))
-            warning("longer object length is not a multiple of shorter object length")
-        vecbasic_pow(v1, v2)
-    }
-)
-
-setMethod("-", c(e1 = "VecBasic", e2 = "missing"),
-    function (e1, e2) {
-        .vecbasic_neg(e1)
-    }
-)
-
-setMethod("+", c(e1 = "VecBasic", e2 = "missing"),
+setMethod("+", c(e1 = "BasicType", e2 = "missing"),
     function (e1, e2) {
         e1
     }
 )
 
-setMethod("abs", c(x = "VecBasic"),
-    function (x) {
-        .vecbasic_abs(x)
-    }
-)
+# One arg function ============================================================
+#' @exportMethod abs erf erfc sin cos tan asin acos atan csc sec
+#' @exportMethod cot acsc asec acot sinh cosh tanh asinh acosh
+#' @exportMethod atanh csch sech coth acsch asech acoth lambertw
+#' @exportMethod zeta dirichlet_eta gamma sqrt exp log
+OneArgOpList = alist(abs, erf, erfc, sin, cos, tan, asin, acos, atan, csc, sec,
+                     cot, acsc, asec, acot, sinh, cosh, tanh, asinh, acosh,
+                     atanh, csch, sech, coth, acsch, asech, acoth, lambertw,
+                     zeta, dirichlet_eta, gamma, sqrt, exp, log)
 
-setMethod("sqrt", c(x = "VecBasic"),
-    function (x) {
-        .vecbasic_sqrt(x)
+for (i in seq_along(OneArgOpList)) {
+    name <- deparse(OneArgOpList[[i]])
+    if (is.null(getGeneric(name))) {
+        setGeneric(name, def = eval(parse(text = paste0("function(x) {",
+           "standardGeneric('", name, "')","}"))))
     }
-)
+    setMethod(name, "BasicType",
+        eval(envir = environment(),
+            bquote(function(x) {
+                v1 <- to_vecbasic(x)
+                v  <- .(as.name(paste0(".vecbasic_", name)))(v1)
+                return(get_final_output(x, v))
+            })))
+}
 
-setMethod("exp", c(x = "VecBasic"),
-    function (x) {
-        .vecbasic_exp(x)
-    }
-)
+setMethod("sinpi", c(x = "BasicType"), function(x) sin(x * Constant("pi")))
+setMethod("cospi", c(x = "BasicType"), function(x) cos(x * Constant("pi")))
+setMethod("tanpi", c(x = "BasicType"), function(x) tan(x * Constant("pi")))
+
+#' @export
+expand <- function (expr) {
+    v1 <- to_vecbasic(expr)
+    v  <- .vecbasic_expand(v1)
+    return(get_final_output(expr, v))
+}
+
+# Two arg function ============================================================
+#' @export
+diff <- function (expr, sym) {
+    v1 <- to_vecbasic(expr)
+    v2 <- to_vecbasic(sym)
+    l1 <- length(v1)
+    l2 <- length(v2)
+    if (max(l1,l2) %% min(l1,l2))
+        warning("longer object length is not a multiple of shorter object length")
+    v  <- .vecbasic_diff(v1, v2)
+    return(get_final_output(expr, v))
+}
+
+# Todo
+# matrix multiplication, subs etc.

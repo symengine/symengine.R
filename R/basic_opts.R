@@ -11,26 +11,26 @@ setMethods <- function (f, signatures=list(), definition,
 
 
 
-basic_add <- function (a, b) {
-    new("Basic", .basic_add(as(a, "externalptr"), as(b, "externalptr")))
-}
-basic_sub <- function (a, b) {
-    new("Basic", .basic_sub(as(a, "externalptr"), as(b, "externalptr")))
-}
-basic_mul <- function (a, b) {
-    new("Basic", .basic_mul(as(a, "externalptr"), as(b, "externalptr")))
-}
-basic_div <- function (a, b) {
-    new("Basic", .basic_div(as(a, "externalptr"), as(b, "externalptr")))
-}
-basic_pow <- function (a, b) {
-    new("Basic", .basic_pow(as(a, "externalptr"), as(b, "externalptr")))
-}
+# basic_add <- function (a, b) {
+#     new("Basic", .basic_add(as(a, "externalptr"), as(b, "externalptr")))
+# }
+# basic_sub <- function (a, b) {
+#     new("Basic", .basic_sub(as(a, "externalptr"), as(b, "externalptr")))
+# }
+# basic_mul <- function (a, b) {
+#     new("Basic", .basic_mul(as(a, "externalptr"), as(b, "externalptr")))
+# }
+# basic_div <- function (a, b) {
+#     new("Basic", .basic_div(as(a, "externalptr"), as(b, "externalptr")))
+# }
+# basic_pow <- function (a, b) {
+#     new("Basic", .basic_pow(as(a, "externalptr"), as(b, "externalptr")))
+# }
 
 
-basic_diff <- function (expr, sym) {
-    new("Basic", .basic_diff(as(expr, "externalptr"), as(sym, "externalptr")))
-}
+# basic_diff <- function (expr, sym) {
+#     new("Basic", .basic_diff(as(expr, "externalptr"), as(sym, "externalptr")))
+# }
 
 
 .subS4_extptr <- function(x, ptr) {
@@ -79,113 +79,100 @@ basic_log           <- function(x) .subS4_extptr(x, .basic_log           (x@.xDa
 
 
 
-setMethods("+",
-    list(c(e1 = "Basic", e2 = "Basic"),
-         c(e1 = "Basic", e2 = "ANY"),
-         c(e1 = "ANY"  , e2 = "Basic")),
+# setMethods("+",
+#     list(c(e1 = "Basic", e2 = "Basic"),
+#          c(e1 = "Basic", e2 = "ANY"),
+#          c(e1 = "ANY"  , e2 = "Basic")),
     
-    function (e1, e2) {
-        basic_add(S(e1), S(e2))
-    }
-)
+#     function (e1, e2) {
+#         basic_add(S(e1), S(e2))
+#     }
+# )
 
-setMethods("-",
-    list(c(e1 = "Basic", e2 = "Basic"),
-         c(e1 = "Basic", e2 = "ANY"),
-         c(e1 = "ANY"  , e2 = "Basic")),
+# setMethods("-",
+#     list(c(e1 = "Basic", e2 = "Basic"),
+#          c(e1 = "Basic", e2 = "ANY"),
+#          c(e1 = "ANY"  , e2 = "Basic")),
     
-    function (e1, e2) {
-        basic_sub(S(e1), S(e2))
-    }
-)
+#     function (e1, e2) {
+#         basic_sub(S(e1), S(e2))
+#     }
+# )
 
-setMethods("*",
-    list(c(e1 = "Basic", e2 = "Basic"),
-         c(e1 = "Basic", e2 = "ANY"),
-         c(e1 = "ANY"  , e2 = "Basic")),
+# setMethods("*",
+#     list(c(e1 = "Basic", e2 = "Basic"),
+#          c(e1 = "Basic", e2 = "ANY"),
+#          c(e1 = "ANY"  , e2 = "Basic")),
     
-    function (e1, e2) {
-        basic_mul(S(e1), S(e2))
-    }
-)
+#     function (e1, e2) {
+#         basic_mul(S(e1), S(e2))
+#     }
+# )
 
-setMethods("/",
-    list(c(e1 = "Basic", e2 = "Basic"),
-         c(e1 = "Basic", e2 = "ANY"),
-         c(e1 = "ANY"  , e2 = "Basic")),
+# setMethods("/",
+#     list(c(e1 = "Basic", e2 = "Basic"),
+#          c(e1 = "Basic", e2 = "ANY"),
+#          c(e1 = "ANY"  , e2 = "Basic")),
     
-    function (e1, e2) {
-        basic_div(S(e1), S(e2))
-    }
-)
+#     function (e1, e2) {
+#         basic_div(S(e1), S(e2))
+#     }
+# )
 
-setMethods("^",
-    list(c(e1 = "Basic", e2 = "Basic"),
-         c(e1 = "Basic", e2 = "ANY"),
-         c(e1 = "ANY"  , e2 = "Basic")),
+# setMethods("^",
+#     list(c(e1 = "Basic", e2 = "Basic"),
+#          c(e1 = "Basic", e2 = "ANY"),
+#          c(e1 = "ANY"  , e2 = "Basic")),
     
-    function (e1, e2) {
-        basic_pow(S(e1), S(e2))
-    }
-)
+#     function (e1, e2) {
+#         basic_pow(S(e1), S(e2))
+#     }
+# )
 
-#' @export
-diff <- function (expr, sym) {
-    # support vecbasic
-    if (class(expr) == "VecBasic" && class(sym) == "VecBasic")
-        l1 <- length(expr)
-        l2 <- length(sym)
-        if (max(l1,l2) %% min(l1,l2))
-            warning("longer object length is not a multiple of shorter object length")
-        return(.vecbasic_diff(expr, sym))
-    # end support
+# #' @export
+# diff <- function (expr, sym) {
+#     expr <- S(expr)
+#     if (is.character(sym))
+#         sym <- S(sym)
+#     #if (basic_type(sym) != "Symbol")
+#     #    stop("sym should be a ", sQuote("Symbol"), ", got ", sQuote(basic_type(sym)))
+#     basic_diff(expr, sym)
+# }
 
-    expr <- S(expr)
-    if (is.character(sym))
-        sym <- S(sym)
-    #if (basic_type(sym) != "Symbol")
-    #    stop("sym should be a ", sQuote("Symbol"), ", got ", sQuote(basic_type(sym)))
-    basic_diff(expr, sym)
-}
+# #' @export
+# expand <- function (expr) {
+#     basic_expand(S(expr))
+# }
 
-#' @export
-expand <- function (expr) {
-    # support vecbasic
-    if (class(expr) == "VecBasic")
-        return(.vecbasic_expand(expr))
-    # end support
-    basic_expand(S(expr))
-}
+# setMethod("-", c(e1 = "Basic", e2 = "missing"),
+#     function (e1, e2) {
+#         basic_neg(S(e1))
+#     }
+# )
 
-setMethod("-", c(e1 = "Basic", e2 = "missing"),
-    function (e1, e2) {
-        basic_neg(S(e1))
-    }
-)
+# setMethod("+", c(e1 = "Basic", e2 = "missing"),
+#     function (e1, e2) {
+#         e1
+#     }
+# )
 
-setMethod("+", c(e1 = "Basic", e2 = "missing"),
-    function (e1, e2) {
-        e1
-    }
-)
+# setMethod("abs", c(x = "Basic"),
+#     function (x) {
+#         basic_abs(S(x))
+#     }
+# )
 
-setMethod("abs", c(x = "Basic"),
-    function (x) {
-        basic_abs(S(x))
-    }
-)
+# setMethod("sqrt", c(x = "Basic"),
+#     function (x) {
+#         basic_sqrt(S(x))
+#     }
+# )
 
-setMethod("sqrt", c(x = "Basic"),
-    function (x) {
-        basic_sqrt(S(x))
-    }
-)
-
-setMethod("exp", c(x = "Basic"),
-    function (x) {
-        basic_exp(S(x))
-    }
-)
+# setMethod("exp", c(x = "Basic"),
+#     function (x) {
+#         basic_exp(S(x))
+#     }
+# )
 
 # TODO: log
 
@@ -199,11 +186,8 @@ Trigonometry <- (function() {
     ans <- vector("list", length(flist))
     for (i in seq_along(ans)) {
         ans[[i]] <- eval(envir = parent.frame(),
-            bquote(function (x) {
-                if (class(x) == "Basic")
-                    .(as.name(paste0("basic_", deparse(flist[[i]]))))(S(x))
-                if (class(x) == "VecBasic")
-                    .(as.name(paste0(".vecbasic_", deparse(flist[[i]]))))(x)
+            bquote(function (x) {z
+                .(as.name(paste0("basic_", deparse(flist[[i]]))))(S(x))
             }
         ))
         names(ans)[i] <- deparse(flist[[i]])
@@ -241,16 +225,16 @@ print.symengine.trigonometry <- function(x, ...) {
     }
 }
 
-setMethods("sin",  list(c(x = "Basic"),c(x = "VecBasic")), Trigonometry$sin )
-setMethods("cos",  list(c(x = "Basic"),c(x = "VecBasic")), Trigonometry$cos )
-setMethods("tan",  list(c(x = "Basic"),c(x = "VecBasic")), Trigonometry$tan )
-setMethods("acos", list(c(x = "Basic"),c(x = "VecBasic")), Trigonometry$acos)
-setMethods("asin", list(c(x = "Basic"),c(x = "VecBasic")), Trigonometry$asin)
-setMethods("atan", list(c(x = "Basic"),c(x = "VecBasic")), Trigonometry$atan)
+# setMethod("sin",  c(x = "Basic"), Trigonometry$sin )
+# setMethod("cos",  c(x = "Basic"), Trigonometry$cos )
+# setMethod("tan",  c(x = "Basic"), Trigonometry$tan )
+# setMethod("acos", c(x = "Basic"), Trigonometry$acos)
+# setMethod("asin", c(x = "Basic"), Trigonometry$asin)
+# setMethod("atan", c(x = "Basic"), Trigonometry$atan)
 
-setMethods("sinpi", list(c(x = "Basic"),c(x = "VecBasic")), function(x) sin(x * Constant("pi")))
-setMethods("cospi", list(c(x = "Basic"),c(x = "VecBasic")), function(x) cos(x * Constant("pi")))
-setMethods("tanpi", list(c(x = "Basic"),c(x = "VecBasic")), function(x) tan(x * Constant("pi")))
+# setMethod("sinpi", c(x = "Basic"), function(x) sin(x * Constant("pi")))
+# setMethod("cospi", c(x = "Basic"), function(x) cos(x * Constant("pi")))
+# setMethod("tanpi", c(x = "Basic"), function(x) tan(x * Constant("pi")))
 
 
 basic_subs2 <- function (expr, old, new) {
