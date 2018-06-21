@@ -26,11 +26,10 @@ static inline void hold_exception(CWRAPPER_OUTPUT_TYPE output) {
 SEXP sexp_basic();
 SEXP sexp_vecbasic();
 SEXP sexp_denseMatrix(size_t nrow, size_t ncol);
-SEXP sexp_sparseMatrix();
 SEXP sexp_setbasic();
 SEXP sexp_mapbasic();
 
-// Initialize new Basic/VecBasic/Matrix/SetBasic/MapBasic S4 object //===================================
+// Initialize new Basic/VecBasic/Matrix/SetBasic/MapBasic S4 object //=========
 
 static inline
 SEXP sexp_basic_s4() {
@@ -52,14 +51,6 @@ static inline
 SEXP sexp_denseMatrix_s4(size_t nrow, size_t ncol) {
     SEXP empty = PROTECT(R_do_new_object(R_getClassDef("DenseMatrix")));
     SEXP out   = PROTECT(R_do_slot_assign(empty, Rf_mkString(".xData"), sexp_denseMatrix(nrow, ncol)));
-    UNPROTECT(2);
-    return out;
-}
-
-static inline
-SEXP sexp_sparseMatrix_s4() {
-    SEXP empty = PROTECT(R_do_new_object(R_getClassDef("SparseMatrix")));
-    SEXP out   = PROTECT(R_do_slot_assign(empty, Rf_mkString(".xData"), sexp_sparseMatrix()));
     UNPROTECT(2);
     return out;
 }
@@ -101,7 +92,7 @@ static inline void sexp_check_vecbasic(SEXP ext) {
     return;
 }
 
-// Helper function to check whether an externalptr is basic or vecbasic ========
+// Helper function to check the type of SEXP ==================================
 
 static inline
 int is_basic(SEXP x) {
@@ -127,26 +118,60 @@ int is_vecbasic(SEXP x) {
         Rf_error("Internal: not a S4 or an externalptr");
 }
 
-// Helper function to extract basic_struct*/CVecBasic* from S4 or externalptr ==
+static inline
+int is_denseMatrix(SEXP x) {
+    if (TYPEOF(x) == EXTPTRSXP)
+        return R_compute_identical(R_ExternalPtrTag(x),
+                                   Rf_mkString("CDenseMatrix*"), 15);
+    else if (TYPEOF(x) == S4SXP)
+        return R_compute_identical(R_ExternalPtrTag(R_do_slot(x, Rf_mkString(".xData"))),
+                                   Rf_mkString("CDenseMatrix*"), 15);
+    else
+        Rf_error("Internal: not a S4 or an externalptr");
+}
+
+static inline
+int is_setbasic(SEXP x) {
+    if (TYPEOF(x) == EXTPTRSXP)
+        return R_compute_identical(R_ExternalPtrTag(x),
+                                   Rf_mkString("CSetBasic*"), 15);
+    else if (TYPEOF(x) == S4SXP)
+        return R_compute_identical(R_ExternalPtrTag(R_do_slot(x, Rf_mkString(".xData"))),
+                                   Rf_mkString("CSetBasic*"), 15);
+    else
+        Rf_error("Internal: not a S4 or an externalptr");
+}
+
+static inline
+int is_mapbasic(SEXP x) {
+    if (TYPEOF(x) == EXTPTRSXP)
+        return R_compute_identical(R_ExternalPtrTag(x),
+                                   Rf_mkString("CMapBasicBasic*"), 15);
+    else if (TYPEOF(x) == S4SXP)
+        return R_compute_identical(R_ExternalPtrTag(R_do_slot(x, Rf_mkString(".xData"))),
+                                   Rf_mkString("CMapBasicBasic*"), 15);
+    else
+        Rf_error("Internal: not a S4 or an externalptr");
+}
+
+// Helper function to extract the pointer of SEXP =============================
 
 static inline
 basic_struct* elt_basic(SEXP x) {
-    // We do not check whether x is a basic here,
-    // thus when using it, always add "if (is_basic(x))"
+    if (!is_basic(x))
+        Rf_error("x is not basic");
+    
     basic_struct* out;
-    
+
     switch(TYPEOF(x)) {
-    
-    case S4SXP :
-        out = (basic_struct*) R_ExternalPtrAddr(R_do_slot(x, Rf_mkString(".xData")));
-        break;
-        
-    case EXTPTRSXP :
-        out = (basic_struct*) R_ExternalPtrAddr(x);
-        break;
-        
-    default :
-        Rf_error("Internal");
+        case S4SXP :
+            out = (basic_struct*) R_ExternalPtrAddr(R_do_slot(x, Rf_mkString(".xData")));
+            break;
+        case EXTPTRSXP :
+            out = (basic_struct*) R_ExternalPtrAddr(x);
+            break;
+        default :
+            Rf_error("Internal");
     }
     
     if (NULL == out)
@@ -157,22 +182,20 @@ basic_struct* elt_basic(SEXP x) {
 
 static inline
 CVecBasic* elt_vecbasic(SEXP x) {
-    // We do not check whether x is a vecbasic here,
-    // thus when using it, always add "if (is_vecbasic(x))"
+    if (!is_vecbasic(x))
+        Rf_error("x is not vecbasic");
+
     CVecBasic* out;
     
     switch(TYPEOF(x)) {
-    
-    case S4SXP :
-        out = (CVecBasic*) R_ExternalPtrAddr(R_do_slot(x, Rf_mkString(".xData")));
-        break;
-        
-    case EXTPTRSXP :
-        out = (CVecBasic*) R_ExternalPtrAddr(x);
-        break;
-        
-    default :
-        Rf_error("Internal");
+        case S4SXP :
+            out = (CVecBasic*) R_ExternalPtrAddr(R_do_slot(x, Rf_mkString(".xData")));
+            break;
+        case EXTPTRSXP :
+            out = (CVecBasic*) R_ExternalPtrAddr(x);
+            break;
+        default :
+            Rf_error("Internal");
     }
     
     if (NULL == out)
@@ -183,22 +206,20 @@ CVecBasic* elt_vecbasic(SEXP x) {
 
 static inline
 CDenseMatrix* elt_denseMatrix(SEXP x) {
-    // We do not check whether x is a vecbasic here,
-    // thus when using it, always add "if (is_vecbasic(x))"
+    if (!is_denseMatrix(x))
+        Rf_error("x is not denseMatrix");
+
     CDenseMatrix* out;
     
     switch(TYPEOF(x)) {
-    
-    case S4SXP :
-        out = (CDenseMatrix*) R_ExternalPtrAddr(R_do_slot(x, Rf_mkString(".xData")));
-        break;
-        
-    case EXTPTRSXP :
-        out = (CDenseMatrix*) R_ExternalPtrAddr(x);
-        break;
-        
-    default :
-        Rf_error("Internal");
+        case S4SXP :
+            out = (CDenseMatrix*) R_ExternalPtrAddr(R_do_slot(x, Rf_mkString(".xData")));
+            break;
+        case EXTPTRSXP :
+            out = (CDenseMatrix*) R_ExternalPtrAddr(x);
+            break;
+        default :
+            Rf_error("Internal");
     }
     
     if (NULL == out)
@@ -209,22 +230,20 @@ CDenseMatrix* elt_denseMatrix(SEXP x) {
 
 static inline
 CSetBasic* elt_setbasic(SEXP x) {
-    // We do not check whether x is a vecbasic here,
-    // thus when using it, always add "if (is_vecbasic(x))"
+    if (!is_setbasic(x))
+        Rf_error("x is not setbasic");
+
     CSetBasic* out;
     
     switch(TYPEOF(x)) {
-    
-    case S4SXP :
-        out = (CSetBasic*) R_ExternalPtrAddr(R_do_slot(x, Rf_mkString(".xData")));
-        break;
-        
-    case EXTPTRSXP :
-        out = (CSetBasic*) R_ExternalPtrAddr(x);
-        break;
-        
-    default :
-        Rf_error("Internal");
+        case S4SXP :
+            out = (CSetBasic*) R_ExternalPtrAddr(R_do_slot(x, Rf_mkString(".xData")));
+            break;
+        case EXTPTRSXP :
+            out = (CSetBasic*) R_ExternalPtrAddr(x);
+            break;
+        default :
+            Rf_error("Internal");
     }
     
     if (NULL == out)
@@ -235,6 +254,9 @@ CSetBasic* elt_setbasic(SEXP x) {
 
 static inline
 CMapBasicBasic* elt_mapbasic(SEXP x) {
+    if (!is_mapbasic(x))
+        Rf_error("x is not mapbasic");
+        
     CMapBasicBasic* out;
     
     switch(TYPEOF(x)) {
