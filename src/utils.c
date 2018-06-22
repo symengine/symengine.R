@@ -81,20 +81,38 @@ SEXP sexp_denseMatrix (size_t nrow, size_t ncol) {
     return out;
 }
 
-static void _sparseMatrix_finalizer(SEXP ext) {
+static void _setbasic_finalizer(SEXP ext) {
     if (NULL == R_ExternalPtrAddr(ext)) {
-        REprintf("Debug> _sparseMatrix_finalizer: Empty ptr\n");
+        REprintf("Debug> _setbasic_finalizer: Empty ptr\n");
         return;
     }
-    CSparseMatrix* mat = (CSparseMatrix*) R_ExternalPtrAddr(ext);
-    sparse_matrix_free(mat);
+    CSetBasic* set = (CSetBasic*) R_ExternalPtrAddr(ext);
+    setbasic_free(set);
     R_ClearExternalPtr(ext);
 }
 
-SEXP sexp_sparseMatrix () {
-    CSparseMatrix* ptr = sparse_matrix_new();
-    SEXP out = PROTECT(R_MakeExternalPtr(ptr, Rf_mkString("CSparseMatrix*"), R_NilValue));
-    R_RegisterCFinalizerEx(out, _sparseMatrix_finalizer, TRUE);
+SEXP sexp_setbasic () {
+    CSetBasic* ptr = setbasic_new();
+    SEXP out = PROTECT(R_MakeExternalPtr(ptr, Rf_mkString("CSetBasic*"), R_NilValue));
+    R_RegisterCFinalizerEx(out, _setbasic_finalizer, TRUE);
+    UNPROTECT(1);
+    return out;
+}
+
+static void _mapbasic_finalizer(SEXP ext) {
+    if (NULL == R_ExternalPtrAddr(ext)) {
+        REprintf("Debug> _setbasic_finalizer: Empty ptr\n");
+        return;
+    }
+    CMapBasicBasic* map = (CMapBasicBasic*) R_ExternalPtrAddr(ext);
+    mapbasicbasic_free(map);
+    R_ClearExternalPtr(ext);
+}
+
+SEXP sexp_mapbasic () {
+    CMapBasicBasic* ptr = mapbasicbasic_new();
+    SEXP out = PROTECT(R_MakeExternalPtr(ptr, Rf_mkString("CMapBasicBasic*"), R_NilValue));
+    R_RegisterCFinalizerEx(out, _mapbasic_finalizer, TRUE);
     UNPROTECT(1);
     return out;
 }

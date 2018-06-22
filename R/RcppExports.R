@@ -333,6 +333,18 @@
     .Call('_symengine_sexp_basic_num_iscomplex', PACKAGE = 'symengine', ext)
 }
 
+.mapbasic <- function(key, mapped) {
+    .Call('_symengine_sexp_mapbasic', PACKAGE = 'symengine', key, mapped)
+}
+
+.mapbasic_length <- function(ext) {
+    .Call('_symengine_sexp_mapbasic_length', PACKAGE = 'symengine', ext)
+}
+
+.mapbasic_get <- function(ext1, ext2) {
+    .Call('_symengine_sexp_mapbasic_get', PACKAGE = 'symengine', ext1, ext2)
+}
+
 .denseMatrix <- function(ext, nrow, ncol, row_first = 0L) {
     .Call('_symengine_sexp_denseMatrix_init', PACKAGE = 'symengine', ext, nrow, ncol, row_first)
 }
@@ -363,6 +375,26 @@
 
 .denseMatrix_to_vecbasic <- function(ext, row_first = 0L) {
     .Call('_symengine_sexp_denseMatrix_to_vecbasic', PACKAGE = 'symengine', ext, row_first)
+}
+
+.setbasic <- function(ext) {
+    .Call('_symengine_sexp_setbasic', PACKAGE = 'symengine', ext)
+}
+
+.setbasic_length <- function(ext) {
+    .Call('_symengine_sexp_setbasic_length', PACKAGE = 'symengine', ext)
+}
+
+.setbasic_subset <- function(ext, idx) {
+    .Call('_symengine_sexp_setbasic_subset', PACKAGE = 'symengine', ext, idx)
+}
+
+.setbasic_get <- function(ext, n) {
+    .Call('_symengine_sexp_setbasic_get', PACKAGE = 'symengine', ext, n)
+}
+
+.setbasic_to_vecbasic <- function(ext) {
+    .Call('_symengine_sexp_setbasic_to_vecbasic', PACKAGE = 'symengine', ext)
 }
 
 .symengine_ascii_art <- function() {

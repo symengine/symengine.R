@@ -917,6 +917,41 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// sexp_mapbasic
+SEXP sexp_mapbasic(SEXP key, SEXP mapped);
+RcppExport SEXP _symengine_sexp_mapbasic(SEXP keySEXP, SEXP mappedSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type key(keySEXP);
+    Rcpp::traits::input_parameter< SEXP >::type mapped(mappedSEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_mapbasic(key, mapped));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sexp_mapbasic_length
+size_t sexp_mapbasic_length(SEXP ext);
+RcppExport SEXP _symengine_sexp_mapbasic_length(SEXP extSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type ext(extSEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_mapbasic_length(ext));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sexp_mapbasic_get
+SEXP sexp_mapbasic_get(SEXP ext1, SEXP ext2);
+RcppExport SEXP _symengine_sexp_mapbasic_get(SEXP ext1SEXP, SEXP ext2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type ext1(ext1SEXP);
+    Rcpp::traits::input_parameter< SEXP >::type ext2(ext2SEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_mapbasic_get(ext1, ext2));
+    return rcpp_result_gen;
+END_RCPP
+}
 // sexp_denseMatrix_init
 SEXP sexp_denseMatrix_init(SEXP ext, size_t nrow, size_t ncol, size_t row_first);
 RcppExport SEXP _symengine_sexp_denseMatrix_init(SEXP extSEXP, SEXP nrowSEXP, SEXP ncolSEXP, SEXP row_firstSEXP) {
@@ -1013,6 +1048,63 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< SEXP >::type ext(extSEXP);
     Rcpp::traits::input_parameter< size_t >::type row_first(row_firstSEXP);
     rcpp_result_gen = Rcpp::wrap(sexp_denseMatrix_to_vecbasic(ext, row_first));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sexp_setbasic
+SEXP sexp_setbasic(SEXP ext);
+RcppExport SEXP _symengine_sexp_setbasic(SEXP extSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type ext(extSEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_setbasic(ext));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sexp_setbasic_length
+size_t sexp_setbasic_length(SEXP ext);
+RcppExport SEXP _symengine_sexp_setbasic_length(SEXP extSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type ext(extSEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_setbasic_length(ext));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sexp_setbasic_subset
+SEXP sexp_setbasic_subset(SEXP ext, SEXP idx);
+RcppExport SEXP _symengine_sexp_setbasic_subset(SEXP extSEXP, SEXP idxSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type ext(extSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type idx(idxSEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_setbasic_subset(ext, idx));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sexp_setbasic_get
+SEXP sexp_setbasic_get(SEXP ext, SEXP n);
+RcppExport SEXP _symengine_sexp_setbasic_get(SEXP extSEXP, SEXP nSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type ext(extSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type n(nSEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_setbasic_get(ext, n));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sexp_setbasic_to_vecbasic
+SEXP sexp_setbasic_to_vecbasic(SEXP ext);
+RcppExport SEXP _symengine_sexp_setbasic_to_vecbasic(SEXP extSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type ext(extSEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_setbasic_to_vecbasic(ext));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1193,6 +1285,9 @@ static const R_CallMethodDef CallEntries[] = {
     {"_symengine_sexp_basic_num_isnegative", (DL_FUNC) &_symengine_sexp_basic_num_isnegative, 1},
     {"_symengine_sexp_basic_num_ispositive", (DL_FUNC) &_symengine_sexp_basic_num_ispositive, 1},
     {"_symengine_sexp_basic_num_iscomplex", (DL_FUNC) &_symengine_sexp_basic_num_iscomplex, 1},
+    {"_symengine_sexp_mapbasic", (DL_FUNC) &_symengine_sexp_mapbasic, 2},
+    {"_symengine_sexp_mapbasic_length", (DL_FUNC) &_symengine_sexp_mapbasic_length, 1},
+    {"_symengine_sexp_mapbasic_get", (DL_FUNC) &_symengine_sexp_mapbasic_get, 2},
     {"_symengine_sexp_denseMatrix_init", (DL_FUNC) &_symengine_sexp_denseMatrix_init, 4},
     {"_symengine_sexp_denseMatrix_str", (DL_FUNC) &_symengine_sexp_denseMatrix_str, 1},
     {"_symengine_sexp_denseMatrix_rows", (DL_FUNC) &_symengine_sexp_denseMatrix_rows, 1},
@@ -1201,6 +1296,11 @@ static const R_CallMethodDef CallEntries[] = {
     {"_symengine_sexp_denseMatrix_subset", (DL_FUNC) &_symengine_sexp_denseMatrix_subset, 3},
     {"_symengine_sexp_denseMatrix_assign", (DL_FUNC) &_symengine_sexp_denseMatrix_assign, 4},
     {"_symengine_sexp_denseMatrix_to_vecbasic", (DL_FUNC) &_symengine_sexp_denseMatrix_to_vecbasic, 2},
+    {"_symengine_sexp_setbasic", (DL_FUNC) &_symengine_sexp_setbasic, 1},
+    {"_symengine_sexp_setbasic_length", (DL_FUNC) &_symengine_sexp_setbasic_length, 1},
+    {"_symengine_sexp_setbasic_subset", (DL_FUNC) &_symengine_sexp_setbasic_subset, 2},
+    {"_symengine_sexp_setbasic_get", (DL_FUNC) &_symengine_sexp_setbasic_get, 2},
+    {"_symengine_sexp_setbasic_to_vecbasic", (DL_FUNC) &_symengine_sexp_setbasic_to_vecbasic, 1},
     {"_symengine_sexp_symengine_ascii_art", (DL_FUNC) &_symengine_sexp_symengine_ascii_art, 0},
     {"_symengine_sexp_symengine_version", (DL_FUNC) &_symengine_sexp_symengine_version, 0},
     {"_symengine_sexp_symengine_have_component", (DL_FUNC) &_symengine_sexp_symengine_have_component, 1},
