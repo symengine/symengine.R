@@ -77,6 +77,30 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// sexp_ntheory_gcd
+SEXP sexp_ntheory_gcd(SEXP exta, SEXP extb);
+RcppExport SEXP _symengine_sexp_ntheory_gcd(SEXP extaSEXP, SEXP extbSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type exta(extaSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type extb(extbSEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_ntheory_gcd(exta, extb));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sexp_ntheory_lcm
+SEXP sexp_ntheory_lcm(SEXP exta, SEXP extb);
+RcppExport SEXP _symengine_sexp_ntheory_lcm(SEXP extaSEXP, SEXP extbSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type exta(extaSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type extb(extbSEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_ntheory_lcm(exta, extb));
+    return rcpp_result_gen;
+END_RCPP
+}
 // sexp_basic_expand
 SEXP sexp_basic_expand(SEXP exta);
 RcppExport SEXP _symengine_sexp_basic_expand(SEXP extaSEXP) {
@@ -1051,6 +1075,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// sexp_dense_matrix_mul_matrix
+SEXP sexp_dense_matrix_mul_matrix(SEXP mata, SEXP matb);
+RcppExport SEXP _symengine_sexp_dense_matrix_mul_matrix(SEXP mataSEXP, SEXP matbSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type mata(mataSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type matb(matbSEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_dense_matrix_mul_matrix(mata, matb));
+    return rcpp_result_gen;
+END_RCPP
+}
 // sexp_setbasic
 SEXP sexp_setbasic(SEXP ext);
 RcppExport SEXP _symengine_sexp_setbasic(SEXP extSEXP) {
@@ -1184,6 +1220,30 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< SEXP >::type vec1(vec1SEXP);
     Rcpp::traits::input_parameter< SEXP >::type vec2(vec2SEXP);
     rcpp_result_gen = Rcpp::wrap(sexp_vecbasic_div(vec1, vec2));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sexp_vecbasic_quotient
+SEXP sexp_vecbasic_quotient(SEXP vec1, SEXP vec2);
+RcppExport SEXP _symengine_sexp_vecbasic_quotient(SEXP vec1SEXP, SEXP vec2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type vec1(vec1SEXP);
+    Rcpp::traits::input_parameter< SEXP >::type vec2(vec2SEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_vecbasic_quotient(vec1, vec2));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sexp_vecbasic_mod
+SEXP sexp_vecbasic_mod(SEXP vec1, SEXP vec2);
+RcppExport SEXP _symengine_sexp_vecbasic_mod(SEXP vec1SEXP, SEXP vec2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type vec1(vec1SEXP);
+    Rcpp::traits::input_parameter< SEXP >::type vec2(vec2SEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_vecbasic_mod(vec1, vec2));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1676,6 +1736,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_symengine_sexp_basic_div", (DL_FUNC) &_symengine_sexp_basic_div, 2},
     {"_symengine_sexp_basic_pow", (DL_FUNC) &_symengine_sexp_basic_pow, 2},
     {"_symengine_sexp_basic_diff", (DL_FUNC) &_symengine_sexp_basic_diff, 2},
+    {"_symengine_sexp_ntheory_gcd", (DL_FUNC) &_symengine_sexp_ntheory_gcd, 2},
+    {"_symengine_sexp_ntheory_lcm", (DL_FUNC) &_symengine_sexp_ntheory_lcm, 2},
     {"_symengine_sexp_basic_expand", (DL_FUNC) &_symengine_sexp_basic_expand, 1},
     {"_symengine_sexp_basic_neg", (DL_FUNC) &_symengine_sexp_basic_neg, 1},
     {"_symengine_sexp_basic_abs", (DL_FUNC) &_symengine_sexp_basic_abs, 1},
@@ -1764,6 +1826,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_symengine_sexp_denseMatrix_subset", (DL_FUNC) &_symengine_sexp_denseMatrix_subset, 3},
     {"_symengine_sexp_denseMatrix_assign", (DL_FUNC) &_symengine_sexp_denseMatrix_assign, 4},
     {"_symengine_sexp_denseMatrix_to_vecbasic", (DL_FUNC) &_symengine_sexp_denseMatrix_to_vecbasic, 2},
+    {"_symengine_sexp_dense_matrix_mul_matrix", (DL_FUNC) &_symengine_sexp_dense_matrix_mul_matrix, 2},
     {"_symengine_sexp_setbasic", (DL_FUNC) &_symengine_sexp_setbasic, 1},
     {"_symengine_sexp_setbasic_length", (DL_FUNC) &_symengine_sexp_setbasic_length, 1},
     {"_symengine_sexp_setbasic_subset", (DL_FUNC) &_symengine_sexp_setbasic_subset, 2},
@@ -1776,6 +1839,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_symengine_sexp_vecbasic_sub", (DL_FUNC) &_symengine_sexp_vecbasic_sub, 2},
     {"_symengine_sexp_vecbasic_mul", (DL_FUNC) &_symengine_sexp_vecbasic_mul, 2},
     {"_symengine_sexp_vecbasic_div", (DL_FUNC) &_symengine_sexp_vecbasic_div, 2},
+    {"_symengine_sexp_vecbasic_quotient", (DL_FUNC) &_symengine_sexp_vecbasic_quotient, 2},
+    {"_symengine_sexp_vecbasic_mod", (DL_FUNC) &_symengine_sexp_vecbasic_mod, 2},
     {"_symengine_sexp_vecbasic_pow", (DL_FUNC) &_symengine_sexp_vecbasic_pow, 2},
     {"_symengine_sexp_vecbasic_diff", (DL_FUNC) &_symengine_sexp_vecbasic_diff, 2},
     {"_symengine_sexp_vecbasic_expand", (DL_FUNC) &_symengine_sexp_vecbasic_expand, 1},

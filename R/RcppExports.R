@@ -25,6 +25,14 @@
     .Call('_symengine_sexp_basic_diff', PACKAGE = 'symengine', exta, extb)
 }
 
+.ntheory_gcd <- function(exta, extb) {
+    .Call('_symengine_sexp_ntheory_gcd', PACKAGE = 'symengine', exta, extb)
+}
+
+.ntheory_lcm <- function(exta, extb) {
+    .Call('_symengine_sexp_ntheory_lcm', PACKAGE = 'symengine', exta, extb)
+}
+
 .basic_expand <- function(exta) {
     .Call('_symengine_sexp_basic_expand', PACKAGE = 'symengine', exta)
 }
@@ -377,6 +385,10 @@
     .Call('_symengine_sexp_denseMatrix_to_vecbasic', PACKAGE = 'symengine', ext, row_first)
 }
 
+.dense_matrix_mul_matrix <- function(mata, matb) {
+    .Call('_symengine_sexp_dense_matrix_mul_matrix', PACKAGE = 'symengine', mata, matb)
+}
+
 .setbasic <- function(ext) {
     .Call('_symengine_sexp_setbasic', PACKAGE = 'symengine', ext)
 }
@@ -423,6 +435,14 @@ symengine_version <- function() {
 
 .vecbasic_div <- function(vec1, vec2) {
     .Call('_symengine_sexp_vecbasic_div', PACKAGE = 'symengine', vec1, vec2)
+}
+
+.vecbasic_quotient <- function(vec1, vec2) {
+    .Call('_symengine_sexp_vecbasic_quotient', PACKAGE = 'symengine', vec1, vec2)
+}
+
+.vecbasic_mod_f <- function(vec1, vec2) {
+    .Call('_symengine_sexp_vecbasic_mod', PACKAGE = 'symengine', vec1, vec2)
 }
 
 .vecbasic_pow <- function(vec1, vec2) {

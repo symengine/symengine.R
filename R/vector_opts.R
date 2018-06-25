@@ -1,22 +1,63 @@
 
 setClassUnion("BasicType", members = c("Basic", "VecBasic", "DenseMatrix"))
 
-# Make (x, y) in DenseMatrix > VecBasic > Basic order
-sort_type <- function(x, y) {
-    if (class(y) == "VecBasic") {
-        r <- y
-        y <- x
-        x <- r
+# Get top type object of (x, y) in DenseMatrix > VecBasic > Basic order
+top_type <- function(x, y) {
+    if (class(x) != "DenseMatrix" && class(y) == "DenseMatrix" ||
+        class(x) != "DenseMatrix" && class(x) != "VecBasic" && class(y) == "VecBasic") {
+        return(y)
     }
-    if (class(y) == "DenseMatrix") {
-        r <- y
-        y <- x
-        x <- r
+    return(x)
+}
+
+# process (x, y) to conformable matrices, return NULL otherwise
+process_multiply <- function(x, y) {
+    all_is_denseMatrix <- function(x, y) {
+        d1 <- dim(x)
+        d2 <- dim(y)
+        if (d1[[2]] != d2[[1]])
+            return(NULL)
+        return(list(x=x, y=y))
     }
-    result = list()
-    result$x <- x
-    result$y <- y
-    return(result)
+
+    one_is_denseMatrix <- function(x, y) {
+        if (class(x) == "DenseMatrix") {
+            d1 <- dim(x)
+            v2 <- to_vecbasic(y)
+            # add 1-row dim
+            if (d1[[2]] == 1)
+                return(list(x=x, y=denseMatrix(v2, 1, length(v2))))
+            # add 1-column dim
+            if (d1[[2]] == length(v2))
+                return(list(x=x, y=denseMatrix(v2, length(v2), 1)))
+            return(NULL)
+        }
+        if (class(y) == "DenseMatrix") {
+            d2 <- dim(y)
+            v1 <- to_vecbasic(x)
+            if (d2[[1]] == length(v1))
+                return(list(x=denseMatrix(v1, 1, length(v1)), y=y))
+            if (d2[[1]] == 1)
+                return(list(x=denseMatrix(v1, length(v1), 1), y=y))
+            return(NULL)
+        }
+    }
+
+    all_is_vecbasic <- function(x, y) {
+        v1 <- vecbasic(x)
+        v2 <- vecbasic(y)
+        if (length(v1) != length(v2))
+            return(NULL)
+        return(list(x=denseMatrix(v1, 1, length(v1)), y=denseMatrix(v2, length(v2), 1)))
+    }
+
+    if (class(x) == "DenseMatrix" && class(y) == "DenseMatrix") {
+        return(all_is_denseMatrix(x, y))
+        
+    } else if (class(x) == "DenseMatrix" || class(y) == "DenseMatrix") {
+        return(one_is_denseMatrix(x, y))
+    }
+    return(all_is_vecbasic(x, y))
 }
 
 to_vecbasic <- function(x) {
@@ -35,7 +76,6 @@ setMethods <- function (fs=list(), signatures=list(), definitions=list(),
             setMethod(fs[[i]], signature=signature,
                 definition=definitions[[i]], where=where, ...)
         }
-        break
     }
 }
 
@@ -67,24 +107,23 @@ for (i in seq_along(basicOpFuncs)) {
     basicOpFuncs[[i]] <- eval(envir = environment(),
         bquote(function (e1, e2) {
             check_matrix_dimension_same(e1,e2)
-            r  <- sort_type(e1, e2)
-            e1 <- r$x
-            e2 <- r$y
-            v1 <- to_vecbasic(r$x)
-            v2 <- to_vecbasic(r$y)
+            e  <- top_type(e1, e2)
+            v1 <- to_vecbasic(e1)
+            v2 <- to_vecbasic(e2)
             l1 <- length(v1)
             l2 <- length(v2)
             if (max(l1,l2) %% min(l1,l2))
                 warning("longer object length is not a multiple of shorter object length")
             v  <- .(as.name(paste0(".vecbasic_", deparse(basicOpList[[i]]))))(v1, v2)
-            return(get_final_output(e1, v))
+            return(get_final_output(e, v))
         }
     ))
     names(basicOpFuncs)[i] <- deparse(basicOpList[[i]])
 }
 
 setMethods(list("+", "-", "*", "/", "^"),
-    list(c(e1 = "BasicType", e2 = "ANY"),
+    list(c(e1 = "BasicType", e2 = "BasicType"),
+         c(e1 = "BasicType", e2 = "ANY"),
          c(e1 = "ANY", e2 = "BasicType")),
     basicOpFuncs
 )
@@ -101,6 +140,20 @@ setMethod("+", c(e1 = "BasicType", e2 = "missing"),
     function (e1, e2) {
         e1
     }
+)
+
+setMethods("%*%",
+    list(c(x = "BasicType", y = "BasicType"),
+         c(x = "BasicType", y = "ANY"),
+         c(x = "ANY", y = "BasicType")),
+    list("func"=
+        function(x, y) {
+            r <- process_multiply(x, y)
+            if (is.null(r))
+                stop("non-conformable arguments")
+            .dense_matrix_mul_matrix(r$x, r$y)
+        }
+    )
 )
 
 # One arg function ============================================================
@@ -154,3 +207,5 @@ diff <- function (expr, sym) {
 
 # Todo
 # matrix multiplication, subs etc.
+# gcd lcm quotient mod_f
+#  Must be integer !!!

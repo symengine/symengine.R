@@ -49,6 +49,10 @@ SEXP sexp_vecbasic_sub(SEXP vec1, SEXP vec2)  { return call_twoarg_opt(basic_sub
 SEXP sexp_vecbasic_mul(SEXP vec1, SEXP vec2)  { return call_twoarg_opt(basic_mul,  vec1, vec2); }
 // [[Rcpp::export(".vecbasic_div")]]
 SEXP sexp_vecbasic_div(SEXP vec1, SEXP vec2)  { return call_twoarg_opt(basic_div,  vec1, vec2); }
+// [[Rcpp::export(".vecbasic_quotient")]]
+SEXP sexp_vecbasic_quotient(SEXP vec1, SEXP vec2)  { return call_twoarg_opt(ntheory_quotient, vec1, vec2); }
+// [[Rcpp::export(".vecbasic_mod_f")]]
+SEXP sexp_vecbasic_mod(SEXP vec1, SEXP vec2)  { return call_twoarg_opt(ntheory_mod_f, vec1, vec2); }
 // [[Rcpp::export(".vecbasic_pow")]]
 SEXP sexp_vecbasic_pow(SEXP vec1, SEXP vec2)  { return call_twoarg_opt(basic_pow,  vec1, vec2); }
 // [[Rcpp::export(".vecbasic_diff")]]

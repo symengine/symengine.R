@@ -163,3 +163,18 @@ SEXP sexp_denseMatrix_to_vecbasic(SEXP ext, size_t row_first=0) {
     UNPROTECT(2);
     return out;
 }
+
+// [[Rcpp::export(".dense_matrix_mul_matrix")]]
+SEXP sexp_dense_matrix_mul_matrix(SEXP mata, SEXP matb) {
+    CDenseMatrix* pa   = elt_denseMatrix(mata);
+    CDenseMatrix* pb   = elt_denseMatrix(matb);
+    size_t        nrow = dense_matrix_rows(pa);
+    size_t        ncol = dense_matrix_rows(pb);
+    SEXP          out  = PROTECT(sexp_denseMatrix_s4(nrow, ncol));
+    CDenseMatrix* po   = elt_denseMatrix(out);
+    
+    hold_exception(dense_matrix_mul_matrix(po, pa, pb));
+    
+    UNPROTECT(1);
+    return out;
+}
