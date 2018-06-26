@@ -216,3 +216,12 @@ SEXP sexp_denseMatrix_transpose(SEXP mat) {
     UNPROTECT(1);
     return out;
 }
+
+// [[Rcpp::export(".denseMatrix_LU")]]
+void sexp_denseMatrix_LU(SEXP l, SEXP u, SEXP mat) {
+    CDenseMatrix* pl = elt_denseMatrix(l);
+    CDenseMatrix* pu = elt_denseMatrix(u);
+    CDenseMatrix* pm = elt_denseMatrix(mat);
+    
+    hold_exception(dense_matrix_LU(pl, pu, pm));
+}

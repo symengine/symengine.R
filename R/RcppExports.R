@@ -401,6 +401,10 @@
     .Call('_symengine_sexp_denseMatrix_transpose', PACKAGE = 'symengine', mat)
 }
 
+.denseMatrix_LU <- function(l, u, mat) {
+    invisible(.Call('_symengine_sexp_denseMatrix_LU', PACKAGE = 'symengine', l, u, mat))
+}
+
 .setbasic <- function(ext) {
     .Call('_symengine_sexp_setbasic', PACKAGE = 'symengine', ext)
 }

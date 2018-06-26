@@ -324,3 +324,15 @@ setMethod("t", "DenseMatrix",
         .denseMatrix_transpose(x)
     }
 )
+
+#' @exportMethod lu
+setGeneric("lu", function(x) { standardGeneric("lu") })
+setMethod("lu", "DenseMatrix",
+    function(x) {
+        # the address of l, u don't change
+        l <- denseMatrix(0,0,0)
+        u <- denseMatrix(0,0,0)
+        .denseMatrix_LU(l,u,x)
+        return(list(l=l, u=u))
+    }
+)

@@ -1120,6 +1120,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// sexp_denseMatrix_LU
+void sexp_denseMatrix_LU(SEXP l, SEXP u, SEXP mat);
+RcppExport SEXP _symengine_sexp_denseMatrix_LU(SEXP lSEXP, SEXP uSEXP, SEXP matSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type l(lSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type u(uSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type mat(matSEXP);
+    sexp_denseMatrix_LU(l, u, mat);
+    return R_NilValue;
+END_RCPP
+}
 // sexp_setbasic
 SEXP sexp_setbasic(SEXP ext);
 RcppExport SEXP _symengine_sexp_setbasic(SEXP extSEXP) {
@@ -1863,6 +1875,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_symengine_sexp_denseMatrix_det", (DL_FUNC) &_symengine_sexp_denseMatrix_det, 1},
     {"_symengine_sexp_denseMatrix_inv", (DL_FUNC) &_symengine_sexp_denseMatrix_inv, 1},
     {"_symengine_sexp_denseMatrix_transpose", (DL_FUNC) &_symengine_sexp_denseMatrix_transpose, 1},
+    {"_symengine_sexp_denseMatrix_LU", (DL_FUNC) &_symengine_sexp_denseMatrix_LU, 3},
     {"_symengine_sexp_setbasic", (DL_FUNC) &_symengine_sexp_setbasic, 1},
     {"_symengine_sexp_setbasic_length", (DL_FUNC) &_symengine_sexp_setbasic_length, 1},
     {"_symengine_sexp_setbasic_subset", (DL_FUNC) &_symengine_sexp_setbasic_subset, 2},
