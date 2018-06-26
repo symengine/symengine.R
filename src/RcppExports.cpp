@@ -1087,6 +1087,39 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// sexp_denseMatrix_det
+SEXP sexp_denseMatrix_det(SEXP mat);
+RcppExport SEXP _symengine_sexp_denseMatrix_det(SEXP matSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type mat(matSEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_denseMatrix_det(mat));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sexp_denseMatrix_inv
+SEXP sexp_denseMatrix_inv(SEXP mat);
+RcppExport SEXP _symengine_sexp_denseMatrix_inv(SEXP matSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type mat(matSEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_denseMatrix_inv(mat));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sexp_denseMatrix_transpose
+SEXP sexp_denseMatrix_transpose(SEXP mat);
+RcppExport SEXP _symengine_sexp_denseMatrix_transpose(SEXP matSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type mat(matSEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_denseMatrix_transpose(mat));
+    return rcpp_result_gen;
+END_RCPP
+}
 // sexp_setbasic
 SEXP sexp_setbasic(SEXP ext);
 RcppExport SEXP _symengine_sexp_setbasic(SEXP extSEXP) {
@@ -1827,6 +1860,9 @@ static const R_CallMethodDef CallEntries[] = {
     {"_symengine_sexp_denseMatrix_assign", (DL_FUNC) &_symengine_sexp_denseMatrix_assign, 4},
     {"_symengine_sexp_denseMatrix_to_vecbasic", (DL_FUNC) &_symengine_sexp_denseMatrix_to_vecbasic, 2},
     {"_symengine_sexp_dense_matrix_mul_matrix", (DL_FUNC) &_symengine_sexp_dense_matrix_mul_matrix, 2},
+    {"_symengine_sexp_denseMatrix_det", (DL_FUNC) &_symengine_sexp_denseMatrix_det, 1},
+    {"_symengine_sexp_denseMatrix_inv", (DL_FUNC) &_symengine_sexp_denseMatrix_inv, 1},
+    {"_symengine_sexp_denseMatrix_transpose", (DL_FUNC) &_symengine_sexp_denseMatrix_transpose, 1},
     {"_symengine_sexp_setbasic", (DL_FUNC) &_symengine_sexp_setbasic, 1},
     {"_symengine_sexp_setbasic_length", (DL_FUNC) &_symengine_sexp_setbasic_length, 1},
     {"_symengine_sexp_setbasic_subset", (DL_FUNC) &_symengine_sexp_setbasic_subset, 2},

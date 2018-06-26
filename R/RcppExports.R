@@ -389,6 +389,18 @@
     .Call('_symengine_sexp_dense_matrix_mul_matrix', PACKAGE = 'symengine', mata, matb)
 }
 
+.denseMatrix_det <- function(mat) {
+    .Call('_symengine_sexp_denseMatrix_det', PACKAGE = 'symengine', mat)
+}
+
+.denseMatrix_inv <- function(mat) {
+    .Call('_symengine_sexp_denseMatrix_inv', PACKAGE = 'symengine', mat)
+}
+
+.denseMatrix_transpose <- function(mat) {
+    .Call('_symengine_sexp_denseMatrix_transpose', PACKAGE = 'symengine', mat)
+}
+
 .setbasic <- function(ext) {
     .Call('_symengine_sexp_setbasic', PACKAGE = 'symengine', ext)
 }
