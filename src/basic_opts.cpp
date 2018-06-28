@@ -164,3 +164,39 @@ SEXP sexp_basic_evalf(SEXP extb, SEXP bits, SEXP real) {
     UNPROTECT(1);
     return out;
 }
+
+// [[Rcpp::export(".ntheory_nextprime")]]
+SEXP sexp_ntheory_nextprime(SEXP ext) {
+    SEXP          out = PROTECT(sexp_basic_s4());
+    basic_struct* po  = elt_basic(out);
+    basic_struct* pe  = elt_basic(ext);
+
+    hold_exception(ntheory_nextprime(po, pe));
+
+    UNPROTECT(1);
+    return out;
+}
+
+// [[Rcpp::export(".ntheory_factorial")]]
+SEXP sexp_ntheory_factorial(SEXP n) {
+    SEXP          out = PROTECT(sexp_basic_s4());
+    basic_struct* po  = elt_basic(out);
+    
+    hold_exception(ntheory_factorial(po, Rf_asInteger(n)));
+
+    UNPROTECT(1);
+    return out;
+}
+
+// [[Rcpp::export(".ntheory_binomial")]]
+SEXP sexp_ntheory_binomial(SEXP exta, SEXP extb) {
+    SEXP          out = PROTECT(sexp_basic_s4());
+    basic_struct* po  = elt_basic(out);
+    basic_struct* pa  = elt_basic(exta);
+    
+    hold_exception(ntheory_binomial(po, pa, Rf_asInteger(extb)));
+
+    UNPROTECT(1);
+    return out;
+}
+

@@ -523,6 +523,40 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// sexp_ntheory_nextprime
+SEXP sexp_ntheory_nextprime(SEXP ext);
+RcppExport SEXP _symengine_sexp_ntheory_nextprime(SEXP extSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type ext(extSEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_ntheory_nextprime(ext));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sexp_ntheory_factorial
+SEXP sexp_ntheory_factorial(SEXP n);
+RcppExport SEXP _symengine_sexp_ntheory_factorial(SEXP nSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type n(nSEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_ntheory_factorial(n));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sexp_ntheory_binomial
+SEXP sexp_ntheory_binomial(SEXP exta, SEXP extb);
+RcppExport SEXP _symengine_sexp_ntheory_binomial(SEXP extaSEXP, SEXP extbSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type exta(extaSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type extb(extbSEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_ntheory_binomial(exta, extb));
+    return rcpp_result_gen;
+END_RCPP
+}
 // sexp_basic_type
 SEXP sexp_basic_type(SEXP ext);
 RcppExport SEXP _symengine_sexp_basic_type(SEXP extSEXP) {
@@ -1821,6 +1855,9 @@ static const R_CallMethodDef CallEntries[] = {
     {"_symengine_sexp_basic_log", (DL_FUNC) &_symengine_sexp_basic_log, 1},
     {"_symengine_sexp_basic_subs2", (DL_FUNC) &_symengine_sexp_basic_subs2, 3},
     {"_symengine_sexp_basic_evalf", (DL_FUNC) &_symengine_sexp_basic_evalf, 3},
+    {"_symengine_sexp_ntheory_nextprime", (DL_FUNC) &_symengine_sexp_ntheory_nextprime, 1},
+    {"_symengine_sexp_ntheory_factorial", (DL_FUNC) &_symengine_sexp_ntheory_factorial, 1},
+    {"_symengine_sexp_ntheory_binomial", (DL_FUNC) &_symengine_sexp_ntheory_binomial, 2},
     {"_symengine_sexp_basic_type", (DL_FUNC) &_symengine_sexp_basic_type, 1},
     {"_symengine_sexp_basic_str", (DL_FUNC) &_symengine_sexp_basic_str, 1},
     {"_symengine_sexp_basic_hash", (DL_FUNC) &_symengine_sexp_basic_hash, 1},

@@ -262,3 +262,34 @@ evalf <- function (expr, bits = 53L, to = c("real", "complex")) {
     basic_evalf(expr, bits = bits, real = to_real)
 }
 
+binomial <- function(a, b) {
+    if (!basic_isInteger(a))
+        stop("a must be integer basic")
+    .ntheory_binomial(a, as.integer(b))
+}
+
+factorial <- function(n) {
+    .ntheory_factorial(as.integer(n))
+}
+
+nextprime <- function(a) {
+    if (!basic_isInteger(a))
+        stop("a must be integer basic")
+    .ntheory_nextprime(a)
+}
+
+lcm <- function(a, b) {
+    if (!basic_isInteger(a))
+        stop("a must be integer basic")
+    if (!basic_isInteger(b))
+        stop("b must be integer basic")
+    .ntheory_lcm(a, b)
+}
+
+gcd <- function(a, b) {
+    if (!basic_isInteger(a))
+        stop("a must be integer basic")
+    if (!basic_isInteger(b))
+        stop("b must be integer basic")
+    .ntheory_gcd(a, b)
+}

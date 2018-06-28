@@ -185,6 +185,18 @@
     .Call('_symengine_sexp_basic_evalf', PACKAGE = 'symengine', extb, bits, real)
 }
 
+.ntheory_nextprime <- function(ext) {
+    .Call('_symengine_sexp_ntheory_nextprime', PACKAGE = 'symengine', ext)
+}
+
+.ntheory_factorial <- function(n) {
+    .Call('_symengine_sexp_ntheory_factorial', PACKAGE = 'symengine', n)
+}
+
+.ntheory_binomial <- function(exta, extb) {
+    .Call('_symengine_sexp_ntheory_binomial', PACKAGE = 'symengine', exta, extb)
+}
+
 .basic_type <- function(ext) {
     .Call('_symengine_sexp_basic_type', PACKAGE = 'symengine', ext)
 }
