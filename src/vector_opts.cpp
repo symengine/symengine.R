@@ -152,3 +152,26 @@ SEXP sexp_vecbasic_sqrt          (SEXP vec) {return wrap_basic_func_onearg(vec, 
 SEXP sexp_vecbasic_exp           (SEXP vec) {return wrap_basic_func_onearg(vec, basic_exp);}
 // [[Rcpp::export(".vecbasic_log")]]
 SEXP sexp_vecbasic_log           (SEXP vec) {return wrap_basic_func_onearg(vec, basic_log);}
+
+// [[Rcpp::export(".vecbasic_subs")]]
+SEXP sexp_vecbasic_subs(SEXP extv, SEXP exta, SEXP extb) {
+    CVecBasic*    pv  = elt_vecbasic(extv);
+    basic_struct* pa  = elt_basic(exta);
+    basic_struct* pb  = elt_basic(extb);
+    size_t        len = vecbasic_size(pv);
+    SEXP          out = PROTECT(sexp_vecbasic_s4());
+    CVecBasic*    po  = elt_vecbasic(out);
+    SEXP          t1  = PROTECT(sexp_basic_s4());
+    SEXP          t2  = PROTECT(sexp_basic_s4());
+    basic_struct* pt1 = elt_basic(t1);
+    basic_struct* pt2 = elt_basic(t2);
+
+    for (size_t i = 0; i < len; i++) {
+        hold_exception(vecbasic_get(pv, i, pt1));
+        hold_exception(basic_subs2(pt2, pt1, pa, pb));
+        hold_exception(vecbasic_push_back(po, pt2));
+    }
+
+    UNPROTECT(3);
+    return out;
+}

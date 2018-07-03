@@ -247,13 +247,13 @@ basic_evalf <- function(x, bits = 53L, real = TRUE) {
     x
 }
 
-#' @export
-subs <- function (expr, old, new) {
-    expr <- S(expr)
-    old  <- S(old)
-    new  <- S(new)
-    basic_subs2(expr, old, new)
-}
+# #' @export
+# subs <- function (expr, old, new) {
+#     expr <- S(expr)
+#     old  <- S(old)
+#     new  <- S(new)
+#     basic_subs2(expr, old, new)
+# }
 
 #' @export
 evalf <- function (expr, bits = 53L, to = c("real", "complex")) {

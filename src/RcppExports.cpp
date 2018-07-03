@@ -1746,6 +1746,19 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// sexp_vecbasic_subs
+SEXP sexp_vecbasic_subs(SEXP extv, SEXP exta, SEXP extb);
+RcppExport SEXP _symengine_sexp_vecbasic_subs(SEXP extvSEXP, SEXP extaSEXP, SEXP extbSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type extv(extvSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type exta(extaSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type extb(extbSEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_vecbasic_subs(extv, exta, extb));
+    return rcpp_result_gen;
+END_RCPP
+}
 // sexp_vecbasic_length
 size_t sexp_vecbasic_length(SEXP ext);
 RcppExport SEXP _symengine_sexp_vecbasic_length(SEXP extSEXP) {
@@ -1965,6 +1978,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_symengine_sexp_vecbasic_sqrt", (DL_FUNC) &_symengine_sexp_vecbasic_sqrt, 1},
     {"_symengine_sexp_vecbasic_exp", (DL_FUNC) &_symengine_sexp_vecbasic_exp, 1},
     {"_symengine_sexp_vecbasic_log", (DL_FUNC) &_symengine_sexp_vecbasic_log, 1},
+    {"_symengine_sexp_vecbasic_subs", (DL_FUNC) &_symengine_sexp_vecbasic_subs, 3},
     {"_symengine_sexp_vecbasic_length", (DL_FUNC) &_symengine_sexp_vecbasic_length, 1},
     {"_symengine_sexp_vecbasic_concentrate", (DL_FUNC) &_symengine_sexp_vecbasic_concentrate, 1},
     {"_symengine_sexp_vecbasic_subset", (DL_FUNC) &_symengine_sexp_vecbasic_subset, 2},

@@ -625,6 +625,10 @@ symengine_version <- function() {
     .Call('_symengine_sexp_vecbasic_log', PACKAGE = 'symengine', vec)
 }
 
+.vecbasic_subs <- function(extv, exta, extb) {
+    .Call('_symengine_sexp_vecbasic_subs', PACKAGE = 'symengine', extv, exta, extb)
+}
+
 .vecbasic_length <- function(ext) {
     .Call('_symengine_sexp_vecbasic_length', PACKAGE = 'symengine', ext)
 }

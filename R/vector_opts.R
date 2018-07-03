@@ -194,18 +194,43 @@ expand <- function (expr) {
 
 # Two arg function ============================================================
 #' @export
-diff <- function (expr, sym) {
-    v1 <- to_vecbasic(expr)
-    v2 <- to_vecbasic(sym)
-    l1 <- length(v1)
-    l2 <- length(v2)
-    if (max(l1,l2) %% min(l1,l2))
-        warning("longer object length is not a multiple of shorter object length")
-    v  <- .vecbasic_diff(v1, v2)
+# usage: diff(expr, x), diff(expr, x, y), diff(expr, x, y, 3)
+diff <- function (expr, ...) {
+    v    <- to_vecbasic(expr)
+    args <- list(...)
+    i    <- 1
+    while (i <= length(args)) {
+        x <- args[[i]]
+        y <- 1
+        if (class(x) != "Basic")
+            stop("Invalid value type")
+        if (i + 1 <= length(args) && is.numeric(args[[i + 1]])) {
+            y <- as.integer(args[[i + 1]])
+            i <- i + 1
+        }
+        while (y > 0) {
+            v <- .vecbasic_diff(v, to_vecbasic(x))
+            y <- y - 1
+        }
+        i <- i + 1
+    }
     return(get_final_output(expr, v))
 }
 
-# Todo
-# matrix multiplication, subs etc.
-# gcd lcm quotient mod_f
-#  Must be integer !!!
+#' export
+# subs
+# usage: subs(expr, x, y), subs(expr, x, z, y, u)
+subs <- function(expr, a, b, ...) {
+    helper_subs <- function(vec, old, new, ...) {
+        if (missing(new))
+            stop("invalid arguments length")
+
+        r <- .vecbasic_subs(vec, old, new)
+        if (length(list(...)) == 0)
+            return(r)
+        return(helper_subs(r, ...))
+    }
+    v <- to_vecbasic(expr)
+    v <- helper_subs(v, a, b, ...)
+    return(get_final_output(expr, v))
+}
