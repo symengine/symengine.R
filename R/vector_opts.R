@@ -88,6 +88,13 @@ check_matrix_dimension_same <- function(e1, e2) {
     }
 }
 
+check_all_is_integer <- function(v) {
+    for (i in seq_along(v)) {
+        if (!basic_isInteger(v[[i]]))
+            stop("element must be integer")
+    }
+}
+
 get_final_output <- function(e, v) {
     if (class(e) == "DenseMatrix") {
         d <- dim(e)
@@ -120,6 +127,51 @@ for (i in seq_along(basicOpFuncs)) {
     ))
     names(basicOpFuncs)[i] <- deparse(basicOpList[[i]])
 }
+
+# mod and quotient
+setMethods("%%",
+    list(c(e1 = "BasicType", e2 = "BasicType"),
+         c(e1 = "BasicType", e2 = "ANY"),
+         c(e1 = "ANY", e2 = "BasicType")),
+    list("func"=
+        function(e1, e2) {
+            check_matrix_dimension_same(e1,e2)
+            e <- top_type(e1, e2)
+            v1 <- to_vecbasic(e1)
+            check_all_is_integer(v1)
+            v2 <- to_vecbasic(e2)
+            check_all_is_integer(v2)
+            l1 <- length(v1)
+            l2 <- length(v2)
+            if (max(l1,l2) %% min(l1,l2))
+                warning("longer object length is not a multiple of shorter object length")
+            v <- .vecbasic_mod_f(v1, v2)
+            return(get_final_output(e, v))
+        }
+    )
+)
+
+setMethods("%/%",
+    list(c(e1 = "BasicType", e2 = "BasicType"),
+         c(e1 = "BasicType", e2 = "ANY"),
+         c(e1 = "ANY", e2 = "BasicType")),
+    list("func"=
+        function(e1, e2) {
+            check_matrix_dimension_same(e1,e2)
+            e <- top_type(e1, e2)
+            v1 <- to_vecbasic(e1)
+            check_all_is_integer(v1)
+            v2 <- to_vecbasic(e2)
+            check_all_is_integer(v2)
+            l1 <- length(v1)
+            l2 <- length(v2)
+            if (max(l1,l2) %% min(l1,l2))
+                warning("longer object length is not a multiple of shorter object length")
+            v <- .vecbasic_quotient(v1, v2)
+            return(get_final_output(e, v))
+        }
+    )
+)
 
 setMethods(list("+", "-", "*", "/", "^"),
     list(c(e1 = "BasicType", e2 = "BasicType"),
@@ -217,8 +269,7 @@ diff <- function (expr, ...) {
     return(get_final_output(expr, v))
 }
 
-#' export
-# subs
+#' @export
 # usage: subs(expr, x, y), subs(expr, x, z, y, u)
 subs <- function(expr, a, b, ...) {
     helper_subs <- function(vec, old, new, ...) {
