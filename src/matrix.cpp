@@ -163,3 +163,65 @@ SEXP sexp_denseMatrix_to_vecbasic(SEXP ext, size_t row_first=0) {
     UNPROTECT(2);
     return out;
 }
+
+// [[Rcpp::export(".dense_matrix_mul_matrix")]]
+SEXP sexp_dense_matrix_mul_matrix(SEXP mata, SEXP matb) {
+    CDenseMatrix* pa   = elt_denseMatrix(mata);
+    CDenseMatrix* pb   = elt_denseMatrix(matb);
+    size_t        nrow = dense_matrix_rows(pa);
+    size_t        ncol = dense_matrix_rows(pb);
+    SEXP          out  = PROTECT(sexp_denseMatrix_s4(nrow, ncol));
+    CDenseMatrix* po   = elt_denseMatrix(out);
+    
+    hold_exception(dense_matrix_mul_matrix(po, pa, pb));
+    
+    UNPROTECT(1);
+    return out;
+}
+
+// [[Rcpp::export(".denseMatrix_det")]]
+SEXP sexp_denseMatrix_det(SEXP mat) {
+    SEXP          out = PROTECT(sexp_basic_s4());
+    basic_struct* po  = elt_basic(out);
+    CDenseMatrix* pa  = elt_denseMatrix(mat);
+    
+    hold_exception(dense_matrix_det(po, pa));
+
+    UNPROTECT(1);
+    return out;
+}
+
+// [[Rcpp::export(".denseMatrix_inv")]]
+SEXP sexp_denseMatrix_inv(SEXP mat) {
+    CDenseMatrix* pa   = elt_denseMatrix(mat);
+    size_t        nrow = dense_matrix_rows(pa);
+    SEXP          out  = PROTECT(sexp_denseMatrix_s4(nrow, nrow));
+    CDenseMatrix* po   = elt_denseMatrix(out);
+
+    hold_exception(dense_matrix_inv(po, pa));
+
+    UNPROTECT(1);
+    return out; 
+}
+
+// [[Rcpp::export(".denseMatrix_transpose")]]
+SEXP sexp_denseMatrix_transpose(SEXP mat) {
+    CDenseMatrix* pa   = elt_denseMatrix(mat);
+    size_t        nrow = dense_matrix_rows(pa);
+    SEXP          out  = PROTECT(sexp_denseMatrix_s4(nrow, nrow));
+    CDenseMatrix* po   = elt_denseMatrix(out);
+    
+    hold_exception(dense_matrix_transpose(po, pa));
+
+    UNPROTECT(1);
+    return out;
+}
+
+// [[Rcpp::export(".denseMatrix_LU")]]
+void sexp_denseMatrix_LU(SEXP l, SEXP u, SEXP mat) {
+    CDenseMatrix* pl = elt_denseMatrix(l);
+    CDenseMatrix* pu = elt_denseMatrix(u);
+    CDenseMatrix* pm = elt_denseMatrix(mat);
+    
+    hold_exception(dense_matrix_LU(pl, pu, pm));
+}

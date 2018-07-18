@@ -13,14 +13,12 @@ extern "C" {
 static inline
 SEXP call_twoarg_opt(CWRAPPER_OUTPUT_TYPE (* func)(basic, const basic, const basic),
                           SEXP exta, SEXP extb) {
-    sexp_check_basic(exta);
-    sexp_check_basic(extb);
-    basic_struct* a   = (basic_struct*) R_ExternalPtrAddr(exta);
-    basic_struct* b   = (basic_struct*) R_ExternalPtrAddr(extb);
-    SEXP          out = PROTECT(sexp_basic());
-    basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
+    basic_struct* pa  = elt_basic(exta);
+    basic_struct* pb  = elt_basic(extb);
+    SEXP          out = PROTECT(sexp_basic_s4());
+    basic_struct* po  = elt_basic(out);
 
-    hold_exception(func(s, a, b));
+    hold_exception(func(po, pa, pb));
 
     UNPROTECT(1);
     return out;
@@ -39,6 +37,11 @@ SEXP sexp_basic_pow(SEXP exta, SEXP extb) {return call_twoarg_opt(basic_pow, ext
 
 // [[Rcpp::export(".basic_diff")]]
 SEXP sexp_basic_diff(SEXP exta, SEXP extb) {return call_twoarg_opt(basic_diff, exta, extb);}
+
+// [[Rcpp::export(".ntheory_gcd")]]
+SEXP sexp_ntheory_gcd(SEXP exta, SEXP extb) { return call_twoarg_opt(ntheory_gcd, exta, extb); }
+// [[Rcpp::export(".ntheory_lcm")]]
+SEXP sexp_ntheory_lcm(SEXP exta, SEXP extb) { return call_twoarg_opt(ntheory_lcm, exta, extb); }
 
 
 static inline
@@ -157,6 +160,41 @@ SEXP sexp_basic_evalf(SEXP extb, SEXP bits, SEXP real) {
     basic_struct* s   = (basic_struct*) R_ExternalPtrAddr(out);
 
     hold_exception(basic_evalf(s, b, n_bits, i_real));
+
+    UNPROTECT(1);
+    return out;
+}
+
+// [[Rcpp::export(".ntheory_nextprime")]]
+SEXP sexp_ntheory_nextprime(SEXP ext) {
+    SEXP          out = PROTECT(sexp_basic_s4());
+    basic_struct* po  = elt_basic(out);
+    basic_struct* pe  = elt_basic(ext);
+
+    hold_exception(ntheory_nextprime(po, pe));
+
+    UNPROTECT(1);
+    return out;
+}
+
+// [[Rcpp::export(".ntheory_factorial")]]
+SEXP sexp_ntheory_factorial(SEXP n) {
+    SEXP          out = PROTECT(sexp_basic_s4());
+    basic_struct* po  = elt_basic(out);
+    
+    hold_exception(ntheory_factorial(po, Rf_asInteger(n)));
+
+    UNPROTECT(1);
+    return out;
+}
+
+// [[Rcpp::export(".ntheory_binomial")]]
+SEXP sexp_ntheory_binomial(SEXP exta, SEXP extb) {
+    SEXP          out = PROTECT(sexp_basic_s4());
+    basic_struct* po  = elt_basic(out);
+    basic_struct* pa  = elt_basic(exta);
+    
+    hold_exception(ntheory_binomial(po, pa, Rf_asInteger(extb)));
 
     UNPROTECT(1);
     return out;

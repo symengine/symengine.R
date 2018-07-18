@@ -290,3 +290,49 @@ setMethod("rbind", "VecMat",
         .denseMatrix(vec, nrow, ncol, 1)
     }
 )
+
+#' @exportMethod det
+setGeneric("det", function(x, ...) { standardGeneric("det") })
+setMethod("det", "DenseMatrix",
+    function(x, ...) {
+        if (is.atomic(x))
+            return(base::det(x, ...))
+        d = dim(x)
+        if (d[[1]] != d[[2]])
+            stop("'x' must be a square matrix")
+        .denseMatrix_det(x)
+    }
+)
+
+#' @exportMethod inv
+setGeneric("inv", function(x) { standardGeneric("inv") })
+setMethod("inv", "DenseMatrix",
+    function(x) {
+        d <- dim(x)
+        if (d[[1]] != d[[2]])
+            stop("'x' must be a square matrix")
+        .denseMatrix_inv(x)
+    }
+)
+
+#' @exportMethod t
+setGeneric("t", function(x) { standardGeneric("t") })
+setMethod("t", "DenseMatrix",
+    function(x) {
+        if (is.atomic(x))
+            return(base::t(x))
+        .denseMatrix_transpose(x)
+    }
+)
+
+#' @exportMethod lu
+setGeneric("lu", function(x) { standardGeneric("lu") })
+setMethod("lu", "DenseMatrix",
+    function(x) {
+        # the address of l, u don't change
+        l <- denseMatrix(0,0,0)
+        u <- denseMatrix(0,0,0)
+        .denseMatrix_LU(l,u,x)
+        return(list(l=l, u=u))
+    }
+)
