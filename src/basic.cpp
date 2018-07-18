@@ -266,8 +266,34 @@ SEXP sexp_basic_num_iscomplex(SEXP ext)  {return call_basic_is_xxx(ext, number_i
 
 
 
+// Basic: get_args and free_symbols //==========================================
+// They work for basic but depends on vecbasic
 
+//! Returns a CVecBasic of vec_basic given by get_args
+CWRAPPER_OUTPUT_TYPE basic_get_args(const basic self, CVecBasic *args);
+//! Returns a CSetBasic of set_basic given by free_symbols
+CWRAPPER_OUTPUT_TYPE basic_free_symbols(const basic self, CSetBasic *symbols);
 
+// [[Rcpp::export(".basic_get_args")]]
+SEXP sexp_basic_get_args(SEXP ext) {
+    basic_struct* b = elt_basic(ext);
+    SEXP out = PROTECT(sexp_vecbasic_s4());
+    CVecBasic* outv = elt_vecbasic(out);
+    
+    hold_exception(basic_get_args(b, outv));
+    
+    UNPROTECT(1);
+    return out;
+}
 
-
-
+// [[Rcpp::export(".basic_free_symbols")]]
+SEXP sexp_basic_free_symbols(SEXP ext) {
+    basic_struct* b = elt_basic(ext);
+    SEXP out  = PROTECT(sexp_setbasic_s4());
+    CSetBasic* outv = elt_setbasic(out);
+    
+    hold_exception(basic_free_symbols(b, outv));
+    
+    UNPROTECT(1);
+    return out;
+}

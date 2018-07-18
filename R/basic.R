@@ -46,6 +46,17 @@ basic_str <- function (x) {
 
 setMethod("as.character", c(x = "Basic"), basic_str)
 
+#' @export
+basic_get_args <- function(x) {
+    .basic_get_args(x)
+}
+
+#' @export
+basic_free_symbols <- function(x) {
+    .basic_free_symbols(x)
+}
+
+
 ## Hash and Eq  ================================================================
 
 #' @export

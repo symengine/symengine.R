@@ -975,6 +975,28 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// sexp_basic_get_args
+SEXP sexp_basic_get_args(SEXP ext);
+RcppExport SEXP _symengine_sexp_basic_get_args(SEXP extSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type ext(extSEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_basic_get_args(ext));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sexp_basic_free_symbols
+SEXP sexp_basic_free_symbols(SEXP ext);
+RcppExport SEXP _symengine_sexp_basic_free_symbols(SEXP extSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type ext(extSEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_basic_free_symbols(ext));
+    return rcpp_result_gen;
+END_RCPP
+}
 // sexp_mapbasic
 SEXP sexp_mapbasic(SEXP key, SEXP mapped);
 RcppExport SEXP _symengine_sexp_mapbasic(SEXP keySEXP, SEXP mappedSEXP) {
@@ -1910,6 +1932,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_symengine_sexp_basic_num_isnegative", (DL_FUNC) &_symengine_sexp_basic_num_isnegative, 1},
     {"_symengine_sexp_basic_num_ispositive", (DL_FUNC) &_symengine_sexp_basic_num_ispositive, 1},
     {"_symengine_sexp_basic_num_iscomplex", (DL_FUNC) &_symengine_sexp_basic_num_iscomplex, 1},
+    {"_symengine_sexp_basic_get_args", (DL_FUNC) &_symengine_sexp_basic_get_args, 1},
+    {"_symengine_sexp_basic_free_symbols", (DL_FUNC) &_symengine_sexp_basic_free_symbols, 1},
     {"_symengine_sexp_mapbasic", (DL_FUNC) &_symengine_sexp_mapbasic, 2},
     {"_symengine_sexp_mapbasic_length", (DL_FUNC) &_symengine_sexp_mapbasic_length, 1},
     {"_symengine_sexp_mapbasic_get", (DL_FUNC) &_symengine_sexp_mapbasic_get, 2},

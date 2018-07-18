@@ -353,6 +353,14 @@
     .Call('_symengine_sexp_basic_num_iscomplex', PACKAGE = 'symengine', ext)
 }
 
+.basic_get_args <- function(ext) {
+    .Call('_symengine_sexp_basic_get_args', PACKAGE = 'symengine', ext)
+}
+
+.basic_free_symbols <- function(ext) {
+    .Call('_symengine_sexp_basic_free_symbols', PACKAGE = 'symengine', ext)
+}
+
 .mapbasic <- function(key, mapped) {
     .Call('_symengine_sexp_mapbasic', PACKAGE = 'symengine', key, mapped)
 }
