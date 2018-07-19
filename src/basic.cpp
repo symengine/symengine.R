@@ -64,6 +64,52 @@ SEXP sexp_basic_neq(SEXP exta, SEXP extb) {
 }
 
 
+// get_args and free_symbols //=============
+// They work for basic but depends on vecbasic
+
+//! Returns a CVecBasic of vec_basic given by get_args
+CWRAPPER_OUTPUT_TYPE basic_get_args(const basic self, CVecBasic *args);
+//! Returns a CSetBasic of set_basic given by free_symbols
+CWRAPPER_OUTPUT_TYPE basic_free_symbols(const basic self, CSetBasic *symbols);
+//! Returns a CSetBasic of set_basic given by function_symbols
+CWRAPPER_OUTPUT_TYPE basic_function_symbols(CSetBasic *symbols, const basic self);
+
+// [[Rcpp::export(".basic_get_args")]]
+SEXP sexp_basic_get_args(SEXP ext) {
+    basic_struct* b = elt_basic(ext);
+    SEXP out = PROTECT(sexp_vecbasic_s4());
+    CVecBasic* outv = elt_vecbasic(out);
+    
+    hold_exception(basic_get_args(b, outv));
+    
+    UNPROTECT(1);
+    return out;
+}
+
+// [[Rcpp::export(".basic_free_symbols")]]
+SEXP sexp_basic_free_symbols(SEXP ext) {
+    basic_struct* b = elt_basic(ext);
+    SEXP out  = PROTECT(sexp_setbasic());
+    CSetBasic* outv = elt_setbasic(out);
+    
+    hold_exception(basic_free_symbols(b, outv));
+    
+    UNPROTECT(1);
+    return sexp_set2vec_s4(out);
+}
+
+// [[Rcpp::export(".basic_function_symbols")]]
+SEXP sexp_basic_function_symbols(SEXP ext) {
+    basic_struct* b = elt_basic(ext);
+    SEXP out = PROTECT(sexp_setbasic());
+    CSetBasic* outv = elt_setbasic(out);
+    
+    // Note that the arguments of basic_function_symbols are different from the two above
+    hold_exception(basic_function_symbols(outv, b));
+    
+    UNPROTECT(1);
+    return sexp_set2vec_s4(out);
+}
 
 
 
@@ -266,49 +312,3 @@ SEXP sexp_basic_num_iscomplex(SEXP ext)  {return call_basic_is_xxx(ext, number_i
 
 
 
-// Basic: get_args and free_symbols //==========================================
-// They work for basic but depends on vecbasic
-
-//! Returns a CVecBasic of vec_basic given by get_args
-CWRAPPER_OUTPUT_TYPE basic_get_args(const basic self, CVecBasic *args);
-//! Returns a CSetBasic of set_basic given by free_symbols
-CWRAPPER_OUTPUT_TYPE basic_free_symbols(const basic self, CSetBasic *symbols);
-//! Returns a CSetBasic of set_basic given by function_symbols
-CWRAPPER_OUTPUT_TYPE basic_function_symbols(CSetBasic *symbols, const basic self);
-
-// [[Rcpp::export(".basic_get_args")]]
-SEXP sexp_basic_get_args(SEXP ext) {
-    basic_struct* b = elt_basic(ext);
-    SEXP out = PROTECT(sexp_vecbasic_s4());
-    CVecBasic* outv = elt_vecbasic(out);
-    
-    hold_exception(basic_get_args(b, outv));
-    
-    UNPROTECT(1);
-    return out;
-}
-
-// [[Rcpp::export(".basic_free_symbols")]]
-SEXP sexp_basic_free_symbols(SEXP ext) {
-    basic_struct* b = elt_basic(ext);
-    SEXP out  = PROTECT(sexp_setbasic());
-    CSetBasic* outv = elt_setbasic(out);
-    
-    hold_exception(basic_free_symbols(b, outv));
-    
-    UNPROTECT(1);
-    return sexp_set2vec_s4(out);
-}
-
-// [[Rcpp::export(".basic_function_symbols")]]
-SEXP sexp_basic_function_symbols(SEXP ext) {
-    basic_struct* b = elt_basic(ext);
-    SEXP out = PROTECT(sexp_setbasic());
-    CSetBasic* outv = elt_setbasic(out);
-    
-    // Note that the arguments of basic_function_symbols are different from the two above
-    hold_exception(basic_function_symbols(outv, b));
-    
-    UNPROTECT(1);
-    return sexp_set2vec_s4(out);
-}

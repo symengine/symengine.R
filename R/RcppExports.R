@@ -217,6 +217,18 @@
     .Call('_symengine_sexp_basic_neq', PACKAGE = 'symengine', exta, extb)
 }
 
+.basic_get_args <- function(ext) {
+    .Call('_symengine_sexp_basic_get_args', PACKAGE = 'symengine', ext)
+}
+
+.basic_free_symbols <- function(ext) {
+    .Call('_symengine_sexp_basic_free_symbols', PACKAGE = 'symengine', ext)
+}
+
+.basic_function_symbols <- function(ext) {
+    .Call('_symengine_sexp_basic_function_symbols', PACKAGE = 'symengine', ext)
+}
+
 .basic_symbol <- function(RString) {
     .Call('_symengine_sexp_basic_symbol', PACKAGE = 'symengine', RString)
 }
@@ -351,18 +363,6 @@
 
 .basic_num_iscomplex <- function(ext) {
     .Call('_symengine_sexp_basic_num_iscomplex', PACKAGE = 'symengine', ext)
-}
-
-.basic_get_args <- function(ext) {
-    .Call('_symengine_sexp_basic_get_args', PACKAGE = 'symengine', ext)
-}
-
-.basic_free_symbols <- function(ext) {
-    .Call('_symengine_sexp_basic_free_symbols', PACKAGE = 'symengine', ext)
-}
-
-.basic_function_symbols <- function(ext) {
-    .Call('_symengine_sexp_basic_function_symbols', PACKAGE = 'symengine', ext)
 }
 
 .mapbasic <- function(key, mapped) {
