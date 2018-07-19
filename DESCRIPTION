@@ -26,7 +26,6 @@ Collate:
     'vector.R'
     'matrix.R'
     'misc.R'
-    'set.R'
     'symengine_info.R'
     'utils-subset.R'
     'vector_opts.R'
