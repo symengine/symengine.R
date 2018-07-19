@@ -70,6 +70,7 @@ SEXP sexp_mapbasic_s4() {
 
 SEXP sexp_vec2set(SEXP ext);
 SEXP sexp_set2vec(SEXP ext);
+SEXP sexp_set2vec_s4(SEXP ext);
 
 
 // Helper function to check EXTPTR SEXP of Basic //==============================

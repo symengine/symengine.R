@@ -289,11 +289,11 @@ SEXP sexp_basic_get_args(SEXP ext) {
 // [[Rcpp::export(".basic_free_symbols")]]
 SEXP sexp_basic_free_symbols(SEXP ext) {
     basic_struct* b = elt_basic(ext);
-    SEXP out  = PROTECT(sexp_setbasic_s4());
+    SEXP out  = PROTECT(sexp_setbasic());
     CSetBasic* outv = elt_setbasic(out);
     
     hold_exception(basic_free_symbols(b, outv));
     
     UNPROTECT(1);
-    return out;
+    return sexp_set2vec_s4(out);
 }

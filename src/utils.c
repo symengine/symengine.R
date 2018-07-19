@@ -102,7 +102,7 @@ SEXP sexp_setbasic () {
 
 SEXP sexp_vec2set(SEXP ext) {
     CVecBasic*    vec = elt_vecbasic(ext);
-    SEXP          out = PROTECT(sexp_setbasic_s4());
+    SEXP          out = PROTECT(sexp_setbasic());
     CSetBasic*    set = elt_setbasic(out);
     size_t        len = vecbasic_size(vec);
     SEXP          a   = PROTECT(sexp_basic());
@@ -115,12 +115,11 @@ SEXP sexp_vec2set(SEXP ext) {
 
     UNPROTECT(2);
     return out;
-
 }
 
 SEXP sexp_set2vec(SEXP ext) {
     CSetBasic*    set  = elt_setbasic(ext);
-    SEXP          out  = PROTECT(sexp_vecbasic_s4());
+    SEXP          out  = PROTECT(sexp_vecbasic());
     CVecBasic*    vec  = elt_vecbasic(out);
     size_t        len  = setbasic_size(set);
     SEXP          a    = PROTECT(sexp_basic());
@@ -133,6 +132,10 @@ SEXP sexp_set2vec(SEXP ext) {
 
     UNPROTECT(2);
     return out;
+}
+
+SEXP sexp_set2vec_s4(SEXP ext) {
+    return s4(sexp_set2vec(ext), "VecBasic");
 }
 
 
