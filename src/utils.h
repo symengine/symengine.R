@@ -66,6 +66,11 @@ SEXP sexp_mapbasic_s4() {
     return s4(sexp_mapbasic(), "MapBasic");
 }
 
+// Helper function to do conversion between setbasic and vecbasic ==============
+
+SEXP sexp_vec2set(SEXP ext);
+SEXP sexp_set2vec(SEXP ext);
+
 
 // Helper function to check EXTPTR SEXP of Basic //==============================
 
