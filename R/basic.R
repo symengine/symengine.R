@@ -61,6 +61,11 @@ basic_function_symbols <- function(x) {
     .basic_function_symbols(x)
 }
 
+#' @export
+basic_function_getname <- function(x) {
+    .basic_function_getname(x)
+}
+
 
 ## Hash and Eq  ================================================================
 

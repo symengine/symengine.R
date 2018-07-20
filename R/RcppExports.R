@@ -229,6 +229,10 @@
     .Call('_symengine_sexp_basic_function_symbols', PACKAGE = 'symengine', ext)
 }
 
+.basic_function_getname <- function(ext) {
+    .Call('_symengine_sexp_basic_function_getname', PACKAGE = 'symengine', ext)
+}
+
 .basic_symbol <- function(RString) {
     .Call('_symengine_sexp_basic_symbol', PACKAGE = 'symengine', RString)
 }

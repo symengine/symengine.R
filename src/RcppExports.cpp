@@ -647,6 +647,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// sexp_basic_function_getname
+SEXP sexp_basic_function_getname(SEXP ext);
+RcppExport SEXP _symengine_sexp_basic_function_getname(SEXP extSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type ext(extSEXP);
+    rcpp_result_gen = Rcpp::wrap(sexp_basic_function_getname(ext));
+    return rcpp_result_gen;
+END_RCPP
+}
 // sexp_basic_symbol
 SEXP sexp_basic_symbol(SEXP RString);
 RcppExport SEXP _symengine_sexp_basic_symbol(SEXP RStringSEXP) {
@@ -1855,6 +1866,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_symengine_sexp_basic_get_args", (DL_FUNC) &_symengine_sexp_basic_get_args, 1},
     {"_symengine_sexp_basic_free_symbols", (DL_FUNC) &_symengine_sexp_basic_free_symbols, 1},
     {"_symengine_sexp_basic_function_symbols", (DL_FUNC) &_symengine_sexp_basic_function_symbols, 1},
+    {"_symengine_sexp_basic_function_getname", (DL_FUNC) &_symengine_sexp_basic_function_getname, 1},
     {"_symengine_sexp_basic_symbol", (DL_FUNC) &_symengine_sexp_basic_symbol, 1},
     {"_symengine_sexp_basic_parse", (DL_FUNC) &_symengine_sexp_basic_parse, 1},
     {"_symengine_sexp_basic_const", (DL_FUNC) &_symengine_sexp_basic_const, 1},

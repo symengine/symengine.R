@@ -111,6 +111,17 @@ SEXP sexp_basic_function_symbols(SEXP ext) {
     return sexp_set2vec_s4(out);
 }
 
+//! Returns the name of the given FunctionSymbol
+char *function_symbol_get_name(const basic b);
+
+// [[Rcpp::export(".basic_function_getname")]]
+SEXP sexp_basic_function_getname(SEXP ext) {
+    basic_struct* b = elt_basic(ext);
+    if (basic_get_type(b) != SYMENGINE_FUNCTIONSYMBOL)
+        Rf_error("Argument should be a function symbol");
+    return Rf_mkString(function_symbol_get_name(b));
+}
+
 
 
 
