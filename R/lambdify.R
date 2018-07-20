@@ -37,6 +37,10 @@ basic_to_expr <- function(s) {
     .Constant <- function(s) {
         as.double(evalf(s))
     }
+    .Rational <- function(s) {
+        # Is this the proper way?
+        as.double(evalf(s))
+    }
 
     ans <- switch(
         basic_type(s),
@@ -48,6 +52,7 @@ basic_to_expr <- function(s) {
         RealDouble = .RealDouble(s),
         Infty = .Infty(s),
         Constant = .Constant(s),
+        Rational = .Rational(s),
         stop(sprintf("Conversion method for %s has not implemented", basic_type(s)))
     )
     ans
