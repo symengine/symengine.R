@@ -89,3 +89,13 @@ test_that("function_symbols", {
     expect_vecbasic_equal(funs, vecbasic("g(x)", "h(g(x))", "f(x + y, g(x), h(g(x)))"))
 })
 
+test_that("function_getname", {
+    x <- S("x")
+    g <- S("g(x)")
+    f <- S("f(g(x), 42)") # TODO: add function symbol constructor
+    expect_identical(basic_function_getname(g), "g")
+    expect_identical(basic_function_getname(f), "f")
+    
+    expect_error(basic_function_getname(x), "Argument should be a function symbol")
+})
+
