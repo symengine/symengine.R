@@ -887,94 +887,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// sexp_basic_isInteger
-SEXP sexp_basic_isInteger(SEXP ext);
-RcppExport SEXP _symengine_sexp_basic_isInteger(SEXP extSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type ext(extSEXP);
-    rcpp_result_gen = Rcpp::wrap(sexp_basic_isInteger(ext));
-    return rcpp_result_gen;
-END_RCPP
-}
-// sexp_basic_isRational
-SEXP sexp_basic_isRational(SEXP ext);
-RcppExport SEXP _symengine_sexp_basic_isRational(SEXP extSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type ext(extSEXP);
-    rcpp_result_gen = Rcpp::wrap(sexp_basic_isRational(ext));
-    return rcpp_result_gen;
-END_RCPP
-}
-// sexp_basic_isSymbol
-SEXP sexp_basic_isSymbol(SEXP ext);
-RcppExport SEXP _symengine_sexp_basic_isSymbol(SEXP extSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type ext(extSEXP);
-    rcpp_result_gen = Rcpp::wrap(sexp_basic_isSymbol(ext));
-    return rcpp_result_gen;
-END_RCPP
-}
-// sexp_basic_isComplex
-SEXP sexp_basic_isComplex(SEXP ext);
-RcppExport SEXP _symengine_sexp_basic_isComplex(SEXP extSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type ext(extSEXP);
-    rcpp_result_gen = Rcpp::wrap(sexp_basic_isComplex(ext));
-    return rcpp_result_gen;
-END_RCPP
-}
-// sexp_basic_isRealDouble
-SEXP sexp_basic_isRealDouble(SEXP ext);
-RcppExport SEXP _symengine_sexp_basic_isRealDouble(SEXP extSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type ext(extSEXP);
-    rcpp_result_gen = Rcpp::wrap(sexp_basic_isRealDouble(ext));
-    return rcpp_result_gen;
-END_RCPP
-}
-// sexp_basic_isComplexDouble
-SEXP sexp_basic_isComplexDouble(SEXP ext);
-RcppExport SEXP _symengine_sexp_basic_isComplexDouble(SEXP extSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type ext(extSEXP);
-    rcpp_result_gen = Rcpp::wrap(sexp_basic_isComplexDouble(ext));
-    return rcpp_result_gen;
-END_RCPP
-}
-// sexp_basic_isRealMPFR
-SEXP sexp_basic_isRealMPFR(SEXP ext);
-RcppExport SEXP _symengine_sexp_basic_isRealMPFR(SEXP extSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type ext(extSEXP);
-    rcpp_result_gen = Rcpp::wrap(sexp_basic_isRealMPFR(ext));
-    return rcpp_result_gen;
-END_RCPP
-}
-// sexp_basic_isComplexMPC
-SEXP sexp_basic_isComplexMPC(SEXP ext);
-RcppExport SEXP _symengine_sexp_basic_isComplexMPC(SEXP extSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type ext(extSEXP);
-    rcpp_result_gen = Rcpp::wrap(sexp_basic_isComplexMPC(ext));
-    return rcpp_result_gen;
-END_RCPP
-}
 // sexp_basic_num_iszero
 SEXP sexp_basic_num_iszero(SEXP ext);
 RcppExport SEXP _symengine_sexp_basic_num_iszero(SEXP extSEXP) {
@@ -1889,14 +1801,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_symengine_sexp_basic_realdouble", (DL_FUNC) &_symengine_sexp_basic_realdouble, 1},
     {"_symengine_sexp_basic_realdouble_getd", (DL_FUNC) &_symengine_sexp_basic_realdouble_getd, 1},
     {"_symengine_sexp_basic_isNumber", (DL_FUNC) &_symengine_sexp_basic_isNumber, 1},
-    {"_symengine_sexp_basic_isInteger", (DL_FUNC) &_symengine_sexp_basic_isInteger, 1},
-    {"_symengine_sexp_basic_isRational", (DL_FUNC) &_symengine_sexp_basic_isRational, 1},
-    {"_symengine_sexp_basic_isSymbol", (DL_FUNC) &_symengine_sexp_basic_isSymbol, 1},
-    {"_symengine_sexp_basic_isComplex", (DL_FUNC) &_symengine_sexp_basic_isComplex, 1},
-    {"_symengine_sexp_basic_isRealDouble", (DL_FUNC) &_symengine_sexp_basic_isRealDouble, 1},
-    {"_symengine_sexp_basic_isComplexDouble", (DL_FUNC) &_symengine_sexp_basic_isComplexDouble, 1},
-    {"_symengine_sexp_basic_isRealMPFR", (DL_FUNC) &_symengine_sexp_basic_isRealMPFR, 1},
-    {"_symengine_sexp_basic_isComplexMPC", (DL_FUNC) &_symengine_sexp_basic_isComplexMPC, 1},
     {"_symengine_sexp_basic_num_iszero", (DL_FUNC) &_symengine_sexp_basic_num_iszero, 1},
     {"_symengine_sexp_basic_num_isnegative", (DL_FUNC) &_symengine_sexp_basic_num_isnegative, 1},
     {"_symengine_sexp_basic_num_ispositive", (DL_FUNC) &_symengine_sexp_basic_num_ispositive, 1},

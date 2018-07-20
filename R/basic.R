@@ -105,14 +105,14 @@ if (FALSE) {
 ## Basic: is_a_XXX  ============================================================
 
 basic_isNumber         <- function(x) .basic_isNumber(x@.xData)
-basic_isInteger        <- function(x) .basic_isInteger(x@.xData)
-basic_isRational       <- function(x) .basic_isRational(x@.xData)
-basic_isSymbol         <- function(x) .basic_isSymbol(x@.xData)
-basic_isComplex        <- function(x) .basic_isComplex(x@.xData)
-basic_isRealDouble     <- function(x) .basic_isRealDouble(x@.xData)
-basic_isComplexDouble  <- function(x) .basic_isComplexDouble(x@.xData)
-basic_isRealMPFR       <- function(x) .basic_isRealMPFR(x@.xData)
-basic_isComplexMPC     <- function(x) .basic_isComplexMPC(x@.xData)
+# basic_isInteger        <- function(x) .basic_isInteger(x@.xData)
+# basic_isRational       <- function(x) .basic_isRational(x@.xData)
+# basic_isSymbol         <- function(x) .basic_isSymbol(x@.xData)
+# basic_isComplex        <- function(x) .basic_isComplex(x@.xData)
+# basic_isRealDouble     <- function(x) .basic_isRealDouble(x@.xData)
+# basic_isComplexDouble  <- function(x) .basic_isComplexDouble(x@.xData)
+# basic_isRealMPFR       <- function(x) .basic_isRealMPFR(x@.xData)
+# basic_isComplexMPC     <- function(x) .basic_isComplexMPC(x@.xData)
 
 basic_num_iszero       <- function(x) .basic_num_iszero(x@.xData)
 basic_num_isnegative   <- function(x) .basic_num_isnegative(x@.xData)
