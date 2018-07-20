@@ -22,6 +22,7 @@ Collate:
     'RcppExports.R'
     'basic.R'
     'basic_opts.R'
+    'lambdify.R'
     'map.R'
     'vector.R'
     'matrix.R'
