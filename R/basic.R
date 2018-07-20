@@ -215,7 +215,7 @@ basic_integer_getint <- function (x) {
 
 setMethod("as.integer", c(x = "Basic"),
     function (x) {
-        if (basic_isInteger(x))
+        if (basic_type(x) == "Integer")
             return(basic_integer_getint(x))
         stop("Not implemented")
     }
@@ -260,7 +260,7 @@ RealDouble <- function (x) {
 
 setMethod("as.double", c(x = "Basic"),
     function (x) {
-        if (basic_isRealDouble(x))
+        if (basic_type(x) == "RealDouble")
             return(basic_realdouble_getd(x))
         stop("Not implemented")
     }
