@@ -34,6 +34,9 @@ basic_to_expr <- function(s) {
         else
             stop("Should not happen")
     }
+    .Constant <- function(s) {
+        as.double(evalf(s))
+    }
 
     ans <- switch(
         basic_type(s),
@@ -44,6 +47,7 @@ basic_to_expr <- function(s) {
         Integer = .Integer(s),
         RealDouble = .RealDouble(s),
         Infty = .Infty(s),
+        Constant = .Constant(s),
         stop(sprintf("Conversion method for %s has not implemented", basic_type(s)))
     )
     ans
