@@ -38,7 +38,8 @@ test_that("lambdify is working", {
     expect_identical(names(args) , c("x", "y", "z"))
     
     f <- lambdify(S("a + b + 2"))
-    expect_identical(body(f), quote(2L + b + a))
+    expect_identical(as.call(body(f))[[1]], quote(`+`))
+    expect_identical(as.call(body(f))[[2]][[1]], quote(`+`))
     expect_identical(environment(f), baseenv())
     expect_identical(formals(f), as.pairlist(alist(a = , b = )))
 })
