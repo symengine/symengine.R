@@ -263,7 +263,7 @@ evalf <- function (expr, bits = 53L, to = c("real", "complex")) {
 }
 
 binomial <- function(a, b) {
-    if (!basic_isInteger(a))
+    if (basic_type(a) != "Integer")
         stop("a must be integer basic")
     .ntheory_binomial(a, as.integer(b))
 }
@@ -273,23 +273,23 @@ factorial <- function(n) {
 }
 
 nextprime <- function(a) {
-    if (!basic_isInteger(a))
+    if (basic_type(a) != "Integer")
         stop("a must be integer basic")
     .ntheory_nextprime(a)
 }
 
 lcm <- function(a, b) {
-    if (!basic_isInteger(a))
+    if (basic_type(a) != "Integer")
         stop("a must be integer basic")
-    if (!basic_isInteger(b))
+    if (basic_type(a) != "Integer")
         stop("b must be integer basic")
     .ntheory_lcm(a, b)
 }
 
 gcd <- function(a, b) {
-    if (!basic_isInteger(a))
+    if (basic_type(a) != "Integer")
         stop("a must be integer basic")
-    if (!basic_isInteger(b))
+    if (basic_type(a) != "Integer")
         stop("b must be integer basic")
     .ntheory_gcd(a, b)
 }

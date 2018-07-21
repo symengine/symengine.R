@@ -21,6 +21,16 @@ static inline void hold_exception(CWRAPPER_OUTPUT_TYPE output) {
         return;
 }
 
+// Util function to wrap externalptr to S4 class  ==============================
+
+static inline
+SEXP s4(SEXP ext, const char* classname) {
+    SEXP empty = PROTECT(R_do_new_object(R_getClassDef(classname)));
+    SEXP out   = PROTECT(R_do_slot_assign(empty, Rf_mkString(".xData"), ext));
+    UNPROTECT(2);
+    return out;
+}
+
 // Helper function to initialize an EXTPTR SEXP with empty Basic ================
 
 SEXP sexp_basic();
@@ -33,43 +43,34 @@ SEXP sexp_mapbasic();
 
 static inline
 SEXP sexp_basic_s4() {
-    SEXP empty = PROTECT(R_do_new_object(R_getClassDef("Basic")));
-    SEXP out   = PROTECT(R_do_slot_assign(empty, Rf_mkString(".xData"), sexp_basic()));
-    UNPROTECT(2);
-    return out;
+    return s4(sexp_basic(), "Basic");
 }
 
 static inline
 SEXP sexp_vecbasic_s4() {
-    SEXP empty = PROTECT(R_do_new_object(R_getClassDef("VecBasic")));
-    SEXP out   = PROTECT(R_do_slot_assign(empty, Rf_mkString(".xData"), sexp_vecbasic()));
-    UNPROTECT(2);
-    return out;
+    return s4(sexp_vecbasic(), "VecBasic");
 }
 
 static inline
 SEXP sexp_denseMatrix_s4(size_t nrow, size_t ncol) {
-    SEXP empty = PROTECT(R_do_new_object(R_getClassDef("DenseMatrix")));
-    SEXP out   = PROTECT(R_do_slot_assign(empty, Rf_mkString(".xData"), sexp_denseMatrix(nrow, ncol)));
-    UNPROTECT(2);
-    return out;
+    return s4(sexp_denseMatrix(nrow, ncol), "DenseMatrix");
 }
 
 static inline
 SEXP sexp_setbasic_s4() {
-    SEXP empty = PROTECT(R_do_new_object(R_getClassDef("SetBasic")));
-    SEXP out   = PROTECT(R_do_slot_assign(empty, Rf_mkString(".xData"), sexp_setbasic()));
-    UNPROTECT(2);
-    return out;
+    return s4(sexp_setbasic(), "SetBasic");
 }
 
 static inline
 SEXP sexp_mapbasic_s4() {
-    SEXP empty = PROTECT(R_do_new_object(R_getClassDef("MapBasic")));
-    SEXP out   = PROTECT(R_do_slot_assign(empty, Rf_mkString(".xData"), sexp_mapbasic()));
-    UNPROTECT(2);
-    return out;
+    return s4(sexp_mapbasic(), "MapBasic");
 }
+
+// Helper function to do conversion between setbasic and vecbasic ==============
+
+SEXP sexp_vec2set(SEXP ext);
+SEXP sexp_set2vec(SEXP ext);
+SEXP sexp_set2vec_s4(SEXP ext);
 
 
 // Helper function to check EXTPTR SEXP of Basic //==============================

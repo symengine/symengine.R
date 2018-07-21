@@ -217,6 +217,22 @@
     .Call('_symengine_sexp_basic_neq', PACKAGE = 'symengine', exta, extb)
 }
 
+.basic_get_args <- function(ext) {
+    .Call('_symengine_sexp_basic_get_args', PACKAGE = 'symengine', ext)
+}
+
+.basic_free_symbols <- function(ext) {
+    .Call('_symengine_sexp_basic_free_symbols', PACKAGE = 'symengine', ext)
+}
+
+.basic_function_symbols <- function(ext) {
+    .Call('_symengine_sexp_basic_function_symbols', PACKAGE = 'symengine', ext)
+}
+
+.basic_function_getname <- function(ext) {
+    .Call('_symengine_sexp_basic_function_getname', PACKAGE = 'symengine', ext)
+}
+
 .basic_symbol <- function(RString) {
     .Call('_symengine_sexp_basic_symbol', PACKAGE = 'symengine', RString)
 }
@@ -305,38 +321,6 @@
     .Call('_symengine_sexp_basic_isNumber', PACKAGE = 'symengine', ext)
 }
 
-.basic_isInteger <- function(ext) {
-    .Call('_symengine_sexp_basic_isInteger', PACKAGE = 'symengine', ext)
-}
-
-.basic_isRational <- function(ext) {
-    .Call('_symengine_sexp_basic_isRational', PACKAGE = 'symengine', ext)
-}
-
-.basic_isSymbol <- function(ext) {
-    .Call('_symengine_sexp_basic_isSymbol', PACKAGE = 'symengine', ext)
-}
-
-.basic_isComplex <- function(ext) {
-    .Call('_symengine_sexp_basic_isComplex', PACKAGE = 'symengine', ext)
-}
-
-.basic_isRealDouble <- function(ext) {
-    .Call('_symengine_sexp_basic_isRealDouble', PACKAGE = 'symengine', ext)
-}
-
-.basic_isComplexDouble <- function(ext) {
-    .Call('_symengine_sexp_basic_isComplexDouble', PACKAGE = 'symengine', ext)
-}
-
-.basic_isRealMPFR <- function(ext) {
-    .Call('_symengine_sexp_basic_isRealMPFR', PACKAGE = 'symengine', ext)
-}
-
-.basic_isComplexMPC <- function(ext) {
-    .Call('_symengine_sexp_basic_isComplexMPC', PACKAGE = 'symengine', ext)
-}
-
 .basic_num_iszero <- function(ext) {
     .Call('_symengine_sexp_basic_num_iszero', PACKAGE = 'symengine', ext)
 }
@@ -415,26 +399,6 @@
 
 .denseMatrix_LU <- function(l, u, mat) {
     invisible(.Call('_symengine_sexp_denseMatrix_LU', PACKAGE = 'symengine', l, u, mat))
-}
-
-.setbasic <- function(ext) {
-    .Call('_symengine_sexp_setbasic', PACKAGE = 'symengine', ext)
-}
-
-.setbasic_length <- function(ext) {
-    .Call('_symengine_sexp_setbasic_length', PACKAGE = 'symengine', ext)
-}
-
-.setbasic_subset <- function(ext, idx) {
-    .Call('_symengine_sexp_setbasic_subset', PACKAGE = 'symengine', ext, idx)
-}
-
-.setbasic_get <- function(ext, n) {
-    .Call('_symengine_sexp_setbasic_get', PACKAGE = 'symengine', ext, n)
-}
-
-.setbasic_to_vecbasic <- function(ext) {
-    .Call('_symengine_sexp_setbasic_to_vecbasic', PACKAGE = 'symengine', ext)
 }
 
 .symengine_ascii_art <- function() {

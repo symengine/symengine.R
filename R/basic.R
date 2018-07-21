@@ -46,6 +46,27 @@ basic_str <- function (x) {
 
 setMethod("as.character", c(x = "Basic"), basic_str)
 
+#' @export
+basic_get_args <- function(x) {
+    .basic_get_args(x)
+}
+
+#' @export
+basic_free_symbols <- function(x) {
+    .basic_free_symbols(x)
+}
+
+#' @export
+basic_function_symbols <- function(x) {
+    .basic_function_symbols(x)
+}
+
+#' @export
+basic_function_getname <- function(x) {
+    .basic_function_getname(x)
+}
+
+
 ## Hash and Eq  ================================================================
 
 #' @export
@@ -84,14 +105,14 @@ if (FALSE) {
 ## Basic: is_a_XXX  ============================================================
 
 basic_isNumber         <- function(x) .basic_isNumber(x@.xData)
-basic_isInteger        <- function(x) .basic_isInteger(x@.xData)
-basic_isRational       <- function(x) .basic_isRational(x@.xData)
-basic_isSymbol         <- function(x) .basic_isSymbol(x@.xData)
-basic_isComplex        <- function(x) .basic_isComplex(x@.xData)
-basic_isRealDouble     <- function(x) .basic_isRealDouble(x@.xData)
-basic_isComplexDouble  <- function(x) .basic_isComplexDouble(x@.xData)
-basic_isRealMPFR       <- function(x) .basic_isRealMPFR(x@.xData)
-basic_isComplexMPC     <- function(x) .basic_isComplexMPC(x@.xData)
+# basic_isInteger        <- function(x) .basic_isInteger(x@.xData)
+# basic_isRational       <- function(x) .basic_isRational(x@.xData)
+# basic_isSymbol         <- function(x) .basic_isSymbol(x@.xData)
+# basic_isComplex        <- function(x) .basic_isComplex(x@.xData)
+# basic_isRealDouble     <- function(x) .basic_isRealDouble(x@.xData)
+# basic_isComplexDouble  <- function(x) .basic_isComplexDouble(x@.xData)
+# basic_isRealMPFR       <- function(x) .basic_isRealMPFR(x@.xData)
+# basic_isComplexMPC     <- function(x) .basic_isComplexMPC(x@.xData)
 
 basic_num_iszero       <- function(x) .basic_num_iszero(x@.xData)
 basic_num_isnegative   <- function(x) .basic_num_isnegative(x@.xData)
@@ -194,7 +215,7 @@ basic_integer_getint <- function (x) {
 
 setMethod("as.integer", c(x = "Basic"),
     function (x) {
-        if (basic_isInteger(x))
+        if (basic_type(x) == "Integer")
             return(basic_integer_getint(x))
         stop("Not implemented")
     }
@@ -239,7 +260,7 @@ RealDouble <- function (x) {
 
 setMethod("as.double", c(x = "Basic"),
     function (x) {
-        if (basic_isRealDouble(x))
+        if (basic_type(x) == "RealDouble")
             return(basic_realdouble_getd(x))
         stop("Not implemented")
     }

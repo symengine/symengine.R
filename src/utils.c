@@ -2,6 +2,7 @@
 #define R_NO_REMAP
 #include <Rinternals.h>
 #include <symengine/cwrapper.h>
+#include "utils.h"
 
 const char* _exception_message_from_cwrapper(CWRAPPER_OUTPUT_TYPE id) {
     // Refer:
@@ -98,6 +99,45 @@ SEXP sexp_setbasic () {
     UNPROTECT(1);
     return out;
 }
+
+SEXP sexp_vec2set(SEXP ext) {
+    CVecBasic*    vec = elt_vecbasic(ext);
+    SEXP          out = PROTECT(sexp_setbasic());
+    CSetBasic*    set = elt_setbasic(out);
+    size_t        len = vecbasic_size(vec);
+    SEXP          a   = PROTECT(sexp_basic());
+    basic_struct* val = elt_basic(a);
+
+    for (size_t i = 0; i < len; i++) {
+        hold_exception(vecbasic_get(vec, i, val));
+        setbasic_insert(set, val);
+    }
+
+    UNPROTECT(2);
+    return out;
+}
+
+SEXP sexp_set2vec(SEXP ext) {
+    CSetBasic*    set  = elt_setbasic(ext);
+    SEXP          out  = PROTECT(sexp_vecbasic());
+    CVecBasic*    vec  = elt_vecbasic(out);
+    size_t        len  = setbasic_size(set);
+    SEXP          a    = PROTECT(sexp_basic());
+    basic_struct* val  = elt_basic(a);
+
+    for (size_t i = 0; i < len; i++) {
+        setbasic_get(set, i, val);
+        hold_exception(vecbasic_push_back(vec, val));
+    }
+
+    UNPROTECT(2);
+    return out;
+}
+
+SEXP sexp_set2vec_s4(SEXP ext) {
+    return s4(sexp_set2vec(ext), "VecBasic");
+}
+
 
 static void _mapbasic_finalizer(SEXP ext) {
     if (NULL == R_ExternalPtrAddr(ext)) {

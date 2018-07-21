@@ -90,7 +90,7 @@ check_matrix_dimension_same <- function(e1, e2) {
 
 check_all_is_integer <- function(v) {
     for (i in seq_along(v)) {
-        if (!basic_isInteger(v[[i]]))
+        if (basic_type(v[[i]]) != "Integer")
             stop("element must be integer")
     }
 }
