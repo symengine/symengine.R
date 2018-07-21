@@ -4,9 +4,15 @@ test_that("basic to expr conversion", {
     # Symbol
     expect_identical(basic_to_expr(basic_symbol(" w w")), quote(` w w`))
     # Add
-    expect_identical(basic_to_expr(S("a + b + c")), quote(c + a + b))
+    expect_setequal(
+        all.vars(basic_to_expr(S("a + b + c"))),
+        c("a", "b", "c")
+    )
     # Mul
-    expect_identical(basic_to_expr(S("a * b * c")), quote(a * b * c))
+    expect_setequal(
+        all.vars(basic_to_expr(S("a * b * c"))),
+        c("a", "b", "c")
+    )
     # Pow
     expect_identical(basic_to_expr(S("x ^ y")), quote(x ^ y))
     # Rational
