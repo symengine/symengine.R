@@ -2,16 +2,28 @@
 #' @include RcppExports.R
 NULL
 
-setClass("Basic", contains = "externalptr")
+## Parent class holding Basic, VecBasic, etc. ==================================
+
+setClass("SymEnginePTR", slots = c(ptr = "externalptr"))
+
+setAs(from = "SymEnginePTR", to = "externalptr",
+    function(from) from@ptr
+)
+
+## Get tag of an external ptr
+ptr_tag <- function (x) {
+    .Call("R_ExternalPtrTag", as(x, "externalptr"))
+}
+
+
+
+## Basic  ======================================================================
+
+setClass("Basic", contains = "SymEnginePTR")
 
 #' @export
 setGeneric("S", def = function (x, ...) standardGeneric("S"))
 
-## Get tag of an external ptr ==================================================
-
-ptr_tag <- function (x) {
-    .Call("R_ExternalPtrTag", as(x, "externalptr"))
-}
 
 ## Show Methods ================================================================
 
@@ -80,11 +92,11 @@ Hash <- function (x) {
 }
 
 basic_eq <- function (a, b) {
-    .basic_eq(a@.xData, b@.xData)
+    .basic_eq(a@ptr, b@ptr)
 }
 
 basic_neq <- function (a, b) {
-    .basic_neq(a@.xData, b@.xData)
+    .basic_neq(a@ptr, b@ptr)
 }
 
 setMethod("==", c(e1 = "Basic", e2 = "Basic"),
@@ -104,20 +116,20 @@ if (FALSE) {
 
 ## Basic: is_a_XXX  ============================================================
 
-basic_isNumber         <- function(x) .basic_isNumber(x@.xData)
-# basic_isInteger        <- function(x) .basic_isInteger(x@.xData)
-# basic_isRational       <- function(x) .basic_isRational(x@.xData)
-# basic_isSymbol         <- function(x) .basic_isSymbol(x@.xData)
-# basic_isComplex        <- function(x) .basic_isComplex(x@.xData)
-# basic_isRealDouble     <- function(x) .basic_isRealDouble(x@.xData)
-# basic_isComplexDouble  <- function(x) .basic_isComplexDouble(x@.xData)
-# basic_isRealMPFR       <- function(x) .basic_isRealMPFR(x@.xData)
-# basic_isComplexMPC     <- function(x) .basic_isComplexMPC(x@.xData)
+basic_isNumber         <- function(x) .basic_isNumber(x@ptr)
+# basic_isInteger        <- function(x) .basic_isInteger(x@ptr)
+# basic_isRational       <- function(x) .basic_isRational(x@ptr)
+# basic_isSymbol         <- function(x) .basic_isSymbol(x@ptr)
+# basic_isComplex        <- function(x) .basic_isComplex(x@ptr)
+# basic_isRealDouble     <- function(x) .basic_isRealDouble(x@ptr)
+# basic_isComplexDouble  <- function(x) .basic_isComplexDouble(x@ptr)
+# basic_isRealMPFR       <- function(x) .basic_isRealMPFR(x@ptr)
+# basic_isComplexMPC     <- function(x) .basic_isComplexMPC(x@ptr)
 
-basic_num_iszero       <- function(x) .basic_num_iszero(x@.xData)
-basic_num_isnegative   <- function(x) .basic_num_isnegative(x@.xData)
-basic_num_ispositive   <- function(x) .basic_num_ispositive(x@.xData)
-basic_num_iscomplex    <- function(x) .basic_num_iscomplex(x@.xData)
+basic_num_iszero       <- function(x) .basic_num_iszero(x@ptr)
+basic_num_isnegative   <- function(x) .basic_num_isnegative(x@ptr)
+basic_num_ispositive   <- function(x) .basic_num_ispositive(x@ptr)
+basic_num_iscomplex    <- function(x) .basic_num_iscomplex(x@ptr)
 
 
 
@@ -131,7 +143,7 @@ basic_num_iscomplex    <- function(x) .basic_num_iscomplex(x@.xData)
 basic_symbol <- function (name) {
     # TODO: check NA and empty character?
     # TODO: should only accept character? Or give a warning when not?
-    new("Basic", .basic_symbol(name))
+    new("Basic", ptr = .basic_symbol(name))
 }
 
 #' @export
@@ -142,7 +154,7 @@ Symbol <- basic_symbol
 
 #' @export
 basic_parse <- function (x) {
-    new("Basic", .basic_parse(x))
+    new("Basic", ptr = .basic_parse(x))
 }
 
 setMethod("S", c(x = "character"),
@@ -155,7 +167,7 @@ setMethod("S", c(x = "character"),
 
 #' @export
 basic_const <- function (name) {
-    new("Basic", .basic_const(name))
+    new("Basic", ptr = .basic_const(name))
 }
 
 #' @export
@@ -167,25 +179,25 @@ Constant <- function (x) {
 .basic_const_one
 .basic_const_minus_one
 
-basic_I                 <- function () new("Basic", .basic_const_I())
-basic_pi                <- function () new("Basic", .basic_const_pi())
-basic_E                 <- function () new("Basic", .basic_const_E())
-basic_EulerGamma        <- function () new("Basic", .basic_const_EulerGamma())
-basic_Catalan           <- function () new("Basic", .basic_const_Catalan())
-basic_GoldenRatio       <- function () new("Basic", .basic_const_GoldenRatio())
-basic_infinity          <- function () new("Basic", .basic_const_infinity())
-basic_neginfinity       <- function () new("Basic", .basic_const_neginfinity())
-basic_complex_infinity  <- function () new("Basic", .basic_const_complex_infinity())
-basic_nan               <- function () new("Basic", .basic_const_nan())
+basic_I                 <- function () new("Basic", ptr = .basic_const_I())
+basic_pi                <- function () new("Basic", ptr = .basic_const_pi())
+basic_E                 <- function () new("Basic", ptr = .basic_const_E())
+basic_EulerGamma        <- function () new("Basic", ptr = .basic_const_EulerGamma())
+basic_Catalan           <- function () new("Basic", ptr = .basic_const_Catalan())
+basic_GoldenRatio       <- function () new("Basic", ptr = .basic_const_GoldenRatio())
+basic_infinity          <- function () new("Basic", ptr = .basic_const_infinity())
+basic_neginfinity       <- function () new("Basic", ptr = .basic_const_neginfinity())
+basic_complex_infinity  <- function () new("Basic", ptr = .basic_const_complex_infinity())
+basic_nan               <- function () new("Basic", ptr = .basic_const_nan())
 
 
 ## Integer  ====================================================================
 
 basic_integer_fromint <- function (x) {
-    new("Basic", .basic_integer_fromint(x))
+    new("Basic", ptr = .basic_integer_fromint(x))
 }
 basic_integer_fromstr <- function (x) {
-    new("Basic", .basic_integer_fromstr(x))
+    new("Basic", ptr = .basic_integer_fromstr(x))
 }
 
 #' @export
@@ -195,16 +207,16 @@ Integer <- function (x) {
     
     # TODO: should also support bigz (from gmp package), etc.
     if (is.integer(x))
-        return(new("Basic", basic_integer_fromint(x)))
+        return(basic_integer_fromint(x))
     if (is.double(x))
         # Not all double value can be coerced to integer (i.e. int type), thus I use character.
         # This is a hack to generate the string representation of the integer part in case
         # the number is large. (e.g. `as.character(2^99)` or `format(2^99, digits=22)` won't work)
         # Any better way?
-        #return(new("Basic",  basic_integer_fromstr(as.character(trunc(x)))))
-        return(new("Basic", basic_integer_fromstr(as.character(gmp::as.bigz(x)))))
+        #return(new("Basic", ptr = basic_integer_fromstr(as.character(trunc(x)))))
+        return(basic_integer_fromstr(as.character(gmp::as.bigz(x))))
     if (is.character(x))
-        return(new("Basic", basic_integer_fromstr(x)))
+        return(basic_integer_fromstr(x))
     
     stop(sQuote(class(x)), " class is not supported")
 }
@@ -241,7 +253,7 @@ if (FALSE) {
 ## RealDouble  =================================================================
 
 basic_realdouble <- function (x) {
-    new("Basic", .basic_realdouble(x))
+    new("Basic", ptr = .basic_realdouble(x))
 }
 
 basic_realdouble_getd <- function (ptr) {
@@ -313,7 +325,7 @@ setMethod("S", c(x = "Basic"),
 setMethod("S", c(x = "externalptr"),
     function (x) {
         stopifnot(identical(ptr_tag(x), "basic_struct*"))
-        new("Basic", x)
+        new("Basic", ptr = x)
     }
 )
 

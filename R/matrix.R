@@ -1,5 +1,5 @@
 #' @include vector.R
-setClass("DenseMatrix", contains = "externalptr")
+setClass("DenseMatrix", contains = "SymEnginePTR")
 
 #' @export
 denseMatrix <- function(data = NA, nrow = 1, ncol = 1, row_first = 0) {
