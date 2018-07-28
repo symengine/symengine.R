@@ -34,46 +34,46 @@ setMethods <- function (f, signatures=list(), definition,
 
 
 .subS4_extptr <- function(x, ptr) {
-    x@.xData <- ptr
+    x@ptr <- ptr
     x
 }
 
-basic_expand        <- function(x) .subS4_extptr(x, .basic_expand        (x@.xData))
-basic_neg           <- function(x) .subS4_extptr(x, .basic_neg           (x@.xData))
-basic_abs           <- function(x) .subS4_extptr(x, .basic_abs           (x@.xData))
-basic_erf           <- function(x) .subS4_extptr(x, .basic_erf           (x@.xData))
-basic_erfc          <- function(x) .subS4_extptr(x, .basic_erfc          (x@.xData))
-basic_sin           <- function(x) .subS4_extptr(x, .basic_sin           (x@.xData))
-basic_cos           <- function(x) .subS4_extptr(x, .basic_cos           (x@.xData))
-basic_tan           <- function(x) .subS4_extptr(x, .basic_tan           (x@.xData))
-basic_asin          <- function(x) .subS4_extptr(x, .basic_asin          (x@.xData))
-basic_acos          <- function(x) .subS4_extptr(x, .basic_acos          (x@.xData))
-basic_atan          <- function(x) .subS4_extptr(x, .basic_atan          (x@.xData))
-basic_csc           <- function(x) .subS4_extptr(x, .basic_csc           (x@.xData))
-basic_sec           <- function(x) .subS4_extptr(x, .basic_sec           (x@.xData))
-basic_cot           <- function(x) .subS4_extptr(x, .basic_cot           (x@.xData))
-basic_acsc          <- function(x) .subS4_extptr(x, .basic_acsc          (x@.xData))
-basic_asec          <- function(x) .subS4_extptr(x, .basic_asec          (x@.xData))
-basic_acot          <- function(x) .subS4_extptr(x, .basic_acot          (x@.xData))
-basic_sinh          <- function(x) .subS4_extptr(x, .basic_sinh          (x@.xData))
-basic_cosh          <- function(x) .subS4_extptr(x, .basic_cosh          (x@.xData))
-basic_tanh          <- function(x) .subS4_extptr(x, .basic_tanh          (x@.xData))
-basic_asinh         <- function(x) .subS4_extptr(x, .basic_asinh         (x@.xData))
-basic_acosh         <- function(x) .subS4_extptr(x, .basic_acosh         (x@.xData))
-basic_atanh         <- function(x) .subS4_extptr(x, .basic_atanh         (x@.xData))
-basic_csch          <- function(x) .subS4_extptr(x, .basic_csch          (x@.xData))
-basic_sech          <- function(x) .subS4_extptr(x, .basic_sech          (x@.xData))
-basic_coth          <- function(x) .subS4_extptr(x, .basic_coth          (x@.xData))
-basic_acsch         <- function(x) .subS4_extptr(x, .basic_acsch         (x@.xData))
-basic_asech         <- function(x) .subS4_extptr(x, .basic_asech         (x@.xData))
-basic_acoth         <- function(x) .subS4_extptr(x, .basic_acoth         (x@.xData))
-basic_lambertw      <- function(x) .subS4_extptr(x, .basic_lambertw      (x@.xData))
-basic_zeta          <- function(x) .subS4_extptr(x, .basic_zeta          (x@.xData))
-basic_dirichlet_eta <- function(x) .subS4_extptr(x, .basic_dirichlet_eta (x@.xData))
-basic_gamma         <- function(x) .subS4_extptr(x, .basic_gamma         (x@.xData))
-basic_sqrt          <- function(x) .subS4_extptr(x, .basic_sqrt          (x@.xData))
-basic_exp           <- function(x) .subS4_extptr(x, .basic_exp           (x@.xData))
-basic_log           <- function(x) .subS4_extptr(x, .basic_log           (x@.xData))
+basic_expand        <- function(x) .subS4_extptr(x, .basic_expand        (x@ptr))
+basic_neg           <- function(x) .subS4_extptr(x, .basic_neg           (x@ptr))
+basic_abs           <- function(x) .subS4_extptr(x, .basic_abs           (x@ptr))
+basic_erf           <- function(x) .subS4_extptr(x, .basic_erf           (x@ptr))
+basic_erfc          <- function(x) .subS4_extptr(x, .basic_erfc          (x@ptr))
+basic_sin           <- function(x) .subS4_extptr(x, .basic_sin           (x@ptr))
+basic_cos           <- function(x) .subS4_extptr(x, .basic_cos           (x@ptr))
+basic_tan           <- function(x) .subS4_extptr(x, .basic_tan           (x@ptr))
+basic_asin          <- function(x) .subS4_extptr(x, .basic_asin          (x@ptr))
+basic_acos          <- function(x) .subS4_extptr(x, .basic_acos          (x@ptr))
+basic_atan          <- function(x) .subS4_extptr(x, .basic_atan          (x@ptr))
+basic_csc           <- function(x) .subS4_extptr(x, .basic_csc           (x@ptr))
+basic_sec           <- function(x) .subS4_extptr(x, .basic_sec           (x@ptr))
+basic_cot           <- function(x) .subS4_extptr(x, .basic_cot           (x@ptr))
+basic_acsc          <- function(x) .subS4_extptr(x, .basic_acsc          (x@ptr))
+basic_asec          <- function(x) .subS4_extptr(x, .basic_asec          (x@ptr))
+basic_acot          <- function(x) .subS4_extptr(x, .basic_acot          (x@ptr))
+basic_sinh          <- function(x) .subS4_extptr(x, .basic_sinh          (x@ptr))
+basic_cosh          <- function(x) .subS4_extptr(x, .basic_cosh          (x@ptr))
+basic_tanh          <- function(x) .subS4_extptr(x, .basic_tanh          (x@ptr))
+basic_asinh         <- function(x) .subS4_extptr(x, .basic_asinh         (x@ptr))
+basic_acosh         <- function(x) .subS4_extptr(x, .basic_acosh         (x@ptr))
+basic_atanh         <- function(x) .subS4_extptr(x, .basic_atanh         (x@ptr))
+basic_csch          <- function(x) .subS4_extptr(x, .basic_csch          (x@ptr))
+basic_sech          <- function(x) .subS4_extptr(x, .basic_sech          (x@ptr))
+basic_coth          <- function(x) .subS4_extptr(x, .basic_coth          (x@ptr))
+basic_acsch         <- function(x) .subS4_extptr(x, .basic_acsch         (x@ptr))
+basic_asech         <- function(x) .subS4_extptr(x, .basic_asech         (x@ptr))
+basic_acoth         <- function(x) .subS4_extptr(x, .basic_acoth         (x@ptr))
+basic_lambertw      <- function(x) .subS4_extptr(x, .basic_lambertw      (x@ptr))
+basic_zeta          <- function(x) .subS4_extptr(x, .basic_zeta          (x@ptr))
+basic_dirichlet_eta <- function(x) .subS4_extptr(x, .basic_dirichlet_eta (x@ptr))
+basic_gamma         <- function(x) .subS4_extptr(x, .basic_gamma         (x@ptr))
+basic_sqrt          <- function(x) .subS4_extptr(x, .basic_sqrt          (x@ptr))
+basic_exp           <- function(x) .subS4_extptr(x, .basic_exp           (x@ptr))
+basic_log           <- function(x) .subS4_extptr(x, .basic_log           (x@ptr))
 
 
 
@@ -238,12 +238,12 @@ print.symengine.trigonometry <- function(x, ...) {
 
 
 basic_subs2 <- function (expr, old, new) {
-    expr@.xData <- .basic_subs2(expr@.xData, old@.xData, new@.xData)
+    expr@ptr <- .basic_subs2(expr@ptr, old@ptr, new@ptr)
     expr
 }
 
 basic_evalf <- function(x, bits = 53L, real = TRUE) {
-    x@.xData <- .basic_evalf(x@.xData, bits, real)
+    x@ptr <- .basic_evalf(x@ptr, bits, real)
     x
 }
 

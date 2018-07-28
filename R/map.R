@@ -1,4 +1,7 @@
-setClass("MapBasic", contains = "externalptr")
+
+#' @include basic.R
+
+setClass("MapBasic", contains = "SymEnginePTR")
 
 #' @export
 mapbasic <- function(key, mapped) {

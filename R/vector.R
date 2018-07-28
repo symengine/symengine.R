@@ -2,7 +2,7 @@
 NULL
 
 ## Vector    ===================================================================
-setClass("VecBasic", contains = "externalptr")
+setClass("VecBasic", contains = "SymEnginePTR")
 
 #' @export
 vecbasic <- function(...) {
