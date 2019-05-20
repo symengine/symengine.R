@@ -6,11 +6,12 @@
 ## folder and load them via `library.dynam` at run time. On Unix,
 ## we assume that the dependencies such as gmp are in system path.
 
+
 .onLoad <- function(libname, pkgname) {
     if (.Platform$OS.type == "windows")
         return(.onLoad.windows(libname, pkgname))
     
-    library.dynam("symengine", "symengine", libname)
+    library.dynam("symengine", pkgname, libname)
 }
 
 .onUnload <- function(libpath) {
@@ -21,10 +22,10 @@
 }
 
 .onLoad.windows <- function(libname, pkgname) {
-    library.dynam("libgmp-10"   , "symengine", libname)
+    library.dynam("libgmp-10"   , pkgname, libname)
     ## Currently using static library as workaround
-    #library.dynam("libsymengine", "symengine", libname)
-    library.dynam("symengine"   , "symengine", libname)
+    #library.dynam("libsymengine", pkgname, libname)
+    library.dynam("symengine"   , pkgname, libname)
 }
 
 .onUnload.windows <- function(libpath) {
