@@ -25,4 +25,10 @@ SEXP sexp_symengine_have_component(SEXP s) {
     return Rf_ScalarLogical(symengine_have_component(str));
 }
 
+// [[Rcpp::export(".notes")]]
+SEXP notes() {
+    return Rcpp::List::create(
+        Rcpp::Named("CompilationDate") = __DATE__
+    );
+}
 
