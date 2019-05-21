@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
 ## This script is based on `bin/install_travis.sh` and `bin/test_travis.sh` in
-## symengine.
+## symengine, which use conda install the dependencies and build symengine.
+## After running this script, we may need to activate the conda environment with:
+##  - export PATH="$HOME/conda_root/bin:$PATH"
+##  - source activate $HOME/our_usr
 
 # Exit on error
 set -e
@@ -14,7 +17,7 @@ if [ ! -f DESCRIPTION ]; then
     exit 1
 fi
 
-export R_SOURCE_DIR=`pwd`
+R_SOURCE_DIR=`pwd`
 
 # Setup options to compile and install symengine
 export TEST_CPP="no"
@@ -36,8 +39,13 @@ fi
 cd $HOME
 git clone https://github.com/symengine/symengine symengine-cpp
 cd symengine-cpp
-export SOURCE_DIR=`pwd`
-git checkout `cat $R_SOURCE_DIR/symengine_version.txt`
+SOURCE_DIR=`pwd`
+
+## Checkout the commit specified with environment variable (default: master)
+if [ "${SYMENGINE_COMMIT}" == "" ]; then
+    SYMENGINE_COMMIT=master
+fi
+git checkout $SYMENGINE_COMMIT
 
 # Setup travis for C++ library
 cd $SOURCE_DIR

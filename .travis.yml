@@ -9,6 +9,11 @@ os:
   - osx
 sudo: false
 
+env:
+  matrix:
+    - SYMENGINE_COMMIT=master
+    - SYMENGINE_COMMIT=4733e429883aad551138a607f2a5a40f73920f02
+
 ## FIXME: warnings should be errors when the package is stable
 warnings_are_errors: false
 
