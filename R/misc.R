@@ -3,8 +3,6 @@
 #' @importFrom Rcpp cppFunction
 NULL
 
-#' @useDynLib symengine
-NULL
 
 dots <- function (...)
     eval(substitute(alist(...)))

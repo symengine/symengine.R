@@ -1,0 +1,22 @@
+
+
+PKG_CPPFLAGS= \
+  -I../win-symengine/include \
+  -I../win-gmp/include
+
+PKG_LIBS= \
+  -L../win-symengine/lib \
+  -lsymengine \
+  -L../win-gmp/lib \
+  -lgmp
+
+
+all: clean winlibs
+
+clean:
+	rm -f $(OBJECTS) $(SHLIB) 
+
+winlibs:
+	"${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe" "../tools/winlibs.R"
+
+CXX_STD = CXX11
