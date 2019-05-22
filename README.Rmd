@@ -14,25 +14,21 @@ knitr::opts_chunk$set(
 
 # symengine
 
-
 [![Travis-CI Build Status](https://travis-ci.org/symengine/symengine.R.svg?branch=master)](https://travis-ci.org/symengine/symengine.R)
-
+[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/Marlin-Na/symengine.R?branch=master&svg=true)](https://ci.appveyor.com/project/Marlin-Na/symengine.R)
 
 This is an experiment to provide a R interface to the
 [SymEngine library](https://github.com/symengine/symengine).
 It is still in progress, but if you are interested, please contact
 Jialin Ma <marlin-@gmx.cn> and Isuru Fernando <isuruf@gmail.com>.
 
-This project is expected to be a GSoC 2018 project under the organization
+This project was a GSoC 2018 project under the organization
 of The R Project for Statistical Computing.
-
 
 ## Installation
 
-Note: It is not supported on Windows yet.
-
-Currently, you will have to install or compile symengine library manually on
-your computer. Please follow the instruction at https://github.com/symengine/symengine.
+Currently, you may need to install or compile symengine library manually on Linux or Mac OS.
+Please follow the instruction at https://github.com/symengine/symengine.
 
 Then in R, try
 
@@ -170,10 +166,10 @@ a <- S("a")
 ```
 
 ```{r}
-subs(expr, "x", "a")
-subs(expr, "x", 3.1415926)
-subs(expr, "x", Constant("pi"))
-subs(expr, "x", Constant("pi") * 2L/3L)
+subs(expr, S("x"), S("a"))
+subs(expr, S("x"), S(3.1415926))
+subs(expr, S("x"), Constant("pi"))
+subs(expr, S("x"), Constant("pi") * 2L/3L)
 ```
 
 ### Expand an Expression
@@ -187,8 +183,8 @@ expand(expr)
 
 ```{r}
 expr
-diff(expr, "x")
-diff(expr, "a")
+diff(expr, S("x"))
+diff(expr, S("a"))
 ```
 
 ### Evaluate an Expression
