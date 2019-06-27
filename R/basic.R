@@ -87,6 +87,7 @@ setAs(from = "ANY", to = "Basic",
 )
 
 setMethod("as.character", c(x = "Basic"),
+    ## TODO: also define method for VecBasic
     function(x) s4basic_str(x)
 )
 
@@ -123,9 +124,35 @@ if (FALSE) {
 }
 
 #' @export
-Hash <- function (x) {
+hash <- function (x) {
     ## TODO: hash for VecBasic and DenseMatrix
     s4basic_hash(x)
+}
+
+#' @export
+type <- function(x) {
+    ## TODO: accept VecBasic
+    s4basic_get_type(x)
+}
+
+#' @export
+dissect <- function(x) {
+    ans <- list(
+        type = s4basic_get_type(x),
+        name = NA_character_,
+        args = s4basic_get_args(x),
+        free_symbols = s4basic_free_symbols(x),
+        function_symbols = s4basic_function_symbols(x),
+        prec = NA_integer_
+    )
+    if (ans$type == 'FunctionSymbol')
+        ans$name <- s4basic_function_getname(x)
+    else if (ans$type %in% c("Symbol", "Constant"))
+        ans$name <- s4basic_str(x)
+    else if (ans$type %in% c("RealMPFR"))
+        ans$prec <- s4basic_realmpfr_get_prec(x)
+    
+    ans
 }
 
 

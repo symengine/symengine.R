@@ -1,4 +1,11 @@
 
+setAs("Basic", "language",
+    function(from) {
+        basic_to_expr(from)
+    }
+)
+## TODO: as.vector(mode = "symbol, etc.."), as.expression, as.name, as.symbol
+
 basic_to_expr <- function(s) {
     if (is.language(s))
         return(s)
