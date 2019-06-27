@@ -5,18 +5,18 @@ basic_to_expr <- function(s) {
     
     # Conversion by each type
     .Symbol <- function(s) {
-        as.name(basic_str(s))
+        as.name(as.character(s))
     }
     .Add <- function(s) {
-        Reduce(x = as.list(basic_get_args(s)), function(a, b)
+        Reduce(x = as.list(s4basic_get_args(s)), function(a, b)
             bquote(.(basic_to_expr(a)) + .(basic_to_expr(b))))
     }
     .Mul <- function(s) {
-        Reduce(x = as.list(basic_get_args(s)), function(a, b)
+        Reduce(x = as.list(s4basic_get_args(s)), function(a, b)
             bquote(.(basic_to_expr(a)) * .(basic_to_expr(b))))
     }
     .Pow <- function(s) {
-        args <- basic_get_args(s)
+        args <- s4basic_get_args(s)
         stopifnot(length(args) == 2)
         bquote(.(basic_to_expr(args[[1]])) ^ .(basic_to_expr(args[[2]])))
     }
@@ -27,9 +27,9 @@ basic_to_expr <- function(s) {
         as.double(s)
     }
     .Infty <- function(s) {
-        if (basic_num_ispositive(s))
+        if (s4basic_number_is_positive(s))
             return(Inf)
-        else if (basic_num_isnegative(s))
+        else if (s4basic_number_is_negative(s))
             return(quote(-Inf))
         else
             stop("Should not happen")
@@ -43,7 +43,7 @@ basic_to_expr <- function(s) {
     }
 
     ans <- switch(
-        basic_type(s),
+        s4basic_get_type(s),
         Symbol = .Symbol(s),
         Add = .Add(s),
         Mul = .Mul(s),
@@ -53,22 +53,22 @@ basic_to_expr <- function(s) {
         Infty = .Infty(s),
         Constant = .Constant(s),
         Rational = .Rational(s),
-        stop(sprintf("Conversion method for %s has not implemented", basic_type(s)))
+        stop(sprintf("Conversion method for %s has not implemented", s4basic_get_type(s)))
     )
     ans
 }
 
 #' @export
 lambdify <- function(x) {
-    if (length(basic_function_symbols(x)))
+    if (length(s4basic_function_symbols(x)))
         stop("TODO")
     
     body <- basic_to_expr(x)
     
-    syms <- as.list(basic_free_symbols(x))
+    syms <- as.list(s4basic_free_symbols(x))
     syms <- vapply(syms, FUN.VALUE = character(1), function(s) {
-        stopifnot(basic_type(s) == "Symbol")
-        basic_str(s)
+        stopifnot(s4basic_get_type(s) == "Symbol")
+        as.character(s)
     })
     
     args <- vector("list", length(syms))

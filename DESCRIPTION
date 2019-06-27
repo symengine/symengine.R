@@ -4,7 +4,7 @@ Version: 0.0.0
 Authors@R: c(person("Jialin", "Ma", email="marlin-@gmx.cn", role = c("cre", "aut")))
 Description: A R interface to the fast symbolic manipulation library "SymEngine".
 Depends:
-    R (>= 3.4)
+    R (>= 3.6)
 Imports:
     methods,
     gmp,
@@ -20,14 +20,14 @@ License: GPL (>= 2)
 RoxygenNote: 6.1.1
 Collate: 
     'RcppExports.R'
+    'classes.R'
     'basic.R'
-    'basic_opts.R'
     'lambdify.R'
-    'map.R'
-    'vector.R'
     'matrix.R'
     'misc.R'
+    'ops.R'
+    'symbolic_array.R'
     'symengine_info.R'
     'utils-subset.R'
-    'vector_opts.R'
+    'vector.R'
     'zzz.R'

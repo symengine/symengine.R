@@ -7,6 +7,12 @@ NULL
 dots <- function (...)
     eval(substitute(alist(...)))
 
+#setMethods <- function(f, signatures=list(), definition,
+#                       where=topenv(parent.frame()), ...) {
+#    for (signature in signatures)
+#        setMethod(f, signature=signature, definition, where=where, ...)
+#}
+
 #' Initializing Variables
 #' 
 #' This is a convenient way to initialize variables and assign them in the given

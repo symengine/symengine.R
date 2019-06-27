@@ -21,6 +21,7 @@ library.dynam_2 <- function(chname, package, lib.loc, ...) {
 }
 
 .onLoad <- function(libname, pkgname) {
+    ## TODO: use assignInMyNamespace to update constants?
     if (.Platform$OS.type == "windows")
         return(.onLoad.windows(libname, pkgname))
     
@@ -54,7 +55,7 @@ library.dynam_2 <- function(chname, package, lib.loc, ...) {
     # Also check gmp library or MPFR library.
     
     ## Try to confirm the shared object is loaded, but allow it to fail
-    if (!is.loaded("_symengine_notes")) {
+    if (!is.loaded("_symengine_compilation_notes")) {
         warning("The shared library is not loaded")
         return(invisible(FALSE))
     }

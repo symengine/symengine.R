@@ -147,3 +147,19 @@ test_that("rbind and cbind", {
     # cbind (error)
     expect_error(cbind(m1,m2), "rows of matrices must match")
 })
+
+test_that("Implicit missing and explicit missing in subsetting", {
+    m <- Matrix(1:20, nrow = 4)
+    expect_success(m[5])
+    expect_failure(m[5, ])
+    
+    expect_equal(length(m[5]), 1L)
+    expect_equal(length(m[c(4,5)]), 2L)
+    
+    ## TODO: check type of
+    ## m[5], m[c(4,5)], m[5, drop=T/F] and m[c(4,5), drop=T/F]
+})
+
+
+
+
