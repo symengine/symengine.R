@@ -640,8 +640,6 @@ BEGIN_RCPP
 END_RCPP
 }
 
-RcppExport SEXP R_ExternalPtrTag(SEXP);
-
 static const R_CallMethodDef CallEntries[] = {
     {"_symengine_cwrapper_symengine_ascii_art", (DL_FUNC) &_symengine_cwrapper_symengine_ascii_art, 0},
     {"_symengine_cwrapper_symengine_version", (DL_FUNC) &_symengine_cwrapper_symengine_version, 0},
@@ -699,7 +697,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_symengine_s4binding_op", (DL_FUNC) &_symengine_s4binding_op, 3},
     {"_symengine_s4binding_math", (DL_FUNC) &_symengine_s4binding_math, 2},
     {"_symengine_s4binding_evalf", (DL_FUNC) &_symengine_s4binding_evalf, 3},
-    {"R_ExternalPtrTag", (DL_FUNC) &R_ExternalPtrTag, 1},
     {NULL, NULL, 0}
 };
 

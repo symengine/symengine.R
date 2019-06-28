@@ -8,11 +8,6 @@ setAs(from = "SymEnginePTR", to = "externalptr",
     function(from) from@ptr
 )
 
-## Get tag of an external ptr
-ptr_tag <- function (x) {
-    .Call("R_ExternalPtrTag", as(x, "externalptr"))
-}
-
 ## Basic  ======================================================================
 
 #' @export
