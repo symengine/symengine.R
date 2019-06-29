@@ -11,7 +11,7 @@ Imports:
     Rcpp
 Suggests:
     crayon,
-    testthat
+    testthat (>= 2.1.0)
 LinkingTo:
     Rcpp
 Encoding: UTF-8

@@ -1,8 +1,13 @@
-context("vecbasic")
+
+context("Common function bindings for VecBasic")
 
 test_that("vecbasic length", {
     v1 <- Vector("x", "y", "z", 1, 2, 3, 42L)
     expect_true(length(v1) == 7)
+})
+
+test_that("rep for VecBasic", {
+    
 })
 
 test_that("vecbasic subset and get", {
@@ -92,7 +97,4 @@ test_that("Single bracket subscript replacing", {
     
     # TODO: check address of v
 })
-
-
-
 

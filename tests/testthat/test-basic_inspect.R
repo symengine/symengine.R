@@ -1,33 +1,4 @@
-context("Basic")
-
-test_that("Symbol", {
-    x <- Symbol("x")
-    expect_identical(type(x), "Symbol")
-    expect_identical(as.character(x),  "x")
-    
-    x <- Symbol("")
-    expect_identical(type(x), "Symbol")
-    expect_identical(as.character(x),  "")
-    
-    x <- Symbol("pi")
-    expect_identical(type(x), "Symbol")
-    expect_identical(as.character(x),  "pi")
-    
-    expect_error(Symbol(NA_character_))
-    expect_error(Symbol(Inf))
-    expect_error(Symbol(NaN))
-})
-
-test_that("Constants", {
-    expect_identical(type(Constant("x")), "Constant")
-    expect_true(Constant("x") != S("x"))
-    
-    expect_identical(type(Constant("pi")), "Constant")
-    expect_true(Constant("pi") == S("pi"))
-    
-    ## TODO: Variable binding for common constants:
-    ##       I, pi, E, EulerGamma, Catalan, GoldenRatio
-})
+context("Misc functions to inspect a Basic object")
 
 expect_vecbasic_equal <- function(a, b) {
     expect_true(length(a) == length(b))
@@ -59,10 +30,7 @@ test_that("free_symbols", {
 })
 
 test_that("function_symbols", {
-    # TODO: this seems to have a parsing mistake, see
-    #       https://github.com/symengine/symengine/issues/1447
-    # expr <- S("z + f(x + y, g(x), h(g(x)))")
-    expr <- S("f(x + y, g(x), h(g(x))) + z")
+    expr <- S("z + f(x + y, g(x), h(g(x)))")
     funs <- dissect(expr)$function_symbols
     
     expect_identical(length(funs), 3L)

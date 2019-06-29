@@ -1,4 +1,4 @@
-context("Operation")
+context("Math functions")
 
 expect_vecbasic_equal <- function(a, b) {
     expect_true(length(a) == length(b))

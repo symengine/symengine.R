@@ -285,9 +285,12 @@ cwrapper_basic_parse(basic_struct* s, RObject robj, bool check_whole_number) {
         
         if (rnum.size() != 1)
             Rf_error("Can only parse scalar data\n");
-        
-        // Both NaN and NA
-        if (NumericVector::is_na(rnum[0])) {
+        // NA
+        if (R_IsNA(rnum[0])) {
+            Rf_error("Can not parse NA_real_");
+        }
+        // NaN
+        if (R_IsNaN(rnum[0])) {
             basic_const_nan(s);
             return SYMENGINE_NO_EXCEPTION;
         }
@@ -318,9 +321,10 @@ cwrapper_basic_parse(basic_struct* s, RObject robj, bool check_whole_number) {
         if (rint.size() != 1)
             Rf_error("Can only parse scalar data\n");
         
-        if (IntegerVector::is_na(rint[0])) {
-            basic_const_nan(s);
-            return SYMENGINE_NO_EXCEPTION;
+        if (rint[0] == NA_INTEGER) {
+            Rf_error("Can not parse NA_integer_");
+            //basic_const_nan(s);
+            //return SYMENGINE_NO_EXCEPTION;
         }
         int cint = rint[0];
         return integer_set_si(s, cint);
@@ -442,8 +446,11 @@ S4 s4basic_real(RObject robj, RObject prec = R_NilValue) {
         }
     }
     if (is<CharacterVector>(robj)) {
-        if (prec == R_NilValue)
+        if (prec == R_NilValue) {
+            // FIXME: check the parsed value is indeed a RealDouble or RealMPFR
+            // What to do if the result is a Integer??
             return s4basic_parse(robj); // Let the parser determine precision
+        }
         else {
             CharacterVector rstr = as<CharacterVector>(robj);
             if (rstr.size() != 1)
