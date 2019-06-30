@@ -232,14 +232,15 @@ CharacterVector s4basic_function_getname(S4 s) {
     return function_symbol_get_name(b);
 }
 
-//! Returns the precision of the mpfr_t given by s.
-mpfr_prec_t real_mpfr_get_prec(const basic s);
 
 // [[Rcpp::export()]]
 int s4basic_realmpfr_get_prec(S4 robj) {
+#ifdef HAVE_SYMENGINE_MPFR
     basic_struct* s = s4basic_elt(robj);
     mpfr_prec_t prec = real_mpfr_get_prec(s);
     return prec;
+#endif
+    Rf_error("The library is not compiled with MPFR support\n");
 }
 
 // [[Rcpp::export()]]
@@ -409,6 +410,20 @@ S4 s4basic_const(CharacterVector robj) {
     return out;
 }
 
+CWRAPPER_OUTPUT_TYPE cwrapper_real_mpfr_set_d(basic s, double d, int prec) {
+#ifdef HAVE_SYMENGINE_MPFR
+    return real_mpfr_set_d(s, d, prec);
+#endif
+    Rf_error("The library is not compiled with MPFR support\n");
+};
+
+CWRAPPER_OUTPUT_TYPE cwrapper_real_mpfr_set_str(basic s, const char *c, int prec) {
+#ifdef HAVE_SYMENGINE_MPFR
+    return real_mpfr_set_str(s, c, prec);
+#endif
+    Rf_error("The library is not compiled with MPFR support\n");
+};
+
 // [[Rcpp::export()]]
 S4 s4basic_real(RObject robj, RObject prec = R_NilValue) {
     basic_struct*  s = basic_new_heap();
@@ -426,7 +441,7 @@ S4 s4basic_real(RObject robj, RObject prec = R_NilValue) {
             return out;
         }
         else {
-            cwrapper_hold(real_mpfr_set_d(s, rnum_double, as<int>(prec)));
+            cwrapper_hold(cwrapper_real_mpfr_set_d(s, rnum_double, as<int>(prec)));
             return out;
         }
     }
@@ -441,7 +456,7 @@ S4 s4basic_real(RObject robj, RObject prec = R_NilValue) {
             if (rstr.size() != 1)
                 Rf_error("Length of input must be one\n");
             const char* cstr = String(rstr).get_cstring();
-            cwrapper_hold(real_mpfr_set_str(s, cstr, as<int>(prec)));
+            cwrapper_hold(cwrapper_real_mpfr_set_str(s, cstr, as<int>(prec)));
             return out;
         }
     }
