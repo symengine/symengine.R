@@ -3,38 +3,11 @@ NULL
 
 ## VecBasic  ===================================================================
 
-## I am not sure whether using V[1,2,3] syntax is a good idea.
-
-# setClass("VectorConstructor", contains = "function",
-#     prototype = function(...) {
-#         dots <- list(...)
-#         ans <- s4vecbasic()
-#         for (i in seq_along(dots)) {
-#             ## FIXME: V(1:10) returns V(1)
-#             s4vecbasic_mut_push(ans, s4basic_parse(dots[[i]], check_whole_number = TRUE))
-#         }
-#         ans
-#     }
-# )
-# setMethod(`[`, c(x = "VectorConstructor"),
-#     function(x, i, j, ...) {
-#         ## FIXME: handle the case like V[23,,34]
-#         #print(nargs())
-#         dots <- {
-#             if (missing(i) && missing(j))
-#                 dots <- list(...)
-#             else if (missing(j))
-#                 dots <- list(i, ...)
-#             else if (missing(i))
-#                 dots <- list(j, ...)
-#             else
-#                 dots <- list(i, j, ...)
-#             dots
-#         }
-#         do.call(x, dots)
-#     }
-# )
-
+#' VecBasic Constructors
+#' 
+#' @param x,... R objects.
+#' 
+#' @rdname Vector
 #' @export
 Vector <- function(x, ...) {
     ## Note that `Vector` will not check whole number, but `V` will
@@ -53,7 +26,7 @@ Vector <- function(x, ...) {
     ans
 }
 
-#V <- new("VectorConstructor")
+#' @rdname Vector
 #' @export
 V <- function(...) {
     ## Parse each element with check_whole_number = TRUE
@@ -64,31 +37,21 @@ V <- function(...) {
     do.call(Vector, elements)
 }
 
-setAs("Basic", "VecBasic", function(from) {
-    ans <- s4vecbasic()
-    s4vecbasic_mut_append(ans, from)
-    ans
-})
-
-setAs("VecBasic", "Basic", function(from) {
-    stopifnot(length(from) == 1L)
-    from[[1]]
-})
-
-setAs("vector", "VecBasic", function(from) {
-    ans <- s4vecbasic()
-    s4vecbasic_mut_append(ans, from)
-    ans
-})
-
+#' Methods Related to VecBasic
+#' 
+#' @param x Basic object or Vecbasic object.
+#' 
+#' @rdname vecbasic-bindings
 setMethod("length", "VecBasic",
     function(x) s4vecbasic_size(x)
 )
 
+#' @rdname vecbasic-bindings
 setMethod("rep", c(x = "VecBasic"),
     function(x, ...)
         s4binding_subset(x, rep(seq_len(length(x)), ...), get_basic = FALSE)
 )
+#' @rdname vecbasic-bindings
 setMethod("rep", c(x = "Basic"),
     function(x, ...)
         s4binding_subset(x, rep(1L, ...), get_basic = FALSE)
@@ -107,6 +70,7 @@ setMethod("rep.int", c(x = "Basic"),
 )
 
 ## TODO: test case: c(S("x"), list(1,2,c(3,4)))
+#' @rdname vecbasic-bindings
 setMethod("c", c(x = "BasicOrVecBasic"),
     function (x, ...) {
         dots <- list(x, ...)
@@ -114,27 +78,6 @@ setMethod("c", c(x = "BasicOrVecBasic"),
         for (i in seq_along(dots))
             s4vecbasic_mut_append(ans, dots[[i]])
         ans
-    }
-)
-
-## By defining as.vector, it automatically supports as.list, matrix, as.matrix, array, etc.
-setMethod("as.vector", c(x = "VecBasic"),
-    function(x, mode) {
-        ## TODO: add as.vector method to Basic as well?
-        if (mode == "any" || mode == "list") {
-            ans <- vector("list", length(x))
-            ## TODO: Improve the performance of this
-            for (i in seq_along(ans))
-                ans[[i]] <- s4vecbasic_get(x, i)
-            return(ans)
-        }
-        
-        ## TODO: it might be useful to convert to other modes (e.g. numeric),
-        ##       if it is not possible, we can return NA and give a warning
-        ##       (NA introduced by coercion)
-        ## Other modes: logical, integer, numeric (double), complex, character, raw,
-        ##              list, expression
-        stop(sprintf("Can not convert VecBasic to %s", mode))
     }
 )
 
@@ -149,6 +92,8 @@ setMethod("show", "VecBasic",
     }
 )
 
+#' @param i,j,...,drop,value Arguments for subsetting or replacing.
+#' @rdname vecbasic-bindings
 setMethod("[[", c(x = "VecBasic", i = "numeric", j = "ANY"),
     function(x, i, j, ...) {
         # TODO: normalize the index
@@ -160,6 +105,7 @@ setMethod("[[", c(x = "VecBasic", i = "numeric", j = "ANY"),
     }
 )
 
+#' @rdname vecbasic-bindings
 setMethod("[", c(x = "VecBasic"),
     function(x, i, j, ..., drop = TRUE) {
         if (!missing(...))
@@ -174,6 +120,7 @@ setMethod("[", c(x = "VecBasic"),
     }
 )
 
+#' @rdname vecbasic-bindings
 setMethod("[[<-", c(x = "VecBasic"),
     function(x, i, value) {
         i <- as.integer(i)
@@ -192,6 +139,7 @@ setMethod("[[<-", c(x = "VecBasic"),
     }
 )
 
+#' @rdname vecbasic-bindings
 setMethod("[<-", c(x = "VecBasic"), 
     function (x, i, j, ..., value)  {
         if (!missing(j) || !missing(...))

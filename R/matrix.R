@@ -28,6 +28,11 @@ col_index_matrix <- function(dim) {
     ans
 }
 
+#' DenseMatrix Constructor
+#' 
+#' @param data A R object.
+#' @param nrow,ncol Number of rows and columns.
+#' @param byrow Boolean value. Whether the data should be filled by row or by column.
 #' @export
 Matrix <- function(data, nrow = 1L, ncol = 1L, byrow = FALSE) {
     ## Return directly if it is alreay a DenseMatrix
@@ -104,73 +109,23 @@ Matrix <- function(data, nrow = 1L, ncol = 1L, byrow = FALSE) {
     s4DenseMat_byrow(data, nrow = nrow, ncol = ncol)
 }
 
-## Use rbind
-# setClass("DenseMatrixConstructor", contains = "function",
-#     prototype = function(...) {
-#         dots <- lapply(list(...), function(x) as(x, "VecBasic"))
-#         
-#         ## FIXME: when nrow or ncol == 0, the matrix can be constructed,
-#         ## but the "show" method crashed.
-#         
-#         ## Determine the shape
-#         nrow <- length(dots)
-#         ncol <- unique(lengths(dots))
-#         if (length(ncol) > 1L)
-#             stop("The length of rows are not consistent")
-#         
-#         ## Join the data
-#         data <- do.call(c, dots)
-#         
-#         s4DenseMat(data, nrow = nrow, ncol = ncol)
-#     }
-# )
-# 
-# setMethod(`[`, c(x = "DenseMatrixConstructor"),
-#     function(x, i, j, ...) {
-#         if (missing(i) && missing(j))
-#             dots <- list(...)
-#         else if (missing(j))
-#             dots <- list(i, ...)
-#         else if (missing(i))
-#             dots <- list(j, ...)
-#         else
-#             dots <- list(i, j, ...)
-#         do.call(x, dots)
-#     }
-# )
-# #' @export
-# M <- new("DenseMatrixConstructor")
+#### Bindings for subset, etc. =======================
 
-setAs("DenseMatrix", "VecBasic", function(from) {
-    ## Extract by column
-    ## TODO: this function is relative slow and used by other functions
-    nrow <- nrow(from)
-    ncol <- ncol(from)
-    row_idx <- rep(seq.int(nrow), ncol)
-    col_idx <- rep(seq.int(ncol), each = nrow)
-    s4DenseMat_get(from, row_idx, col_idx, get_basic = FALSE)
-})
-
-setAs("VecBasic", "DenseMatrix", function(from) Matrix(from))
-
-setAs("matrix", "DenseMatrix", function(from) Matrix(from))
-
-setMethod("as.vector", c(x = "DenseMatrix"),
-    function(x, mode) {
-        ## TODO: maybe avoid converting to VecBasic with
-        ##       s4binding_subset(x, idx, get_basic = TRUE)
-        as.vector(as(x, "VecBasic"), mode)
-    }
-)
-
-## TODO: check whether S4 class inheritance works with S3 method
+#' Methods Related to DenseMatrix
+#' 
+#' @param x A DenseMatrix object.
+#' @param i,j,value,...,drop Arguments for subsetting, assignment or replacing.
+#' 
+#' @rdname densematrix-bindings
 #' @export
 as.matrix.DenseMatrix <- function(x, ...) {
+    ## TODO: check whether S4 class inheritance works with S3 method
     if (!missing(...))
         warning("Extra arguments are ignored")
     array(as.vector(x), dim = dim(x))
 }
 
+#' @rdname densematrix-bindings
 setMethod("dim", "DenseMatrix",
     function (x) s4DenseMat_dim(x)
 )
@@ -178,6 +133,7 @@ setMethod("dim", "DenseMatrix",
 setGeneric("dim<-")
 
 ## TODO: add test case
+#' @rdname densematrix-bindings
 setMethod(`dim<-`, c(x = "DenseMatrix"), function(x, value) {
     ndim <- length(value)
     if (ndim > 2L) stop("Higher dimensions (> 2L) are not supported")
@@ -201,6 +157,7 @@ setMethod(`dim<-`, c(x = "DenseMatrix"), function(x, value) {
     s4DenseMat_byrow(ans, value[[1]], value[[2]])
 })
 
+#' @rdname densematrix-bindings
 setMethod("dim<-", c(x = "VecBasic"), function(x, value) {
     ndim <- length(value)
     if (ndim > 2L) stop("Higher dimensions (> 2L) are not supported")
@@ -214,6 +171,7 @@ setMethod("dim<-", c(x = "VecBasic"), function(x, value) {
     Matrix(x, nrow = value[1L], ncol = value[2L])
 })
 
+#' @rdname densematrix-bindings
 setMethod("dim<-", c(x = "Basic"), function(x, value) {
     if (prod(value) != 1L)
         stop("Dimension does not match with length of object")
@@ -225,6 +183,7 @@ setMethod("dim<-", c(x = "Basic"), function(x, value) {
     Matrix(x, nrow = 1L, ncol = 1L)
 })
 
+#' @rdname densematrix-bindings
 setMethod("dimnames<-", c(x = "DenseMatrix"), function(x, value) {
     ## TODO:
     ## cbind and rbind has default deparse.level = 1, hence they
@@ -234,11 +193,14 @@ setMethod("dimnames<-", c(x = "DenseMatrix"), function(x, value) {
     attr(x, "dummy.dimnames") <- value
     x
 })
+
+#' @rdname densematrix-bindings
 setMethod("dimnames", c(x = "DenseMatrix"), function(x) {
     ## TODO: store dimnames in slot
     attr(x, "dummy.dimnames", exact = TRUE)
 })
 
+#' @rdname densematrix-bindings
 setMethod("length", "DenseMatrix",
     function(x) prod(s4DenseMat_dim(x))
 )
@@ -255,6 +217,7 @@ setMethod("show", "DenseMatrix",
     }
 )
 
+#' @rdname densematrix-bindings
 setMethod("[[", c(x = "DenseMatrix"),
     function(x, i, j, ...) {
         if (!missing(...))
@@ -276,6 +239,7 @@ setMethod("[[", c(x = "DenseMatrix"),
     }
 )
 
+#' @rdname densematrix-bindings
 setMethod("[[<-", c(x = "DenseMatrix"),
     function(x, i, j, ..., value) {
         if (!missing(...))
@@ -290,6 +254,7 @@ setMethod("[[<-", c(x = "DenseMatrix"),
 
 ## TODO: maybe it is better to split this method into multiple methods by its index type
 ## e.g. see library(Matrix); showMethods("[")
+#' @rdname densematrix-bindings
 setMethod("[", c(x = "DenseMatrix"),
     function(x, i, j, ..., drop = TRUE) {
         ## NOTE that the function signature must be same as the generic function,
@@ -360,6 +325,7 @@ setMethod("[", c(x = "DenseMatrix"),
 )
 
 ## TODO: add test case then right hand side is a matrix or DenseMatrix
+#' @rdname densematrix-bindings
 setMethod("[<-", c(x = "DenseMatrix"),
     function(x, i, j, ..., value) {
         if (!missing(...))
@@ -428,7 +394,12 @@ setMethod("[<-", c(x = "DenseMatrix"),
 ####======= Methods for cbind and rbind ===========================
 #### Read the Details section of `?cbind` and `?cbind2`.
 
+#' Joining DenseMatrix
+#' 
+#' @param ... DenseMatrix, VecBasic or R objects.
+#' @param deparse.level Not used.
 #' @method cbind SymEngineDataType
+#' @rdname cbind
 #' @export
 cbind.SymEngineDataType <- function(..., deparse.level) {
     ## TODO: support deparse.level argument? i.e. support dimnames for DenseMatrix
@@ -437,6 +408,7 @@ cbind.SymEngineDataType <- function(..., deparse.level) {
     cbind_asDenseMatrix(...)
 }
 #' @method rbind SymEngineDataType
+#' @rdname cbind
 #' @export
 rbind.SymEngineDataType <- function(..., deparse.level) {
     if (!(missing(deparse.level) || deparse.level == 0L))
@@ -496,22 +468,44 @@ rbind_asDenseMatrix <- function(...) {
     ans
 }
 
+#' Transpose (as) a DenseMatrix
+#' 
+#' @param x A SymEngine object.
+#' @rdname t
 #' @exportMethod t
 setGeneric("t")
+
+#' @rdname t
 setMethod("t", c(x = "Basic"),
     function(x) Matrix(x)
 )
+#' @rdname t
 setMethod("t", c(x = "VecBasic"),
     function(x) s4DenseMat_byrow(x, nrow = 1L, ncol = length(x))
 )
+#' @rdname t
 setMethod("t", "DenseMatrix",
     function(x) s4DenseMat_transpose(x)
 )
 
 
 ####======= Solve =================================================
+
+#' Solve Symbolic Equations
+#' 
+#' `solve` solves the equation "a %*% x = b".
+#' 
+#' @param a A square DenseMatrix object.
+#' @param b A VecBasic or a DenseMatrix giving the right hand side of
+#'     the equation. If missing, b is taken to be an identity matrix
+#'     and `solve` will return the inverse of `a`.
+#' @param ... Not used.
+#' 
+#' @rdname solve
 #' @exportMethod solve
 setGeneric("solve")
+
+#' @rdname solve
 setMethod("solve", c(a = "DenseMatrix"),
     function(a, b, ...) {
         if (!missing(...))
@@ -525,8 +519,15 @@ setMethod("solve", c(a = "DenseMatrix"),
 
 ####======= Determinant ===========================================
 
+#' Calculate the Determinant of DenseMatrix
+#' @param x A DenseMatrix object.
+#' @param ... Unused.
+#' 
+#' @rdname det
 #' @exportMethod det
 setGeneric("det")
+
+#' @rdname det
 setMethod("det", c(x = "DenseMatrix"),
     function(x, ...) {
         if (!missing(...)) 

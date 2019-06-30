@@ -16,6 +16,9 @@ symengine_have_component(which = c("mpfr", "flint", "arb", "mpc", "ecm",
 
 symengine_compilation_notes()
 }
+\arguments{
+\item{which}{A character vector.}
+}
 \description{
 Functions to get symengine logo, version and external libraries built with.
 }

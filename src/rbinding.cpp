@@ -352,19 +352,6 @@ cwrapper_basic_parse(basic_struct* s, RObject robj, bool check_whole_number) {
     Rf_error("Can not convert to Basic (SEXP type: %d)\n", robj.sexp_type());
 }
 
-//' Main entry point for converting scalar R object to Basic
-//' 
-//' @param robj A R object to convert.
-//' @param check_whole_number Boolean value indicating whehter to check a
-//' double input is a whole number. If TRUE, it will be converted to
-//' Integer.
-//' 
-//' @export
-//' @examples
-//' symengine:::s4basic_parse("x")
-//' symengine:::s4basic_parse(1, check_whole_number = TRUE) ==
-//' symengine:::s4basic_parse(1L, check_whole_number = TRUE)
-//' symengine:::s4basic_parse(NA_real_)
 // [[Rcpp::export()]]
 SEXP s4basic_parse(RObject robj, bool check_whole_number = false) {
     
@@ -422,8 +409,6 @@ S4 s4basic_const(CharacterVector robj) {
     return out;
 }
 
-// Convert to RealDouble type or RealMpfr type
-//' @export
 // [[Rcpp::export()]]
 S4 s4basic_real(RObject robj, RObject prec = R_NilValue) {
     basic_struct*  s = basic_new_heap();

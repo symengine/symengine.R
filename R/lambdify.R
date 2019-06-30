@@ -65,6 +65,9 @@ basic_to_expr <- function(s) {
     ans
 }
 
+#' Convert Basic Object to R Function
+#' 
+#' @param x A Basic object.
 #' @export
 lambdify <- function(x) {
     if (length(s4basic_function_symbols(x)))

@@ -2,35 +2,65 @@
 #' @include classes.R
 NULL
 
+## TODO: provide `==` and `!=` methods for VecBasic and DenseMatrix
+
+#' Bindings for Operators and Math Functions
+#' 
+#' @param e1,e2,x,y Objects.
+#' 
+#' @rdname bindings
+setMethod("==", c(e1 = "Basic", e2 = "Basic"),
+    function(e1, e2) s4basic_eq(e1, e2)
+)
+
+#' @rdname bindings
+setMethod("!=", c(e1 = "Basic", e2 = "Basic"),
+    function(e1, e2) s4basic_neq(e1, e2)
+)
+
+if (FALSE) {
+    S("x == x") == S("y == y")
+    S("x == x") != S("y == y")
+    S("x + 1 > x") == S("x + 2 > x + 1")
+}
+
+#' @rdname bindings
 setMethod(Arith, c(e1 = "SymEngineDataType", e2 = "SymEngineDataType"),
     function(e1, e2)
         s4binding_op(e1, e2, .Generic)
 )
 ## Note that array will be in fact converted to vector
+#' @rdname bindings
 setMethod(Arith, c(e1 = "SymEngineDataType", e2 = "vector"),
     function(e1, e2)
         s4binding_op(e1, e2, .Generic)
 )
+#' @rdname bindings
 setMethod(Arith, c(e1 = "vector", e2 = "SymEngineDataType"),
     function(e1, e2)
         s4binding_op(e1, e2, .Generic)
 )
 
+#' @rdname bindings
 setMethod("-", c(e1 = "SymEngineDataType", e2 = "missing"),
     function(e1, e2) s4binding_math(e1, "neg")
 )
 
+#' @rdname bindings
 setMethod("+", c(e1 = "SymEngineDataType", e2 = "missing"),
     function(e1, e2) e1
 )
 
 ## Matrix multiplication
+#' @rdname bindings
 setMethod("%*%", c(x = "DenseMatrix", y = "DenseMatrix"),
     function(x, y) s4DenseMat_mul_matrix(x, y)
 )
+#' @rdname bindings
 setMethod("%*%", c(x = "VecBasic", y = "VecBasic"),
     function(x, y) s4DenseMat_mul_matrix(Matrix(x, nrow = 1L), Matrix(y, ncol = 1L))
 )
+#' @rdname bindings
 setMethod("%*%", c(x = "DenseMatrix", y = "VecBasic"),
     function(x, y) {
         x_ncol <- ncol(x)
@@ -43,9 +73,11 @@ setMethod("%*%", c(x = "DenseMatrix", y = "VecBasic"),
         s4DenseMat_mul_matrix(x, y)
     }
 )
+#' @rdname bindings
 setMethod("%*%", c(x = "DenseMatrix", y = "vector"),
     function(x, y) x %*% Vector(y)
 )
+#' @rdname bindings
 setMethod("%*%", c(x = "VecBasic", y = "DenseMatrix"),
     function(x, y) {
         y_nrow <- nrow(y)
@@ -58,30 +90,44 @@ setMethod("%*%", c(x = "VecBasic", y = "DenseMatrix"),
         s4DenseMat_mul_matrix(x, y)
     }
 )
+#' @rdname bindings
 setMethod("%*%", c(x = "vector", y = "DenseMatrix"),
     function(x, y) Vector(x) %*% y
 )
 
+#' @rdname bindings
 setMethod("Math", c(x = "SymEngineDataType"),
     function(x) s4binding_math(x, .Generic)
 )
 
+#' @rdname bindings
 setMethod("sinpi", c(x = "SymEngineDataType"),
     function(x) s4binding_math(s4binding_op(x, Constant("pi"), "*"), "sin")
 )
+#' @rdname bindings
 setMethod("cospi", c(x = "SymEngineDataType"),
     function(x) s4binding_math(s4binding_op(x, Constant("pi"), "*"), "cos")
 )
+#' @rdname bindings
 setMethod("tanpi", c(x = "SymEngineDataType"),
     function(x) s4binding_math(s4binding_op(x, Constant("pi"), "*"), "tan")
 )
 
 
+#' Expand a SymEngine Expression
+#' 
+#' @param x A SymEngine object.
 #' @export
 expand <- function(x) {
     s4binding_math(x, "expand")
 }
 
+#' Some Special Math Functions
+#' 
+#' Some special mathematical functions and functions related to number theory.
+#' 
+#' @param a,b,x,n,k SymEngine objects. Some functions require Integer type.
+#' @rdname mathfuns
 #' @export
 LCM <- function(a, b) {
     ## TODO: Check type with (s4basic_get_type(a) != "Integer")?
@@ -91,6 +137,7 @@ LCM <- function(a, b) {
     s4binding_op(a, b, "lcm")
 }
 
+#' @rdname mathfuns
 #' @export
 GCD <- function(a, b) {
     ## TODO: check type
@@ -99,14 +146,28 @@ GCD <- function(a, b) {
     s4binding_op(a, b, "gcd")
 }
 
+#' @rdname mathfuns
+#' @export
+nextprime <- function(a) {
+    ## TODO: check type
+    if (is.double(a)) a <- as.integer(a)
+    s4binding_math(a, "nextprime")
+}
+
+#' @rdname mathfuns
 #' @exportMethod factorial
 setGeneric("factorial")
+
+#' @rdname mathfuns
 setMethod("factorial", c(x = "SymEngineDataType"),
     function(x) s4binding_math(x, "factorial")
 )
 
+#' @rdname mathfuns
 #' @exportMethod choose
 setGeneric("choose")
+
+#' @rdname mathfuns
 setMethod("choose", c(n = "SymEngineDataType"),
     function(n, k) {
         if (is.double(k))
@@ -115,38 +176,42 @@ setMethod("choose", c(n = "SymEngineDataType"),
     }
 )
 
-#' @export
-nextprime <- function(a) {
-    ## TODO: check type
-    if (is.double(a)) a <- as.integer(a)
-    s4binding_math(a, "nextprime")
-}
-
+#' @rdname mathfuns
 #' @export
 zeta <- function(a) {
     s4binding_math(a, "zeta")
 }
 
+#' @rdname mathfuns
 #' @export
 lambertw <- function(a) {
     s4binding_math(a, "lambertw")
 }
 
+#' @rdname mathfuns
 #' @export
 dirichlet_eta <- function(a) {
     s4binding_math(a, "dirichlet_eta")
 }
 
+#' @rdname mathfuns
 #' @export
 erf <- function(a) {
     s4binding_math(a, "erf")
 }
 
+#' @rdname mathfuns
 #' @export
 erfc <- function(a) {
     s4binding_math(a, "erfc")
 }
 
+
+#' Derivatives of Basic Objects
+#' 
+#' @param expr A Basic object.
+#' @param name A character vector or a Basic object of type Symbol.
+#' @param n An integer representing the level of derivative.
 #' @export
 D <- function(expr, name, n = 1L) {
     if (missing(name)) {
@@ -191,6 +256,11 @@ D <- function(expr, name, n = 1L) {
 ##     return(get_final_output(expr, v))
 ## }
 
+#' Substitute Expressions in SymEngine Objects
+#' 
+#' @param expr A SymEngine object.
+#' @param ... Pairs of Basic objects, e.g. (from1, to1, from2, to2).
+#' 
 #' @export
 subs <- function(expr, ...) {
     ## Usage:
@@ -217,6 +287,12 @@ subs <- function(expr, ...) {
     expr
 }
 
+#' Evaluating a SymEngine Object
+#' 
+#' @param expr A SymEngine object.
+#' @param bits The precision.
+#' @param complex Whether or not to be evaluated as a complex number.
+#' 
 #' @export
 evalf <- function(expr, bits = 53L, complex = FALSE) {
     s4binding_evalf(expr, bits, complex)

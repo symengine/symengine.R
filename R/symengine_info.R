@@ -15,6 +15,7 @@ symengine_ascii_art <- function() {
     strsplit(cwrapper_symengine_ascii_art(), split = "\n")[[1]]
 }
 
+#' @param which A character vector.
 #' @rdname symengine_info
 #' @export
 symengine_have_component <- function (

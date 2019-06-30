@@ -101,19 +101,6 @@ s4basic_number_is_zero <- function(robj) {
     .Call('_symengine_s4basic_number_is_zero', PACKAGE = 'symengine', robj)
 }
 
-#' Main entry point for converting scalar R object to Basic
-#' 
-#' @param robj A R object to convert.
-#' @param check_whole_number Boolean value indicating whehter to check a
-#' double input is a whole number. If TRUE, it will be converted to
-#' Integer.
-#' 
-#' @export
-#' @examples
-#' symengine:::s4basic_parse("x")
-#' symengine:::s4basic_parse(1, check_whole_number = TRUE) ==
-#' symengine:::s4basic_parse(1L, check_whole_number = TRUE)
-#' symengine:::s4basic_parse(NA_real_)
 s4basic_parse <- function(robj, check_whole_number = FALSE) {
     .Call('_symengine_s4basic_parse', PACKAGE = 'symengine', robj, check_whole_number)
 }
@@ -126,7 +113,6 @@ s4basic_const <- function(robj) {
     .Call('_symengine_s4basic_const', PACKAGE = 'symengine', robj)
 }
 
-#' @export
 s4basic_real <- function(robj, prec = NULL) {
     .Call('_symengine_s4basic_real', PACKAGE = 'symengine', robj, prec)
 }
