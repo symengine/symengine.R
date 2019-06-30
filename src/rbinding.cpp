@@ -512,9 +512,12 @@ SEXP s4basic_as_sexp(S4 robj) {
             Rf_error("Number %ld can not be coerced to integer range\n", cint);
     }
     if (is_a_RealMPFR(s)) {
+#ifdef HAVE_SYMENGINE_MPFR
         // Round to double precision
         double cdouble = real_mpfr_get_d(s);
         return Rf_ScalarReal(cdouble);
+#endif
+        Rf_error("Should not happen\n");
     }
     if (is_a_Rational(s)) {
         // TODO (use evalf?)
