@@ -51,7 +51,9 @@ Symbol <- function(x) {
 #' @export
 #' @examples 
 #' pi <- Constant("pi")
-#' evalf(pi, 300)
+#' evalf(pi)
+#' if (symengine_have_component("mpfr"))
+#'     evalf(pi, 300)
 Constant <- function (x) {
     s4basic_const(x)
 }
@@ -62,7 +64,8 @@ Constant <- function (x) {
 #' @export
 #' @examples 
 #' Real(42)
-#' Real(42, prec = 140)
+#' if (symengine_have_component("mpfr"))
+#'     Real(42, prec = 140)
 Real <- function(x, prec = NULL) {
     ## TODO: accept vectors
     s4basic_real(x, prec)
