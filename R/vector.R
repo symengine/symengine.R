@@ -1,73 +1,99 @@
-#' @include RcppExports.R basic.R
+#' @include classes.R misc.R
 NULL
 
-## Vector    ===================================================================
-setClass("VecBasic", contains = "SymEnginePTR")
+## VecBasic  ===================================================================
 
+#' VecBasic Constructors
+#' 
+#' @param x,... R objects.
+#' 
+#' @rdname Vector
 #' @export
-vecbasic <- function(...) {
-    # Currently we do conversion in this way, however we should in future have
-    # C-level function for conversion to basic to reduce overhead.
-    # x can not be vector like 1:10
-    lt <- lapply(unname(list(...)), function(x) {
-        if (is(x, "Basic") || is(x, "VecBasic"))
-            return(x)
-        else if (is(x, "DenseMatrix"))
-            return(denseMatrix_to_vecbasic(x))
-        else if (is(x, "SetBasic"))
-            return(setbasic_to_vecbasic(x))
-        else
-            return(S(x))
-    })
-    .vecbasic(lt)
+Vector <- function(x, ...) {
+    ## Note that `Vector` will not check whole number, but `V` will
+    
+    ## Return empty vecbasic
+    if (missing(x))
+        return(s4vecbasic())
+    
+    ## Treat x as a vector
+    if (missing(...))
+        return(as(x, "VecBasic"))
+    
+    elements <- list(x, ...)
+    ans <- s4vecbasic()
+    s4vecbasic_mut_append(ans, elements)
+    ans
 }
 
-vecbasic_subset <- function(vec, idx) {
-    # idx can only be integer vector
-    .vecbasic_subset(vec, idx)
-}
-
-vecbasic_get <- function(vec, n) {
-    # n can only be integer
-    .vecbasic_get(vec, n)
-}
-
-vecbasic_assign <- function(vec1, idx, vec2) {
-    # idx can only be integer vector
-    .vecbasic_assign(vec1, idx, vec2)
-}
-
-setMethods("c", list(c(x = "VecBasic"), c(x = "Basic")),
-    function (x, ...) {
-        vecbasic(x, ...)
+#' @rdname Vector
+#' @export
+V <- function(...) {
+    ## Parse each element with check_whole_number = TRUE
+    elements <- list(...)
+    for (i in seq_along(elements)) {
+        elements[[i]] <- S(elements[[i]])
     }
+    do.call(Vector, elements)
+}
+
+#' Methods Related to VecBasic
+#' 
+#' @param x Basic object or Vecbasic object.
+#' 
+#' @rdname vecbasic-bindings
+setMethod("length", "VecBasic",
+    function(x) s4vecbasic_size(x)
 )
 
-setMethod("length", "VecBasic",
-    function(x) {
-        .vecbasic_length(x)
+#' @rdname vecbasic-bindings
+setMethod("rep", c(x = "VecBasic"),
+    function(x, ...)
+        s4binding_subset(x, rep(seq_len(length(x)), ...), get_basic = FALSE)
+)
+#' @rdname vecbasic-bindings
+setMethod("rep", c(x = "Basic"),
+    function(x, ...)
+        s4binding_subset(x, rep(1L, ...), get_basic = FALSE)
+)
+setMethod("rep_len", c(x = "VecBasic"),
+    function(x, length.out) rep(x, length.out = length.out)
+)
+setMethod("rep_len", c(x = "Basic"),
+    function(x, length.out) rep(x, length.out = length.out)
+)
+setMethod("rep.int", c(x = "VecBasic"),
+    function(x, times)      rep(x, times = times)
+)
+setMethod("rep.int", c(x = "Basic"),
+    function(x, times)      rep(x, times = times)
+)
+
+## TODO: test case: c(S("x"), list(1,2,c(3,4)))
+#' @rdname vecbasic-bindings
+setMethod("c", c(x = "BasicOrVecBasic"),
+    function (x, ...) {
+        dots <- list(x, ...)
+        ans <- s4vecbasic()
+        for (i in seq_along(dots))
+            s4vecbasic_mut_append(ans, dots[[i]])
+        ans
     }
 )
 
 setMethod("show", "VecBasic",
     function (object) {
         cat(sprintf("VecBasic of length %s\n", length(object)))
-        
-        ids <- vector("character", length(object))
-        str <- vector("character", length(object))
-        
-        for (i in seq_along(object)) {
-            ids[[i]] <- paste0("[", i, "]")
-            str[[i]] <- basic_str(object[[i]])
-        }
-        format(ids)
-        format(str)
-        lines <- paste(ids, str)
-        cat(lines, sep = "\n")
+        strs <- sapply(as.list(object), s4basic_str)
+        out <- sprintf("V( %s )", paste0(strs, collapse = ", "))
+        cat(out)
         cat("\n")
+        #format()
     }
 )
 
+#' @param i,j,...,drop,value Arguments for subsetting or replacing.
+#' @rdname vecbasic-bindings
 setMethod("[[", c(x = "VecBasic", i = "numeric", j = "ANY"),
     function(x, i, j, ...) {
         # TODO: normalize the index
@@ -75,10 +101,11 @@ setMethod("[[", c(x = "VecBasic", i = "numeric", j = "ANY"),
             warning("Extra arguments are ignored")
         if (!missing(j))
             stop("incorrect number of dimensions")
-        vecbasic_get(x, as.integer(i))
+        s4vecbasic_get(x, as.integer(i))
     }
 )
 
+#' @rdname vecbasic-bindings
 setMethod("[", c(x = "VecBasic"),
     function(x, i, j, ..., drop = TRUE) {
         if (!missing(...))
@@ -89,50 +116,75 @@ setMethod("[", c(x = "VecBasic"),
             stop("incorrect number of dimensions")
         
         i <- normalizeSingleBracketSubscript(i, x)
-        vecbasic_subset(x, i)
+        s4binding_subset(x, i, FALSE)
     }
 )
 
+#' @rdname vecbasic-bindings
+setMethod("[[<-", c(x = "VecBasic"),
+    function(x, i, value) {
+        i <- as.integer(i)
+        if (i > length(x) || i <= 0)
+            stop("Index out of bounds")
+        if (is(value, "VecBasic")) {
+            stopifnot(length(value) == 1)
+            value <- value[[1]]
+        }
+        stopifnot(is(value, "Basic"))
+        ## Copy the vecbasic
+        ans <- s4vecbasic()
+        s4vecbasic_mut_append(ans, x)
+        s4vecbasic_mut_set(ans, i, value)
+        ans
+    }
+)
+
+#' @rdname vecbasic-bindings
 setMethod("[<-", c(x = "VecBasic"), 
     function (x, i, j, ..., value)  {
         if (!missing(j) || !missing(...))
             stop("Invalid subsetting")
-        if (is(value, "Basic"))
-            value <- vecbasic(value)
         i <- normalizeSingleBracketSubscript(i, x)
         
+        if (length(value) == 1L) { ## Faster shortcut
+            value <- as(value, "Basic")
+            ## Copy the vecbasic
+            ans <- s4vecbasic()
+            s4vecbasic_mut_append(ans, x)
+            for (idx in i)
+                s4vecbasic_mut_set(ans, idx, value)
+            return(ans)
+        }
+        
+        ## Then do the replacement with VecBasic
+        value <- as(value, "VecBasic")
         li <- length(i)
         lv <- NROW(value)
-        
         ## There are different results when missing `i` and length(i) == 0
         ## i.e. a[c()] <- 42, a[] <- 42
         if (li == 0L)
             return(x)
         if (lv == 0L)
             stop("Replacement has length zero")
+        
+        ## Modify it to have the same length as "i"
+        sync_value_idx <- seq_len(lv)
         if (li != lv) {
-            # Recycle of value when length(i) != length(value)
+            ## Recycle the value
             if (li%%lv != 0L)
                 warning("Number of values supplied is not a sub-multiple of the ",
                         "number of values to be replaced")
-            # TODO: Currently we expand the value in R, however to be more
-            # efficient, we should handle the recycle in C.
-            value <- value[rep(seq_len(lv), length.out = li)]
+            sync_value_idx <- rep(sync_value_idx, length.out = li)
         }
-        vecbasic_assign(x, i, value)
-    }
-)
-
-
-#' @export
-setGeneric("as.list")
-
-setMethod("as.list", c(x = "VecBasic"),
-    function(x) {
-        ans <- vector("list", length(x))
-        for (i in seq_along(ans))
-            ans[[i]] <- x[[i]]
-        ans
+        stopifnot(length(i) == length(sync_value_idx))
+        
+        ## Copy the VecBasic
+        ans <- s4vecbasic()
+        s4vecbasic_mut_append(ans, x)
+        for (each in seq_along(i))
+            ## FIXME: There is a overhead initializing the S4 Basic object for each loop
+            s4vecbasic_mut_set(ans, i[[each]], s4vecbasic_get(value, sync_value_idx[[each]]))
+        return(ans)
     }
 )
 

@@ -1,7 +1,10 @@
 # Light implementation of S4Vectors::normalizeSingleBracketSubscript
 
 normalizeSingleBracketSubscript <- function (i, x) {
-    .by.numeric <- function (i, x) {
+    if (missing(i))
+        return(seq_along(x))
+    
+    by_numeric <- function (i, x) {
         x_NROW <- NROW(x)
         i <- as.integer(i)
         if (anyNA(i))
@@ -25,7 +28,7 @@ normalizeSingleBracketSubscript <- function (i, x) {
         }
         return(i)
     }
-    .by.logical <- function (i, x) {
+    by_logical <- function (i, x) {
         x_NROW <- NROW(x)
         if (anyNA(i))
             stop("Logical subscript contains NAs")
@@ -41,12 +44,10 @@ normalizeSingleBracketSubscript <- function (i, x) {
         return(i)
     }
     
-    if (missing(i))
-        return(seq_along(x))
     if (is.numeric(i))
-        return(.by.numeric(i, x))
+        return(by_numeric(i, x))
     if (is.logical(i))
-        return(.by.logical(i, x))
+        return(by_logical(i, x))
     
     stop(sprintf("Not implemented for %s", class(i)))
 }

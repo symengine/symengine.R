@@ -1,338 +1,518 @@
-#' @include vector.R
-setClass("DenseMatrix", contains = "SymEnginePTR")
 
+#' @include classes.R
+NULL
+
+## Maybe thanks to ALTREP, this does not actually allocate the memory
+## even if the size is very large.
+## microbenchmark::microbenchmark(shadow_matrix(c(10,1)),
+##                                shadow_matrix(c(100000,1)))
+index_matrix <- function(dim) {
+    ans <- seq_len(prod(dim))
+    dim(ans) <- dim
+    ans
+}
+
+row_index_matrix <- function(dim) {
+    nrow <- dim[1]
+    ncol <- dim[2]
+    ans <- rep(seq_len(nrow), ncol)
+    dim(ans) <- dim
+    ans
+}
+
+col_index_matrix <- function(dim) {
+    nrow <- dim[1]
+    ncol <- dim[2]
+    ans <- rep(seq_len(ncol), each = nrow)
+    dim(ans) <- dim
+    ans
+}
+
+#' DenseMatrix Constructor
+#' 
+#' @param data A R object.
+#' @param nrow,ncol Number of rows and columns.
+#' @param byrow Boolean value. Whether the data should be filled by row or by column.
 #' @export
-denseMatrix <- function(data = NA, nrow = 1, ncol = 1, row_first = 0) {
-    vec <- do.call(vecbasic, as.list(data))
-    n   <- length(vec)
-
-    if (n == 0) {
-        stop("'data' must be of a vecbasic type, was 'NULL'")
+Matrix <- function(data, nrow = 1L, ncol = 1L, byrow = FALSE) {
+    ## Return directly if it is alreay a DenseMatrix
+    if (s4DenseMat_check(data)) {
+        dim_data <- dim(data)
+        ## Check nrow and ncol are correct
+        if (((!missing(nrow)) && nrow != dim_data[1L]) ||
+            ((!missing(ncol)) && ncol != dim_data[2L]))
+            stop("Incorrect dimension for DenseMatrix input")
+        if (!missing(byrow))
+            warning("byrow argument is ignored")
+        return(data)
     }
-
-    if (nrow < 0) {
-        stop("invalid 'nrow' value (< 0)")
-    } else if (ncol < 0) {
-        stop("invalid 'ncol' value (< 0)")
+    if (is.matrix(data)) {
+        dim_data <- dim(data)
+        if (((!missing(nrow)) && nrow != dim_data[1L]) ||
+            ((!missing(ncol)) && ncol != dim_data[2L]))
+            stop("Incorrect dimension for DenseMatrix input")
+        if (!missing(byrow))
+            warning("byrow argument is ignored")
+        data <- as.vector(data) ## i.e. remove dim attributes
+        ## i.e. byrow = FALSE
+        return(t(s4DenseMat_byrow(Vector(data), dim_data[2], dim_data[1])))
     }
-
-    if (missing(nrow) && missing(ncol)) {
-        nrow = n
-        ncol = 1
-    } else if (missing(nrow)) {
-        nrow = (n - 1) %/% ncol + 1
-    } else if (missing(ncol)) {
-        ncol = (n - 1) %/% nrow + 1
+    
+    ## Fix nrow and ncol in case of missing
+    if (missing(nrow) && missing(ncol))
+        nrow <- length(data)
+    else if (missing(nrow))
+        nrow <- (length(data) - 1L) %/% ncol + 1L
+    else if (missing(ncol))
+        ncol <- (length(data) - 1L) %/% nrow + 1L
+    
+    nrow <- as.integer(nrow)
+    ncol <- as.integer(ncol)
+    
+    ## Shortcut to Basic
+    if (s4basic_check(data))
+        ## 'byrow' argument now doesn't matter
+        return(s4DenseMat_byrow(data, nrow = nrow, ncol = ncol))
+    
+    ## Support list or vector
+    if (is.vector(data)) {
+        data <- as(data, "VecBasic")
     }
-
-    if (nrow %% n != 0 && ncol %% n != 0) {
-        if (nrow < n && n %% nrow != 0 ||
-            nrow > n && nrow %% n != 0) {
-            warning(sprintf(paste("data length [%d] is not a sub-multiple or",
-                    "multiple of the number of rows [%d]"), n, nrow))
-        } else if (ncol < n && n %% ncol != 0 ||
-                  ncol > n && ncol %% n != 0) {
-            warning(sprintf(paste("data length [%d] is not a sub-multiple or",
-                    "multiple of the number of columns [%d]"), n, ncol))
+    if (is.language(data)) {
+        if (is.symbol(data)) {
+            data <- paste0(as.character(data), "_", seq(nrow))
+            data <- paste0(data, "_", rep(seq(nrow), each = nrow))
+            data <- lapply(data, Symbol)
+            data <- Vector(data)
+        }
+        else if (identical(data[[1]], as.name("~"))) {
+            stop("TODO: if formula")
         }
     }
-
-    .denseMatrix(vec, nrow, ncol, as.integer(row_first))
+    
+    ## Expand the data to the same size of (nrow * ncol)
+    if (length(data) < (nrow*ncol)) {
+        if (((nrow*ncol) %% length(data)) != 0L)
+            stop(sprintf("Matrix size [%s] does not fit with the data length [%s]",
+                         nrow*ncol, length(data)))
+        data <- data[rep_len(seq(length(data)), length.out = nrow*ncol)]
+    }
+    stopifnot(length(data) == (nrow*ncol))
+    
+    ## We just fill it by row and transpose.
+    ## An alternative approach is to fill the index into a matrix by row,
+    ## then extract the transformed index with as.vector
+    if (!byrow) {
+        ans <- s4DenseMat_byrow(data, nrow = ncol, ncol = nrow)
+        return(t(ans))
+    }
+    s4DenseMat_byrow(data, nrow = nrow, ncol = ncol)
 }
 
-denseMatrix_get <- function(mat, i, j) {
-    # i, j can only be integer vector
-    .denseMatrix_get(mat, i, j)
+#### Bindings for subset, etc. =======================
+
+#' Methods Related to DenseMatrix
+#' 
+#' @param x A DenseMatrix object.
+#' @param i,j,value,...,drop Arguments for subsetting, assignment or replacing.
+#' 
+#' @rdname densematrix-bindings
+#' @export
+as.matrix.DenseMatrix <- function(x, ...) {
+    ## TODO: check whether S4 class inheritance works with S3 method
+    if (!missing(...))
+        warning("Extra arguments are ignored")
+    array(as.vector(x), dim = dim(x))
 }
 
-denseMatrix_subset <- function(mat, idxr, idxc) {
-    # idx can only be integer vector
-    .denseMatrix_subset(mat, idxr, idxc)
-}
+#' @rdname densematrix-bindings
+setMethod("dim", "DenseMatrix",
+    function (x) s4DenseMat_dim(x)
+)
 
-denseMatrix_assign <- function(mat, idxr, idxc, vec) {
-    # idx can only be integer vector
-    .denseMatrix_assign(mat, idxr, idxc, vec)
-}
+setGeneric("dim<-")
 
-denseMatrix_to_vecbasic <- function(mat, row_first=0) {
-    .denseMatrix_to_vecbasic(mat, as.integer(row_first))
-}
+## TODO: add test case
+#' @rdname densematrix-bindings
+setMethod(`dim<-`, c(x = "DenseMatrix"), function(x, value) {
+    ndim <- length(value)
+    if (ndim > 2L) stop("Higher dimensions (> 2L) are not supported")
+    if (ndim == 0L) {
+        if (length(x) == 1L)
+            return(as(x, "Basic"))
+        else
+            return(as(x, "VecBasic"))
+    }
+    if (ndim == 1L) { ## as VecBasic
+        if (length(x) != value[1L])
+            stop("Dimension does not match with length of object")
+        return(as(x, "VecBasic"))
+    }
+    
+    dummy_idx <- index_matrix(dim(x))
+    dim(dummy_idx) <- value
+    dummy_idx <- as.integer(t(dummy_idx))
+    
+    ans <- s4binding_subset(x, dummy_idx, FALSE)
+    s4DenseMat_byrow(ans, value[[1]], value[[2]])
+})
 
+#' @rdname densematrix-bindings
+setMethod("dim<-", c(x = "VecBasic"), function(x, value) {
+    ndim <- length(value)
+    if (ndim > 2L) stop("Higher dimensions (> 2L) are not supported")
+    if (ndim == 0L) return(x) ## i.e. NULL
+    if (ndim == 1L) {
+        if (length(x) != value)
+            stop("Dimension does not match with length of object")
+        return(x)
+    }
+    ## Okay, 2d case
+    Matrix(x, nrow = value[1L], ncol = value[2L])
+})
+
+#' @rdname densematrix-bindings
+setMethod("dim<-", c(x = "Basic"), function(x, value) {
+    if (prod(value) != 1L)
+        stop("Dimension does not match with length of object")
+    ndim <- length(value)
+    if (ndim > 2L)
+        stop("Higher dimensions (> 2L) are not supported")
+    if (ndim == 0L || ndim == 1L)
+        return(x)
+    Matrix(x, nrow = 1L, ncol = 1L)
+})
+
+#' @rdname densematrix-bindings
+setMethod("dimnames<-", c(x = "DenseMatrix"), function(x, value) {
+    ## TODO:
+    ## cbind and rbind has default deparse.level = 1, hence they
+    ## want to add dimnames to the Matrix.
+    ## Currently just store them as S3 attributes.. But it should be
+    ## stroed as slot when the dimname subsetting is supported later.
+    attr(x, "dummy.dimnames") <- value
+    x
+})
+
+#' @rdname densematrix-bindings
+setMethod("dimnames", c(x = "DenseMatrix"), function(x) {
+    ## TODO: store dimnames in slot
+    attr(x, "dummy.dimnames", exact = TRUE)
+})
+
+#' @rdname densematrix-bindings
+setMethod("length", "DenseMatrix",
+    function(x) prod(s4DenseMat_dim(x))
+)
 
 setMethod("show", "DenseMatrix",
     function (object) {
+        ## TODO: The printing method should be implemented more properly
         mat_dim = dim(object)
         cat(sprintf("DenseMatrix of dim %d x %d\n", mat_dim[1], mat_dim[2]))
-        str <- .denseMatrix_str(object)
+        str <- s4DenseMat_str(object)
+        #str <- gsub(x = str, pattern = "\n[", replacement = ",\n  V[", fixed = TRUE)
+        #str <- sprintf("M[\n  V%s]\n", str)
         cat(str)
     }
 )
 
-setMethod("dim", "DenseMatrix",
-    function (x) {
-        nrows = .denseMatrix_rows(x)
-        ncols = .denseMatrix_cols(x)
-        c(nrows, ncols)
-    }
-)
-
-setMethod("length", "DenseMatrix",
-    function(x) {
-        nrows = .denseMatrix_rows(x)
-        ncols = .denseMatrix_cols(x)
-        nrows * ncols
-    }
-)
-
-setMethod("[[", c(x = "DenseMatrix", i = "numeric", j = "numeric"),
+#' @rdname densematrix-bindings
+setMethod("[[", c(x = "DenseMatrix"),
     function(x, i, j, ...) {
-        #TODO: normalize the index
         if (!missing(...))
             warning("Extra arguments are ignored");
-        if (length(i) == 0) {
-            stop("attempt to select less than one element in get1index <real>");
-        } else if (length(i) > 1) {
-            stop("attempt to select more than one element in get1index");
-        } else if (length(j) == 0) {
-            stop("attempt to select less than one element in get1index <real>");
-        } else if (length(j) > 1) {
-            stop("attempt to select more than one element in get1index");
+        
+        if (missing(j)) {
+            i <- normalizeSingleBracketSubscript(i, seq_len(length(x)))
+            if (length(i) != 1L)
+                stop("Attempt to select more/less than one element")
+            ## Select as if it is `as(x, "VecBasic)`
+            return(s4vecbasic_get(x, i))
         }
-
-        denseMatrix_get(x, as.integer(i), as.integer(j))
+        
+        size <- length(i) * length(j)
+        if (size != 1L)
+            stop("Attempt to select more/less than one element")
+        
+        s4DenseMat_get(x, as.integer(i), as.integer(j), get_basic = TRUE)
     }
 )
 
+#' @rdname densematrix-bindings
+setMethod("[[<-", c(x = "DenseMatrix"),
+    function(x, i, j, ..., value) {
+        if (!missing(...))
+            warning("Extra arguments in dots are ignored")
+        
+        ## TODO: support the case when j is missing
+        ans <- s4DenseMat_copy(x)
+        s4DenseMat_mut_setbasic(ans, as.integer(i), as.integer(j), value)
+        ans
+    }
+)
+
+## TODO: maybe it is better to split this method into multiple methods by its index type
+## e.g. see library(Matrix); showMethods("[")
+#' @rdname densematrix-bindings
 setMethod("[", c(x = "DenseMatrix"),
     function(x, i, j, ..., drop = TRUE) {
-        args <- as.list(sys.call())[-1L]
-        args$drop <- NULL
-        len <- length(args)
-
-        if (len > 3)
-            stop("incorrect number of dimensions")
-        if (!missing(drop))
-            warning("Supplied argument 'drop' is ignored")
+        ## NOTE that the function signature must be same as the generic function,
+        ## i.e. keeping ... and drop. Otherwise the function will be wrapped in a
+        ## ".local" and we can no longer use "nargs()" to determine implicit
+        ## missing and "missing(drop)" will always be true.
+        ## > findMethod("[", c(x = "DenseMatrix"))
         
-        if (len > 2) {
-            i <- args[[2]]
-            j <- args[[3]]
-            i <- if(missing(i)) 1:NROW(x) else eval(i)
-            j <- if(missing(j)) 1:NCOL(x) else eval(j)
+        if (!missing(...))
+            stop("Incorrect number of dimensions")
+        
+        n_real_args <- nargs() - !missing(drop)
+        
+        if (n_real_args <= 1L)
+            stop("Unexpected")
+        
+        if (n_real_args == 2L) {
+            ## i.e. x[]
+            if (missing(i)) {
+                if (!missing(drop))
+                    warning("drop argument is ignored")
+                return(x)
+            }
+            ## i.e. x[i]
+            else {
+                ## Subset by matrix
+                if (is.matrix(i)) {
+                    stopifnot(ncol(i) != 2L)
+                    if (!missing(drop))
+                        warning("drop argument is ignored for matrix index")
+                    return(s4DenseMat_get(x, i[,1], i[,2], get_basic = FALSE))
+                }
+                ## Should we support this??
+                if (!missing(drop))
+                    warning("drop argument is ignored")
+                i <- normalizeSingleBracketSubscript(i, seq_len(length(x)))
+                ## Should be same to as(x,"VecBasic")[i]
+                return(s4binding_subset(x, i, FALSE))
+            }
         }
-
-        # use NROW, NCOL to work around for now.
-        if (missing(i) && missing(j)) {
-            x
-        }
-        else if (missing(j)) {
-            vec <- denseMatrix_to_vecbasic(x)
-            vec[i]
-        } else {
-            i <- normalizeSingleBracketSubscript(i, 1:NROW(x))
-            j <- normalizeSingleBracketSubscript(j, 1:NCOL(x))
-            denseMatrix_subset(x, i, j)
-        }
+        
+        ## Use i and j to subset
+        ## i.e. x[i, j], x[i, ] or x[, j]
+        x_shape <- dim(x)
+        
+        ## Also handles missing i or j
+        i <- normalizeSingleBracketSubscript(i, seq_len(x_shape[1]))
+        j <- normalizeSingleBracketSubscript(j, seq_len(x_shape[2]))
+        
+        ## Return basic
+        if (drop && (length(i) * length(j)) == 1L)
+            return(s4DenseMat_get(x, i, j, get_basic = TRUE))
+        
+        ## Extract the values as a VecBasic, then construct the new matrix
+        row_idx <- rep(i, length(j))
+        col_idx <- rep(j, each = length(i))
+        values <- s4DenseMat_get(x, row_idx, col_idx, get_basic = FALSE)
+        
+        ## Return VecBasic
+        if (drop && (length(i) == 1L || length(j) == 1L))
+            return(values)
+        
+        ## TODO: Improve the performance of Matrix creatation by column,
+        ##       or extract the values by row.
+        ## TODO: add test case
+        Matrix(values, nrow = length(i), ncol = length(j), byrow = FALSE)
     }
 )
 
+## TODO: add test case then right hand side is a matrix or DenseMatrix
+#' @rdname densematrix-bindings
 setMethod("[<-", c(x = "DenseMatrix"),
     function(x, i, j, ..., value) {
-        args <- as.list(sys.call())[-1L]
-        len <- length(args)
-
-        if (len > 4)
-            stop("Invalid subsetting")
-        if (is(value, "Basic"))
-            value <- vecbasic(value)
-        if (is(value, "DenseMatrix"))
-            value <- denseMatrix_to_vecbasic(value)
+        if (!missing(...))
+            stop("Incorrect number of dimensions")
         
-        if (len > 2) {
-            i <- args[[2]]
-            j <- args[[3]]
-            i <- if(missing(i)) 1:NROW(x) else eval(i)
-            j <- if(missing(j)) 1:NCOL(x) else eval(j)
+        n_real_args <- nargs()
+        
+        if (n_real_args <= 2L)
+            stop("Unexpected")
+        
+        # x[i] <- value or x[] <- value
+        if (n_real_args == 3L) {
+            ## i.e. x[] <- value
+            if (missing(i)) {
+                ## We need to handle this case so that
+                ## `m[] <- lapply(m, function(x) func(x))` can work.
+                stop("TODO: x[] <- value")
+            }
+            ## i.e. x[i] <- value, i can be a matrix or a index
+            else {
+                ## TODO: Also support using matrix as index
+                stop("TODO")
+            }
         }
-            
-        # use NROW, NCOL to work around for now.
-        i <- normalizeSingleBracketSubscript(i, 1:NROW(x))
-        j <- normalizeSingleBracketSubscript(j, 1:NCOL(x))
-
-        li <- length(i)
-        lj <- length(j)
-        lv <- length(value)
         
-        if (li == 0L || lj == 0L)
-            return(x)
-        if (lv == 0L)
-            stop("Replacement has length zero")
-        if ((li * lj) %% lv != 0L)
-            stop("number of items to replace is not a multiple of replacement length")
-          
-        denseMatrix_assign(x, i, j, value)
+        ## Using both i and j
+        ## i.e. x[i, j] <- value
+        x_shape <- dim(x)
+        i <- normalizeSingleBracketSubscript(i, seq.int(x_shape[1]))
+        j <- normalizeSingleBracketSubscript(j, seq.int(x_shape[2]))
+        replacement_size <- length(i) * length(j)
+        row_idx <- rep(i, length(j))
+        col_idx <- rep(j, each = length(i))
+        
+        ## Shortcut to assign by Basic
+        if (length(value) == 1L) {
+            value <- as(value, "Basic")
+            ans <- s4DenseMat_copy(x)
+            for (each in seq_along(row_idx))
+                s4DenseMat_mut_setbasic(ans, row_idx[each], col_idx[each], value)
+            return(ans)
+        }
+        
+        ## Assign with a VecBasic
+        value <- as(value, "VecBasic")
+        
+        ## Perhaps we should force length(value) == 1L or length(value) == replacement_size ?
+        if (replacement_size %% length(value) != 0L) {
+            warning("Number of values supplied is not a sub-multiple of the ",
+                    "number of values to be replaced")
+        }
+        ## Recycle the value to be the same size as replacement_size
+        sync_value_idx <- rep(seq_len(length(value)), length.out = replacement_size)
+        
+        ans <- s4DenseMat_copy(x)
+        for (each in seq(replacement_size)) {
+            s4DenseMat_mut_setbasic(
+                ans, row_idx[each], col_idx[each],
+                s4vecbasic_get(value, sync_value_idx[each])
+            )
+        }
+        return(ans)
     }
 )
 
-# define vector-like S4 classUnion for rbind/cbind
-setClassUnion("VecMat", members = c("VecBasic", "DenseMatrix"))
+####======= Methods for cbind and rbind ===========================
+#### Read the Details section of `?cbind` and `?cbind2`.
 
-#' @exportMethod cbind
-setGeneric("cbind", signature = "...")
-setMethod("cbind", "VecMat",
-    function(..., deparse.level = 1) {
-        args <- list(...)
-        if(all(vapply(args, is.atomic, NA)))
-            return(base::cbind(..., deparse.level = deparse.level))
-        
-        # cbind for vecbasic, denseMatrix
-        # currently, all element must be vecbasic/denseMatrix
-        nrow        = 0
-        ncol        = 0
-        have_matrix = FALSE
-        lt <- unname(list(...))
+#' Joining DenseMatrix
+#' 
+#' @param ... DenseMatrix, VecBasic or R objects.
+#' @param deparse.level Not used.
+#' @method cbind SymEngineDataType
+#' @rdname cbind
+#' @export
+cbind.SymEngineDataType <- function(..., deparse.level) {
+    ## TODO: support deparse.level argument? i.e. support dimnames for DenseMatrix
+    if (!(missing(deparse.level) || deparse.level == 0L))
+        warning("deparse.level argument is not supported")
+    cbind_asDenseMatrix(...)
+}
+#' @method rbind SymEngineDataType
+#' @rdname cbind
+#' @export
+rbind.SymEngineDataType <- function(..., deparse.level) {
+    if (!(missing(deparse.level) || deparse.level == 0L))
+        warning("deparse.level argument is not supported")
+    rbind_asDenseMatrix(...)
+}
 
-        for (i in seq_len(length(lt))) {
-            x <- lt[[i]]
-            if (is(x, "Basic")) {
-                ncol    = ncol + 1
-                nrow    = max(nrow, 1)
-                lt[[i]] = vecbasic(x)
-            } else if (is(x, "VecBasic")) {
-                if (!have_matrix)
-                    nrow = max(nrow, length(x))
-                ncol = ncol + 1
-            } else if (is(x, "DenseMatrix")) {
-                if (have_matrix && nrow != NROW(x)) {
-                    stop(sprintf("number of rows of matrices must match (see arg %d)", i))
-                } else if (!have_matrix) {
-                    have_matrix = TRUE
-                    nrow = NROW(x)
-                }
-                ncol = ncol + NCOL(x)
-            }
-        }
-        
-        first_warning = TRUE
-        for (i in seq_len(length(lt))) {
-            x <- lt[[i]]
-            if (is(x, "VecBasic")) {
-                if (first_warning && (nrow %% length(x) != 0)) {
-                    first_warning = FALSE
-                    warning(sprintf("number of rows of result is not a multiple of vector length (arg %d)", i))
-                }
-                idx = rep(seq_len(length(x)), length.out=nrow)
-                lt[[i]] = x[idx]
-            } else if (is(x, "DenseMatrix")) {
-                lt[[i]] = denseMatrix_to_vecbasic(x)
-            }
-        }
+cbind_asDenseMatrix <- function(...) {
+    ## Input can be R vector, R matrix, Basic, VecBasic, DenseMatrix
+    elements <- list(...)
+    element_correct_nrows <- vapply(elements, FUN.VALUE = integer(1),
+        function(x) if (length(d <- dim(x)) == 2L) d[1L] else length(x)
+    )
+    nrow <- max(element_correct_nrows)
+    ans <- s4DenseMat_byrow(NULL, nrow = nrow, ncol = 0L)
     
-        vec <- do.call(vecbasic, lt)
-        .denseMatrix(vec, nrow, ncol)
-    }
-)
-
-
-#' @exportMethod rbind
-setGeneric("rbind", signature = "...")
-setMethod("rbind", "VecMat",
-    function(..., deparse.level = 1) {
-        args <- list(...)
-        if(all(vapply(args, is.atomic, NA)))
-            return(base::rbind(..., deparse.level = deparse.level))
-        
-        # rbind for vecbasic, denseMatrix
-        # currently, all element must be vecbasic/denseMatrix
-        nrow        = 0
-        ncol        = 0
-        have_matrix = FALSE
-        lt <- unname(list(...))
-
-        for (i in seq_len(length(lt))) {
-            x <- lt[[i]]
-            if (is(x, "Basic")) {
-                nrow    = nrow + 1
-                ncol    = max(ncol, 1)
-                lt[[i]] = vecbasic(x)
-            } else if (is(x, "VecBasic")) {
-                if (!have_matrix)
-                    ncol = max(ncol, length(x))
-                nrow = nrow + 1
-            } else if (is(x, "DenseMatrix")) {
-                if (have_matrix && ncol != NCOL(x)) {
-                    stop(sprintf("number of columns of matrices must match (see arg %d)", i))
-                } else if (!have_matrix) {
-                    have_matrix = TRUE
-                    ncol = NCOL(x)
-                }
-                nrow = nrow + NROW(x)
+    ## Convert each element to DenseMatrix and join them
+    for (i in seq_along(elements)) {
+        el <- elements[[i]]
+        if (length(dim(el)) == 2L) #if (s4DenseMat_check(el) || is.matrix(el))
+            s4DenseMat_mut_addcols(ans, Matrix(el, nrow = nrow))
+        ## Then assume it is a one-dim vector or vecbasic
+        else {
+            ## Recycle the value if necessary
+            if (element_correct_nrows[i] != nrow) {
+                if ((nrow %% length(el)) != 0L)
+                    warning("Number of rows of result is not a multiple of vector length")
+                el <- rep_len(el, length.out = nrow)
             }
+            el <- Matrix(el, nrow = nrow, ncol = 1L)
+            s4DenseMat_mut_addcols(ans, el)
         }
-        
-        first_warning = TRUE
-        for (i in seq_len(length(lt))) {
-            x <- lt[[i]]
-            if (is(x, "VecBasic")) {
-                if (first_warning && (ncol %% length(x) != 0)) {
-                    first_warning = FALSE
-                    warning(sprintf("number of columns of result is not a multiple of vector length (arg %d)", i))
-                }
-                idx = rep(seq_len(length(x)), length.out=ncol)
-                lt[[i]] = x[idx]
-            } else if (is(x, "DenseMatrix")) {
-                lt[[i]] = .denseMatrix_to_vecbasic(x, 1)
+    }
+    ans
+}
+rbind_asDenseMatrix <- function(...) {
+    elements <- list(...)
+    element_correct_ncols <- vapply(elements, FUN.VALUE = integer(1),
+        function(x) if (length(d <- dim(x)) == 2L) d[2L] else length(x)
+    )
+    ncol <- max(element_correct_ncols)
+    ans <- s4DenseMat_byrow(NULL, nrow = 0L, ncol = ncol)
+    for (i in seq_along(elements)) {
+        el <- elements[[i]]
+        if (length(dim(el)) == 2L)
+            s4DenseMat_mut_addrows(ans, Matrix(el, ncol = ncol))
+        else {
+            if (element_correct_ncols[i] != ncol) {
+                if ((ncol %% length(el)) != 0L)
+                    warning("Number of cols of result is not a multiple of vector lengths")
+                el <- rep_len(el, length.out = ncol)
             }
+            el <- Matrix(el, nrow = 1L, ncol = ncol)
+            s4DenseMat_mut_addrows(ans, el)
         }
-    
-        vec <- do.call(vecbasic, lt)
-        .denseMatrix(vec, nrow, ncol, 1)
     }
-)
+    ans
+}
 
-#' @exportMethod det
-setGeneric("det", function(x, ...) { standardGeneric("det") })
-setMethod("det", "DenseMatrix",
-    function(x, ...) {
-        if (is.atomic(x))
-            return(base::det(x, ...))
-        d = dim(x)
-        if (d[[1]] != d[[2]])
-            stop("'x' must be a square matrix")
-        .denseMatrix_det(x)
-    }
-)
-
-#' @exportMethod inv
-setGeneric("inv", function(x) { standardGeneric("inv") })
-setMethod("inv", "DenseMatrix",
-    function(x) {
-        d <- dim(x)
-        if (d[[1]] != d[[2]])
-            stop("'x' must be a square matrix")
-        .denseMatrix_inv(x)
-    }
-)
-
+#' Transpose (as) a DenseMatrix
+#' 
+#' @param x A SymEngine object.
+#' @rdname t
 #' @exportMethod t
-setGeneric("t", function(x) { standardGeneric("t") })
+setGeneric("t")
+
+#' @rdname t
+setMethod("t", c(x = "Basic"),
+    function(x) Matrix(x)
+)
+#' @rdname t
+setMethod("t", c(x = "VecBasic"),
+    function(x) s4DenseMat_byrow(x, nrow = 1L, ncol = length(x))
+)
+#' @rdname t
 setMethod("t", "DenseMatrix",
-    function(x) {
-        if (is.atomic(x))
-            return(base::t(x))
-        .denseMatrix_transpose(x)
+    function(x) s4DenseMat_transpose(x)
+)
+
+
+####======= Determinant ===========================================
+
+#' Calculate the Determinant of DenseMatrix
+#' @param x A DenseMatrix object.
+#' @param ... Unused.
+#' 
+#' @rdname det
+#' @exportMethod det
+setGeneric("det")
+
+#' @rdname det
+setMethod("det", c(x = "DenseMatrix"),
+    function(x, ...) {
+        if (!missing(...)) 
+            warning("Extra arguments are ignored")
+        s4DenseMat_det(x)
     }
 )
 
-#' @exportMethod lu
-setGeneric("lu", function(x) { standardGeneric("lu") })
-setMethod("lu", "DenseMatrix",
-    function(x) {
-        # the address of l, u don't change
-        l <- denseMatrix(0,0,0)
-        u <- denseMatrix(0,0,0)
-        .denseMatrix_LU(l,u,x)
-        return(list(l=l, u=u))
-    }
-)
+
+####===============================================================
+
+## TODO: LU decomposition, etc.
+
+
+
+
