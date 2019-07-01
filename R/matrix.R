@@ -489,34 +489,6 @@ setMethod("t", "DenseMatrix",
 )
 
 
-####======= Solve =================================================
-
-#' Solve Symbolic Equations
-#' 
-#' `solve` solves the equation "a %*% x = b".
-#' 
-#' @param a A square DenseMatrix object.
-#' @param b A VecBasic or a DenseMatrix giving the right hand side of
-#'     the equation. If missing, b is taken to be an identity matrix
-#'     and `solve` will return the inverse of `a`.
-#' @param ... Not used.
-#' 
-#' @rdname solve
-#' @exportMethod solve
-setGeneric("solve")
-
-#' @rdname solve
-setMethod("solve", c(a = "DenseMatrix"),
-    function(a, b, ...) {
-        if (!missing(...))
-            warning("Extra arguments are ignored")
-        if (missing(b))
-            return(s4DenseMat_inv(a))
-        s4DenseMat_LU_solve(a, Matrix(b))
-    }
-)
-
-
 ####======= Determinant ===========================================
 
 #' Calculate the Determinant of DenseMatrix

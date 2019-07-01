@@ -225,3 +225,11 @@ s4binding_evalf <- function(expr, bits, complex) {
     .Call('_symengine_s4binding_evalf', PACKAGE = 'symengine', expr, bits, complex)
 }
 
+s4binding_solve_lin <- function(sys, sym) {
+    .Call('_symengine_s4binding_solve_lin', PACKAGE = 'symengine', sys, sym)
+}
+
+s4binding_solve_poly <- function(f, s) {
+    .Call('_symengine_s4binding_solve_poly', PACKAGE = 'symengine', f, s)
+}
+

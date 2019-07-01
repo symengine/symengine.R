@@ -1300,3 +1300,53 @@ S4 s4binding_evalf(RObject expr, int bits, bool complex) {
     }
     return ans;
 }
+
+////========  linsovle and solve_poly ===============
+
+// [[Rcpp::export()]]
+S4 s4binding_solve_lin(RObject sys, RObject sym) {
+    S4 sys2;
+    S4 sym2;
+    
+    if (s4vecbasic_check(sys))
+        sys2 = sys;
+    else {
+        sys2 = s4vecbasic();
+        s4vecbasic_mut_append(sys2, sys);
+    }
+    
+    if (s4vecbasic_check(sym))
+        sym2 = sym;
+    else {
+        sym2 = s4vecbasic();
+        s4vecbasic_mut_append(sym2, sym);
+    }
+    
+    S4 ans = s4vecbasic();
+    cwrapper_hold(
+        vecbasic_linsolve(s4vecbasic_elt(ans), s4vecbasic_elt(sys2), s4vecbasic_elt(sym2))
+    );
+    return ans;
+}
+
+// [[Rcpp::export()]]
+S4 s4binding_solve_poly(RObject f, RObject s) {
+    S4 f2 = s4basic_parse(f, false);
+    S4 s2 = s4basic_parse(s, false);
+    S4 ans = s4vecbasic();
+    CSetBasic* set = setbasic_new();
+    CVecBasic* vec = s4vecbasic_elt(ans); 
+    CWRAPPER_OUTPUT_TYPE status1 = basic_solve_poly(
+        set, s4basic_elt(f2), s4basic_elt(s2)
+    );
+    CWRAPPER_OUTPUT_TYPE status2 = cwrapper_set2vec(set, vec);
+    if (status1 || status2){
+        setbasic_free(set);
+        cwrapper_hold(status1);
+        cwrapper_hold(status2);
+    }
+    setbasic_free(set);
+    return ans;
+}
+
+

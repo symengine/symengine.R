@@ -639,6 +639,30 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// s4binding_solve_lin
+S4 s4binding_solve_lin(RObject sys, RObject sym);
+RcppExport SEXP _symengine_s4binding_solve_lin(SEXP sysSEXP, SEXP symSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< RObject >::type sys(sysSEXP);
+    Rcpp::traits::input_parameter< RObject >::type sym(symSEXP);
+    rcpp_result_gen = Rcpp::wrap(s4binding_solve_lin(sys, sym));
+    return rcpp_result_gen;
+END_RCPP
+}
+// s4binding_solve_poly
+S4 s4binding_solve_poly(RObject f, RObject s);
+RcppExport SEXP _symengine_s4binding_solve_poly(SEXP fSEXP, SEXP sSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< RObject >::type f(fSEXP);
+    Rcpp::traits::input_parameter< RObject >::type s(sSEXP);
+    rcpp_result_gen = Rcpp::wrap(s4binding_solve_poly(f, s));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_symengine_cwrapper_symengine_ascii_art", (DL_FUNC) &_symengine_cwrapper_symengine_ascii_art, 0},
@@ -697,6 +721,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_symengine_s4binding_op", (DL_FUNC) &_symengine_s4binding_op, 3},
     {"_symengine_s4binding_math", (DL_FUNC) &_symengine_s4binding_math, 2},
     {"_symengine_s4binding_evalf", (DL_FUNC) &_symengine_s4binding_evalf, 3},
+    {"_symengine_s4binding_solve_lin", (DL_FUNC) &_symengine_s4binding_solve_lin, 2},
+    {"_symengine_s4binding_solve_poly", (DL_FUNC) &_symengine_s4binding_solve_poly, 2},
     {NULL, NULL, 0}
 };
 
