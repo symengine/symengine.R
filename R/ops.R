@@ -224,8 +224,13 @@ D <- function(expr, name, n = 1L) {
                  "'name' argument must be supplied")
         name <- as(free_symbols, "Basic")
     }
-    else 
+    else if (length(name) == 1L || is.language(name)) {
+        ## Avoid parser parsing name as a constant.
         name <- s4basic_symbol(name)
+    }
+    else if (!s4vecbasic_check(name)) {
+        name <- lapply(name, s4basic_symbol)
+    }
     ## TODO: there is a shortcut if expr is a DenseMatrix 
     for (i in seq_len(n))
         expr <- s4binding_op(expr, name, "diff")
