@@ -19,8 +19,6 @@ knitr::opts_chunk$set(
 
 This is an experiment to provide a R interface to the
 [SymEngine library](https://github.com/symengine/symengine).
-It is still in progress, but if you are interested, please contact
-Jialin Ma <marlin-@gmx.cn> and Isuru Fernando <isuruf@gmail.com>.
 
 This project was a GSoC 2018 project under the organization
 of The R Project for Statistical Computing.
@@ -42,158 +40,75 @@ Please report any problem installing the package on your system.
 library(symengine)
 ```
 
-
 ## Usage
 
-### Symbol
-
-A symbol or variable can be constructed from character.
+### Manipulating Symbolic Expressions
 
 ```{r}
-(x <- Symbol("x"))
-(y <- Symbol("y"))
-x ^ y
-```
-
-### Integer, RealDouble, RealMPFR
-
-There are explicit constructors for such types:
-
-```{r}
-Integer(42L)
-RealDouble(base::pi)
-```
-
-For large integer and high-precision floating number that R can not hold,
-you can construct "Integer" or "RealMPFR" from character. For example:
-
-```{r}
-8615937169318
-as.integer(8615937169318)
-Integer("8615937169318")
-Integer("8615937169318") ^ 9L
-```
-
-```{r, eval=FALSE}
-# TODO, currently not available
-RealMPFR("3.1415926535897932384626433832795028841971693993751058209", bits = 70)
-```
-
-Comparing with the `mpfr` function in `Rmpfr` package:
-
-```{r}
-Rmpfr::mpfr("3.1415926535897932384626433832795028841971693993751058209", precbits = 70)
-```
-
-Or simply use the SymEngine parser instead of the explicit constructors:
-
-```{r}
-S("8615937169318")
-S("3.1415926535897932384626433832795028841971693993751058209")
-```
-
-### Complex, ComplexDouble and ComplexMPC
-
-There will be explicit constructors (TODO):
-
-```{r}
-```
-
-Or use the parser:
-
-```{r}
-S("6 + 9I")
-```
-
-Or use:
-
-```{r}
-6L + 9L * Constant("I")
-```
-
-The `mpc` library is used for holding complex number with arbitrary precision,
-similar to `mpfr` library for floating number.
-
-```{r}
-S("2.3 + 23.9999999999999999999I")
-```
-
-### Constants
-
-For example:
-
-```{r}
-Constant("pi")
-sin(Constant("pi") / 2L)
-```
-
-### Generic Conversion and Parser
-
-As already showed in the above examples, `S` converts a R object to SymEngine object.
-When the input is a character, it will parse the expression to produce appropriate object.
-
-```{r}
-S(6L)
-S(4.2)
-```
-
-```{r}
-(x <- S("x"))
-(k <- S(~ k))          # Currently only work with "symbol"
-(b <- Constant("b"))
-S("k * x + b")
-k * x + b
-```
-
-```{r}
-S("pi")
-S("sin(pi)")
-```
-
-```{r}
-S("(tan(x) + sin(x))^2")
-S("a + 2 >= a")
-```
-
-### Substitue a Variable
-
-Substitute a variable with another one:
-
-```{r}
-x <- S("x")
-a <- S("a")
-(expr <- (tan(x) + sin(x) + a) ^ 2L)
-```
-
-```{r}
-subs(expr, S("x"), S("a"))
-subs(expr, S("x"), S(3.1415926))
-subs(expr, S("x"), Constant("pi"))
-subs(expr, S("x"), Constant("pi") * 2L/3L)
-```
-
-### Expand an Expression
-
-```{r}
-expr
+use_vars(x, y, z)
+expr <- (x + y + z) ^ 2L - 42L
 expand(expr)
 ```
 
-### Derivative
+Substitue `z` as `a` and `y` as `x^2`.
 
 ```{r}
+expr <- subs(expr, ~ z, ~ a,
+                   "y",   x^2L)
 expr
-diff(expr, S("x"))
-diff(expr, S("a"))
 ```
 
-### Evaluate an Expression
+Second derivative of `expr` with regards to `x`:
 
 ```{r}
-evalf(Constant("pi"), bits = 999)
+d2_expr <- D(expr, "x", n = 2)
+expand(d2_expr)
 ```
 
-### Object Equality and Hash
+Solve the equation of `d2_expr == 0` with regards to `x`.
+
+```{r}
+solutions <- solve(d2_expr, "x")
+solutions
+```
+
+Get the first solution and convert it into a R function with `a` as argument.
+
+```{r}
+func <- lambdify(solutions[[1]])
+func
+```
+
+
+### Numbers
+
+The next prime number greater than 2^400.
+
+```{r}
+n <- nextprime(S(~ 2 ^ 400))
+n
+```
+
+The greatest common divisor between the prime number and 42.
+
+```{r}
+GCD(n, 42)
+```
+
+The binomial coefficient `(2^30 ¦ 5)`.
+
+```{r}
+choose(S(~ 2^30), 5L)
+```
+
+Pi "computed" to 400-bit precision number.
+
+```{r}
+if (symengine_have_component("mpfr"))
+    evalf(Constant("pi"), bits = 400)
+```
+
+### Object Equality
 
 ```{r}
 x + y == S("x + y")
@@ -201,57 +116,10 @@ x + y != S("x + y")
 ```
 
 ```{r}
-tan(x)
 sin(x)/cos(x)
 tan(x) == sin(x)/cos(x) # Different internal representation
 ```
 
-```{r}
-Hash(tan(x))
-Hash(sin(x)/cos(x))
-```
-
-### N Theory
-
-TODO
-
-### FunctionSymbol
-
-TODO
-
-```{r}
-S("f(x, y)")
-```
-
-### Lambdify
-
-TODO
-
-### Vector
-
-```{r}
-v <- vecbasic("a", 32L, 32)
-v
-v[-1]
-v[[1]]
-c(v, S("a + b"))
-```
-
-### Matrix (DenseMatrix and SparseMatrix)
-
-TODO
-
-
-## Under the Hood
-
-The SymEngine objects are implemented with "externalptr":
-
-```{r}
-x <- Symbol(~ x)
-str(x)
-```
-
-See "src/interface.c" for the C code that wraps the symengine api.
 
 
 ## Related R Packages

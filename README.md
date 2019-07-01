@@ -9,9 +9,7 @@ Status](https://travis-ci.org/symengine/symengine.R.svg?branch=master)](https://
 status](https://ci.appveyor.com/api/projects/status/rr0tdh8ykvs04qg2?svg=true)](https://ci.appveyor.com/project/symengine/symengine-r)
 
 This is an experiment to provide a R interface to the [SymEngine
-library](https://github.com/symengine/symengine). It is still in
-progress, but if you are interested, please contact Jialin Ma
-<marlin-@gmx.cn> and Isuru Fernando <isuruf@gmail.com>.
+library](https://github.com/symengine/symengine).
 
 This project was a GSoC 2018 project under the organization of The R
 Project for Statistical Computing.
@@ -40,202 +38,93 @@ library(symengine)
 #>       |___|               |___|
 #> 
 #> Attaching package: 'symengine'
-#> The following objects are masked from 'package:base':
+#> The following object is masked from 'package:stats':
 #> 
-#>     cbind, det, diff, rbind, t
+#>     D
 ```
 
 ## Usage
 
-### Symbol
-
-A symbol or variable can be constructed from character.
+### Manipulating Symbolic Expressions
 
 ``` r
-(x <- Symbol("x"))
-#> (Symbol) x
-(y <- Symbol("y"))
-#> (Symbol) y
-x ^ y
-#> (Pow)    x^y
+use_vars(x, y, z)
+#> Initializing 'x', 'y', 'z'
+expr <- (x + y + z) ^ 2L - 42L
+expand(expr)
+#> (Add)    -42 + 2*x*y + 2*x*z + 2*y*z + x^2 + y^2 + z^2
 ```
 
-### Integer, RealDouble, RealMPFR
-
-There are explicit constructors for such types:
+Substitue `z` as `a` and `y` as `x^2`.
 
 ``` r
-Integer(42L)
-#> (Integer)    42
-RealDouble(base::pi)
-#> (RealDouble) 3.14159265358979
+expr <- subs(expr, ~ z, ~ a,
+                   "y",   x^2L)
+expr
+#> (Add)    -42 + (a + x + x^2)^2
 ```
 
-For large integer and high-precision floating number that R can not
-hold, you can construct “Integer” or “RealMPFR” from character. For
-example:
+Second derivative of `expr` with regards to `x`:
 
 ``` r
-8615937169318
-#> [1] 8.615937e+12
-as.integer(8615937169318)
-#> Warning: NAs introduced by coercion to integer range
-#> [1] NA
-Integer("8615937169318")
-#> (Integer)    8615937169318
-Integer("8615937169318") ^ 9L
-#> (Integer)    261651187038033556722865852191251735369739650060120439731902444918211391981554448221540729228593041137656153397421568
+d2_expr <- D(expr, "x", n = 2)
+expand(d2_expr)
+#> (Add)    2 + 4*a + 12*x + 12*x^2
 ```
 
+Solve the equation of `d2_expr == 0` with regards to `x`.
+
 ``` r
-# TODO, currently not available
-RealMPFR("3.1415926535897932384626433832795028841971693993751058209", bits = 70)
+solutions <- solve(d2_expr, "x")
+solutions
+#> VecBasic of length 2
+#> V( -1/2 + (-1/2)*sqrt(1 + (-1/3)*(2 + 4*a)), -1/2 + (1/2)*sqrt(1 + (-1/3)*(2 + 4*a)) )
 ```
 
-Comparing with the `mpfr` function in `Rmpfr` package:
+Get the first solution and convert it into a R function with `a` as
+argument.
 
 ``` r
-Rmpfr::mpfr("3.1415926535897932384626433832795028841971693993751058209", precbits = 70)
-#> 1 'mpfr' number of precision  187   bits 
-#> [1] 3.1415926535897932384626433832795028841971693993751058209
+func <- lambdify(solutions[[1]])
+func
+#> function (a) 
+#> -0.5 + -0.5 * (1L + -0.333333333333333 * (2L + 4L * a))^0.5
+#> <environment: base>
 ```
 
-Or simply use the SymEngine parser instead of the explicit constructors:
+### Numbers
+
+The next prime number greater than 2^400.
 
 ``` r
-S("8615937169318")
-#> (Integer)    8615937169318
-S("3.1415926535897932384626433832795028841971693993751058209")
-#> (RealMPFR)   3.1415926535897932384626433832795028841971693993751058209
+n <- nextprime(S(~ 2 ^ 400))
+n
+#> (Integer)    2582249878086908589655919172003011874329705792829223512830659356540647622016841194629645353280137831435903171972747493557
 ```
 
-### Complex, ComplexDouble and ComplexMPC
-
-There will be explicit constructors (TODO):
-
-Or use the parser:
+The greatest common divisor between the prime number and 42.
 
 ``` r
-S("6 + 9I")
-#> (Complex)    6 + 9*I
-```
-
-Or use:
-
-``` r
-6L + 9L * Constant("I")
-#> (Add)    6 + 9*i
-```
-
-The `mpc` library is used for holding complex number with arbitrary
-precision, similar to `mpfr` library for floating number.
-
-``` r
-S("2.3 + 23.9999999999999999999I")
-#> (ComplexMPC) 2.29999999999999982236 + 23.9999999999999999999*I
-```
-
-### Constants
-
-For example:
-
-``` r
-Constant("pi")
-#> (Constant)   pi
-sin(Constant("pi") / 2L)
+GCD(n, 42)
 #> (Integer)    1
 ```
 
-### Generic Conversion and Parser
-
-As already showed in the above examples, `S` converts a R object to
-SymEngine object. When the input is a character, it will parse the
-expression to produce appropriate object.
+The binomial coefficient `(2^30 ¦ 5)`.
 
 ``` r
-S(6L)
-#> (Integer)    6
-S(4.2)
-#> (RealDouble) 4.2
+choose(S(~ 2^30), 5L)
+#> (Integer)    11893730661780666387808571314613824587300864
 ```
+
+Pi “computed” to 400-bit precision number.
 
 ``` r
-(x <- S("x"))
-#> (Symbol) x
-(k <- S(~ k))          # Currently only work with "symbol"
-#> (Symbol) k
-(b <- Constant("b"))
-#> (Constant)   b
-S("k * x + b")
-#> (Add)    b + k*x
-k * x + b
-#> (Add)    k*x + b
+if (symengine_have_component("mpfr"))
+    evalf(Constant("pi"), bits = 400)
+#> (RealMPFR,prec400)   3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679821480865132823066
 ```
 
-``` r
-S("pi")
-#> (Constant)   pi
-S("sin(pi)")
-#> (Integer)    0
-```
-
-``` r
-S("(tan(x) + sin(x))^2")
-#> (Pow)    (sin(x) + tan(x))^2
-S("a + 2 >= a")
-#> (LessThan)   a <= 2 + a
-```
-
-### Substitue a Variable
-
-Substitute a variable with another one:
-
-``` r
-x <- S("x")
-a <- S("a")
-(expr <- (tan(x) + sin(x) + a) ^ 2L)
-#> (Pow)    (a + sin(x) + tan(x))^2
-```
-
-``` r
-subs(expr, S("x"), S("a"))
-#> (Pow)    (a + sin(a) + tan(a))^2
-subs(expr, S("x"), S(3.1415926))
-#> (Pow)    (-7.94093388050907e-23 + a)^2
-subs(expr, S("x"), Constant("pi"))
-#> (Pow)    a^2
-subs(expr, S("x"), Constant("pi") * 2L/3L)
-#> (Pow)    (a + (-1/2)*sqrt(3))^2
-```
-
-### Expand an Expression
-
-``` r
-expr
-#> (Pow)    (a + sin(x) + tan(x))^2
-expand(expr)
-#> (Add)    2*a*sin(x) + 2*a*tan(x) + 2*sin(x)*tan(x) + a^2 + sin(x)^2 + tan(x)^2
-```
-
-### Derivative
-
-``` r
-expr
-#> (Pow)    (a + sin(x) + tan(x))^2
-diff(expr, S("x"))
-#> (Mul)    2*(a + sin(x) + tan(x))*(1 + tan(x)^2 + cos(x))
-diff(expr, S("a"))
-#> (Mul)    2*(a + sin(x) + tan(x))
-```
-
-### Evaluate an Expression
-
-``` r
-evalf(Constant("pi"), bits = 999)
-#> (RealMPFR)   3.14159265358979323846264338327950288419716939937510582097494459230781640628620899862803482534211706798214808651328230664709384460955058223172535940812848111745028410270193852110555964462294895493038196442881097566593344612847564823378678316527120190914564856692346034861045432664821339360726024914127
-```
-
-### Object Equality and Hash
+### Object Equality
 
 ``` r
 x + y == S("x + y")
@@ -245,77 +134,11 @@ x + y != S("x + y")
 ```
 
 ``` r
-tan(x)
-#> (Tan)    tan(x)
 sin(x)/cos(x)
 #> (Mul)    sin(x)/cos(x)
 tan(x) == sin(x)/cos(x) # Different internal representation
 #> [1] FALSE
 ```
-
-``` r
-Hash(tan(x))
-#> [1] "5308874006"
-Hash(sin(x)/cos(x))
-#> [1] "46369110327826722"
-```
-
-### N Theory
-
-TODO
-
-### FunctionSymbol
-
-TODO
-
-``` r
-S("f(x, y)")
-#> (FunctionSymbol) f(x, y)
-```
-
-### Lambdify
-
-TODO
-
-### Vector
-
-``` r
-v <- vecbasic("a", 32L, 32)
-v
-#> VecBasic of length 3
-#> [1] a
-#> [2] 32
-#> [3] 32.0
-v[-1]
-#> VecBasic of length 2
-#> [1] 32
-#> [2] 32.0
-v[[1]]
-#> (Symbol) a
-c(v, S("a + b"))
-#> VecBasic of length 4
-#> [1] a
-#> [2] 32
-#> [3] 32.0
-#> [4] a + b
-```
-
-### Matrix (DenseMatrix and SparseMatrix)
-
-TODO
-
-## Under the Hood
-
-The SymEngine objects are implemented with “externalptr”:
-
-``` r
-x <- Symbol(~ x)
-str(x)
-#> Formal class 'Basic' [package "symengine"] with 1 slot
-#>   ..@ ptr:<externalptr>
-```
-
-See “src/interface.c” for the C code that wraps the symengine api.
 
 ## Related R Packages
 
