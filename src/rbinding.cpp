@@ -18,7 +18,37 @@ struct CRCPBasic {
 using namespace Rcpp;
 
 
-//// SymEngine Infomation
+//// Global variables  ////////
+
+// These are convenient global variables to hold
+// any temporary basic object inside a function.
+static basic bholder;
+static basic bholder1;
+static basic bholder2;
+
+int hook_lib_onload() {
+    basic_new_stack(bholder);
+    basic_new_stack(bholder1);
+    basic_new_stack(bholder2);
+    return 0;
+}
+
+// Run the hook here
+static int dummy = hook_lib_onload();
+
+/*
+ * // This function should be called from R when
+ * // unloading the shared library.
+ * // [[Rcpp::export()]]
+ * int hook_lib_onunload() {
+ *     basic_free_stack(bholder);
+ *     return 0;
+ * }
+ */
+
+
+
+//// SymEngine Infomation ////////////
 
 // [[Rcpp::export()]]
 SEXP cwrapper_symengine_ascii_art() {
