@@ -87,7 +87,7 @@ meta_options$name   <- NULL
 
 message("===== Summary of your options =====")
 print(rbind(cmake_options, static_options, meta_options))
-
+Sys.sleep(1.5)
 
 
 message("===== Downloading SymEngine Repository =====")
@@ -119,12 +119,15 @@ cmake_args <- paste0("-D", names(cmake_args), "=", cmake_args)
 cmake_args <- c(cmake_args, ".")
 
 system2("cmake", args = cmake_args, stdout = stdout(), stderr = stderr())
+Sys.sleep(1.5)
 
 message("===== Compiling =====")
 
 system2("make", stdout = stdout(), stderr = stderr())
+Sys.sleep(1.5)
 
 message("===== Installing =====")
 
 system2("make", "install", stdout = stdout(), stderr = stderr())
+Sys.sleep(1.5)
 
