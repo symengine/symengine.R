@@ -28,8 +28,8 @@ default_install_dir <- file.path("~/.local/rdeplibs-symengine")
 check_bin("git")
 check_bin("cmake")
 
-if (!dir.exists(INSTALL_DIR))
-    dir.create(path = INSTALL_DIR, recursive = TRUE)
+if (!dir.exists(default_install_dir))
+    dir.create(path = default_install_dir, recursive = TRUE)
 
 cmake_options <- list(
     list(name = "CMAKE_INSTALL_PREFIX"  , options = c(default_install_dir)),
