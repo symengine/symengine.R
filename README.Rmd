@@ -25,14 +25,34 @@ of The R Project for Statistical Computing.
 
 ## Installation
 
-Currently, you may need to install or compile symengine library manually on Linux or Mac OS.
-Please follow the instruction at https://github.com/symengine/symengine.
+On Unix system, you may need install some system dependencies and compile the
+symengine library manually. You can follow the instruction at 
+https://github.com/symengine/symengine.
 
-Then in R, try
+Alternatively, we have provided a convenient script to compile the symengine
+library and install it to a non-root directory [`~/.local/rdeplibs-symengine`].
+To use the script, first make sure you have installed `cmake`, `gmp` library,
+`mpfr` library and `mpc` library on your system. For example, on openSUSE, you will need:
+
+```
+zypper install cmake gmp-devel mpfr-devel mpc-devel
+```
+
+Then in R, source the script (*Be aware of the risks running a script from online sources*)
+and press Enter to select the default options:
+
+```r
+source("https://raw.githubusercontent.com/symengine/symengine.R/master/tools/install-symengine.R")
+```
+
+If it was successful, you can install the R package with
 
 ```{r, eval=FALSE}
 devtools::install_github("symengine/symengine.R")
 ```
+
+On Windows, the dependencies will be downloaded at build time, and you can install
+directly with `devtools`.
 
 Please report any problem installing the package on your system.
 
