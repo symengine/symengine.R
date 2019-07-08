@@ -1,7 +1,17 @@
 
-PKG_LIBS=`cmake --find-package -DNAME=SymEngine -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=LINK`
+PKG_LIBS=`if [ -d ~/.local/rdeplibs-symengine ]; then \
+SymEngine_DIR=~/.local/rdeplibs-symengine \
+cmake --find-package -DNAME=SymEngine -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=LINK; \
+else \
+cmake --find-package -DNAME=SymEngine -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=LINK; \
+fi`
 
-PKG_CPPFLAGS=`cmake --find-package -DNAME=SymEngine -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=COMPILE`
+PKG_CPPFLAGS=`if [ -d ~/.local/rdeplibs-symengine ]; then \
+SymEngine_DIR=~/.local/rdeplibs-symengine \
+cmake --find-package -DNAME=SymEngine -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=COMPILE; \
+else \
+cmake --find-package -DNAME=SymEngine -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=COMPILE; \
+fi`
 
 CXX_STD = CXX11
 
