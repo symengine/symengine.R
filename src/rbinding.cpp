@@ -129,10 +129,24 @@ bool s4DenseMat_check(SEXP x) {
 
 //// Functions to wrap the external pointer into S4 class.
 
-inline S4 s4basic(basic_struct* s) {
-    S4 out = S4("Basic");
-    out.slot("ptr") = XPtrBasic(s, true, Rf_ScalarRaw(S4BASIC), R_NilValue);
-    return out;
+// Cache and return a shallow copy of Basic object
+SEXP BasicClassPrototype() {
+    static SEXP BasicClassPrototype_val = NULL;
+    if (BasicClassPrototype_val == NULL) {
+        BasicClassPrototype_val = R_do_new_object(R_getClassDef("Basic"));
+        R_PreserveObject(BasicClassPrototype_val);
+    }
+    return Rf_shallow_duplicate(BasicClassPrototype_val);
+}
+
+inline SEXP s4basic(basic_struct* s) {
+    SEXP ans = PROTECT(BasicClassPrototype());
+    ans = R_do_slot_assign(
+        ans, PROTECT(Rf_install("ptr")),
+        XPtrBasic(s, true, PROTECT(Rf_ScalarRaw(S4BASIC)), R_NilValue)
+    );
+    UNPROTECT(3);
+    return ans;
 }
 inline S4 s4vecbasic(CVecBasic* v) {
     S4 out = S4("VecBasic");
@@ -1020,22 +1034,18 @@ SEXP s4binding_dummy(int level) {
     if (level == 1)
         return R_NilValue;
     if (level == 2) {
-        basic bl[100];
-        for (int i = 0; i < 100; i++) {
-            basic_new_stack(bl[i]);
-        }
-        for (int n = 0; n < 100; n++) {
-            basic_free_stack(bl[n]);
-        }
-        return R_NilValue;
-    }
-    if (level == 3) {
         basic_struct* bl[100];
         for (int i = 0; i < 100; i++) {
             bl[i] = basic_new_heap();
         }
         for (int n = 0; n < 100; n++) {
             basic_free_heap(bl[n]);
+        }
+        return R_NilValue;
+    }
+    if (level == 3) {
+        for (int m = 0; m < 100; m++) {
+            XPtrBasic(basic_new_heap(), true, Rf_ScalarRaw(S4BASIC), R_NilValue);
         }
         return R_NilValue;
     }
