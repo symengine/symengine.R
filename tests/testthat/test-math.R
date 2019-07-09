@@ -1,5 +1,13 @@
 context("Math functions")
 
+test_that("lgamma works", {
+    s <- lgamma(S("x"))
+    expect_true(type(s) == "LogGamma")
+    
+    s <- lgamma(S("1"))
+    expect_true(s == S(0))
+})
+
 expect_vecbasic_equal <- function(a, b) {
     expect_true(length(a) == length(b))
     for (i in seq_along(a))

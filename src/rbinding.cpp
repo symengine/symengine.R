@@ -1193,7 +1193,7 @@ cwrapper_math_t* math_lookup(const char* key) {
         // {"sinpi", }
         // {"tanpi", }
         {"gamma", basic_gamma},
-        // {"lgamma", }   TODO: log(gamma(x))
+        {"lgamma", basic_loggamma},
         // {"digamma", }  TODO
         // {"trigamma", } TODO
         
