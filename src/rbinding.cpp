@@ -18,7 +18,22 @@ struct CRCPBasic {
 using namespace Rcpp;
 
 
-//// SymEngine Infomation
+//// Global variables  ////////
+
+// These are convenient global variables to hold
+// any temporary basic object inside a function.
+static basic global_bholder;
+
+int hook_lib_onload() {
+    basic_new_stack(global_bholder);
+    return 0;
+}
+
+// Run the hook here
+static int dummy = hook_lib_onload();
+
+
+//// SymEngine Infomation ////////////
 
 // [[Rcpp::export()]]
 SEXP cwrapper_symengine_ascii_art() {
@@ -99,10 +114,24 @@ bool s4DenseMat_check(SEXP x) {
 
 //// Functions to wrap the external pointer into S4 class.
 
-inline S4 s4basic(basic_struct* s) {
-    S4 out = S4("Basic");
-    out.slot("ptr") = XPtrBasic(s, true, Rf_ScalarRaw(S4BASIC), R_NilValue);
-    return out;
+// Cache and return a shallow copy of Basic object
+SEXP BasicClassPrototype() {
+    static SEXP BasicClassPrototype_val = NULL;
+    if (BasicClassPrototype_val == NULL) {
+        BasicClassPrototype_val = R_do_new_object(R_getClassDef("Basic"));
+        R_PreserveObject(BasicClassPrototype_val);
+    }
+    return Rf_shallow_duplicate(BasicClassPrototype_val);
+}
+
+inline SEXP s4basic(basic_struct* s) {
+    SEXP ans = PROTECT(BasicClassPrototype());
+    ans = R_do_slot_assign(
+        ans, PROTECT(Rf_install("ptr")),
+        XPtrBasic(s, true, PROTECT(Rf_ScalarRaw(S4BASIC)), R_NilValue)
+    );
+    UNPROTECT(3);
+    return ans;
 }
 inline S4 s4vecbasic(CVecBasic* v) {
     S4 out = S4("VecBasic");
@@ -574,20 +603,13 @@ void s4vecbasic_mut_append(S4 vec, RObject robj) {
     // Convert it to a list and parse each
     if (Rf_isVector(robj) && TYPEOF(robj) != EXPRSXP) {
         List robj_list = as<List>(robj);
-        basic_struct* holder = basic_new_heap();
         
         for (int i = 0; i < robj_list.size(); i++) {
             RObject el = robj_list[i];
             // s4basic_parse will check the length of each element to be one
-            CWRAPPER_OUTPUT_TYPE status1 = cwrapper_basic_parse(holder, el, false);
-            CWRAPPER_OUTPUT_TYPE status2 = vecbasic_push_back(self, holder);
-            if (status1 || status2) {
-                basic_free_heap(holder);
-                cwrapper_hold(status1);
-                cwrapper_hold(status2);
-            }
+            cwrapper_hold(cwrapper_basic_parse(global_bholder, el, false));
+            cwrapper_hold(vecbasic_push_back(self, global_bholder));
         }
-        basic_free_heap(holder);
         return;
     }
     Rf_error("Unrecognized type\n");
@@ -639,17 +661,18 @@ S4 s4vecbasic_unique(SEXP robj) {
     size_t     len  = vecbasic_size(vec);
     CSetBasic*    set_holder    = setbasic_new();
     // TODO: Move this to cwrapper_vec2set?
-    basic_struct* basic_holder  = basic_new_heap();
+    basic basic_holder;
+    basic_new_stack(basic_holder);
     for (size_t i = 0; i < len; i++) {
         CWRAPPER_OUTPUT_TYPE status = vecbasic_get(vec, i, basic_holder);
         setbasic_insert(set_holder, basic_holder);
         if (status) {
             setbasic_free(set_holder);
-            basic_free_heap(basic_holder);
+            basic_free_stack(basic_holder);
             cwrapper_hold(status);
         }
     }
-    basic_free_heap(basic_holder);
+    basic_free_stack(basic_holder);
     
     S4 ans = s4vecbasic();
     CWRAPPER_OUTPUT_TYPE status2 = cwrapper_set2vec(set_holder, s4vecbasic_elt(ans));
@@ -756,19 +779,10 @@ S4 s4DenseMat_get(S4 robj, IntegerVector rows, IntegerVector cols, bool get_basi
     
     S4         out  = s4vecbasic();
     CVecBasic* outv = s4vecbasic_elt(out);
-    basic_struct* basic_holder = basic_new_heap();
     for (int i = 0; i < len; i++) {
-        CWRAPPER_OUTPUT_TYPE status1 = dense_matrix_get_basic(
-            basic_holder, mat, rows[i] - 1, cols[i] -1
-        );
-        CWRAPPER_OUTPUT_TYPE status2 = vecbasic_push_back(outv, basic_holder);
-        if (status1 || status2) {
-            basic_free_heap(basic_holder);
-            cwrapper_hold(status1);
-            cwrapper_hold(status2);
-        }
+        cwrapper_hold(dense_matrix_get_basic(global_bholder, mat, rows[i] - 1, cols[i] -1));
+        cwrapper_hold(vecbasic_push_back(outv, global_bholder));
     }
-    basic_free_heap(basic_holder);
     return out;
 }
 
@@ -990,22 +1004,18 @@ SEXP s4binding_dummy(int level) {
     if (level == 1)
         return R_NilValue;
     if (level == 2) {
-        basic bl[100];
-        for (int i = 0; i < 100; i++) {
-            basic_new_stack(bl[i]);
-        }
-        for (int n = 0; n < 100; n++) {
-            basic_free_stack(bl[n]);
-        }
-        return R_NilValue;
-    }
-    if (level == 3) {
         basic_struct* bl[100];
         for (int i = 0; i < 100; i++) {
             bl[i] = basic_new_heap();
         }
         for (int n = 0; n < 100; n++) {
             basic_free_heap(bl[n]);
+        }
+        return R_NilValue;
+    }
+    if (level == 3) {
+        for (int m = 0; m < 100; m++) {
+            XPtrBasic(basic_new_heap(), true, Rf_ScalarRaw(S4BASIC), R_NilValue);
         }
         return R_NilValue;
     }
@@ -1102,13 +1112,11 @@ S4 s4binding_op(SEXP robj1, SEXP robj2, const char* op_key) {
         IntegerVector idx2 = rep_len(seq_len(sz2), sz_ans);
         
         CVecBasic* ans_ptr = s4vecbasic_elt(ans);
-        S4 s4holder = s4basic();
-        basic_struct* holder = s4basic_elt(s4holder);
         for (int i = 0; i < sz_ans; i++) {
             S4 e1_basic = s4binding_subset(e1, Rf_ScalarInteger(idx1[i]), true);
             S4 e2_basic = s4binding_subset(e2, Rf_ScalarInteger(idx2[i]), true);
-            cwrapper_hold(op_wrapped(holder, s4basic_elt(e1_basic), s4basic_elt(e2_basic)));
-            cwrapper_hold(vecbasic_push_back(ans_ptr, holder));
+            cwrapper_hold(op_wrapped(global_bholder, s4basic_elt(e1_basic), s4basic_elt(e2_basic)));
+            cwrapper_hold(vecbasic_push_back(ans_ptr, global_bholder));
         }
     }
     
@@ -1248,12 +1256,10 @@ S4 s4binding_math(SEXP robj, const char* math_key) {
     S4            ans     = s4vecbasic();
     CVecBasic*    ans_elt = s4vecbasic_elt(ans);
     int           sz      = s4binding_size(x);
-    basic_struct* holder  = basic_new_heap();
-    S4            keeper  = s4basic(holder);
     for (int i = 0; i < sz; i++) {
         S4 val = s4binding_subset(x, Rf_ScalarInteger(i + 1), true);
-        cwrapper_hold(math_wrapped(holder, s4basic_elt(val)));
-        cwrapper_hold(vecbasic_push_back(ans_elt, holder));
+        cwrapper_hold(math_wrapped(global_bholder, s4basic_elt(val)));
+        cwrapper_hold(vecbasic_push_back(ans_elt, global_bholder));
     }
     
     // If input is a DenseMatrix, convert vecbasic back to the same dimension
@@ -1284,13 +1290,11 @@ S4 s4binding_evalf(RObject expr, int bits, bool complex) {
     CVecBasic* ans_elt = s4vecbasic_elt(ans);
     int sz = s4binding_size(x);
     
-    basic_struct* holder  = basic_new_heap();
-    S4            keeper  = s4basic(holder);
     
     for (int i = 0; i < sz; i++) {
         S4 val = s4binding_subset(x, Rf_ScalarInteger(i + 1), true);
-        cwrapper_hold(basic_evalf(holder, s4basic_elt(val), bits, !complex));
-        cwrapper_hold(vecbasic_push_back(ans_elt, holder));
+        cwrapper_hold(basic_evalf(global_bholder, s4basic_elt(val), bits, !complex));
+        cwrapper_hold(vecbasic_push_back(ans_elt, global_bholder));
     }
     
     if (x_type == S4DENSEMATRIX) {
