@@ -84,7 +84,8 @@ expr
 Second derivative of `expr` with regards to `x`:
 
 ```{r}
-d2_expr <- D(expr, "x", n = 2)
+d1_expr <- D(expr, "x")
+d2_expr <- D(d1_expr, "x")
 expand(d2_expr)
 ```
 
