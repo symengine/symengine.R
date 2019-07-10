@@ -206,36 +206,38 @@ erfc <- function(a) {
     s4binding_math(a, "erfc")
 }
 
+#' @exportMethod D
+setGeneric("D")
 
 #' Derivatives of Basic Objects
 #' 
 #' @param expr A Basic object.
 #' @param name A character vector or a Basic object of type Symbol.
-#' @param n An integer representing the level of derivative.
 #' @export
-D <- function(expr, name, n = 1L) {
-    if (missing(name)) {
-        expr <- s4binding_parse(expr)
-        if (!s4basic_check(expr))
-            stop("'expr' should be convertible to Basic if 'name' is missing")
-        free_symbols <- s4basic_free_symbols(expr)
-        if (length(free_symbols) != 1L)
-            stop("There is more than one variable in the expression, ",
-                 "'name' argument must be supplied")
-        name <- as(free_symbols, "Basic")
-    }
-    else if (length(name) == 1L || is.language(name)) {
-        ## Avoid parser parsing name as a constant.
-        name <- s4basic_symbol(name)
-    }
-    else if (!s4vecbasic_check(name)) {
-        name <- lapply(name, s4basic_symbol)
-    }
-    ## TODO: there is a shortcut if expr is a DenseMatrix 
-    for (i in seq_len(n))
+setMethod("D", c(expr = "SymEngineDataType"),
+    function(expr, name) {
+        if (missing(name)) {
+            expr <- s4binding_parse(expr)
+            if (!s4basic_check(expr))
+                stop("'expr' should be convertible to Basic if 'name' is missing")
+            free_symbols <- s4basic_free_symbols(expr)
+            if (length(free_symbols) != 1L)
+                stop("There is more than one variable in the expression, ",
+                     "'name' argument must be supplied")
+            name <- as(free_symbols, "Basic")
+        }
+        else if (length(name) == 1L || is.language(name)) {
+            ## Avoid parser parsing name as a constant.
+            name <- s4basic_symbol(name)
+        }
+        else if (!s4vecbasic_check(name)) {
+            name <- lapply(name, s4basic_symbol)
+        }
+        ## TODO: there is a shortcut if expr is a DenseMatrix 
         expr <- s4binding_op(expr, name, "diff")
-    expr
-}
+        expr
+    }
+)
 
 ## #' @export
 ## # usage: diff(expr, x), diff(expr, x, y), diff(expr, x, y, 3)

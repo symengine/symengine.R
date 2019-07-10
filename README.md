@@ -57,11 +57,6 @@ library(symengine)
 #> |__   | | |     |   __|   | . | |   | -_|
 #> |_____|_  |_|_|_|_____|_|_|_  |_|_|_|___|
 #>       |___|               |___|
-#> 
-#> Attaching package: 'symengine'
-#> The following object is masked from 'package:stats':
-#> 
-#>     D
 ```
 
 ## Usage
@@ -88,7 +83,8 @@ expr
 Second derivative of `expr` with regards to `x`:
 
 ``` r
-d2_expr <- D(expr, "x", n = 2)
+d1_expr <- D(expr, "x")
+d2_expr <- D(d1_expr, "x")
 expand(d2_expr)
 #> (Add)    2 + 4*a + 12*x + 12*x^2
 ```
