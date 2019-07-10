@@ -18,3 +18,12 @@ FunctionSymbol(name, args)
 \code{FunctionSymbol} creates a Basic object with type \code{FunctionSymbol}.
 \code{Function} returns a generator.
 }
+\examples{
+f <- Function("f")
+a <- Symbol("a")
+b <- Symbol("b")
+f(a, b)
+e <- f(a, f(a + b))
+D(e, a)
+FunctionSymbol("f", c(a,b))
+}

@@ -12,6 +12,14 @@ NULL
 #' 
 #' @rdname FunctionSymbol
 #' @export
+#' @examples 
+#' f <- Function("f")
+#' a <- Symbol("a")
+#' b <- Symbol("b")
+#' f(a, b)
+#' e <- f(a, f(a + b))
+#' D(e, a)
+#' FunctionSymbol("f", c(a,b))
 Function <- function(name) {
     new("FunctionSymbolGenerator", name = name)
 }
