@@ -113,6 +113,10 @@ s4basic_const <- function(robj) {
     .Call('_symengine_s4basic_const', PACKAGE = 'symengine', robj)
 }
 
+s4basic_function <- function(name, args) {
+    .Call('_symengine_s4basic_function', PACKAGE = 'symengine', name, args)
+}
+
 s4basic_real <- function(robj, prec = NULL) {
     .Call('_symengine_s4basic_real', PACKAGE = 'symengine', robj, prec)
 }

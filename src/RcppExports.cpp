@@ -310,6 +310,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// s4basic_function
+S4 s4basic_function(String name, SEXP args);
+RcppExport SEXP _symengine_s4basic_function(SEXP nameSEXP, SEXP argsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< String >::type name(nameSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type args(argsSEXP);
+    rcpp_result_gen = Rcpp::wrap(s4basic_function(name, args));
+    return rcpp_result_gen;
+END_RCPP
+}
 // s4basic_real
 S4 s4basic_real(RObject robj, RObject prec);
 RcppExport SEXP _symengine_s4basic_real(SEXP robjSEXP, SEXP precSEXP) {
@@ -693,6 +705,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_symengine_s4basic_parse", (DL_FUNC) &_symengine_s4basic_parse, 2},
     {"_symengine_s4basic_symbol", (DL_FUNC) &_symengine_s4basic_symbol, 1},
     {"_symengine_s4basic_const", (DL_FUNC) &_symengine_s4basic_const, 1},
+    {"_symengine_s4basic_function", (DL_FUNC) &_symengine_s4basic_function, 2},
     {"_symengine_s4basic_real", (DL_FUNC) &_symengine_s4basic_real, 2},
     {"_symengine_s4basic_subs", (DL_FUNC) &_symengine_s4basic_subs, 3},
     {"_symengine_s4basic_as_sexp", (DL_FUNC) &_symengine_s4basic_as_sexp, 1},
