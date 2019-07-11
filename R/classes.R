@@ -24,6 +24,12 @@ setClass("VecBasicWithContext", contains = c("Basic", "SymEnginePTRWithContext")
 
 setClass("DenseMatrixWithContext", contains = c("Basic", "SymEnginePTRWithContext"))
 
+#### Function Symbol Generator ========================
+
+setClass("FunctionSymbolGenerator",
+    contains = c("function"), slots = c(name = "character"),
+    prototype = function(...) FunctionSymbol(sys.function()@name, list(...))
+)
 
 #### Some conversion methods ==========================
 

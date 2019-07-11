@@ -439,6 +439,16 @@ S4 s4basic_const(CharacterVector robj) {
     return out;
 }
 
+// [[Rcpp::export()]]
+S4 s4basic_function(String name, SEXP args) {
+    CVecBasic* args_elt = s4vecbasic_elt(args);
+    S4 ans = s4basic();
+    cwrapper_hold(
+        function_symbol_set(s4basic_elt(ans), name.get_cstring(), args_elt)
+    );
+    return ans;
+}
+
 CWRAPPER_OUTPUT_TYPE cwrapper_real_mpfr_set_d(basic s, double d, int prec) {
 #ifdef HAVE_SYMENGINE_MPFR
     return real_mpfr_set_d(s, d, prec);
