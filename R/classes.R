@@ -76,22 +76,14 @@ setMethod("as.vector", c(x = "Basic"),
 
 #### setAs for VecBasic  ==============================
 
-setAs("Basic", "VecBasic", function(from) {
-    ans <- s4vecbasic()
-    s4vecbasic_mut_append(ans, from)
-    ans
-})
+setAs("Basic", "VecBasic", function(from) Vector(from))
 
 setAs("VecBasic", "Basic", function(from) {
     stopifnot(length(from) == 1L)
     from[[1]]
 })
 
-setAs("vector", "VecBasic", function(from) {
-    ans <- s4vecbasic()
-    s4vecbasic_mut_append(ans, from)
-    ans
-})
+setAs("vector", "VecBasic", function(from) Vector(from))
 
 ## By defining as.vector, it automatically supports as.list, matrix, as.matrix, array, etc.
 setMethod("as.vector", c(x = "VecBasic"),
