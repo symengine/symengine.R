@@ -32,6 +32,15 @@ int hook_lib_onload() {
 // Run the hook here
 static int dummy = hook_lib_onload();
 
+//// R functions       ////////
+
+static SEXP robj_as_list(SEXP x) {
+    SEXP as_list_symbol = PROTECT(Rf_install("as.list.default"));
+    SEXP call = PROTECT(Rf_lang2(as_list_symbol, x));
+    SEXP ans = Rf_eval(call, R_BaseEnv);
+    UNPROTECT(2);
+    return ans;
+}
 
 //// SymEngine Infomation ////////////
 
@@ -649,7 +658,7 @@ void s4vecbasic_mut_append(S4 vec, RObject robj) {
         Rf_error("Unrecognized type\n");
     }
 
-    List robj_list = as<List>(robj); // This conversion can be slow!!
+    List robj_list = robj_as_list(robj);
     for (int i = 0; i < robj_list.size(); i++) {
         RObject el = robj_list[i];
         // s4basic_parse will check the length of each element to be one
