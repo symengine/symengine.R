@@ -589,40 +589,72 @@ SEXP s4vecbasic_get(RObject robj, int idx) {
     return ans;
 }
 
+static inline bool robj_is_simple(SEXP x) {
+    switch(TYPEOF(x)) {
+    // EXPRSXP is a "Vector" with length >= 1,
+    // but it should be treated as a scalar.
+    case EXPRSXP:
+        return true;
+    case LGLSXP:
+    case INTSXP:
+    case REALSXP:
+    case CPLXSXP:
+    case STRSXP:
+        if (Rf_length(x) == 1)
+            return true;
+        else
+            return false;
+    case VECSXP:
+        return false;
+    }
+    return false;
+}
 
 // This will modify it in place. Be careful when using it at R level functions.
 // [[Rcpp::export()]]
 void s4vecbasic_mut_append(S4 vec, RObject robj) {
     CVecBasic* self = s4vecbasic_elt(vec);
-    if (s4basic_check(robj)) {
-        basic_struct* cbasic = s4basic_elt(robj);
-        cwrapper_hold(vecbasic_push_back(self, cbasic));
+    s4binding_t type = s4binding_typeof(robj);
+    if (type == S4BASIC) {
+        cwrapper_hold(vecbasic_push_back(self, s4basic_elt(robj)));
         return;
     }
-    if (s4vecbasic_check(robj)) {
-        CVecBasic* cvecbasic = s4vecbasic_elt(robj);
-        cwrapper_hold(cwrapper_vec_append_vec(self, cvecbasic, -1));
+    if (type == S4VECBASIC) {
+        cwrapper_hold(cwrapper_vec_append_vec(self, s4vecbasic_elt(robj), -1));
         return;
     }
-    if (is<Formula>(robj)) {
-        S4 rbasic = s4basic_parse(robj);
-        cwrapper_hold(vecbasic_push_back(self, s4basic_elt(rbasic)));
+    if (type == S4DENSEMATRIX) {
+        Rf_error("DenseMatrix is not supported\n");
+    }
+    if (robj_is_simple(robj)) {
+        cwrapper_hold(cwrapper_basic_parse(global_bholder, robj, false));
+        cwrapper_hold(vecbasic_push_back(self, global_bholder));
         return;
     }
     
     // Convert it to a list and parse each
-    if (Rf_isVector(robj) && TYPEOF(robj) != EXPRSXP) {
-        List robj_list = as<List>(robj);
-        
-        for (int i = 0; i < robj_list.size(); i++) {
-            RObject el = robj_list[i];
-            // s4basic_parse will check the length of each element to be one
-            cwrapper_hold(cwrapper_basic_parse(global_bholder, el, false));
-            cwrapper_hold(vecbasic_push_back(self, global_bholder));
-        }
-        return;
+    switch(TYPEOF(robj)) {
+    case LGLSXP:
+    case INTSXP:
+    case REALSXP:
+    case CPLXSXP:
+    case STRSXP:
+    case VECSXP:
+        if (Rf_length(robj) == 0)
+            return;
+        break;
+    default:
+        Rf_error("Unrecognized type\n");
     }
-    Rf_error("Unrecognized type\n");
+
+    List robj_list = as<List>(robj); // This conversion can be slow!!
+    for (int i = 0; i < robj_list.size(); i++) {
+        RObject el = robj_list[i];
+        // s4basic_parse will check the length of each element to be one
+        cwrapper_hold(cwrapper_basic_parse(global_bholder, el, false));
+        cwrapper_hold(vecbasic_push_back(self, global_bholder));
+    }
+    return;
 }
 
 // SEXP s4vecbasic_mut_push(S4 vec, RObject robj) {
