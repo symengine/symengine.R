@@ -590,6 +590,8 @@ SEXP s4vecbasic_get(RObject robj, int idx) {
 }
 
 static inline bool robj_is_simple(SEXP x) {
+    // "simple" object should be able to be parsed as Basic
+    
     switch(TYPEOF(x)) {
     // EXPRSXP is a "Vector" with length >= 1,
     // but it should be treated as a scalar.
@@ -1022,18 +1024,11 @@ SEXP s4binding_parse(RObject robj) {
     s4binding_t type = s4binding_typeof(robj);
     if (type == S4BASIC || type == S4VECBASIC || type == S4DENSEMATRIX)
         return robj;
-    int len = Rf_length(robj);
     
-    // TODO: implement a is_scalar function based on vector length and
-    //       if it is an expression or formula
-    if (!(Rf_isVector(robj) && TYPEOF(robj) != EXPRSXP)) {
-        // TODO: support formula
-        Rf_error("Unsupported vector type\n");
-    }
-    // i.e. R length-one vector
-    if (len == 1) {
+    if (robj_is_simple(robj))
         return s4basic_parse(robj, false);
-    }
+    
+    // Convert to VecBasic
     S4 ans = s4vecbasic();
     s4vecbasic_mut_append(ans, robj);
     return ans;
