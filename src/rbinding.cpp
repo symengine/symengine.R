@@ -659,28 +659,6 @@ void s4vecbasic_mut_append(S4 vec, RObject robj) {
     return;
 }
 
-// SEXP s4vecbasic_mut_push(S4 vec, RObject robj) {
-//     // TODO: maybe rename to mut_append and accept vectors
-//     CVecBasic* self = s4vecbasic_elt(vec);
-//     if (robj.isS4()) {
-//         S4 rs4 = as<S4>(robj);
-//         if (rs4.is("Basic")) {
-//             basic_struct* val = s4basic_elt(rs4);
-//             cwrapper_hold(vecbasic_push_back(self, val));
-//             return R_NilValue;
-//         }
-//         if (rs4.is("VecBasic")) {
-//             CVecBasic* cval = s4vecbasic_elt(rs4);
-//             cwrapper_hold(cwrapper_vec_append_vec(self, cval, -1));
-//             return R_NilValue;
-//         }
-//     }
-//     // Try to parse it as Basic
-//     // FIXME: avoid creating intermediate S4 object with s4basic_parse?
-//     cwrapper_hold(vecbasic_push_back(self, s4basic_elt(s4basic_parse(robj, false))));
-//     return R_NilValue;
-// };
-
 // [[Rcpp::export()]]
 void s4vecbasic_mut_set(S4 self, int idx, S4 rval) {
     CVecBasic*    vec = s4vecbasic_elt(self);
