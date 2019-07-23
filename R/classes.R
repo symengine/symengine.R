@@ -114,6 +114,22 @@ setMethod("as.character", c(x = "VecBasic"),
     }
 )
 
+setMethod("as.double", c(x = "VecBasic"),
+    function(x, ...) {
+        if (!missing(...))
+            warning("Extra arguments are ignored")
+        vapply(as.list(x), as.double, double(1L))
+    }
+)
+
+setMethod("as.integer", c(x = "VecBasic"),
+    function(x, ...) {
+        if (!missing(...))
+            warning("Extra arguments are ignored")
+        vapply(as.list(x), as.integer, integer(1L))
+    }
+)
+
 #### setAs for DenseMatrix  ===========================
 
 setAs("DenseMatrix", "VecBasic", function(from) {
