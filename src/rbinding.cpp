@@ -602,9 +602,11 @@ static inline bool robj_is_simple(SEXP x) {
     // "simple" object should be able to be parsed as Basic
     
     switch(TYPEOF(x)) {
-    // EXPRSXP is a "Vector" with length >= 1,
+    // EXPRSXP/LANGSXP is a "Vector" with length >= 1,
     // but it should be treated as a scalar.
     case EXPRSXP:
+    case LANGSXP:
+    case SYMSXP:
         return true;
     case LGLSXP:
     case INTSXP:
