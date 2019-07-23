@@ -106,6 +106,13 @@ setMethod("as.vector", c(x = "VecBasic"),
     }
 )
 
+setMethod("as.character", c(x = "VecBasic"),
+    function(x, ...) {
+        if (!missing(...))
+            warning("Extra arguments are ignored")
+        vapply(as.list(x), as.character, character(1L))
+    }
+)
 
 #### setAs for DenseMatrix  ===========================
 
