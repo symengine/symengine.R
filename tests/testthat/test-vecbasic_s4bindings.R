@@ -98,3 +98,37 @@ test_that("Single bracket subscript replacing", {
     # TODO: check address of v
 })
 
+test_that("as.character(v)", {
+    v <- Vector("x", 42L, "x^t", 33)
+    res <- as.character(v)
+    
+    expect_true(is.character(res))
+    expect_true(length(res) == 4L)
+})
+
+test_that("as.integer(v)", {
+    v <- Vector(1L, 2L)
+    res <- as.integer(v)
+    expect_true(is.integer(res))
+    
+    v <- Vector(1, 2)
+    expect_error(as.integer(v))
+})
+
+test_that("as.double(v)", {
+    v <- Vector(1, 2)
+    res <- as.double(v)
+    expect_true(is.double(res))
+    res <- as.numeric(v)
+    expect_true(is.double(res))
+    
+    v <- Vector(1L, 2L)
+    res <- as.double(v)
+    expect_true(is.double(res))
+    res <- as.numeric(v)
+    expect_true(is.double(res))
+    
+    v <- Vector("x", 3)
+    expect_error(as.double(v))
+})
+
