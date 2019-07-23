@@ -106,26 +106,23 @@ setMethod("as.vector", c(x = "VecBasic"),
     }
 )
 
+#' @rdname conversion
 setMethod("as.character", c(x = "VecBasic"),
-    function(x, ...) {
-        if (!missing(...))
-            warning("Extra arguments are ignored")
+    function(x) {
         vapply(as.list(x), as.character, character(1L))
     }
 )
 
-setMethod("as.double", c(x = "VecBasic"),
-    function(x, ...) {
-        if (!missing(...))
-            warning("Extra arguments are ignored")
+#' @rdname conversion
+setMethod("as.numeric", c(x = "VecBasic"),
+    function(x) {
         vapply(as.list(x), as.double, double(1L))
     }
 )
 
+#' @rdname conversion
 setMethod("as.integer", c(x = "VecBasic"),
-    function(x, ...) {
-        if (!missing(...))
-            warning("Extra arguments are ignored")
+    function(x) {
         vapply(as.list(x), as.integer, integer(1L))
     }
 )
