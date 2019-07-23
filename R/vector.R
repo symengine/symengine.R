@@ -17,8 +17,11 @@ Vector <- function(x, ...) {
         return(s4vecbasic())
     
     ## Treat x as a vector
-    if (missing(...))
-        return(as(x, "VecBasic"))
+    if (missing(...)) {
+        ans <- s4vecbasic()
+        s4vecbasic_mut_append(ans, x)
+        return(ans)
+    }
     
     elements <- list(x, ...)
     ans <- s4vecbasic()

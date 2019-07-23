@@ -32,6 +32,15 @@ int hook_lib_onload() {
 // Run the hook here
 static int dummy = hook_lib_onload();
 
+//// R functions       ////////
+
+static SEXP robj_as_list(SEXP x) {
+    SEXP as_list_symbol = PROTECT(Rf_install("as.list.default"));
+    SEXP call = PROTECT(Rf_lang2(as_list_symbol, x));
+    SEXP ans = Rf_eval(call, R_BaseEnv);
+    UNPROTECT(2);
+    return ans;
+}
 
 //// SymEngine Infomation ////////////
 
@@ -589,63 +598,77 @@ SEXP s4vecbasic_get(RObject robj, int idx) {
     return ans;
 }
 
+static inline bool robj_is_simple(SEXP x) {
+    // "simple" object should be able to be parsed as Basic
+    
+    switch(TYPEOF(x)) {
+    // EXPRSXP/LANGSXP is a "Vector" with length >= 1,
+    // but it should be treated as a scalar.
+    case EXPRSXP:
+    case LANGSXP:
+    case SYMSXP:
+        return true;
+    case LGLSXP:
+    case INTSXP:
+    case REALSXP:
+    case CPLXSXP:
+    case STRSXP:
+        if (Rf_length(x) == 1)
+            return true;
+        else
+            return false;
+    case VECSXP:
+        return false;
+    }
+    return false;
+}
 
 // This will modify it in place. Be careful when using it at R level functions.
 // [[Rcpp::export()]]
 void s4vecbasic_mut_append(S4 vec, RObject robj) {
     CVecBasic* self = s4vecbasic_elt(vec);
-    if (s4basic_check(robj)) {
-        basic_struct* cbasic = s4basic_elt(robj);
-        cwrapper_hold(vecbasic_push_back(self, cbasic));
+    s4binding_t type = s4binding_typeof(robj);
+    if (type == S4BASIC) {
+        cwrapper_hold(vecbasic_push_back(self, s4basic_elt(robj)));
         return;
     }
-    if (s4vecbasic_check(robj)) {
-        CVecBasic* cvecbasic = s4vecbasic_elt(robj);
-        cwrapper_hold(cwrapper_vec_append_vec(self, cvecbasic, -1));
+    if (type == S4VECBASIC) {
+        cwrapper_hold(cwrapper_vec_append_vec(self, s4vecbasic_elt(robj), -1));
         return;
     }
-    if (is<Formula>(robj)) {
-        S4 rbasic = s4basic_parse(robj);
-        cwrapper_hold(vecbasic_push_back(self, s4basic_elt(rbasic)));
+    if (type == S4DENSEMATRIX) {
+        Rf_error("DenseMatrix is not supported\n");
+    }
+    if (robj_is_simple(robj)) {
+        cwrapper_hold(cwrapper_basic_parse(global_bholder, robj, false));
+        cwrapper_hold(vecbasic_push_back(self, global_bholder));
         return;
     }
     
     // Convert it to a list and parse each
-    if (Rf_isVector(robj) && TYPEOF(robj) != EXPRSXP) {
-        List robj_list = as<List>(robj);
-        
-        for (int i = 0; i < robj_list.size(); i++) {
-            RObject el = robj_list[i];
-            // s4basic_parse will check the length of each element to be one
-            cwrapper_hold(cwrapper_basic_parse(global_bholder, el, false));
-            cwrapper_hold(vecbasic_push_back(self, global_bholder));
-        }
-        return;
+    switch(TYPEOF(robj)) {
+    case LGLSXP:
+    case INTSXP:
+    case REALSXP:
+    case CPLXSXP:
+    case STRSXP:
+    case VECSXP:
+        if (Rf_length(robj) == 0)
+            return;
+        break;
+    default:
+        Rf_error("Unrecognized type\n");
     }
-    Rf_error("Unrecognized type\n");
-}
 
-// SEXP s4vecbasic_mut_push(S4 vec, RObject robj) {
-//     // TODO: maybe rename to mut_append and accept vectors
-//     CVecBasic* self = s4vecbasic_elt(vec);
-//     if (robj.isS4()) {
-//         S4 rs4 = as<S4>(robj);
-//         if (rs4.is("Basic")) {
-//             basic_struct* val = s4basic_elt(rs4);
-//             cwrapper_hold(vecbasic_push_back(self, val));
-//             return R_NilValue;
-//         }
-//         if (rs4.is("VecBasic")) {
-//             CVecBasic* cval = s4vecbasic_elt(rs4);
-//             cwrapper_hold(cwrapper_vec_append_vec(self, cval, -1));
-//             return R_NilValue;
-//         }
-//     }
-//     // Try to parse it as Basic
-//     // FIXME: avoid creating intermediate S4 object with s4basic_parse?
-//     cwrapper_hold(vecbasic_push_back(self, s4basic_elt(s4basic_parse(robj, false))));
-//     return R_NilValue;
-// };
+    List robj_list = robj_as_list(robj);
+    for (int i = 0; i < robj_list.size(); i++) {
+        RObject el = robj_list[i];
+        // s4basic_parse will check the length of each element to be one
+        cwrapper_hold(cwrapper_basic_parse(global_bholder, el, false));
+        cwrapper_hold(vecbasic_push_back(self, global_bholder));
+    }
+    return;
+}
 
 // [[Rcpp::export()]]
 void s4vecbasic_mut_set(S4 self, int idx, S4 rval) {
@@ -990,18 +1013,11 @@ SEXP s4binding_parse(RObject robj) {
     s4binding_t type = s4binding_typeof(robj);
     if (type == S4BASIC || type == S4VECBASIC || type == S4DENSEMATRIX)
         return robj;
-    int len = Rf_length(robj);
     
-    // TODO: implement a is_scalar function based on vector length and
-    //       if it is an expression or formula
-    if (!(Rf_isVector(robj) && TYPEOF(robj) != EXPRSXP)) {
-        // TODO: support formula
-        Rf_error("Unsupported vector type\n");
-    }
-    // i.e. R length-one vector
-    if (len == 1) {
+    if (robj_is_simple(robj))
         return s4basic_parse(robj, false);
-    }
+    
+    // Convert to VecBasic
     S4 ans = s4vecbasic();
     s4vecbasic_mut_append(ans, robj);
     return ans;

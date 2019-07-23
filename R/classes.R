@@ -76,22 +76,14 @@ setMethod("as.vector", c(x = "Basic"),
 
 #### setAs for VecBasic  ==============================
 
-setAs("Basic", "VecBasic", function(from) {
-    ans <- s4vecbasic()
-    s4vecbasic_mut_append(ans, from)
-    ans
-})
+setAs("Basic", "VecBasic", function(from) Vector(from))
 
 setAs("VecBasic", "Basic", function(from) {
     stopifnot(length(from) == 1L)
     from[[1]]
 })
 
-setAs("vector", "VecBasic", function(from) {
-    ans <- s4vecbasic()
-    s4vecbasic_mut_append(ans, from)
-    ans
-})
+setAs("vector", "VecBasic", function(from) Vector(from))
 
 ## By defining as.vector, it automatically supports as.list, matrix, as.matrix, array, etc.
 setMethod("as.vector", c(x = "VecBasic"),
@@ -114,6 +106,26 @@ setMethod("as.vector", c(x = "VecBasic"),
     }
 )
 
+#' @rdname conversion
+setMethod("as.character", c(x = "VecBasic"),
+    function(x) {
+        vapply(as.list(x), as.character, character(1L))
+    }
+)
+
+#' @rdname conversion
+setMethod("as.numeric", c(x = "VecBasic"),
+    function(x) {
+        vapply(as.list(x), as.double, double(1L))
+    }
+)
+
+#' @rdname conversion
+setMethod("as.integer", c(x = "VecBasic"),
+    function(x) {
+        vapply(as.list(x), as.integer, integer(1L))
+    }
+)
 
 #### setAs for DenseMatrix  ===========================
 
