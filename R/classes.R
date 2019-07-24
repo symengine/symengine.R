@@ -69,6 +69,13 @@ setMethod("as.integer", c(x = "Basic"),
 setMethod("as.vector", c(x = "Basic"),
     function(x, mode) {
         ## TODO
+        if (mode == "expression") ## Supports as.expression.default
+            return(as.expression(as.language(x)))
+        if (mode == "symbol") {   ## Supports as.symbol and as.name
+            if (type(x) != "Symbol")
+                stop("Type of the Basic object is not 'Symbol'")
+            return(as.symbol(as.character(x)))
+        }
         stop(sprintf("mode [%s] not implemented", mode))
     }
 )
@@ -150,3 +157,19 @@ setMethod("as.vector", c(x = "DenseMatrix"),
         as.vector(as(x, "VecBasic"), mode)
     }
 )
+
+#### Convert SymEngine objects to R expression ========
+
+#' @rdname conversion
+#' @export
+setGeneric("as.language", function(x) standardGeneric("as.language"))
+
+#' @rdname conversion
+setMethod("as.language", c(x = "Basic"),
+    function(x) asLanguage(x)
+)
+
+setAs("Basic", "language",
+    function(from) asLanguage(from)
+)
+
