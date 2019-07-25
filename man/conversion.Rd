@@ -8,6 +8,8 @@
 \alias{as.character,VecBasic-method}
 \alias{as.numeric,VecBasic-method}
 \alias{as.integer,VecBasic-method}
+\alias{as.language}
+\alias{as.language,Basic-method}
 \title{Some Conversion Methods}
 \usage{
 \S4method{as.character}{Basic}(x)
@@ -21,6 +23,10 @@
 \S4method{as.numeric}{VecBasic}(x)
 
 \S4method{as.integer}{VecBasic}(x)
+
+as.language(x)
+
+\S4method{as.language}{Basic}(x)
 }
 \arguments{
 \item{x}{The object to be converted.}
