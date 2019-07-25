@@ -31,7 +31,7 @@ test_that("Vector(x) for singular x", {
     
     # String
     x <- "pi"
-    expect_true(type(Vector(x)[[1]]) == "Constant")
+    expect_true(get_type(Vector(x)[[1]]) == "Constant")
     
     # Formula
     x <- ~ a^b
