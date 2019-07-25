@@ -196,10 +196,12 @@ CDenseMatrix* s4DenseMat_elt(SEXP robj) {
 //// R level accessor functions
 
 // [[Rcpp::export()]]
-const char* s4basic_get_type(SEXP robj) {
+SEXP s4basic_get_type(SEXP robj) {
     TypeID type_id = basic_get_type(s4basic_elt(robj));
-    const char* classname = basic_get_class_from_id(type_id);
-    return classname;
+    char* classname = basic_get_class_from_id(type_id);
+    SEXP ans = Rf_mkString(classname);
+    basic_str_free(classname);
+    return ans;
 }
 // [[Rcpp::export()]]
 String s4basic_str(SEXP robj) {
@@ -263,11 +265,14 @@ S4 s4basic_function_symbols(S4 s) {
 }
 
 // [[Rcpp::export()]]
-CharacterVector s4basic_function_getname(S4 s) {
+SEXP s4basic_function_getname(S4 s) {
     basic_struct* b = s4basic_elt(s);
     if (basic_get_type(b) != SYMENGINE_FUNCTIONSYMBOL)
         Rf_error("Not a function symbol");
-    return function_symbol_get_name(b);
+    char* str = function_symbol_get_name(b);
+    SEXP ans = Rf_mkString(str);
+    basic_str_free(str);
+    return ans;
 }
 
 
@@ -762,7 +767,9 @@ S4 s4DenseMat_transpose(SEXP robj) {
 SEXP s4DenseMat_str(S4 robj) {
     CDenseMatrix* mat = s4DenseMat_elt(robj);
     char* str = dense_matrix_str(mat);
-    return Rf_mkString(str);
+    SEXP ans = Rf_mkString(str);
+    basic_str_free(str);
+    return ans;
 }
 
 // [[Rcpp::export()]]
