@@ -25,6 +25,7 @@ Collate:
     'basic.R'
     'function_symbol.R'
     'lambdify.R'
+    'language_conversion.R'
     'matrix.R'
     'misc.R'
     'ops.R'
