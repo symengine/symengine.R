@@ -110,7 +110,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // s4basic_get_type
-const char* s4basic_get_type(SEXP robj);
+SEXP s4basic_get_type(SEXP robj);
 RcppExport SEXP _symengine_s4basic_get_type(SEXP robjSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -200,7 +200,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // s4basic_function_getname
-CharacterVector s4basic_function_getname(S4 s);
+SEXP s4basic_function_getname(S4 s);
 RcppExport SEXP _symengine_s4basic_function_getname(SEXP sSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;

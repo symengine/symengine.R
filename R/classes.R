@@ -72,7 +72,7 @@ setMethod("as.vector", c(x = "Basic"),
         if (mode == "expression") ## Supports as.expression.default
             return(as.expression(as.language(x)))
         if (mode == "symbol") {   ## Supports as.symbol and as.name
-            if (type(x) != "Symbol")
+            if (s4basic_get_type(x) != "Symbol")
                 stop("Type of the Basic object is not 'Symbol'")
             return(as.symbol(as.character(x)))
         }

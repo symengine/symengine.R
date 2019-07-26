@@ -2,7 +2,7 @@ context("Math functions")
 
 test_that("lgamma works", {
     s <- lgamma(S("x"))
-    expect_true(type(s) == "LogGamma")
+    expect_true(get_type(s) == "LogGamma")
     
     s <- lgamma(S("1"))
     expect_true(s == S(0))

@@ -4,7 +4,7 @@
 asLanguage <- function(x) {
     if (!inherits(x, "Basic"))
         return(x)
-    btype <- type(x)
+    btype <- s4basic_get_type(x)
     func <- get0(btype, envir = asLanguageTable, inherits = FALSE)
     if (is.null(func))
         stop(sprintf("Conversion method for %s has not implemented", btype))

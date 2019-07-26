@@ -20,6 +20,7 @@ License: GPL (>= 2)
 RoxygenNote: 6.1.1
 Collate: 
     'RcppExports.R'
+    'basic-getinfo.R'
     'classes.R'
     'basic.R'
     'function_symbol.R'

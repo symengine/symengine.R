@@ -2,7 +2,7 @@ context("Function Symbol")
 
 test_that("Function works", {
     f <- Function("f")
-    expect_true(type(f("x")) == "FunctionSymbol")
+    expect_true(get_type(f("x")) == "FunctionSymbol")
 })
 
 test_that("FunctionSymbol works", {
