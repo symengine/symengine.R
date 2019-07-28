@@ -25,7 +25,6 @@ NULL
 #' S(42)
 #' as(42, "Basic")
 S <- function(x) {
-    ## TODO: Handle formula
     s4basic_parse(x, check_whole_number = TRUE)
 }
 
@@ -124,60 +123,6 @@ if (FALSE) {
 #     
 #     stop(sQuote(class(x)), " class is not supported")
 # }
-
-## TODO: add test case S(~ .(~x))
-## Callback provided for C++
-s4basic_parse_formula <- function(x) {
-    stopifnot(length(x) == 2)  # i.e. only has the right hand side
-    rhs <- x[[2]]
-    env <- environment(x)
-    parse_expr <- function(expr) {
-        if (is.symbol(expr))
-            return(Symbol(deparse(expr)))
-        if (is.integer(expr))
-            return(S(expr))
-        if (is.double(expr))
-            return(S(expr)) ## Will convert whole number to integer
-        if (is.character(expr))
-            return(S(expr)) ## Not sure we are supposed to parse expressions
-        if (is.call(expr)) {
-            ## This implements `{{ expr }}` style backquoting.
-            if (expr[[1]] == as.name("{") && length(expr) == 2L
-                                          && expr[[2]][[1]] == as.name("{")) {
-                inner_exprs <- as.list(expr[[2]][-1])
-                for (e in inner_exprs)
-                    ## Evaluate in the environment where the formula is created
-                    last <- eval(e, envir = env)
-                ## Convert to basic
-                return(s4basic_parse(last, check_whole_number = FALSE))
-            }
-            ## This implements `.(expr)` style backquoting.
-            if (expr[[1]] == as.name(".")) {
-                inner_expr <- expr[[2]]
-                value <- eval(inner_expr, envir = env)
-                return(s4basic_parse(value, check_whole_number = FALSE))
-            }
-            
-            ## i.e. cases like f()(y)
-            # I am not sure whether this should be allowed. (unless expr[[1]] is backquoted?)
-            # Also note that bquote does not handle bquote(.(func)(x))
-            if (!is.symbol(expr[[1]]))
-                warning("TODO")
-            ## TODO: add more supported functions
-            else if (deparse(expr[[1]]) %in% c("+", "-", "*", "/", "^", "(")) {
-                ## TODO: check -- arguments should not be named??
-                args <- lapply(expr[-1], parse_expr)
-                func <- get(deparse(expr[[1]]), mode = "function")
-                return(do.call(func, args))
-            }
-        }
-        if (is(expr, "Basic"))
-            return(expr)
-            
-        stop(sprintf("Unable to parse %s", deparse(expr)))
-    }
-    parse_expr(rhs)
-}
 
 
 ## Show Methods ================================================================
