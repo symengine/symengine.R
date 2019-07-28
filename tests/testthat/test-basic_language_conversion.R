@@ -82,11 +82,33 @@ expect_twoway_equivalent <- function(r, b) {
     expect_true(b_back == b)
 }
 
-test_that("Two-way conversion", {
-    expect_twoway_equivalent(
-        as.call(list(as.symbol("*"), -1L, as.symbol("x"))),
-        S("-x")
-    )
+expect_lang2basic <- function(r, b) {
+    r_tob <- S(r)
+    expect_true(r_tob == b)
+}
+expect_basic2lang <- function(r, b) {
+    b_tor <- as.language(b)
+    expect_identical(b_tor, r)
+}
+
+test_that("+ - * / ^", {
+    expect_lang2basic(quote(a + b), S("a + b"))
+    expect_basic2lang(quote(b + a), S("a + b"))
+    
+    expect_lang2basic(quote(a - b),            S("a - b"))
+    expect_basic2lang(bquote(.(-1L) * b + a),  S("a - b"))
+    
+    expect_twoway_equivalent(bquote(.(-1L) * x), S("-x"))
+    expect_twoway_equivalent(quote(a * b), S("a * b"))
+    
+    expect_lang2basic(quote(a/b),             S("a/b"))
+    expect_basic2lang(bquote(a * b ^ .(-1L)), S("a/b"))
+    
+    expect_twoway_equivalent(quote(a^b), S("a^b"))
+})
+
+test_that("Function with single argument", {
+    # expect_twoway_equivalent(quote(sin(x)), S("sin(x)"))
 })
 
 
