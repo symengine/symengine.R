@@ -107,8 +107,53 @@ test_that("+ - * / ^", {
     expect_twoway_equivalent(quote(a^b), S("a^b"))
 })
 
-test_that("Function with single argument", {
-    # expect_twoway_equivalent(quote(sin(x)), S("sin(x)"))
+test_that("Supported Math@groupMembers", {
+    expect_twoway_equivalent(quote(abs(x)), S("abs(x)"))
+    
+    expect_lang2basic(quote(sqrt(x)), S("sqrt(x)"))
+    expect_basic2lang(bquote(x^.(0.5)), S("sqrt(x)"))
+    
+    expect_lang2basic(quote(exp(x)), S("exp(x)"))
+    expect_basic2lang(bquote(.(exp(1))^x), S("exp(x)"))
+    
+    expect_lang2basic(quote(expm1(x)), S("exp(x) - 1"))
+    
+    expect_twoway_equivalent(quote(log(x)), S("log(x)"))
+    
+    expect_lang2basic(quote(log10(x)), S("log(x)/log(10)"))
+    expect_lang2basic(quote(log2(x)) , S("log(x)/log(2)"))
+    expect_lang2basic(quote(log1p(x)), S("log(1+x)"))
+    
+    expect_twoway_equivalent(quote(cos(x)),   S("cos(x)"))
+    expect_twoway_equivalent(quote(cosh(x)),  S("cosh(x)"))
+    expect_twoway_equivalent(quote(sin(x)),   S("sin(x)"))
+    expect_twoway_equivalent(quote(sinh(x)),  S("sinh(x)"))
+    expect_twoway_equivalent(quote(tan(x)),   S("tan(x)"))
+    expect_twoway_equivalent(quote(tanh(x)),  S("tanh(x)"))
+    expect_twoway_equivalent(quote(acos(x)),  S("acos(x)"))
+    expect_twoway_equivalent(quote(acosh(x)), S("acosh(x)"))
+    expect_twoway_equivalent(quote(asin(x)),  S("asin(x)"))
+    expect_twoway_equivalent(quote(asinh(x)), S("asinh(x)"))
+    expect_twoway_equivalent(quote(atan(x)),  S("atan(x)"))
+    expect_twoway_equivalent(quote(atanh(x)), S("atanh(x)"))
+    
+    expect_lang2basic(quote(cospi(x)), S("cos(pi*x)"))
+    expect_lang2basic(quote(sinpi(x)), S("sin(pi*x)"))
+    expect_lang2basic(quote(tanpi(x)), S("tan(pi*x)"))
+    
+    expect_twoway_equivalent(quote(gamma(x)),  S("gamma(x)"))
+    expect_twoway_equivalent(quote(lgamma(x)), S("loggamma(x)"))
+    
+    ## Currently unsupported Math@groupMembers
+    #"sign", "ceiling", "floor", "trunc", "cummax", "cummin", "cumprod", "cumsum",
+    #"digamma", "trigamma"
 })
 
+test_that("Misc functions", {
+    expect_twoway_equivalent(quote(lambertw      (x)) , S("lambertw(x)"))
+    expect_twoway_equivalent(quote(zeta          (x)) , S("zeta(x)"))
+    expect_twoway_equivalent(quote(dirichlet_eta (x)) , S("dirichlet_eta(x)"))
+    expect_twoway_equivalent(quote(erf           (x)) , S("erf(x)"))
+    expect_twoway_equivalent(quote(erfc          (x)) , S("erfc(x)"))
+})
 
