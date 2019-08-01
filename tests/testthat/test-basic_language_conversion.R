@@ -71,19 +71,19 @@ test_that("as.expression(Basic) works", {
 })
 
 expect_twoway_equivalent <- function(r, b) {
-    r_tob <- S(r)
+    r_tob <- as(r, "Basic")
     expect_true(r_tob == b)
     r_back <- as.language(r_tob)
     expect_identical(r, r_back)
     
     b_tor <- as.language(b)
     expect_identical(b_tor, r)
-    b_back <- S(b_tor)
+    b_back <- as(b_tor, "Basic")
     expect_true(b_back == b)
 }
 
 expect_lang2basic <- function(r, b) {
-    r_tob <- S(r)
+    r_tob <- as(r, "Basic")
     expect_true(r_tob == b)
 }
 expect_basic2lang <- function(r, b) {
@@ -155,5 +155,19 @@ test_that("Misc functions", {
     expect_twoway_equivalent(quote(dirichlet_eta (x)) , S("dirichlet_eta(x)"))
     expect_twoway_equivalent(quote(erf           (x)) , S("erf(x)"))
     expect_twoway_equivalent(quote(erfc          (x)) , S("erfc(x)"))
+})
+
+test_that("asLanguageTable", {
+    expect_twoway_equivalent(quote(x)   , Symbol("x")) # Symbol
+    expect_twoway_equivalent(quote(3L)  , S(3L))       # Integer
+    expect_twoway_equivalent(quote(3)   , S("3.0"))    # RealDouble
+    expect_basic2lang(bquote(.(pi))     , S("pi"))     # Constant
+    expect_basic2lang(bquote(.(1L/42L)) , S("1/42"))   # Rational
+    expect_basic2lang(quote(NaN)        , S("nan"))    # NaN
+    expect_basic2lang(quote(Inf)        , S("inf"))    # Infty
+    expect_basic2lang(bquote(.(-Inf))   , S("-inf"))   # Infty
+    # TODO: ATan2
+    #   KroneckerDelta, LeviCivita, LowerGamma, UpperGamma,
+    #   Beta, PolyGamma, Sign, Floor, Ceiling,
 })
 

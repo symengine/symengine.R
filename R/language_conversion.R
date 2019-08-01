@@ -18,7 +18,7 @@ asLanguageTable <- as.environment(list(
     Integer    = function(s) as.integer(s),
     RealDouble = function(s) as.double(s),
     Constant   = function(s) as.double(evalf(s)),
-    Rational   = function(s) as.double(evalf(s)),
+    Rational   = function(s) as.double(evalf(s)), ## TODO: preserve div operator?
     `NaN`      = function(s) NaN,
     #Complex    = function(s) stop("TODO"),
     #ComplexDouble = function(s) stop("TODO"),
