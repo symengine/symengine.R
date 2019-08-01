@@ -120,6 +120,23 @@ setMethod("log", c(x = "SymEngineDataType"),
         s4binding_math(x, "log")/s4binding_math(base, "log")
     }
 )
+#' @rdname bindings
+setMethod("log2", c(x = "SymEngineDataType"),
+    function(x) s4binding_math(x, "log")/s4binding_math(2L, "log")
+)
+#' @rdname bindings
+setMethod("log10", c(x = "SymEngineDataType"),
+    function(x) s4binding_math(x, "log")/s4binding_math(10L, "log")
+)
+#' @rdname bindings
+setMethod("log1p", c(x = "SymEngineDataType"),
+    function(x) log(S(1L) + x)
+)
+#' @rdname bindings
+setMethod("expm1", c(x = "SymEngineDataType"),
+    function(x) exp(x) - S(1L)
+)
+
 
 
 #' Expand a SymEngine Expression

@@ -20,6 +20,10 @@
 \alias{cospi,SymEngineDataType-method}
 \alias{tanpi,SymEngineDataType-method}
 \alias{log,SymEngineDataType-method}
+\alias{log2,SymEngineDataType-method}
+\alias{log10,SymEngineDataType-method}
+\alias{log1p,SymEngineDataType-method}
+\alias{expm1,SymEngineDataType-method}
 \title{Bindings for Operators and Math Functions}
 \usage{
 \S4method{==}{Basic,Basic}(e1, e2)
@@ -57,6 +61,14 @@
 \S4method{tanpi}{SymEngineDataType}(x)
 
 \S4method{log}{SymEngineDataType}(x, base)
+
+\S4method{log2}{SymEngineDataType}(x)
+
+\S4method{log10}{SymEngineDataType}(x)
+
+\S4method{log1p}{SymEngineDataType}(x)
+
+\S4method{expm1}{SymEngineDataType}(x)
 }
 \arguments{
 \item{e1, e2, x, y, base}{Objects.}
