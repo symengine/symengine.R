@@ -19,6 +19,7 @@
 \alias{sinpi,SymEngineDataType-method}
 \alias{cospi,SymEngineDataType-method}
 \alias{tanpi,SymEngineDataType-method}
+\alias{log,SymEngineDataType-method}
 \title{Bindings for Operators and Math Functions}
 \usage{
 \S4method{==}{Basic,Basic}(e1, e2)
@@ -54,9 +55,11 @@
 \S4method{cospi}{SymEngineDataType}(x)
 
 \S4method{tanpi}{SymEngineDataType}(x)
+
+\S4method{log}{SymEngineDataType}(x, base)
 }
 \arguments{
-\item{e1, e2, x, y}{Objects.}
+\item{e1, e2, x, y, base}{Objects.}
 }
 \description{
 Bindings for Operators and Math Functions

@@ -6,7 +6,7 @@ NULL
 
 #' Bindings for Operators and Math Functions
 #' 
-#' @param e1,e2,x,y Objects.
+#' @param e1,e2,x,y,base Objects.
 #' 
 #' @rdname bindings
 setMethod("==", c(e1 = "Basic", e2 = "Basic"),
@@ -111,6 +111,14 @@ setMethod("cospi", c(x = "SymEngineDataType"),
 #' @rdname bindings
 setMethod("tanpi", c(x = "SymEngineDataType"),
     function(x) s4binding_math(s4binding_op(x, Constant("pi"), "*"), "tan")
+)
+#' @rdname bindings
+setMethod("log", c(x = "SymEngineDataType"),
+    function(x, base) {
+        if (missing(base))
+            return(s4binding_math(x, "log"))
+        s4binding_math(x, "log")/s4binding_math(base, "log")
+    }
 )
 
 
