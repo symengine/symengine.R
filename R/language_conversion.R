@@ -41,7 +41,7 @@ asLanguageTable <- as.environment(list(
         else if (s4basic_number_is_negative(s)) return(-Inf)
         stop("Unexpected")
     },
-    Abs   = function(s) bquote(sin(   .(asLanguage(s4basic_get_args(s)[[1]])) )),
+    Abs   = function(s) bquote(abs(   .(asLanguage(s4basic_get_args(s)[[1]])) )),
     Log   = function(s) bquote(log(   .(asLanguage(s4basic_get_args(s)[[1]])) )),
     Gamma = function(s) bquote(gamma( .(asLanguage(s4basic_get_args(s)[[1]])) )),
     Sin   = function(s) bquote(sin(   .(asLanguage(s4basic_get_args(s)[[1]])) )),
