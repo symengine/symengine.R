@@ -42,6 +42,14 @@ static SEXP robj_as_list(SEXP x) {
     return ans;
 }
 
+// Related: https://github.com/RcppCore/Rcpp/issues/983
+static SEXP robj_quote_lang(SEXP x) {
+    if (TYPEOF(x) != SYMSXP && TYPEOF(x) != LANGSXP)
+        return x;
+    SEXP quot = Environment::base_env()["quote"];
+    return Rf_lang2(quot, x);
+}
+
 //// SymEngine Infomation ////////////
 
 // [[Rcpp::export()]]
@@ -384,12 +392,14 @@ cwrapper_basic_parse(basic_struct* s, RObject robj, bool check_whole_number) {
         return basic_assign(s, s4basic_elt(s4vecbasic_get(robj, 1)));
     }
     
-    if (is<Formula>(robj)) {
-        // This is a R function to parse formula
-        Function s4basic_parse_formula =
-            Environment::namespace_env("symengine")["s4basic_parse_formula"];
-        return basic_assign(s, s4basic_elt(s4basic_parse_formula(robj)));
+    if (TYPEOF(robj) == EXPRSXP || TYPEOF(robj) == LANGSXP || TYPEOF(robj) == SYMSXP) {
+        Function s4basic_parse_language =
+            Environment::namespace_env("symengine")["s4basic_parse_language"];
+        // Refer: https://github.com/RcppCore/Rcpp/issues/983
+        RObject ans = s4basic_parse_language(robj_quote_lang(robj));
+        return basic_assign(s, s4basic_elt(ans));
     }
+    
     if (robj.isNULL())
         Rf_error("Can not parse NULL\n");
     

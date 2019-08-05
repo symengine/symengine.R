@@ -72,10 +72,10 @@ test_that("S(formula) works", {
     x <- S(~ .(a))
     expect_true(x == S("m"))
     
-    ## {{}} style backquote
-    a <- S("m")
-    x <- S(~ {{a}})
-    expect_true(x == S("m"))
+    # ## {{}} style backquote
+    # a <- S("m")
+    # x <- S(~ {{a}})
+    # expect_true(x == S("m"))
     
     
     expect_error(S(~ .(1:2)))

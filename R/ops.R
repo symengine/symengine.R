@@ -6,7 +6,7 @@ NULL
 
 #' Bindings for Operators and Math Functions
 #' 
-#' @param e1,e2,x,y Objects.
+#' @param e1,e2,x,y,base Objects.
 #' 
 #' @rdname bindings
 setMethod("==", c(e1 = "Basic", e2 = "Basic"),
@@ -112,6 +112,31 @@ setMethod("cospi", c(x = "SymEngineDataType"),
 setMethod("tanpi", c(x = "SymEngineDataType"),
     function(x) s4binding_math(s4binding_op(x, Constant("pi"), "*"), "tan")
 )
+#' @rdname bindings
+setMethod("log", c(x = "SymEngineDataType"),
+    function(x, base) {
+        if (missing(base))
+            return(s4binding_math(x, "log"))
+        s4binding_math(x, "log")/s4binding_math(base, "log")
+    }
+)
+#' @rdname bindings
+setMethod("log2", c(x = "SymEngineDataType"),
+    function(x) s4binding_math(x, "log")/s4binding_math(2L, "log")
+)
+#' @rdname bindings
+setMethod("log10", c(x = "SymEngineDataType"),
+    function(x) s4binding_math(x, "log")/s4binding_math(10L, "log")
+)
+#' @rdname bindings
+setMethod("log1p", c(x = "SymEngineDataType"),
+    function(x) log(S(1L) + x)
+)
+#' @rdname bindings
+setMethod("expm1", c(x = "SymEngineDataType"),
+    function(x) exp(x) - S(1L)
+)
+
 
 
 #' Expand a SymEngine Expression
