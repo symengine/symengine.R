@@ -15,6 +15,12 @@ struct CRCPBasic {
     SymEngine::RCP<const SymEngine::Basic> m;
 };
 
+static_assert(sizeof(CRCPBasic) == sizeof(CRCPBasic_C),
+              "Size of 'basic' is not correct");
+static_assert(std::alignment_of<CRCPBasic>::value
+                  == std::alignment_of<CRCPBasic_C>::value,
+                      "Alignment of 'basic' is not correct");
+
 using namespace Rcpp;
 
 
