@@ -711,27 +711,27 @@ size_t s4vecbasic_size(SEXP robj) {
 
 // [[Rcpp::export()]]
 S4 s4vecbasic_unique(SEXP robj) {
-    CVecBasic* vec  = s4vecbasic_elt(robj);
-    size_t     len  = vecbasic_size(vec);
-    CSetBasic*    set_holder    = setbasic_new();
-    // TODO: Move this to cwrapper_vec2set?
-    basic basic_holder;
-    basic_new_stack(basic_holder);
-    for (size_t i = 0; i < len; i++) {
-        CWRAPPER_OUTPUT_TYPE status = vecbasic_get(vec, i, basic_holder);
-        setbasic_insert(set_holder, basic_holder);
+    CSetBasic* set_holder = setbasic_new();
+    for (size_t i = 0; i < s4vecbasic_size(robj); i++) {
+        CWRAPPER_OUTPUT_TYPE status = vecbasic_get(s4vecbasic_elt(robj), i, global_bholder);
         if (status) {
             setbasic_free(set_holder);
-            basic_free_stack(basic_holder);
+            cwrapper_hold(status);
+        }
+        setbasic_insert(set_holder, global_bholder);
+    }
+    
+    S4 ans = s4vecbasic();
+    for (size_t i = 0; i < setbasic_size(set_holder); i++) {
+        setbasic_get(set_holder, i, global_bholder);
+        CWRAPPER_OUTPUT_TYPE status = vecbasic_push_back(s4vecbasic_elt(ans), global_bholder);
+        if (status) {
+            setbasic_free(set_holder);
             cwrapper_hold(status);
         }
     }
-    basic_free_stack(basic_holder);
     
-    S4 ans = s4vecbasic();
-    CWRAPPER_OUTPUT_TYPE status2 = cwrapper_set2vec(set_holder, s4vecbasic_elt(ans));
     setbasic_free(set_holder);
-    cwrapper_hold(status2);
     return ans;
 }
 
