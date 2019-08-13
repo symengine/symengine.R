@@ -237,8 +237,16 @@ s4binding_solve_poly <- function(f, s) {
     .Call('_symengine_s4binding_solve_poly', PACKAGE = 'symengine', f, s)
 }
 
-s4lambdavit <- function(args, exprs, perform_cse) {
-    .Call('_symengine_s4lambdavit', PACKAGE = 'symengine', args, exprs, perform_cse)
+s4lambdavit_check <- function(x) {
+    .Call('_symengine_s4lambdavit_check', PACKAGE = 'symengine', x)
+}
+
+s4llvmvit_check <- function(x) {
+    .Call('_symengine_s4llvmvit_check', PACKAGE = 'symengine', x)
+}
+
+s4visitor <- function(args, exprs, perform_cse, llvm_opt_level) {
+    .Call('_symengine_s4visitor', PACKAGE = 'symengine', args, exprs, perform_cse, llvm_opt_level)
 }
 
 s4lambdavit_call <- function(visitor, inps) {

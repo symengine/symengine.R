@@ -9,7 +9,8 @@ typedef enum {
     S4BASIC,
     S4VECBASIC,
     S4DENSEMATRIX,
-    S4LAMBDAVIT
+    S4LAMBDAVIT,
+    S4LLVMVIT
 } s4binding_t;
 
 

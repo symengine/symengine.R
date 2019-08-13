@@ -2,11 +2,14 @@
 #' @include classes.R
 NULL
 
-setClass("LambdaDoubleVisitor", contains = c("function", "SymEnginePTR"),
+setClass("DoubleVisitor", contains = c("function", "SymEnginePTR"),
          slots = c(visitor_args = "VecBasic", visitor_exprs = "BasicOrVecBasic"))
+setClass("LambdaDoubleVisitor", contains = "DoubleVisitor")
+setClass("LLVMDoubleVisitor", contains = "DoubleVisitor")
 
 #' @export
-LambdaDoubleVisitor <- function(exprs, args, perform_cse = TRUE) {
+DoubleVisitor <- function(exprs, args, perform_cse = TRUE,
+                          llvm_opt_level = if (symengine_have_component("llvm")) 2L else -1L) {
     if (missing(args)) {
         if (is(exprs, "Basic"))
             args <- free_symbols(exprs)
@@ -15,7 +18,7 @@ LambdaDoubleVisitor <- function(exprs, args, perform_cse = TRUE) {
         else
             stop("'exprs' is not a Basic or VecBasic")
     }
-    visitor <- s4lambdavit(args, exprs, perform_cse)
+    visitor <- s4visitor(args, exprs, perform_cse, llvm_opt_level)
     visitor <- visitor_lambdify(visitor)
     visitor
 }
@@ -40,14 +43,14 @@ visitor_lambdify <- function(x) {
 
 #' @export
 visitor_call <- function(visitor, input) {
-    s4lambdavit_call(visitor, input)
+    s4visitor_call(visitor, input)
 }
 
-setMethod("show", c(object = "LambdaDoubleVisitor"),
+setMethod("show", c(object = "DoubleVisitor"),
     function(object) {
         args  <- object@visitor_args
         exprs <- object@visitor_exprs
-        cat("LambdaDoubleVisitor:\n")
+        cat(sprintf("%s:\n", class(object)))
         cat("(")
         cat(paste(as.character(args), collapse = ", "))
         cat(") => ")
