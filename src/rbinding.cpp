@@ -1485,7 +1485,7 @@ CLLVMDoubleVisitor* s4llvmvit_elt(SEXP robj) {
 #endif
 
 // [[Rcpp::export()]]
-NumericVector s4lambdavit_call(RObject visitor, NumericVector inps) {
+NumericVector s4visitor_call(RObject visitor, NumericVector inps) {
     
     RObject visitor_exprs = visitor.slot("visitor_exprs");
     RObject visitor_args  = visitor.slot("visitor_args");

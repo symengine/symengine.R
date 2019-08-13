@@ -249,7 +249,7 @@ s4visitor <- function(args, exprs, perform_cse, llvm_opt_level) {
     .Call('_symengine_s4visitor', PACKAGE = 'symengine', args, exprs, perform_cse, llvm_opt_level)
 }
 
-s4lambdavit_call <- function(visitor, inps) {
-    .Call('_symengine_s4lambdavit_call', PACKAGE = 'symengine', visitor, inps)
+s4visitor_call <- function(visitor, inps) {
+    .Call('_symengine_s4visitor_call', PACKAGE = 'symengine', visitor, inps)
 }
 

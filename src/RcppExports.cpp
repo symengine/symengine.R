@@ -711,15 +711,15 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// s4lambdavit_call
-NumericVector s4lambdavit_call(RObject visitor, NumericVector inps);
-RcppExport SEXP _symengine_s4lambdavit_call(SEXP visitorSEXP, SEXP inpsSEXP) {
+// s4visitor_call
+NumericVector s4visitor_call(RObject visitor, NumericVector inps);
+RcppExport SEXP _symengine_s4visitor_call(SEXP visitorSEXP, SEXP inpsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< RObject >::type visitor(visitorSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type inps(inpsSEXP);
-    rcpp_result_gen = Rcpp::wrap(s4lambdavit_call(visitor, inps));
+    rcpp_result_gen = Rcpp::wrap(s4visitor_call(visitor, inps));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -787,7 +787,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_symengine_s4lambdavit_check", (DL_FUNC) &_symengine_s4lambdavit_check, 1},
     {"_symengine_s4llvmvit_check", (DL_FUNC) &_symengine_s4llvmvit_check, 1},
     {"_symengine_s4visitor", (DL_FUNC) &_symengine_s4visitor, 4},
-    {"_symengine_s4lambdavit_call", (DL_FUNC) &_symengine_s4lambdavit_call, 2},
+    {"_symengine_s4visitor_call", (DL_FUNC) &_symengine_s4visitor_call, 2},
     {NULL, NULL, 0}
 };
 
