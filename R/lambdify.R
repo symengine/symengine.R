@@ -21,8 +21,7 @@ lambdify <- function(x) {
     names(args) <- syms
     args <- as.pairlist(args)
     
-    # Should set to baseenv or parent env?
-    env <- baseenv()
+    env <- parent.env(environment())
     
     eval(call("function", args, body), env)
 }
