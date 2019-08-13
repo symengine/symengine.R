@@ -43,3 +43,22 @@ visitor_call <- function(visitor, input) {
     s4lambdavit_call(visitor, input)
 }
 
+setMethod("show", c(object = "LambdaDoubleVisitor"),
+    function(object) {
+        args  <- object@visitor_args
+        exprs <- object@visitor_exprs
+        cat("LambdaDoubleVisitor:\n")
+        cat("(")
+        cat(paste(as.character(args), collapse = ", "))
+        cat(") => ")
+        if (is(exprs, "Basic"))
+            cat(as.character(exprs))
+        else {
+            cat("(")
+            cat(paste(as.character(exprs), collapse = ", "))
+            cat(")")
+        }
+        cat("\n")
+    }
+)
+
