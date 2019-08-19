@@ -1402,4 +1402,135 @@ S4 s4binding_solve_poly(RObject f, RObject s) {
     return ans;
 }
 
+////========  Double Visitor  =======================
+
+typedef Rcpp::XPtr<CLambdaRealDoubleVisitor, Rcpp::PreserveStorage,
+                   lambda_real_double_visitor_free, true> XPtrLambdaDoubleVisitor;
+
+#ifdef HAVE_SYMENGINE_LLVM
+typedef Rcpp::XPtr<CLLVMDoubleVisitor, Rcpp::PreserveStorage,
+                   llvm_double_visitor_free, true> XPtrLLVMDoubleVisitor;
+#endif
+
+// [[Rcpp::export()]]
+bool s4lambdavit_check(SEXP x) {
+    return s4binding_typeof(x) == S4LAMBDAVIT;
+}
+// [[Rcpp::export()]]
+bool s4llvmvit_check(SEXP x) {
+    return s4binding_typeof(x) == S4LLVMVIT;
+}
+
+// [[Rcpp::export()]]
+S4 s4visitor(RObject args, RObject exprs, bool perform_cse, int llvm_opt_level) {
+    if (!s4vecbasic_check(args))
+        Rf_error("args should be a VecBasic\n");
+    
+    s4binding_t exprs_type = s4binding_typeof(exprs);
+    if (exprs_type != S4BASIC && exprs_type != S4VECBASIC)
+        Rf_error("exprs should be a Basic or a VecBasic\n");
+    
+    CVecBasic* exprs_elt;
+    if (exprs_type == S4BASIC) {
+        S4 hold = s4vecbasic();
+        exprs_elt = s4vecbasic_elt(hold);
+        cwrapper_hold(vecbasic_push_back(exprs_elt, s4basic_elt(exprs)));
+    }
+    else // S4VECBASIC
+        exprs_elt = s4vecbasic_elt(exprs);
+    
+    S4 out;
+    if (llvm_opt_level < 0) {
+        out = S4("LambdaDoubleVisitor");
+        CLambdaRealDoubleVisitor* visitor_ptr = lambda_real_double_visitor_new();
+        out.slot("ptr") = XPtrLambdaDoubleVisitor(
+            visitor_ptr, true, Rf_ScalarRaw(S4LAMBDAVIT), R_NilValue
+        );
+        out.slot("visitor_args")  = args;
+        out.slot("visitor_exprs") = exprs;
+        lambda_real_double_visitor_init(visitor_ptr, s4vecbasic_elt(args), exprs_elt, perform_cse);
+    }
+    else {
+#ifdef HAVE_SYMENGINE_LLVM
+        out = S4("LLVMDoubleVisitor");
+        CLLVMDoubleVisitor* visitor_ptr = llvm_double_visitor_new();
+        out.slot("ptr") = XPtrLLVMDoubleVisitor(
+            visitor_ptr, true, Rf_ScalarRaw(S4LLVMVIT), R_NilValue
+        );
+        out.slot("visitor_args")  = args;
+        out.slot("visitor_exprs") = exprs;
+        llvm_double_visitor_init(visitor_ptr, s4vecbasic_elt(args), exprs_elt,
+                                 perform_cse, llvm_opt_level);
+#else
+        Rf_error("The library was not compiled with LLVM support");
+#endif
+    }
+    return out;
+}
+
+CLambdaRealDoubleVisitor* s4lambdavit_elt(SEXP robj) {
+    CLambdaRealDoubleVisitor* p =
+        (CLambdaRealDoubleVisitor*) R_ExternalPtrAddr(R_do_slot(robj, Rf_install("ptr")));
+    if (p == NULL) Rf_error("Invalid pointer\n");
+    return p;
+}
+
+#ifdef HAVE_SYMENGINE_LLVM
+CLLVMDoubleVisitor* s4llvmvit_elt(SEXP robj) {
+    CLLVMDoubleVisitor* p =
+        (CLLVMDoubleVisitor*) R_ExternalPtrAddr(R_do_slot(robj, Rf_install("ptr")));
+    if (p == NULL) Rf_error("Invalid pointer\n");
+    return p;
+}
+#endif
+
+// [[Rcpp::export()]]
+NumericVector s4visitor_call(RObject visitor, NumericVector inps, bool do_transpose = false) {
+    
+    RObject visitor_exprs = visitor.slot("visitor_exprs");
+    RObject visitor_args  = visitor.slot("visitor_args");
+    
+    int exprs_size = s4binding_size(visitor_exprs);
+    int args_size  = s4vecbasic_size(visitor_args);
+    int inps_size  = inps.size();
+    if (inps_size % args_size != 0)
+        Rf_error("Input size is not a multiple of size of visitor_args\n");
+    
+    NumericVector ans(exprs_size * (inps_size/args_size));
+    const double* const inps_begin = inps.cbegin();
+    double* const       outs_begin = ans.begin();
+    
+    s4binding_t visitor_type = s4binding_typeof(visitor);
+    if (visitor_type == S4LAMBDAVIT) {
+        CLambdaRealDoubleVisitor* cvisitor = s4lambdavit_elt(visitor);
+        for (int i = 0; i < inps_size/args_size; i++) {
+            lambda_real_double_visitor_call(
+                cvisitor, outs_begin + exprs_size*i, inps_begin + args_size*i);
+        }
+    }
+    else if (visitor_type == S4LLVMVIT) {
+#ifdef HAVE_SYMENGINE_LLVM
+        CLLVMDoubleVisitor* cvisitor = s4llvmvit_elt(visitor);
+        for (int i = 0; i < inps_size/args_size; i++) {
+            llvm_double_visitor_call(
+                cvisitor, outs_begin + exprs_size*i, inps_begin + args_size*i)
+        }
+#else
+        Rf_error("Should not happen\n");
+#endif
+    }
+    else
+        Rf_error("visitor is not a LambdaDoubleVisitor or a LLVMDoubleVisitor\n");
+    
+    if (s4vecbasic_check(visitor_exprs)) {
+        ans.attr("dim") = Dimension(exprs_size, inps_size/args_size);
+        if (do_transpose) {
+            NumericMatrix nm_ans(ans);
+            NumericMatrix transposed_ans = transpose(nm_ans);
+            return transposed_ans;
+        }
+        return ans;
+    }
+    return ans;
+}
 

@@ -8,13 +8,10 @@ typedef enum {
     S4UNKNOWN,
     S4BASIC,
     S4VECBASIC,
-    S4DENSEMATRIX
+    S4DENSEMATRIX,
+    S4LAMBDAVIT,
+    S4LLVMVIT
 } s4binding_t;
-
-// typedef struct {
-//     S4 x;
-//     s4binding_t type;
-// } S4Binding;
 
 
 ////////////////////////////////////////////////////////////////////

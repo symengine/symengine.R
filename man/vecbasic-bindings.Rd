@@ -5,6 +5,7 @@
 \alias{length,VecBasic-method}
 \alias{rep,VecBasic-method}
 \alias{rep,Basic-method}
+\alias{unique.VecBasic}
 \alias{c,BasicOrVecBasic-method}
 \alias{[[,VecBasic,numeric-method}
 \alias{[,VecBasic-method}
@@ -17,6 +18,8 @@
 \S4method{rep}{VecBasic}(x, ...)
 
 \S4method{rep}{Basic}(x, ...)
+
+\method{unique}{VecBasic}(x, ...)
 
 \S4method{c}{BasicOrVecBasic}(x, ...)
 

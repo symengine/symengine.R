@@ -675,6 +675,55 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// s4lambdavit_check
+bool s4lambdavit_check(SEXP x);
+RcppExport SEXP _symengine_s4lambdavit_check(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(s4lambdavit_check(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// s4llvmvit_check
+bool s4llvmvit_check(SEXP x);
+RcppExport SEXP _symengine_s4llvmvit_check(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(s4llvmvit_check(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// s4visitor
+S4 s4visitor(RObject args, RObject exprs, bool perform_cse, int llvm_opt_level);
+RcppExport SEXP _symengine_s4visitor(SEXP argsSEXP, SEXP exprsSEXP, SEXP perform_cseSEXP, SEXP llvm_opt_levelSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< RObject >::type args(argsSEXP);
+    Rcpp::traits::input_parameter< RObject >::type exprs(exprsSEXP);
+    Rcpp::traits::input_parameter< bool >::type perform_cse(perform_cseSEXP);
+    Rcpp::traits::input_parameter< int >::type llvm_opt_level(llvm_opt_levelSEXP);
+    rcpp_result_gen = Rcpp::wrap(s4visitor(args, exprs, perform_cse, llvm_opt_level));
+    return rcpp_result_gen;
+END_RCPP
+}
+// s4visitor_call
+NumericVector s4visitor_call(RObject visitor, NumericVector inps, bool do_transpose);
+RcppExport SEXP _symengine_s4visitor_call(SEXP visitorSEXP, SEXP inpsSEXP, SEXP do_transposeSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< RObject >::type visitor(visitorSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type inps(inpsSEXP);
+    Rcpp::traits::input_parameter< bool >::type do_transpose(do_transposeSEXP);
+    rcpp_result_gen = Rcpp::wrap(s4visitor_call(visitor, inps, do_transpose));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_symengine_cwrapper_symengine_ascii_art", (DL_FUNC) &_symengine_cwrapper_symengine_ascii_art, 0},
@@ -736,6 +785,10 @@ static const R_CallMethodDef CallEntries[] = {
     {"_symengine_s4binding_evalf", (DL_FUNC) &_symengine_s4binding_evalf, 3},
     {"_symengine_s4binding_solve_lin", (DL_FUNC) &_symengine_s4binding_solve_lin, 2},
     {"_symengine_s4binding_solve_poly", (DL_FUNC) &_symengine_s4binding_solve_poly, 2},
+    {"_symengine_s4lambdavit_check", (DL_FUNC) &_symengine_s4lambdavit_check, 1},
+    {"_symengine_s4llvmvit_check", (DL_FUNC) &_symengine_s4llvmvit_check, 1},
+    {"_symengine_s4visitor", (DL_FUNC) &_symengine_s4visitor, 4},
+    {"_symengine_s4visitor_call", (DL_FUNC) &_symengine_s4visitor_call, 3},
     {NULL, NULL, 0}
 };
 

@@ -23,6 +23,7 @@ Collate:
     'basic-getinfo.R'
     'classes.R'
     'basic.R'
+    'double_visitor.R'
     'function_symbol.R'
     'lambdify.R'
     'language_conversion.R'
