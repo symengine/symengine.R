@@ -2,9 +2,12 @@
 % Please edit documentation in R/lambdify.R
 \name{lambdify}
 \alias{lambdify}
-\title{Convert Basic Object to R Function}
+\alias{as.function.BasicOrVecBasic}
+\title{Convert Basic/VecBasic Object to R Function}
 \usage{
 lambdify(x, backend = c("auto", "lambda", "llvm"), perform_cse = TRUE)
+
+\method{as.function}{BasicOrVecBasic}(x)
 }
 \arguments{
 \item{x}{A Basic object or a VecBasic object.}
@@ -16,5 +19,8 @@ option is not set, it will be determined based on \code{symengine_have_component
 \item{perform_cse}{Passed to \code{\link{DoubleVisitor}}.}
 }
 \description{
-Convert Basic Object to R Function
+Convert Basic/VecBasic Object to R Function
+}
+\seealso{
+\code{\link{DoubleVisitor}}
 }

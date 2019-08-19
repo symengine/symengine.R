@@ -1,5 +1,5 @@
 
-#' Convert Basic Object to R Function
+#' Convert Basic/VecBasic Object to R Function
 #' 
 #' @param x A Basic object or a VecBasic object.
 #' @param backend One of "auto", "lambda" and "llvm". If "auto", 
@@ -7,6 +7,9 @@
 #' option is not set, it will be determined based on \code{symengine_have_component("llvm")}.
 #' @param perform_cse Passed to \code{\link{DoubleVisitor}}.
 #' 
+#' @seealso \code{\link{DoubleVisitor}}
+#' 
+#' @rdname lambdify
 #' @export
 lambdify <- function(x, backend = c("auto", "lambda", "llvm"), perform_cse = TRUE) {
     backend <- match.arg(backend)
@@ -29,6 +32,11 @@ lambdify <- function(x, backend = c("auto", "lambda", "llvm"), perform_cse = TRU
     DoubleVisitor(x, perform_cse = perform_cse, llvm_opt_level = llvm_opt_level)
 }
 
+#' @rdname lambdify
+#' @export
+as.function.BasicOrVecBasic <- function(x) {
+    lambdify(x)
+}
 
 
 ## This is the old version of lambdify by converting Basic to R language object.
