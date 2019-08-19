@@ -98,15 +98,23 @@ solutions
 #> V( -1/2 + (-1/2)*sqrt(1 + (-1/3)*(2 + 4*a)), -1/2 + (1/2)*sqrt(1 + (-1/3)*(2 + 4*a)) )
 ```
 
-Get the first solution and convert it into a R function with `a` as
-argument.
+### Numerically Evaluate Symbolic Expressions
+
+For the two solutions above, we can convert them into a function that
+gives numeric output with regards to given input.
 
 ``` r
-func <- lambdify(solutions[[1]])
-func
-#> function (a) 
-#> -0.5 + -0.5 * (1L + -0.333333333333333 * (2L + 4L * a))^0.5
-#> <environment: base>
+func <- as.function(solutions)
+ans <- func(a = -100:-95)
+colnames(ans) <- c("Solution1", "Solution2")
+ans
+#>      Solution1 Solution2
+#> [1,] -6.280715  5.280715
+#> [2,] -6.251811  5.251811
+#> [3,] -6.222762  5.222762
+#> [4,] -6.193564  5.193564
+#> [5,] -6.164215  5.164215
+#> [6,] -6.134714  5.134714
 ```
 
 ### Numbers
@@ -138,7 +146,6 @@ Pi “computed” to 400-bit precision number.
 ``` r
 if (symengine_have_component("mpfr"))
     evalf(Constant("pi"), bits = 400)
-#> (RealMPFR,prec400)   3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679821480865132823066
 ```
 
 ### Object Equality

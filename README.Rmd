@@ -96,11 +96,16 @@ solutions <- solve(d2_expr, "x")
 solutions
 ```
 
-Get the first solution and convert it into a R function with `a` as argument.
+### Numerically Evaluate Symbolic Expressions
+
+For the two solutions above, we can convert them into a function that gives numeric
+output with regards to given input.
 
 ```{r}
-func <- lambdify(solutions[[1]])
-func
+func <- as.function(solutions)
+ans <- func(a = -100:-95)
+colnames(ans) <- c("Solution1", "Solution2")
+ans
 ```
 
 
