@@ -712,14 +712,15 @@ BEGIN_RCPP
 END_RCPP
 }
 // s4visitor_call
-NumericVector s4visitor_call(RObject visitor, NumericVector inps);
-RcppExport SEXP _symengine_s4visitor_call(SEXP visitorSEXP, SEXP inpsSEXP) {
+NumericVector s4visitor_call(RObject visitor, NumericVector inps, bool do_transpose);
+RcppExport SEXP _symengine_s4visitor_call(SEXP visitorSEXP, SEXP inpsSEXP, SEXP do_transposeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< RObject >::type visitor(visitorSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type inps(inpsSEXP);
-    rcpp_result_gen = Rcpp::wrap(s4visitor_call(visitor, inps));
+    Rcpp::traits::input_parameter< bool >::type do_transpose(do_transposeSEXP);
+    rcpp_result_gen = Rcpp::wrap(s4visitor_call(visitor, inps, do_transpose));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -787,7 +788,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_symengine_s4lambdavit_check", (DL_FUNC) &_symengine_s4lambdavit_check, 1},
     {"_symengine_s4llvmvit_check", (DL_FUNC) &_symengine_s4llvmvit_check, 1},
     {"_symengine_s4visitor", (DL_FUNC) &_symengine_s4visitor, 4},
-    {"_symengine_s4visitor_call", (DL_FUNC) &_symengine_s4visitor_call, 2},
+    {"_symengine_s4visitor_call", (DL_FUNC) &_symengine_s4visitor_call, 3},
     {NULL, NULL, 0}
 };
 

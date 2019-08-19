@@ -32,8 +32,9 @@ visitor_lambdify <- function(x) {
     args_names <- as.character(x@visitor_args)
     args <- named_pairlist(args_names)
     body <- bquote(
-        visitor_call(sys.function(),
-                     .(as.call(c(quote(rbind), lapply(args_names, as.symbol)))))
+        s4visitor_call(sys.function(),
+                       .(as.call(c(quote(rbind), lapply(args_names, as.symbol)))),
+                       do_transpose = TRUE)
     )
     envir <- parent.env(environment()) # package env
     
@@ -42,8 +43,8 @@ visitor_lambdify <- function(x) {
 }
 
 #' @export
-visitor_call <- function(visitor, input) {
-    s4visitor_call(visitor, input)
+visitor_call <- function(visitor, input, do_transpose = FALSE) {
+    s4visitor_call(visitor, input, do_transpose)
 }
 
 setMethod("show", c(object = "DoubleVisitor"),

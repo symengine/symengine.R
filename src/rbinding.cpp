@@ -1485,7 +1485,7 @@ CLLVMDoubleVisitor* s4llvmvit_elt(SEXP robj) {
 #endif
 
 // [[Rcpp::export()]]
-NumericVector s4visitor_call(RObject visitor, NumericVector inps) {
+NumericVector s4visitor_call(RObject visitor, NumericVector inps, bool do_transpose = false) {
     
     RObject visitor_exprs = visitor.slot("visitor_exprs");
     RObject visitor_args  = visitor.slot("visitor_args");
@@ -1524,6 +1524,12 @@ NumericVector s4visitor_call(RObject visitor, NumericVector inps) {
     
     if (s4vecbasic_check(visitor_exprs)) {
         ans.attr("dim") = Dimension(exprs_size, inps_size/args_size);
+        if (do_transpose) {
+            NumericMatrix nm_ans(ans);
+            NumericMatrix transposed_ans = transpose(nm_ans);
+            return transposed_ans;
+        }
+        return ans;
     }
     return ans;
 }
