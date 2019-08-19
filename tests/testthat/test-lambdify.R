@@ -6,6 +6,12 @@ test_that("lambdify is working", {
     expect_identical(formals(f), as.pairlist(alist(x =, y=, z=)))
 })
 
+test_that("as.function is working", {
+    f <- as.function(S("x + y * z / 3 ^ 4"))
+    expect_true(is(f, "DoubleVisitor"))
+    expect_true(is.function(f))
+})
+
 #test_that("lambdify is working", {
 #    f <- lambdify(S("x + y * z / 3 ^ 4"))
 #    args <- formals(f)
