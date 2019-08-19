@@ -74,7 +74,7 @@ setMethod("rep.int", c(x = "Basic"),
 
 #' @rdname vecbasic-bindings
 #' @export
-unique.VecBasic <- function(x) s4vecbasic_unique(x)
+unique.VecBasic <- function(x, ...) s4vecbasic_unique(x)
 
 ## TODO: test case: c(S("x"), list(1,2,c(3,4)))
 #' @rdname vecbasic-bindings

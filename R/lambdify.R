@@ -32,10 +32,11 @@ lambdify <- function(x, backend = c("auto", "lambda", "llvm"), perform_cse = TRU
     DoubleVisitor(x, perform_cse = perform_cse, llvm_opt_level = llvm_opt_level)
 }
 
+#' @param ... Not used
 #' @rdname lambdify
 #' @export
-as.function.BasicOrVecBasic <- function(x) {
-    lambdify(x)
+as.function.BasicOrVecBasic <- function(x, backend = "auto", perform_cse = TRUE, ...) {
+    lambdify(x, backend = backend, perform_cse = perform_cse)
 }
 
 

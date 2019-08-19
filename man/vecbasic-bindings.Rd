@@ -19,7 +19,7 @@
 
 \S4method{rep}{Basic}(x, ...)
 
-\method{unique}{VecBasic}(x)
+\method{unique}{VecBasic}(x, ...)
 
 \S4method{c}{BasicOrVecBasic}(x, ...)
 
