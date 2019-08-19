@@ -7,6 +7,22 @@ setClass("DoubleVisitor", contains = c("function", "SymEnginePTR"),
 setClass("LambdaDoubleVisitor", contains = "DoubleVisitor")
 setClass("LLVMDoubleVisitor", contains = "DoubleVisitor")
 
+#' Double Visitor
+#' 
+#' Numerically evaluate symbolic expressions.
+#' 
+#' \code{DoubleVisitor} constructs the visitor and visitor itself is callable.
+#' \code{visitor_call} is the low level function to call the visitor with input.
+#' 
+#' @param exprs A Basic object or a VecBasic object to be evaluated.
+#' @param args A VecBasic object indicating order of input arguments. Can be missing.
+#' @param perform_cse Boolean.
+#' @param llvm_opt_level Integer. If negative, it will return a \code{LambdaDoubleVisitor},
+#' otherwise it will return a \code{LLVMDoubleVisitor} with the specified optimization level.
+#' 
+#' @seealso \code{\link{lambdify}}.
+#' 
+#' @rdname DoubleVisitor
 #' @export
 DoubleVisitor <- function(exprs, args, perform_cse = TRUE,
                           llvm_opt_level = if (symengine_have_component("llvm")) 2L else -1L) {
@@ -42,6 +58,12 @@ visitor_lambdify <- function(x) {
     x
 }
 
+#' @param visitor A DoubleVisitor object.
+#' @param input A numeric matrix. Each row is input value for one argument.
+#' @param do_transpose Boolean. Matters when \code{exprs} is a VecBasic.
+#' If true, output will have each column for one symbolic expression, otherwise
+#' each row for one symbolic expression.
+#' @rdname DoubleVisitor
 #' @export
 visitor_call <- function(visitor, input, do_transpose = FALSE) {
     s4visitor_call(visitor, input, do_transpose)
