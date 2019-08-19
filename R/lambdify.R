@@ -1,9 +1,40 @@
 
 #' Convert Basic Object to R Function
 #' 
-#' @param x A Basic object.
+#' @param x A Basic object or a VecBasic object.
+#' @param backend One of "auto", "lambda" and "llvm". If "auto", 
+#' \code{getOption("lambdify.backend")} will be used to determine the value. If that
+#' option is not set, it will be determined based on \code{symengine_have_component("llvm")}.
+#' @param perform_cse Passed to \code{\link{DoubleVisitor}}.
+#' 
 #' @export
-lambdify <- function(x) {
+lambdify <- function(x, backend = c("auto", "lambda", "llvm"), perform_cse = TRUE) {
+    backend <- match.arg(backend)
+    if (backend == "auto") {
+        opt <- getOption("lambdify.backend")
+        if (is.null(opt))
+            if (symengine_have_component("llvm"))
+                backend <- "llvm"
+            else
+                backend <- "lambda"
+        else
+            backend <- opt
+    }
+    
+    if (backend == "lambda")
+        llvm_opt_level <- -1L
+    else if (backend == "llvm")
+        llvm_opt_level <- 2L
+    
+    DoubleVisitor(x, perform_cse = perform_cse, llvm_opt_level = llvm_opt_level)
+}
+
+
+
+## This is the old version of lambdify by converting Basic to R language object.
+## However, it has flaws when there is no equivalent numeric functions in R.
+## *Currently we do not export it*
+lambdify_old <- function(x) {
     if (length(s4basic_function_symbols(x)))
         stop("TODO")
     
@@ -25,4 +56,3 @@ lambdify <- function(x) {
     
     eval(call("function", args, body), env)
 }
-
