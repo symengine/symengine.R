@@ -5,13 +5,17 @@
 \alias{as.function.BasicOrVecBasic}
 \title{Convert Basic/VecBasic Object to R Function}
 \usage{
-lambdify(x, backend = c("auto", "lambda", "llvm"), perform_cse = TRUE)
+lambdify(x, args, backend = c("auto", "lambda", "llvm"),
+  perform_cse = TRUE)
 
-\method{as.function}{BasicOrVecBasic}(x, backend = "auto",
+\method{as.function}{BasicOrVecBasic}(x, args, backend = "auto",
   perform_cse = TRUE, ...)
 }
 \arguments{
 \item{x}{A Basic object or a VecBasic object.}
+
+\item{args}{A VecBasic object specifying the arguments of the resulted function.
+It will be passed to \code{\link{DoubleVisitor}} and can be missing.}
 
 \item{backend}{One of "auto", "lambda" and "llvm". If "auto", 
 \code{getOption("lambdify.backend")} will be used to determine the value. If that

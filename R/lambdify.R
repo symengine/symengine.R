@@ -2,6 +2,8 @@
 #' Convert Basic/VecBasic Object to R Function
 #' 
 #' @param x A Basic object or a VecBasic object.
+#' @param args A VecBasic object specifying the arguments of the resulted function.
+#' It will be passed to \code{\link{DoubleVisitor}} and can be missing.
 #' @param backend One of "auto", "lambda" and "llvm". If "auto", 
 #' \code{getOption("lambdify.backend")} will be used to determine the value. If that
 #' option is not set, it will be determined based on \code{symengine_have_component("llvm")}.
@@ -11,7 +13,7 @@
 #' 
 #' @rdname lambdify
 #' @export
-lambdify <- function(x, backend = c("auto", "lambda", "llvm"), perform_cse = TRUE) {
+lambdify <- function(x, args, backend = c("auto", "lambda", "llvm"), perform_cse = TRUE) {
     backend <- match.arg(backend)
     if (backend == "auto") {
         opt <- getOption("lambdify.backend")
@@ -29,14 +31,20 @@ lambdify <- function(x, backend = c("auto", "lambda", "llvm"), perform_cse = TRU
     else if (backend == "llvm")
         llvm_opt_level <- 2L
     
-    DoubleVisitor(x, perform_cse = perform_cse, llvm_opt_level = llvm_opt_level)
+    if (!missing(args)) {
+        args <- Vector(args)
+    }
+    
+    DoubleVisitor(x, args, perform_cse = perform_cse, llvm_opt_level = llvm_opt_level)
 }
 
 #' @param ... Not used
 #' @rdname lambdify
 #' @export
-as.function.BasicOrVecBasic <- function(x, backend = "auto", perform_cse = TRUE, ...) {
-    lambdify(x, backend = backend, perform_cse = perform_cse)
+as.function.BasicOrVecBasic <- function(x, args, backend = "auto", perform_cse = TRUE, ...) {
+    if (!missing(...))
+        warning("Extra arguments are ignored")
+    lambdify(x, args, backend = backend, perform_cse = perform_cse)
 }
 
 
