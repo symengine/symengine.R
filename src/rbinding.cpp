@@ -1534,3 +1534,24 @@ NumericVector s4visitor_call(RObject visitor, NumericVector inps, bool do_transp
     return ans;
 }
 
+
+////========  Codegen         =======================
+
+// [[Rcpp::export()]]
+String s4basic_codegen(RObject robj, String type) {
+    char* cstr;
+    if (strcmp(type.get_cstring() ,"mathml") == 0) {
+        cstr = basic_str_mathml(s4basic_elt(robj));
+    } else if (strcmp(type.get_cstring() ,"latex")  == 0) {
+        cstr = basic_str_latex(s4basic_elt(robj));
+    } else if (strcmp(type.get_cstring() ,"ccode")  == 0) {
+        cstr = basic_str_ccode(s4basic_elt(robj));
+    } else if (strcmp(type.get_cstring() ,"jscode") == 0) {
+        cstr = basic_str_jscode(s4basic_elt(robj));
+    } else
+        Rf_error("Unknown codegen type %s\n", type.get_cstring());
+    String ans(cstr);
+    basic_str_free(cstr);
+    return ans;
+}
+
