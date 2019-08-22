@@ -8,7 +8,7 @@
 lambdify(x, args, backend = c("auto", "lambda", "llvm"),
   perform_cse = TRUE)
 
-\method{as.function}{BasicOrVecBasic}(x, backend = "auto",
+\method{as.function}{BasicOrVecBasic}(x, args, backend = "auto",
   perform_cse = TRUE, ...)
 }
 \arguments{
