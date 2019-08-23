@@ -3,10 +3,10 @@
 stopifnot(file.exists("../DESCRIPTION"))
 
 ## Links
-symengine_win32 <- "https://github.com/Marlin-Na/symengine/raw/rdep-3/symengine-32.zip"
-symengine_win64 <- "https://github.com/Marlin-Na/symengine/raw/rdep-3/symengine-64.zip"
-gmp_win32       <- "https://github.com/Marlin-Na/symengine/raw/rdep-3/gmp-32.zip"
-gmp_win64       <- "https://github.com/Marlin-Na/symengine/raw/rdep-3/gmp-64.zip"
+symengine_win32 <- "https://github.com/Marlin-Na/symengine/raw/rdep-4/symengine-32.zip"
+symengine_win64 <- "https://github.com/Marlin-Na/symengine/raw/rdep-4/symengine-64.zip"
+gmp_win32       <- "https://github.com/Marlin-Na/symengine/raw/rdep-4/gmp-32.zip"
+gmp_win64       <- "https://github.com/Marlin-Na/symengine/raw/rdep-4/gmp-64.zip"
 
 is_32 <- function () {
     machine <- Sys.info()[["machine"]]

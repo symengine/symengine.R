@@ -12,7 +12,7 @@ sudo: false
 env:
   matrix:
     - SYMENGINE_COMMIT=master
-    - SYMENGINE_COMMIT=ed323f12dcb900a6d0a01f22a0ab5ac0311c030f
+    - SYMENGINE_COMMIT=535ff3c7716c8a3ca4254e51b1b9cd5baf5d8b19
 
 warnings_are_errors: true
 
