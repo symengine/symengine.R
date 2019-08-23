@@ -14,6 +14,14 @@
 \alias{dirichlet_eta}
 \alias{erf}
 \alias{erfc}
+\alias{atan2,SymEngineDataType,SymEngineDataType-method}
+\alias{kronecker_delta}
+\alias{lowergamma}
+\alias{uppergamma}
+\alias{beta,SymEngineDataType,SymEngineDataType-method}
+\alias{psigamma,SymEngineDataType-method}
+\alias{digamma,SymEngineDataType-method}
+\alias{trigamma,SymEngineDataType-method}
 \title{Some Special Math Functions}
 \usage{
 LCM(a, b)
@@ -39,9 +47,25 @@ dirichlet_eta(a)
 erf(a)
 
 erfc(a)
+
+\S4method{atan2}{SymEngineDataType,SymEngineDataType}(y, x)
+
+kronecker_delta(x, y)
+
+lowergamma(x, a)
+
+uppergamma(x, a)
+
+\S4method{beta}{SymEngineDataType,SymEngineDataType}(a, b)
+
+\S4method{psigamma}{SymEngineDataType}(x, deriv = 0L)
+
+\S4method{digamma}{SymEngineDataType}(x)
+
+\S4method{trigamma}{SymEngineDataType}(x)
 }
 \arguments{
-\item{a, b, x, n, k}{SymEngine objects. Some functions require Integer type.}
+\item{a, b, x, y, n, k, deriv}{SymEngine objects. Some functions require Integer type.}
 }
 \description{
 Some special mathematical functions and functions related to number theory.

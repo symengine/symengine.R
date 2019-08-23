@@ -2,6 +2,16 @@
 #' @include classes.R
 NULL
 
+as_integer_if_whole_number <- function(x) {
+    if (!is.double(x))
+        return(x)
+    is.wholenumber <-
+        function(x, tol = .Machine$double.eps^0.5)  abs(x - round(x)) < tol
+    if (all(is.wholenumber(x)))
+        return(as.integer(x))
+    x
+}
+
 ## TODO: provide `==` and `!=` methods for VecBasic and DenseMatrix
 
 #' Bindings for Operators and Math Functions
@@ -151,7 +161,7 @@ expand <- function(x) {
 #' 
 #' Some special mathematical functions and functions related to number theory.
 #' 
-#' @param a,b,x,n,k SymEngine objects. Some functions require Integer type.
+#' @param a,b,x,y,n,k,deriv SymEngine objects. Some functions require Integer type.
 #' @rdname mathfuns
 #' @export
 LCM <- function(a, b) {
@@ -230,6 +240,75 @@ erf <- function(a) {
 erfc <- function(a) {
     s4binding_math(a, "erfc")
 }
+
+## Some two-args functions
+setGeneric("atan2")
+
+#' @rdname mathfuns
+#' @export
+setMethod("atan2", c(y = "SymEngineDataType", x = "SymEngineDataType"),
+    function(y, x) s4binding_op(y, x, "atan2")
+)
+
+#' @rdname mathfuns
+#' @export
+kronecker_delta <- function(x, y) {
+    s4binding_op(x, y, "kronecker_delta")
+}
+
+#' @rdname mathfuns
+#' @export
+lowergamma <- function(x, a) {
+    ## Note that we have switched the arguments,
+    ## following the convention of pracma::gammainc
+    a <- as_integer_if_whole_number(a)
+    s4binding_op(a, x, "lowergamma")
+}
+
+#' @rdname mathfuns
+#' @export
+uppergamma <- function(x, a) {
+    ## Note that we have switched the arguments,
+    ## following the convention of pracma::gammainc
+    a <- as_integer_if_whole_number(a)
+    s4binding_op(a, x, "uppergamma")
+}
+
+setGeneric("beta")
+
+#' @rdname mathfuns
+#' @export
+setMethod("beta", c(a = "SymEngineDataType", b = "SymEngineDataType"),
+    function(a, b) s4binding_op(a, b, "beta")
+)
+
+setGeneric("psigamma")
+
+#' @rdname mathfuns
+#' @export
+setMethod("psigamma", c(x = "SymEngineDataType"),
+    function(x, deriv = 0L) {
+        ## The order of arguments of polygamma is different from R's psigamma
+        deriv <- as_integer_if_whole_number(deriv)
+        s4binding_op(deriv, x, "polygamma")
+    }
+)
+
+#' @rdname mathfuns
+#' @export
+setMethod("digamma", c(x = "SymEngineDataType"),
+    function(x) {
+        s4binding_op(0L, x, "polygamma")
+    }
+)
+
+#' @rdname mathfuns
+#' @export
+setMethod("trigamma", c(x = "SymEngineDataType"),
+    function(x) {
+        s4binding_op(1L, x, "polygamma")
+    }
+)
 
 #' @exportMethod D
 setGeneric("D")

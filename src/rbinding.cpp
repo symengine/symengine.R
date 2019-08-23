@@ -1112,6 +1112,14 @@ cwrapper_op_t* op_lookup(const char* key) {
         {"lcm"  , ntheory_lcm      },  // Least Common Multiple
         
         {"binomial", cwrapper_binding_ntheory_binomial},
+
+        //========= TwoArgs Functions  ====================
+        {"atan2"           , basic_atan2            },
+        {"kronecker_delta" , basic_kronecker_delta  },
+        {"lowergamma"      , basic_lowergamma       },
+        {"uppergamma"      , basic_uppergamma       },
+        {"beta"            , basic_beta             },
+        {"polygamma"       , basic_polygamma        },
     };
     
     const int table_len = sizeof(op_lookup_table) / sizeof(cwrapper_op_mapping_t);
