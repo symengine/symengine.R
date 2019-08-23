@@ -98,13 +98,14 @@ RExprSupported <- c(
     ## Supported Math@groupMembers
     "abs", "sqrt", "exp", "expm1", "log", "log10", "log2", "log1p",
     "cos", "cosh", "sin", "sinh", "tan", "tanh", "acos", "acosh", "asin", "asinh", "atan", "atanh",
-    "cospi", "sinpi", "tanpi", "gamma", "lgamma",
+    "cospi", "sinpi", "tanpi", "gamma", "lgamma", "digamma", "trigamma",
     ## Unsupported Math@groupMembers
     #"sign", "ceiling", "floor", "trunc", "cummax", "cummin", "cumprod", "cumsum",
-    #"digamma", "trigamma"
     ## Misc
-    "lambertw", "zeta", "dirichlet_eta", "erf", "erfc"
+    "lambertw", "zeta", "dirichlet_eta", "erf", "erfc",
+    "atan2", "kronecker_delta", "lowergamma", "uppergamma", "psigamma", "beta"
 )
+
 RPkgEnv <- environment()
 
 ## TODO: add test case S(~ .(~x))
