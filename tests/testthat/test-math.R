@@ -123,3 +123,53 @@ test_that("matrix-op", {
     # m <- r$l %*% r$u
     # expect_denseMatrix_equal(m, m1)
 })
+
+
+## Some two-args functions
+
+test_that("atan2", {
+    s <- atan2(S(1), S(2))
+    expect_true(is(s, "Basic"))
+    expect_identical(as.double(evalf(s)), atan2(1L, 2L))
+})
+
+test_that("kronecker_delta", {
+    s <- kronecker_delta(S("x"), S("x"))
+    expect_true(s == S(1L))
+})
+
+test_that("lowergamma and uppergamma", {
+    skip_if_not_installed("pracma")
+    
+    lower <- pracma::gammainc(3, 2)['lowinc']
+    upper <- pracma::gammainc(3, 2)['uppinc']
+    s_upper <- uppergamma(S(3), S(2))
+    s_lower <- lowergamma(S(3), S(2))
+    expect_true(is(s_upper, "Basic"))
+    expect_true(is(s_lower, "Basic"))
+    expect_true(abs(as.double(evalf(s_upper)) - upper) < 10^-15)
+    expect_true(abs(as.double(evalf(s_lower)) - lower) < 10^-15)
+})
+
+test_that("beta", {
+    s <- beta(S(3), S(2))
+    expect_true(is(s, "Basic"))
+    expect_identical(as.double(evalf(s)), beta(3, 2))
+})
+
+test_that("psigamma", {
+    s <- psigamma(S(4), S(3))
+    expect_true(is(s, "Basic"))
+    expect_equal(as.double(evalf(s)), psigamma(4L,3L))
+})
+
+test_that("digamma, trigamma", {
+    s <- digamma(S(4))
+    expect_true(is(s, "Basic"))
+    expect_equal(as.double(evalf(s)), digamma(4L))
+    
+    s <- trigamma(S(4))
+    expect_true(is(s, "Basic"))
+    expect_equal(as.double(evalf(s)), trigamma(4L))
+})
+
