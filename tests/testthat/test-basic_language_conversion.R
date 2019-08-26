@@ -143,10 +143,15 @@ test_that("Supported Math@groupMembers", {
     
     expect_twoway_equivalent(quote(gamma(x)),  S("gamma(x)"))
     expect_twoway_equivalent(quote(lgamma(x)), S("loggamma(x)"))
+
+    expect_lang2basic(quote(digamma(x)), S("polygamma(0,x)"))
+    expect_basic2lang(quote(psigamma(x, 0L)), S("polygamma(0,x)"))
+
+    expect_lang2basic(quote(trigamma(x)), S("polygamma(1,x)"))
+    expect_basic2lang(quote(psigamma(x, 1L)), S("polygamma(1,x)"))
     
     ## Currently unsupported Math@groupMembers
     #"sign", "ceiling", "floor", "trunc", "cummax", "cummin", "cumprod", "cumsum",
-    #"digamma", "trigamma"
 })
 
 test_that("Misc functions", {
@@ -166,9 +171,15 @@ test_that("asLanguageTable", {
     expect_basic2lang(quote(NaN)        , S("nan"))    # NaN
     expect_basic2lang(quote(Inf)        , S("inf"))    # Infty
     expect_basic2lang(bquote(.(-Inf))   , S("-inf"))   # Infty
-    # TODO: ATan2
-    #   KroneckerDelta, LeviCivita, LowerGamma, UpperGamma,
-    #   Beta, PolyGamma, Sign, Floor, Ceiling,
+    expect_twoway_equivalent(quote(atan2(y, x))      , atan2(S("y"), S("x"))) # ATan2
+    expect_twoway_equivalent(quote(beta(b, a))       , S("beta(b, a)"))       # Beta
+    expect_twoway_equivalent(quote(psigamma(x, d))   , S("polygamma(d, x)"))  # PolyGamma
+    expect_twoway_equivalent(quote(uppergamma(x, a)) , S("uppergamma(a, x)")) # UpperGamma
+    expect_twoway_equivalent(quote(lowergamma(x, a)) , S("lowergamma(a, x)")) # LowerGamma
+    expect_twoway_equivalent(quote(kronecker_delta(x, y)), S("kronecker_delta(x, y)")) # KroneckerDelta
+    # TODO:
+    #   LeviCivita
+    #   Sign, Floor, Ceiling,
 })
 
 
