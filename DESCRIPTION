@@ -7,10 +7,10 @@ Depends:
     R (>= 3.6)
 Imports:
     methods,
-    gmp,
     Rcpp
 Suggests:
     crayon,
+    pracma,
     testthat (>= 2.1.0)
 LinkingTo:
     Rcpp
@@ -23,6 +23,7 @@ Collate:
     'basic-getinfo.R'
     'classes.R'
     'basic.R'
+    'codegen.R'
     'double_visitor.R'
     'function_symbol.R'
     'lambdify.R'

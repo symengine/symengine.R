@@ -253,3 +253,7 @@ s4visitor_call <- function(visitor, inps, do_transpose = FALSE) {
     .Call('_symengine_s4visitor_call', PACKAGE = 'symengine', visitor, inps, do_transpose)
 }
 
+s4basic_codegen <- function(robj, type) {
+    .Call('_symengine_s4basic_codegen', PACKAGE = 'symengine', robj, type)
+}
+

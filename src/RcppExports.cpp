@@ -724,6 +724,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// s4basic_codegen
+String s4basic_codegen(RObject robj, String type);
+RcppExport SEXP _symengine_s4basic_codegen(SEXP robjSEXP, SEXP typeSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< RObject >::type robj(robjSEXP);
+    Rcpp::traits::input_parameter< String >::type type(typeSEXP);
+    rcpp_result_gen = Rcpp::wrap(s4basic_codegen(robj, type));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_symengine_cwrapper_symengine_ascii_art", (DL_FUNC) &_symengine_cwrapper_symengine_ascii_art, 0},
@@ -789,6 +801,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_symengine_s4llvmvit_check", (DL_FUNC) &_symengine_s4llvmvit_check, 1},
     {"_symengine_s4visitor", (DL_FUNC) &_symengine_s4visitor, 4},
     {"_symengine_s4visitor_call", (DL_FUNC) &_symengine_s4visitor_call, 3},
+    {"_symengine_s4basic_codegen", (DL_FUNC) &_symengine_s4basic_codegen, 2},
     {NULL, NULL, 0}
 };
 

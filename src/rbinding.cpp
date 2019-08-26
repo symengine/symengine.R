@@ -1112,6 +1112,14 @@ cwrapper_op_t* op_lookup(const char* key) {
         {"lcm"  , ntheory_lcm      },  // Least Common Multiple
         
         {"binomial", cwrapper_binding_ntheory_binomial},
+
+        //========= TwoArgs Functions  ====================
+        {"atan2"           , basic_atan2            },
+        {"kronecker_delta" , basic_kronecker_delta  },
+        {"lowergamma"      , basic_lowergamma       },
+        {"uppergamma"      , basic_uppergamma       },
+        {"beta"            , basic_beta             },
+        {"polygamma"       , basic_polygamma        },
     };
     
     const int table_len = sizeof(op_lookup_table) / sizeof(cwrapper_op_mapping_t);
@@ -1531,6 +1539,27 @@ NumericVector s4visitor_call(RObject visitor, NumericVector inps, bool do_transp
         }
         return ans;
     }
+    return ans;
+}
+
+
+////========  Codegen         =======================
+
+// [[Rcpp::export()]]
+String s4basic_codegen(RObject robj, String type) {
+    char* cstr;
+    if (strcmp(type.get_cstring() ,"mathml") == 0) {
+        cstr = basic_str_mathml(s4basic_elt(robj));
+    } else if (strcmp(type.get_cstring() ,"latex")  == 0) {
+        cstr = basic_str_latex(s4basic_elt(robj));
+    } else if (strcmp(type.get_cstring() ,"ccode")  == 0) {
+        cstr = basic_str_ccode(s4basic_elt(robj));
+    } else if (strcmp(type.get_cstring() ,"jscode") == 0) {
+        cstr = basic_str_jscode(s4basic_elt(robj));
+    } else
+        Rf_error("Unknown codegen type %s\n", type.get_cstring());
+    String ans(cstr);
+    basic_str_free(cstr);
     return ans;
 }
 

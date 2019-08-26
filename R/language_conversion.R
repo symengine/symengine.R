@@ -70,7 +70,7 @@ asLanguageTable <- as.environment(list(
     #ASech = function(s) stop("TODO"),
     ATan2 = function(s) {
         args <- s4basic_get_args(s)
-        stop("TODO")
+        bquote(atan2( .(asLanguage(args[[1]])), .(asLanguage(args[[2]])) ))
     },
     LambertW = function(s) bquote(lambertw( .(asLanguage(s4basic_get_args(s)[[1]])) )),
     Zeta = function(s) {
@@ -82,9 +82,35 @@ asLanguageTable <- as.environment(list(
     Dirichlet_eta = function(s) bquote(dirichlet_eta( .(asLanguage(s4basic_get_args(s)[[1]])) )),
     Erf      = function(s) bquote(erf(    .(asLanguage(s4basic_get_args(s)[[1]])) )),
     Erfc     = function(s) bquote(erfc(   .(asLanguage(s4basic_get_args(s)[[1]])) )),
-    LogGamma = function(s) bquote(lgamma( .(asLanguage(s4basic_get_args(s)[[1]])) ))
-    #KroneckerDelta, LeviCivita, LowerGamma, UpperGamma,
-    #Beta, PolyGamma, Sign, Floor, Ceiling,
+    LogGamma = function(s) bquote(lgamma( .(asLanguage(s4basic_get_args(s)[[1]])) )),
+    KroneckerDelta = function(s) {
+        args <- get_args(s)
+        bquote(kronecker_delta( .(asLanguage(args[[1]])), .(asLanguage(args[[2]])) ))
+    },
+    LowerGamma = function(s) {
+        args <- get_args(s)
+        a <- asLanguage(args[[1]])
+        x <- asLanguage(args[[2]])
+        bquote(lowergamma(.(x), .(a)))
+    },
+    UpperGamma = function(s) {
+        args <- get_args(s)
+        a <- asLanguage(args[[1]])
+        x <- asLanguage(args[[2]])
+        bquote(uppergamma(.(x), .(a)))
+    },
+    Beta = function(s) {
+        args <- get_args(s)
+        bquote(beta( .(asLanguage(args[[1]])), .(asLanguage(args[[2]])) ))
+    },
+    PolyGamma = function(s) {
+        args  <- get_args(s)
+        deriv <- asLanguage(args[[1]])
+        x     <- asLanguage(args[[2]])
+        bquote(psigamma( .(x), .(deriv) ))
+    }
+    #LeviCivita,
+    #Sign, Floor, Ceiling,
 ))
 
 
@@ -98,13 +124,14 @@ RExprSupported <- c(
     ## Supported Math@groupMembers
     "abs", "sqrt", "exp", "expm1", "log", "log10", "log2", "log1p",
     "cos", "cosh", "sin", "sinh", "tan", "tanh", "acos", "acosh", "asin", "asinh", "atan", "atanh",
-    "cospi", "sinpi", "tanpi", "gamma", "lgamma",
+    "cospi", "sinpi", "tanpi", "gamma", "lgamma", "digamma", "trigamma",
     ## Unsupported Math@groupMembers
     #"sign", "ceiling", "floor", "trunc", "cummax", "cummin", "cumprod", "cumsum",
-    #"digamma", "trigamma"
     ## Misc
-    "lambertw", "zeta", "dirichlet_eta", "erf", "erfc"
+    "lambertw", "zeta", "dirichlet_eta", "erf", "erfc",
+    "atan2", "kronecker_delta", "lowergamma", "uppergamma", "psigamma", "beta"
 )
+
 RPkgEnv <- environment()
 
 ## TODO: add test case S(~ .(~x))
