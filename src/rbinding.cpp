@@ -1521,7 +1521,7 @@ NumericVector s4visitor_call(RObject visitor, NumericVector inps, bool do_transp
         CLLVMDoubleVisitor* cvisitor = s4llvmvit_elt(visitor);
         for (int i = 0; i < inps_size/args_size; i++) {
             llvm_double_visitor_call(
-                cvisitor, outs_begin + exprs_size*i, inps_begin + args_size*i)
+                cvisitor, outs_begin + exprs_size*i, inps_begin + args_size*i);
         }
 #else
         Rf_error("Should not happen\n");
