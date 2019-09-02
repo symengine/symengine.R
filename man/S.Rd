@@ -2,12 +2,15 @@
 % Please edit documentation in R/basic.R
 \name{S}
 \alias{S}
+\alias{Basic}
 \alias{Symbol}
 \alias{Constant}
 \alias{Real}
 \title{Converting R object to Basic}
 \usage{
 S(x)
+
+Basic(x)
 
 Symbol(x)
 
@@ -22,14 +25,14 @@ Real(x, prec = NULL)
 RealMPFR.}
 }
 \description{
-`S` converts a R object to a Basic object. `Symbol`, `Real` and `Constant`
+`S` and `Basic` converts a R object to a Basic object. `Symbol`, `Real` and `Constant`
 construct a Basic object with type "Symbol", "RealDouble"/"RealMPFR"
 and "Constant", respectively.
 }
 \details{
 For double vector, `S` will check whether it is a whole number -- if true,
 it will be converted to a Integer type. If this behavior is not desired,
-you can use `as(x, "Basic")`.
+you can use `Basic` or `as(x, "Basic")`.
 }
 \examples{
 S("(x + y)^2")
