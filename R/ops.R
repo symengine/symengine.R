@@ -16,7 +16,7 @@ as_integer_if_whole_number <- function(x) {
 
 #' Bindings for Operators and Math Functions
 #' 
-#' @param e1,e2,x,y,base Objects.
+#' @param e1,e2,x,y,base,... Objects.
 #' 
 #' @rdname bindings
 setMethod("==", c(e1 = "Basic", e2 = "Basic"),

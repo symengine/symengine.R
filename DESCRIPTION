@@ -32,6 +32,7 @@ Collate:
     'misc.R'
     'ops.R'
     'solve.R'
+    'summary.R'
     'symbolic_array.R'
     'symengine_info.R'
     'utils-subset.R'
