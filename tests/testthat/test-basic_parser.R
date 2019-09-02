@@ -90,6 +90,12 @@ test_that("S() with non-scalar data", {
     expect_error(S(c("x", "y")))
 })
 
+## Basic
+
+test_that("Basic(double)", {
+    expect_true(Basic(42) != S(42))
+})
+
 
 ## Symbol
 
