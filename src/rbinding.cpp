@@ -1120,6 +1120,10 @@ cwrapper_op_t* op_lookup(const char* key) {
         {"uppergamma"      , basic_uppergamma       },
         {"beta"            , basic_beta             },
         {"polygamma"       , basic_polygamma        },
+        
+        //========= Used by s4vecbasic_summary  ===========
+        {"sum"     , basic_add       },
+        {"prod"    , basic_mul       },
     };
     
     const int table_len = sizeof(op_lookup_table) / sizeof(cwrapper_op_mapping_t);
@@ -1327,6 +1331,38 @@ S4 s4binding_math(SEXP robj, const char* math_key) {
     }
     return ans;
 }
+
+
+////========  Summary functions      ===============
+
+// [[Rcpp::export()]]
+S4 s4vecbasic_summary(SEXP robj, const char* summary_key) {
+    S4 ans = s4basic();
+    cwrapper_op_t* summary_twoarg_func = op_lookup(summary_key);
+
+    CVecBasic* v = s4vecbasic_elt(robj);
+    size_t v_size = vecbasic_size(v);
+
+    // Set the initial value (ad hoc)
+    if (strcmp(summary_key, "sum") == 0) {
+        basic_const_zero(s4basic_elt(ans));
+    } else if (strcmp(summary_key, "prod") == 0) {
+        cwrapper_hold(integer_set_si(s4basic_elt(ans), 1));
+    } else {
+        Rf_error("Internal error: initial value not set\n");
+    }
+
+    for (size_t i = 0; i < v_size; i++) {
+        cwrapper_hold(
+            vecbasic_get(v, i, global_bholder)
+        );
+        cwrapper_hold(
+            summary_twoarg_func(s4basic_elt(ans), s4basic_elt(ans), global_bholder)
+        );
+    }
+    return ans;
+}
+
 
 ////========  Evalf  ===============================
 

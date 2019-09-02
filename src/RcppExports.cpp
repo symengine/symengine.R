@@ -638,6 +638,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// s4vecbasic_summary
+S4 s4vecbasic_summary(SEXP robj, const char* summary_key);
+RcppExport SEXP _symengine_s4vecbasic_summary(SEXP robjSEXP, SEXP summary_keySEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type robj(robjSEXP);
+    Rcpp::traits::input_parameter< const char* >::type summary_key(summary_keySEXP);
+    rcpp_result_gen = Rcpp::wrap(s4vecbasic_summary(robj, summary_key));
+    return rcpp_result_gen;
+END_RCPP
+}
 // s4binding_evalf
 S4 s4binding_evalf(RObject expr, int bits, bool complex);
 RcppExport SEXP _symengine_s4binding_evalf(SEXP exprSEXP, SEXP bitsSEXP, SEXP complexSEXP) {
@@ -794,6 +806,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_symengine_s4binding_dummy", (DL_FUNC) &_symengine_s4binding_dummy, 1},
     {"_symengine_s4binding_op", (DL_FUNC) &_symengine_s4binding_op, 3},
     {"_symengine_s4binding_math", (DL_FUNC) &_symengine_s4binding_math, 2},
+    {"_symengine_s4vecbasic_summary", (DL_FUNC) &_symengine_s4vecbasic_summary, 2},
     {"_symengine_s4binding_evalf", (DL_FUNC) &_symengine_s4binding_evalf, 3},
     {"_symengine_s4binding_solve_lin", (DL_FUNC) &_symengine_s4binding_solve_lin, 2},
     {"_symengine_s4binding_solve_poly", (DL_FUNC) &_symengine_s4binding_solve_poly, 2},

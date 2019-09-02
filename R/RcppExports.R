@@ -225,6 +225,10 @@ s4binding_math <- function(robj, math_key) {
     .Call('_symengine_s4binding_math', PACKAGE = 'symengine', robj, math_key)
 }
 
+s4vecbasic_summary <- function(robj, summary_key) {
+    .Call('_symengine_s4vecbasic_summary', PACKAGE = 'symengine', robj, summary_key)
+}
+
 s4binding_evalf <- function(expr, bits, complex) {
     .Call('_symengine_s4binding_evalf', PACKAGE = 'symengine', expr, bits, complex)
 }
