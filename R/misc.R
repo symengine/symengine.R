@@ -22,6 +22,7 @@ dots <- function (...)
 #'     the name will be used as the name of variable to assign, otherwise the
 #'     argument can only be a symbol.
 #' @param .env Environment to assign.
+#' @param .quiet Whether to supress the message.
 #'
 #' @return Invisibly returns a list of assigned variables.
 #' @export
@@ -31,7 +32,7 @@ dots <- function (...)
 #' p * x + y
 #' expand(expr^2L)
 #' rm(x, y, expr, p)
-use_vars <- function(..., .env = parent.frame()) {
+use_vars <- function(..., .env = parent.frame(), .quiet = FALSE) {
     
     args <- dots(...)
     no_name <- is.null(names(args))
@@ -65,7 +66,9 @@ use_vars <- function(..., .env = parent.frame()) {
     for (name in names(l.vars))
         assign(name, value = l.vars[[name]], envir = .env)
     
-    message(sprintf("Initializing %s", paste(sQuote(names(l.vars)), collapse = ", ")))
+    if (!.quiet) {
+        message(sprintf("Initializing %s", paste(sQuote(names(l.vars)), collapse = ", ")))
+    }
     
     invisible(l.vars)
 }
