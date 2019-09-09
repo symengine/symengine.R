@@ -1,4 +1,3 @@
-
 ## We do not use "useDynLib" in NAMESPACE but control it in
 ## .onLoad() and .onUnload() manually.
 ## This gives us the flexibility to behave differently on windows
@@ -21,6 +20,10 @@ library.dynam_2 <- function(chname, package, lib.loc, ...) {
 }
 
 .onLoad <- function(libname, pkgname) {
+    register_s3_method("knitr", "knit_print", "Basic")
+    set_default_option_if_not("symengine.latex", FALSE)
+    set_default_option_if_not("symengine.latex.center", FALSE)
+
     ## TODO: use assignInMyNamespace to update constants?
     if (.Platform$OS.type == "windows")
         return(.onLoad.windows(libname, pkgname))
@@ -50,10 +53,8 @@ library.dynam_2 <- function(chname, package, lib.loc, ...) {
 }
 
 .onAttach <- function (libname, pkgname) {
-    # TODO:
-    # Check whether symengine is available, and give verbose message if not.
-    # Also check gmp library or MPFR library.
-    
+    ## TODO: print available symengine components
+
     ## Try to confirm the shared object is loaded, but allow it to fail
     if (!is.loaded("_symengine_compilation_notes")) {
         warning("The shared library is not loaded")
@@ -84,3 +85,41 @@ library.dynam_2 <- function(chname, package, lib.loc, ...) {
     invisible(TRUE)
 }
 
+
+## Reference:
+## - https://cran.r-project.org/web/packages/knitr/vignettes/knit_print.html#for-package-authors
+## - https://github.com/rstudio/htmltools/pull/108/files
+## This avoids hard dependency so that we can put knitr in Suggests
+register_s3_method <- function(pkg, generic, class, fun = NULL) {
+    stopifnot(is.character(pkg), length(pkg) == 1)
+    stopifnot(is.character(generic), length(generic) == 1)
+    stopifnot(is.character(class), length(class) == 1)
+
+    if (is.null(fun)) {
+        fun <- get(paste0(generic, ".", class), envir = parent.frame())
+    } else {
+        stopifnot(is.function(fun))
+    }
+
+    if (pkg %in% loadedNamespaces()) {
+        registerS3method(generic, class, fun, envir = asNamespace(pkg))
+    }
+
+    # Always register hook in case package is later unloaded & reloaded
+    setHook(
+        packageEvent(pkg, "onLoad"),
+        function(...) {
+            registerS3method(generic, class, fun, envir = asNamespace(pkg))
+        }
+    )
+}
+
+set_default_option_if_not <- function(name, value) {
+    opt <- list(value)
+    names(opt) <- name
+    ori <- getOption(name, default = NULL)
+    if (is.null(ori)) {
+        return(options(opt))
+    }
+    invisible(NULL)
+}
