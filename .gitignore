@@ -7,3 +7,4 @@ src/*.so
 src/*.dll
 .dir-locals.el
 src/CMakeFiles
+inst/doc
