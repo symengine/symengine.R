@@ -6,13 +6,13 @@ NULL
 
 #' Converting R object to Basic
 #' 
-#' `S` converts a R object to a Basic object. `Symbol`, `Real` and `Constant`
+#' `S` and `Basic` converts a R object to a Basic object. `Symbol`, `Real` and `Constant`
 #' construct a Basic object with type "Symbol", "RealDouble"/"RealMPFR"
 #' and "Constant", respectively.
 #' 
 #' For double vector, `S` will check whether it is a whole number -- if true,
 #' it will be converted to a Integer type. If this behavior is not desired,
-#' you can use `as(x, "Basic")`.
+#' you can use `Basic` or `as(x, "Basic")`.
 #' 
 #' @param x A R object.
 #' 
@@ -28,11 +28,16 @@ S <- function(x) {
     s4basic_parse(x, check_whole_number = TRUE)
 }
 
+#' @rdname S
+#' @export
+Basic <- function(x) {
+    s4basic_parse(x, check_whole_number = FALSE)
+}
+
 if (FALSE) {
     S(~ {{ log(42) + 1 }})
     S(~ .(log(42) + 1))
 }
-
 
 ## Some special constructors  ==================================================
 

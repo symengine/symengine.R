@@ -11,7 +11,9 @@ Imports:
 Suggests:
     crayon,
     pracma,
-    testthat (>= 2.1.0)
+    testthat (>= 2.1.0),
+    knitr,
+    rmarkdown
 LinkingTo:
     Rcpp
 Encoding: UTF-8
@@ -26,6 +28,7 @@ Collate:
     'codegen.R'
     'double_visitor.R'
     'function_symbol.R'
+    'knitr.R'
     'lambdify.R'
     'language_conversion.R'
     'matrix.R'
@@ -38,3 +41,4 @@ Collate:
     'utils-subset.R'
     'vector.R'
     'zzz.R'
+VignetteBuilder: knitr

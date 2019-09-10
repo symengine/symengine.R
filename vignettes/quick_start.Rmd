@@ -1,0 +1,149 @@
+---
+title: "SymEngine Quick Start"
+output:
+  rmarkdown::html_vignette:
+    toc: true
+  rmarkdown::pdf_document:
+    toc: true
+    toc_depth: 3
+vignette: >
+  %\VignetteIndexEntry{quick_start}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+<!-- Custom styles -->
+<style>
+pre.sourceCode, code.sourceCode {
+  background-color: #e5fbe6;
+}
+h3:before {
+  content: ">> ";
+}
+body {
+  margin-left: 0px;
+}
+</style>
+
+```{r, include = FALSE}
+#knitr::opts_chunk$set(
+#    collapse = TRUE,
+#    comment = "#>"
+#)
+```
+
+----------------
+
+This vignette contains some basic code snippets for use with the
+`symengine` package.
+
+**It is currently in progress!**
+
+```{r include=FALSE}
+library(symengine)
+```
+
+## Construct symbolic expressions
+
+### Create symbol `x` from a string. 
+
+```{r}
+x <- Symbol("x")
+x
+```
+
+### Parse an expression from a string 
+
+```{r}
+expr <- S("(x + 2*y)^3")
+expr
+```
+
+## Manipulating symbolic expressions
+
+### Expand an expression
+
+```{r}
+use_vars(x, y, z, .quiet = TRUE)
+expr <- (x + y + z) ^ 2L - 42L
+expand(expr)
+```
+
+### Substitute variables
+
+```{r}
+expr <- (x + y + z) ^ 2L - 42L
+expr <- subs(expr, z, S("a"))
+expr <- subs(expr, y, x^2L)
+expr
+```
+
+### Compute derivatives
+
+```{r}
+use_vars(x, y, .quiet = TRUE)
+expr <- (x + 2L*sin(y))^3L
+D(expr, y)
+```
+
+### Solve a polynomial equation
+
+```{r}
+a <- Symbol("a")
+poly <- x^2L + 2L*a*x + a^2L
+solve(poly, x)
+```
+
+## Construct vector and matrix
+
+### Construct a vector with `c`
+
+```{r}
+use_vars(x, y, z, .quiet = TRUE)
+vec <- c(x, x + y, x + y - z)
+vec
+```
+
+### Construct a vector with `Vector`
+
+```{r}
+lst <- list(x, x + y, x + y + z)
+Vector(lst)
+```
+
+### Construct a symbolic matrix with `Matrix`
+
+```{r}
+nms <- paste0("x_", rep(1:2, 3), rep(1:3, 2))
+Matrix(nms, nrow = 2)
+```
+
+### Construct a symbolic matrix with `rbind`
+
+```{r}
+vec <- Vector(x, y, z)
+rbind(vec, vec^2L-1L)
+```
+
+## Numerically evaluate symbolic expressions
+
+```{r}
+expr <- x^y + exp(x)
+func <- as.function(expr)
+func(x = 1:10, y = 2)
+```
+
+## Print Latex in Rmarkdown document
+
+```{r}
+options(symengine.latex = TRUE, symengine.latex.center = TRUE)
+```
+
+```{r}
+use_vars(x, y, .quiet = TRUE)
+sqrt(x + y)
+```
+
+```{r}
+options(symengine.latex = FALSE, symengine.latex.center = FALSE)
+```

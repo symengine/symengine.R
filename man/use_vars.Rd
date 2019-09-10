@@ -4,7 +4,7 @@
 \alias{use_vars}
 \title{Initializing Variables}
 \usage{
-use_vars(..., .env = parent.frame())
+use_vars(..., .env = parent.frame(), .quiet = FALSE)
 }
 \arguments{
 \item{...}{All the arguments will be quoted and parsed, if a argument is named,
@@ -12,6 +12,8 @@ the name will be used as the name of variable to assign, otherwise the
 argument can only be a symbol.}
 
 \item{.env}{Environment to assign.}
+
+\item{.quiet}{Whether to supress the message.}
 }
 \value{
 Invisibly returns a list of assigned variables.
