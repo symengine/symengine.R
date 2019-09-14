@@ -51,7 +51,10 @@ source("https://raw.githubusercontent.com/symengine/symengine.R/master/tools/ins
 If it was successful, you can install the R package with
 
 ```{r, eval=FALSE}
-devtools::install_github("symengine/symengine.R")
+devtools::install_github(
+  "symengine/symengine.R",
+  build_opts = c("--no-resave-data", "--no-manual") # Build Vignettes
+)
 ```
 
 On Windows, the dependencies will be downloaded at build time, and you can install
