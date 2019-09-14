@@ -77,8 +77,9 @@ expand(expr)
 Substitue `z` as `a` and `y` as `x^2`.
 
 ``` r
-expr <- subs(expr, ~ z, ~ a,
-                   "y",   x^2L)
+a <- S("a")
+expr <- subs(expr, z, a)
+expr <- subs(expr, y, x^2L)
 expr
 #> (Add)    -42 + (a + x + x^2)^2
 ```
