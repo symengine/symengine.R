@@ -20,9 +20,9 @@ setClass("SymEnginePTRWithContext", contains = "SymEnginePTR", slots = c(context
 
 setClass("BasicWithContext", contains = c("Basic", "SymEnginePTRWithContext"))
 
-setClass("VecBasicWithContext", contains = c("Basic", "SymEnginePTRWithContext"))
+setClass("VecBasicWithContext", contains = c("VecBasic", "SymEnginePTRWithContext"))
 
-setClass("DenseMatrixWithContext", contains = c("Basic", "SymEnginePTRWithContext"))
+setClass("DenseMatrixWithContext", contains = c("DenseMatrix", "SymEnginePTRWithContext"))
 
 #### Function Symbol Generator ========================
 
