@@ -8,11 +8,9 @@ Status](https://travis-ci.org/symengine/symengine.R.svg?branch=master)](https://
 [![AppVeyor Build
 status](https://ci.appveyor.com/api/projects/status/rr0tdh8ykvs04qg2?svg=true)](https://ci.appveyor.com/project/symengine/symengine-r)
 
-This is an experiment to provide a R interface to the [SymEngine
-library](https://github.com/symengine/symengine).
-
-This project was a GSoC 2018 project under the organization of The R
-Project for Statistical Computing.
+`symengine` is a R interface to the [SymEngine C++
+library](https://github.com/symengine/symengine) for symbolic
+computation.
 
 ## Installation
 
@@ -168,3 +166,9 @@ sin(x)/cos(x)
 tan(x) == sin(x)/cos(x) # Different internal representation
 #> [1] FALSE
 ```
+
+## Acknowledgement
+
+This project was a Google Summer of Code project under the organization
+of The R Project for Statistical Computing in 2018. The student was Xin
+Chen, mentored by Jialin Ma and Isuru Fernando.
