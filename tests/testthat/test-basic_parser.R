@@ -221,8 +221,15 @@ test_that("as.integer overflow", {
     skip_on_appveyor()
     skip_on_cran()
     
-    expect_true(basic_int_max_exceed > basic_int_max)
-    expect_true(basic_int_min_exceed < basic_int_min)
+    basic_true <- S("a == a")
+    greater <- function(a, b) {
+        ans <- S("_a > _b")
+        ans <- subs(ans, "_a", a)
+        ans <- subs(ans, "_b", b)
+        ans
+    }
+    expect_true(greater(basic_int_max_exceed, basic_int_max) == basic_true)
+    expect_true(greater(basic_int_min, basic_int_min_exceed) == basic_true)
     expect_identical(as.character(basic_int_max_exceed), "2147483648")
     expect_identical(as.character(basic_int_min_exceed), "-2147483648")
     
