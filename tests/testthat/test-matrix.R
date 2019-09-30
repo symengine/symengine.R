@@ -161,6 +161,29 @@ test_that("Implicit missing and explicit missing in subsetting", {
     ## m[5], m[c(4,5)], m[5, drop=T/F] and m[c(4,5), drop=T/F]
 })
 
+test_that("[ out of bounds error", {
+    m <- Matrix(1:6, 2)
+    expect_true(m[2,2] == S(4L))
+    expect_error(m[3,2])
+})
 
+test_that("[<- out of bounds error", {
+    m <- Matrix(1:6, 2)
+    m[2,2] <- S("x")
+    expect_true(m[2,2] == S("x"))
+    expect_error(m[3,2] <- S("x"))
+})
 
+test_that("[[ out of bounds error", {
+    m <- Matrix(1:6, 2)
+    expect_true(m[[2,2]] == S(4L))
+    expect_error(m[[3,2]])
+})
+
+test_that("[[<- out of bounds error", {
+    m <- Matrix(1:6, 2)
+    m[[2,2]] <- S("x")
+    expect_true(m[[2,2]] == S("x"))
+    expect_error(m[[3,2]] <- S("x"))
+})
 

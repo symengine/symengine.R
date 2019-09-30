@@ -602,17 +602,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// s4binding_dummy
-SEXP s4binding_dummy(int level);
-RcppExport SEXP _symengine_s4binding_dummy(SEXP levelSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< int >::type level(levelSEXP);
-    rcpp_result_gen = Rcpp::wrap(s4binding_dummy(level));
-    return rcpp_result_gen;
-END_RCPP
-}
 // s4binding_op
 S4 s4binding_op(SEXP robj1, SEXP robj2, const char* op_key);
 RcppExport SEXP _symengine_s4binding_op(SEXP robj1SEXP, SEXP robj2SEXP, SEXP op_keySEXP) {
@@ -803,7 +792,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_symengine_s4binding_size", (DL_FUNC) &_symengine_s4binding_size, 1},
     {"_symengine_s4binding_subset", (DL_FUNC) &_symengine_s4binding_subset, 3},
     {"_symengine_s4binding_parse", (DL_FUNC) &_symengine_s4binding_parse, 1},
-    {"_symengine_s4binding_dummy", (DL_FUNC) &_symengine_s4binding_dummy, 1},
     {"_symengine_s4binding_op", (DL_FUNC) &_symengine_s4binding_op, 3},
     {"_symengine_s4binding_math", (DL_FUNC) &_symengine_s4binding_math, 2},
     {"_symengine_s4vecbasic_summary", (DL_FUNC) &_symengine_s4vecbasic_summary, 2},

@@ -739,12 +739,7 @@ S4 s4vecbasic_unique(SEXP robj) {
 
 // [[Rcpp::export()]]
 S4 s4DenseMat_byrow(RObject robj, unsigned nrow, unsigned ncol) {
-    // TODO: add byrow argument?
-    // if (!byrow)
-    //     Rf_error("not implemented");
-    
     // TODO: support input of a list of VecBasic or a list of Basic
-    // TODO: support matrix input
     if (robj.isNULL()) {
         // Do we need to fill with default value?
         CDenseMatrix* mat = dense_matrix_new_rows_cols(nrow, ncol);
@@ -816,11 +811,22 @@ S4 s4DenseMat_get(S4 robj, IntegerVector rows, IntegerVector cols, bool get_basi
     CDenseMatrix* mat = s4DenseMat_elt(robj);
     
     if (get_basic) {
-        // TODO: check NA, check length
         if (rows.size() != 1 || cols.size() != 1)
             Rf_error("Expecting size to be 1\n");
         int row = rows[0];
         int col = cols[0];
+        if (row <= 0 || col <= 0) {
+            if (row == NA_INTEGER || col == NA_INTEGER)
+                Rf_error("NA value in index is not accepted\n");
+            Rf_error("Negative or zero index is not accepted\n");
+        }
+        // check index is not out of bounds
+        {
+            unsigned long int mat_nrow = dense_matrix_rows(mat);
+            unsigned long int mat_ncol = dense_matrix_cols(mat);
+            if (row > mat_nrow || col > mat_ncol)
+                Rf_error("Index is out of bounds\n");
+        }
         basic_struct* s = basic_new_heap();
         S4 out = s4basic(s);
         cwrapper_hold(dense_matrix_get_basic(s, mat, row - 1, col - 1));
@@ -832,7 +838,7 @@ S4 s4DenseMat_get(S4 robj, IntegerVector rows, IntegerVector cols, bool get_basi
         Rf_error("Index sizes do not match\n");
     
     // TODO: check bounds of rows and cols
-    
+    // (currently handled by normalizeSingleBracketSubscript)
     S4         out  = s4vecbasic();
     CVecBasic* outv = s4vecbasic_elt(out);
     for (int i = 0; i < len; i++) {
@@ -845,10 +851,16 @@ S4 s4DenseMat_get(S4 robj, IntegerVector rows, IntegerVector cols, bool get_basi
 // [[Rcpp::export()]]
 void s4DenseMat_mut_setbasic(S4 rmat, int row, int col, RObject value) {
     // TODO: Implement s4DenseMat_mut_set that sets a list of values at once
-    // TODO: check index is not out of bounds
+    CDenseMatrix* mat = s4DenseMat_elt(rmat);
+
+    // check index is not out of bounds
+    unsigned long int mat_nrow = dense_matrix_rows(mat);
+    unsigned long int mat_ncol = dense_matrix_cols(mat);
     if (row <= 0 || col <= 0)
         Rf_error("Index can not be negative or zero\n");
-    CDenseMatrix* mat = s4DenseMat_elt(rmat);
+    if (row > mat_nrow || col > mat_ncol)
+        Rf_error("Index is out of bounds\n");
+
     S4 rbasic;
     if (!s4basic_check(value))
         rbasic = s4basic_parse(value, false);
@@ -1047,37 +1059,6 @@ SEXP s4binding_parse(RObject robj) {
 }
 
 ////========  Two argument functions ===============
-
-// [[Rcpp::export()]]
-SEXP s4binding_dummy(int level) {
-    if (level == 1)
-        return R_NilValue;
-    if (level == 2) {
-        basic_struct* bl[100];
-        for (int i = 0; i < 100; i++) {
-            bl[i] = basic_new_heap();
-        }
-        for (int n = 0; n < 100; n++) {
-            basic_free_heap(bl[n]);
-        }
-        return R_NilValue;
-    }
-    if (level == 3) {
-        for (int m = 0; m < 100; m++) {
-            XPtrBasic(basic_new_heap(), true, Rf_ScalarRaw(S4BASIC), R_NilValue);
-        }
-        return R_NilValue;
-    }
-    if (level == 4) {
-        SEXP sexp_list[100];
-        for (int i = 0; i < 100; i++) {
-            sexp_list[i] = PROTECT(s4basic());
-        }
-        UNPROTECT(100);
-        return R_NilValue;
-    }
-    Rf_error("emmm\n");
-}
 
 typedef CWRAPPER_OUTPUT_TYPE cwrapper_op_t(basic, const basic, const basic);
 

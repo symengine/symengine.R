@@ -1,6 +1,8 @@
 
 #### A simple wrapper around R's list. i.e. a list of Basic object.
 #### This is still a work in progress, so do not export it.
+####
+#### Also check out the "vctrs" package.
 
 symArray <- function(...) {
     ans <- lapply(list(...), S)

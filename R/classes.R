@@ -20,9 +20,9 @@ setClass("SymEnginePTRWithContext", contains = "SymEnginePTR", slots = c(context
 
 setClass("BasicWithContext", contains = c("Basic", "SymEnginePTRWithContext"))
 
-setClass("VecBasicWithContext", contains = c("Basic", "SymEnginePTRWithContext"))
+setClass("VecBasicWithContext", contains = c("VecBasic", "SymEnginePTRWithContext"))
 
-setClass("DenseMatrixWithContext", contains = c("Basic", "SymEnginePTRWithContext"))
+setClass("DenseMatrixWithContext", contains = c("DenseMatrix", "SymEnginePTRWithContext"))
 
 #### Function Symbol Generator ========================
 
@@ -62,7 +62,7 @@ setMethod("as.integer", c(x = "Basic"),
     function(x) {
         if (s4basic_get_type(x) == "Integer")
             return(s4basic_as_sexp(x))
-        stop("Not implemented")
+        stop(sprintf("Not implemented for type %s", get_type(x)))
     }
 )
 

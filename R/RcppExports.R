@@ -213,10 +213,6 @@ s4binding_parse <- function(robj) {
     .Call('_symengine_s4binding_parse', PACKAGE = 'symengine', robj)
 }
 
-s4binding_dummy <- function(level) {
-    .Call('_symengine_s4binding_dummy', PACKAGE = 'symengine', level)
-}
-
 s4binding_op <- function(robj1, robj2, op_key) {
     .Call('_symengine_s4binding_op', PACKAGE = 'symengine', robj1, robj2, op_key)
 }

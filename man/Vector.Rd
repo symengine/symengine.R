@@ -15,3 +15,12 @@ V(...)
 \description{
 VecBasic Constructors
 }
+\examples{
+a <- S("a")
+b <- S("b")
+Vector(a, b, a + b, 42L)
+Vector(list(a, b, 42L))
+
+Vector(1,2,a)
+V(1,2,a)
+}

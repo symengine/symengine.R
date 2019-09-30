@@ -23,6 +23,7 @@ NULL
 #' S(~ (x + y)^2)
 #' S(NaN)
 #' S(42)
+#' Basic(42)
 #' as(42, "Basic")
 S <- function(x) {
     s4basic_parse(x, check_whole_number = TRUE)
@@ -34,15 +35,10 @@ Basic <- function(x) {
     s4basic_parse(x, check_whole_number = FALSE)
 }
 
-if (FALSE) {
-    S(~ {{ log(42) + 1 }})
-    S(~ .(log(42) + 1))
-}
-
 ## Some special constructors  ==================================================
 
 ## TODO: add test case:
-##    Symbol(NA_character), Symbol(""), Symbol(character()), Symbol(c("x", "y")), Symbol(42)
+##    Symbol(NA_character_), Symbol(""), Symbol(character()), Symbol(c("x", "y")), Symbol(42)
 #' @rdname S
 #' @export
 Symbol <- function(x) {
@@ -75,38 +71,7 @@ Real <- function(x, prec = NULL) {
     s4basic_real(x, prec)
 }
 
-if (FALSE) {
-    (d <- Real(NA_integer_))
-    str(as.double(d))
-    
-    (d <- Real(NaN))
-    str(as.double(d))
-    
-    (d <- Real(Inf))
-    str(as.double(d))
-    
-    (d <- Real(-Inf))
-    str(as.double(d))
-}
-
 ## There is no constructor for Integer, using the parser should be enough
-
-if (FALSE) {
-    (i <- S(as.character(- 2^31)))     # -base::.Machine$integer.max - 1L
-    str(as.integer(i))
-    
-    (i <- S(as.character(- 2^31 + 1))) # -base::.Machine$integer.max
-    str(as.integer(i))
-    
-    (i <- S(NA_integer_))
-    str(as.integer(i))
-    
-    (i <- S(Inf))
-    str(as.integer(i))
-    
-    (i <- S(NaN))
-    str(as.integer(i))
-}
 
 # #' @export
 # Integer <- function (x) {

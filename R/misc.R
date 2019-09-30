@@ -1,9 +1,4 @@
 
-#' @import methods
-#' @importFrom Rcpp cppFunction
-NULL
-
-
 dots <- function (...)
     eval(substitute(alist(...)))
 

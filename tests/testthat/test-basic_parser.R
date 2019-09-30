@@ -192,5 +192,48 @@ test_that("Real(number, bits) with MPFR enabled", {
     expect_identical(symengine:::s4basic_realmpfr_get_prec(x), 32L)
 })
 
+## Integer
 
+test_that("NA_integer_ to Basic", {
+    expect_error(Basic(NA_integer_))
+    expect_error(S(NA_integer_))
+})
 
+test_that("Minimum and maximum integer", {
+    basic_int_min <- -S(2L)^31L + 1L
+    basic_int_max <- S(.Machine$integer.max)
+    expect_true(get_type(basic_int_max) == "Integer")
+    expect_true(get_type(basic_int_min) == "Integer")
+    expect_true(basic_int_max + basic_int_min == Basic(0L))
+})
+
+test_that("as.integer overflow", {
+    basic_int_min <- -S(2L)^31L + 1L
+    basic_int_max <- S(.Machine$integer.max)
+    
+    expect_identical(as.integer(basic_int_max),  .Machine$integer.max)
+    expect_identical(as.integer(basic_int_min), -.Machine$integer.max)
+    
+    basic_int_min_exceed <- basic_int_min - 1L
+    basic_int_max_exceed <- basic_int_max + 1L
+    
+    ## TODO: Currently fails on Appveyor CI (windows)
+    skip_on_appveyor()
+    skip_on_cran()
+    
+    basic_true <- S("a == a")
+    greater <- function(a, b) {
+        ans <- S("_a > _b")
+        ans <- subs(ans, "_a", a)
+        ans <- subs(ans, "_b", b)
+        ans
+    }
+    expect_true(greater(basic_int_max_exceed, basic_int_max) == basic_true)
+    expect_true(greater(basic_int_min, basic_int_min_exceed) == basic_true)
+    expect_identical(as.character(basic_int_max_exceed), "2147483648")
+    expect_identical(as.character(basic_int_min_exceed), "-2147483648")
+    
+    expect_error(as.integer(basic_int_min_exceed))
+    expect_error(as.integer(basic_int_max_exceed))
+    expect_error(as.integer(basic_int_max_exceed + 1L))
+})

@@ -8,11 +8,9 @@ Status](https://travis-ci.org/symengine/symengine.R.svg?branch=master)](https://
 [![AppVeyor Build
 status](https://ci.appveyor.com/api/projects/status/rr0tdh8ykvs04qg2?svg=true)](https://ci.appveyor.com/project/symengine/symengine-r)
 
-This is an experiment to provide a R interface to the [SymEngine
-library](https://github.com/symengine/symengine).
-
-This project was a GSoC 2018 project under the organization of The R
-Project for Statistical Computing.
+`symengine` is a R interface to the [SymEngine C++
+library](https://github.com/symengine/symengine) for symbolic
+computation.
 
 ## Installation
 
@@ -41,7 +39,10 @@ source("https://raw.githubusercontent.com/symengine/symengine.R/master/tools/ins
 If it was successful, you can install the R package with
 
 ``` r
-devtools::install_github("symengine/symengine.R")
+devtools::install_github(
+  "symengine/symengine.R",
+  build_opts = c("--no-resave-data", "--no-manual") # Build Vignettes
+)
 ```
 
 On Windows, the dependencies will be downloaded at build time, and you
@@ -74,8 +75,9 @@ expand(expr)
 Substitue `z` as `a` and `y` as `x^2`.
 
 ``` r
-expr <- subs(expr, ~ z, ~ a,
-                   "y",   x^2L)
+a <- S("a")
+expr <- subs(expr, z, a)
+expr <- subs(expr, y, x^2L)
 expr
 #> (Add)    -42 + (a + x + x^2)^2
 ```
@@ -146,6 +148,7 @@ Pi “computed” to 400-bit precision number.
 ``` r
 if (symengine_have_component("mpfr"))
     evalf(Constant("pi"), bits = 400)
+#> (RealMPFR,prec400)   3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679821480865132823066
 ```
 
 ### Object Equality
@@ -164,61 +167,8 @@ tan(x) == sin(x)/cos(x) # Different internal representation
 #> [1] FALSE
 ```
 
-## Related R Packages
+## Acknowledgement
 
-  - There are several functions in base R for defferentiation,
-    integration, solving system of equations, etc. E.g. `solve`,
-    `stats::D`, `stats::deriv`, `stats::integrate`,
-    `stats::numericDeriv`.
-
-  - R package [`Deriv`](https://github.com/sgsokol/Deriv) for symbolic
-    differentiation, it allows user to supply custom rules for
-    differentiation.
-
-  - R package `numDeriv` for calculating numerical approximations to
-    derivatives.
-
-  - R package `gmp` and `Rmpfr` provide multiple precision arithmetic
-    and floating point operations. They also include some special
-    functions, e.g. `Rmpfr::integrateR` for numerical integration.
-
-  - R package `mpc` available at [R
-    forge](http://mpc.r-forge.r-project.org/). It provides multiple
-    precision arithmetic for complex numbers.
-
-  - R package
-    [`rSymPy`](https://cran.r-project.org/web/packages/rSymPy/index.html)
-    provides an interface to ‘SymPy’ library in python via rJava.
-
-  - R package
-    [`Ryacas`](https://cran.r-project.org/web/packages/Ryacas/index.html)
-    provides an interface to the ‘Yacas’ computer algebra system. It is
-    easier to install compared to `rSymPy`.
-
-## Notes on some dependencies
-
-The SymEngine library can optionally depend on some external libraries,
-which is configured by CMake, see the list of CMake options in [README
-of SymEngine](https://github.com/symengine/symengine/README.md) and the
-[configure
-script](https://github.com/Marlin-Na/Rlibsymengine/blob/master/configure)
-of Rlibsymengine.
-
-A few notes:
-
-1.  `GMP` (GNU Multiple Precision Arithmetic Library) is a C library
-    that can be used to store and do arithmetic calculation with big
-    integers and rationals. It has an R interface
-    ([gmp](https://github.com/cran/gmp/blob/master/DESCRIPTION)
-    package).
-
-2.  `mpfr` (Multiple Precision Floating-Point Reliable) is a C library
-    that depends on the `GMP` library and is used for arbitrary
-    precision floating number arithmetic calculations. It has an R
-    interface ([Rmpfr](https://github.com/cran/Rmpfr) package). This is
-    an optional dependency for SymEngine.
-
-3.  `mpc` () is a C library that extends the `mpfr` library for the
-    arithmetic of complex numbers with arbitrarily precision. There is a
-    R package `mpc` which is not on CRAN, but
-    [available](http://mpc.r-forge.r-project.org/) at R forge.
+This project was a Google Summer of Code project under the organization
+of The R Project for Statistical Computing in 2018. The student was Xin
+Chen, mentored by Jialin Ma and Isuru Fernando.

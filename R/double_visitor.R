@@ -24,8 +24,22 @@ setClass("LLVMDoubleVisitor", contains = "DoubleVisitor")
 #' 
 #' @rdname DoubleVisitor
 #' @export
+#' @examples
+#' a <- S("a")
+#' b <- S("b")
+#' c <- S("c")
+#' vec <- c(log(a), log(a)/log(b) + c)
+#' func <- DoubleVisitor(vec, args = c(a, b, c))
+#' args(func)
+#' 
+#' ## Use closure
+#' func(a = 1:10, b = 10:1, c = 1.43)
+#' 
+#' ## Use visitor_call
+#' input <- rbind(a = 1:10, b = 10:1, c = 1.43)
+#' visitor_call(func, input, do_transpose = TRUE)
 DoubleVisitor <- function(exprs, args, perform_cse = TRUE,
-                          llvm_opt_level = if (symengine_have_component("llvm")) 2L else -1L) {
+                          llvm_opt_level = if (symengine_have_component("llvm")) 3L else -1L) {
     if (missing(args)) {
         if (is(exprs, "Basic"))
             args <- free_symbols(exprs)
