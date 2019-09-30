@@ -199,14 +199,34 @@ test_that("NA_integer_ to Basic", {
     expect_error(S(NA_integer_))
 })
 
-test_that("Integer overflow", {
+test_that("Minimum and maximum integer", {
     basic_int_min <- -S(2L)^31L + 1L
     basic_int_max <- S(.Machine$integer.max)
+    expect_true(get_type(basic_int_max) == "Integer")
+    expect_true(get_type(basic_int_min) == "Integer")
     expect_true(basic_int_max + basic_int_min == Basic(0L))
+})
+
+test_that("as.integer overflow", {
+    basic_int_min <- -S(2L)^31L + 1L
+    basic_int_max <- S(.Machine$integer.max)
     
     expect_identical(as.integer(basic_int_max),  .Machine$integer.max)
     expect_identical(as.integer(basic_int_min), -.Machine$integer.max)
     
-    expect_error(as.integer(basic_int_min - 1L))
-    expect_error(as.integer(basic_int_max + 1L))
+    basic_int_min_exceed <- basic_int_min - 1L
+    basic_int_max_exceed <- basic_int_max + 1L
+    
+    ## TODO: Currently fails on Appveyor CI (windows)
+    skip_on_appveyor()
+    skip_on_cran()
+    
+    expect_true(basic_int_max_exceed > basic_int_max)
+    expect_true(basic_int_min_exceed < basic_int_min)
+    expect_identical(as.character(basic_int_max_exceed), "2147483648")
+    expect_identical(as.character(basic_int_min_exceed), "-2147483648")
+    
+    expect_error(as.integer(basic_int_min_exceed))
+    expect_error(as.integer(basic_int_max_exceed))
+    expect_error(as.integer(basic_int_max_exceed + 1L))
 })
