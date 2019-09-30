@@ -6,7 +6,7 @@
 #' Solve system of equations or a polynomial equation.
 #' 
 #' \code{solve} is a generic function dispatched on the class of the first argument.
-#' If \code{a} is a (square) DenseMatrix, it solves the equation \code{a \%*\% x = b}.
+#' If \code{a} is a (square) DenseMatrix, it solves the equation \code{a \%*\% x = b} for \code{x}.
 #' If \code{a} is a DenseMatrix and \code{b} is missing, \code{b} is taken to be an
 #' identity matrix and \code{solve} will return the inverse of \code{a}.
 #' If \code{a} is a VecBasic, it solves the system of linear equations represented by
@@ -19,6 +19,22 @@
 #' 
 #' @rdname solve
 #' @exportMethod solve
+#' @examples
+#' ## Inverse of a symbolic matrix
+#' mat <- Matrix(c("A", "B", "C", "D"), 2)
+#' solve(mat)
+#' 
+#' ## Solve a %*% x == b
+#' a <- Matrix(c("a11", "a21", "a12", "a22"), 2) # a is a 2x2 matrix
+#' b <- Vector("b1", "b2")                       # b is a length 2 vector
+#' solve(a, b)                                   # Solution of x (2x1 matrix)
+#' 
+#' ## Solve the system of linear equations represented by a with regards to
+#' ## symbols in b
+#' a <- Vector(~ -2*x + y - 4,  # A system of linear equations
+#'             ~  3*x + y - 9)
+#' b <- Vector(~x, ~y)          # Symbols to solve (x and y)
+#' solve(a, b)                  # Solution of x and y
 setGeneric("solve")
 
 #' @rdname solve

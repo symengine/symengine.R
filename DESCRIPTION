@@ -37,6 +37,7 @@ Collate:
     'solve.R'
     'summary.R'
     'symbolic_array.R'
+    'symengine.R'
     'symengine_info.R'
     'utils-subset.R'
     'vector.R'

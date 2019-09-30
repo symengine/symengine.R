@@ -192,5 +192,21 @@ test_that("Real(number, bits) with MPFR enabled", {
     expect_identical(symengine:::s4basic_realmpfr_get_prec(x), 32L)
 })
 
+## Integer
 
+test_that("NA_integer_ to Basic", {
+    expect_error(Basic(NA_integer_))
+    expect_error(S(NA_integer_))
+})
 
+test_that("Integer overflow", {
+    basic_int_min <- -S(2L)^31L + 1L
+    basic_int_max <- S(.Machine$integer.max)
+    expect_true(basic_int_max + basic_int_min == Basic(0L))
+    
+    expect_identical(as.integer(basic_int_max),  .Machine$integer.max)
+    expect_identical(as.integer(basic_int_min), -.Machine$integer.max)
+    
+    expect_error(as.integer(basic_int_min - 1L))
+    expect_error(as.integer(basic_int_max + 1L))
+})

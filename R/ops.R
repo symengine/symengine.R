@@ -28,12 +28,6 @@ setMethod("!=", c(e1 = "Basic", e2 = "Basic"),
     function(e1, e2) s4basic_neq(e1, e2)
 )
 
-if (FALSE) {
-    S("x == x") == S("y == y")
-    S("x == x") != S("y == y")
-    S("x + 1 > x") == S("x + 2 > x + 1")
-}
-
 #' @rdname bindings
 setMethod(Arith, c(e1 = "SymEngineDataType", e2 = "SymEngineDataType"),
     function(e1, e2)

@@ -62,7 +62,7 @@ setMethod("as.integer", c(x = "Basic"),
     function(x) {
         if (s4basic_get_type(x) == "Integer")
             return(s4basic_as_sexp(x))
-        stop("Not implemented")
+        stop(sprintf("Not implemented for type %s", get_type(x)))
     }
 )
 
