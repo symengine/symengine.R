@@ -1,6 +1,6 @@
 Package: symengine
 Title: Interface to the SymEngine Library
-Version: 0.0.0
+Version: 0.1.0
 Authors@R: c(person("Jialin", "Ma", email="marlin@inventati.org", role = c("cre", "aut")),
              person("Isuru", "Fernando", email="isuruf@gmail.com", role = c("aut")),
              person("Xin", "Chen", email="xinchen.tju@gmail.com", role = c("aut")))
