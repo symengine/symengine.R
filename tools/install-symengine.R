@@ -122,6 +122,10 @@
     cmake_args <- paste0("-D", names(cmake_args), "=", cmake_args)
     cmake_args <- c(cmake_args, ".")
     
+    cat("> cmake ")
+    cat(paste(cmake_args, collapse = " "))
+    cat("\n")
+    
     status <- system2("cmake", args = cmake_args, stdout = stdout(), stderr = stderr())
     if (status)
         stop(sprintf("Error running command, exit status [%s]", status))
@@ -129,12 +133,16 @@
     
     message("===== Compiling =====")
     
+    cat("> make\n")
+    
     status <- system2("make", stdout = stdout(), stderr = stderr())
     if (status)
         stop(sprintf("Error running command, exit status [%s]", status))
     Sys.sleep(1.5)
     
     message("===== Installing =====")
+    
+    cat("> make install\n")
     
     status <- system2("make", "install", stdout = stdout(), stderr = stderr())
     if (status)
