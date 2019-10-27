@@ -99,6 +99,8 @@
     symengine_commit <- meta_options["SymEngine Commit", "options"]
     tmp_dir <- tempdir()
     
+    on.exit(unlink(tmp_dir, recursive = TRUE), add = TRUE)
+    
     dist_file <- file.path(tmp_dir, "symengine.zip")
     download_url <- paste0("https://github.com/symengine/symengine/archive/", symengine_commit, ".zip")
     
