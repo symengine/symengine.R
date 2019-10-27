@@ -1,17 +1,22 @@
 
-PKG_LIBS=`if [ -d ~/.local/rdeplibs-symengine ]; then \
-SymEngine_DIR=~/.local/rdeplibs-symengine \
-cmake --find-package -DNAME=SymEngine -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=LINK; \
-else \
-cmake --find-package -DNAME=SymEngine -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=LINK; \
-fi`
+IF_SYMENGINE_EXISTS_IN_USERDIR := $(shell \
+if [ -d ~/.local/rdeplibs-symengine ]; then \
+echo true; else echo false; fi)
 
-PKG_CPPFLAGS=`if [ -d ~/.local/rdeplibs-symengine ]; then \
-SymEngine_DIR=~/.local/rdeplibs-symengine \
-cmake --find-package -DNAME=SymEngine -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=COMPILE; \
-else \
-cmake --find-package -DNAME=SymEngine -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=COMPILE; \
-fi`
+IF_SYMENGINE_EXISTS := $(shell \
+if cmake --find-package -DNAME=SymEngine -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=LINK \
+>/dev/null 2>/dev/null; then \
+echo true; else echo false; fi)
+
+ifeq ($(IF_SYMENGINE_EXISTS),true)
+	PKG_LIBS = `cmake --find-package -DNAME=SymEngine -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=LINK`
+	PKG_CPPFLAGS = `cmake --find-package -DNAME=SymEngine -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=COMPILE`
+else
+	INSTALL_SYMENGINE_DIR := $(shell mktemp -d)
+	DUMMY := $(shell INSTALL_SYMENGINE_DIR="$(INSTALL_SYMENGINE_DIR)" Rscript ../tools/install-symengine.R > /dev/null)
+	PKG_CPPFLAGS := $(shell SymEngine_DIR="$(INSTALL_SYMENGINE_DIR)" cmake --find-package -DNAME=SymEngine -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=COMPILE)
+	PKG_LIBS     := $(shell SymEngine_DIR="$(INSTALL_SYMENGINE_DIR)" cmake --find-package -DNAME=SymEngine -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=LINK)
+endif
 
 CXX_STD = CXX11
 

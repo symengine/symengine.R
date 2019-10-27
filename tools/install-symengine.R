@@ -5,6 +5,17 @@
     current_dir <- getwd()
     on.exit(setwd(current_dir))
     
+    # Not used yet
+    cmd_args <- commandArgs(trailingOnly = TRUE)
+    
+    if (Sys.getenv("INSTALL_SYMENGINE_DIR") != "") {
+        message(sprintf("== Detected environment variable INSTALL_SYMENGINE_DIR=%s ==",
+                        Sys.getenv("INSTALL_SYMENGINE_DIR")))
+        default_install_dir <- Sys.getenv("INSTALL_SYMENGINE_DIR")
+    }
+    else
+        default_install_dir <- file.path("~/.local/rdeplibs-symengine") 
+    
     ask <- function(name, options) {
         opt_str <- options
         opt_str[1] <- sprintf("[%s]", opt_str[1])
@@ -26,8 +37,6 @@
             stop(sprintf("%s is not installed on your system", name))
         }
     }
-    
-    default_install_dir <- file.path("~/.local/rdeplibs-symengine")
     
     check_bin("git")
     check_bin("cmake")
@@ -124,9 +133,9 @@
     cmake_args <- paste0("-D", names(cmake_args), "=", cmake_args)
     cmake_args <- c(cmake_args, ".")
     
-    cat("> cmake ")
-    cat(paste(cmake_args, collapse = " "))
-    cat("\n")
+    cat("> cmake ", file = stderr())
+    cat(paste(cmake_args, collapse = " "), file = stderr())
+    cat("\n", file = stderr())
     
     status <- system2("cmake", args = cmake_args, stdout = stdout(), stderr = stderr())
     if (status)
@@ -135,7 +144,7 @@
     
     message("===== Compiling =====")
     
-    cat("> make\n")
+    cat("> make\n", file = stderr())
     
     status <- system2("make", stdout = stdout(), stderr = stderr())
     if (status)
@@ -144,7 +153,7 @@
     
     message("===== Installing =====")
     
-    cat("> make install\n")
+    cat("> make install\n", file = stderr())
     
     status <- system2("make", "install", stdout = stdout(), stderr = stderr())
     if (status)
