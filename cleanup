@@ -11,7 +11,7 @@ rm    install-symengine.log
 
 # Clean detritus in temp directory
 if [ -f "install-symengine.path" ]; then
-    PATH=`cat install-symengine.path`
-    rm -r "$PATH"
+    SYMENGINE_DIST_PATH=`cat install-symengine.path`
+    rm -r "$SYMENGINE_DIST_PATH"
     rm install-symengine.path
 fi
