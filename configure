@@ -28,8 +28,10 @@ else
     : "${R_HOME=`R RHOME`}"
     INSTALL_SYMENGINE_DIR="$INSTALL_SYMENGINE_DIR" "${R_HOME}/bin/Rscript" tools/install-symengine.R >install-symengine.log 2>&1
     #echo $INSTALL_SYMENGINE_DIR > install-symengine.path
-	PKG_CPPFLAGS=`SymEngine_DIR="$INSTALL_SYMENGINE_DIR" cmake --find-package -DNAME=SymEngine -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=COMPILE`
-	PKG_LIBS=`SymEngine_DIR="$INSTALL_SYMENGINE_DIR"     cmake --find-package -DNAME=SymEngine -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=LINK`
+    cd src
+    PKG_CPPFLAGS=`SymEngine_DIR="$INSTALL_SYMENGINE_DIR" cmake --find-package -DNAME=SymEngine -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=COMPILE`
+    PKG_LIBS=`SymEngine_DIR="$INSTALL_SYMENGINE_DIR"     cmake --find-package -DNAME=SymEngine -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=LINK`
+    cd ..
 fi
 
 cat src/Makevars.in | \
