@@ -4,7 +4,8 @@ Version: 0.1.0
 Authors@R: c(person("Jialin", "Ma", email="marlin@inventati.org", role = c("cre", "aut")),
              person("Isuru", "Fernando", email="isuruf@gmail.com", role = c("aut")),
              person("Xin", "Chen", email="xinchen.tju@gmail.com", role = c("aut")))
-Description: A R interface to the fast symbolic manipulation library "SymEngine".
+Description: A R interface to the fast symbolic manipulation library 'SymEngine'
+    <https://github.com/symengine/>.
 Depends:
     R (>= 3.6)
 Imports:
@@ -20,6 +21,8 @@ LinkingTo:
     Rcpp
 Encoding: UTF-8
 LazyData: true
+URL: https://github.com/symengine/symengine.R
+BugReports: https://github.com/symengine/symengine.R/issues
 License: GPL (>= 2)
 RoxygenNote: 6.1.1
 Collate: 
