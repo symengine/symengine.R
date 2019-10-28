@@ -9,9 +9,4 @@ rm -r ./src/CMakeFiles
 rm -r ./CMakeFiles
 rm    install-symengine.log
 
-# Clean detritus in temp directory
-if [ -f "install-symengine.path" ]; then
-    SYMENGINE_DIST_PATH=`cat install-symengine.path`
-    rm -r "$SYMENGINE_DIST_PATH"
-    rm install-symengine.path
-fi
+rm -r ./symengine_dist
