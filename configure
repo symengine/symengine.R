@@ -29,7 +29,7 @@ if [ "$IF_SYMENGINE_EXISTS" == "true" ]; then
 else
     INSTALL_SYMENGINE_DIR=`mktemp -d`
     : "${R_HOME=`R RHOME`}"
-    INSTALL_SYMENGINE_DIR="$INSTALL_SYMENGINE_DIR" "${R_HOME}/bin/Rscript" tools/install-symengine.R
+    INSTALL_SYMENGINE_DIR="$INSTALL_SYMENGINE_DIR" "${R_HOME}/bin/Rscript" tools/install-symengine.R >install-symengine.log 2>&1
 	PKG_CPPFLAGS=`SymEngine_DIR="$INSTALL_SYMENGINE_DIR" cmake --find-package -DNAME=SymEngine -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=COMPILE`
 	PKG_LIBS=`SymEngine_DIR="$INSTALL_SYMENGINE_DIR"     cmake --find-package -DNAME=SymEngine -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=LINK`
 fi

@@ -7,3 +7,4 @@ rm    ./src/*.o
 rm    ./src/*.so
 rm -r ./src/CMakeFiles
 rm -r ./CMakeFiles
+rm    install-symengine.log
