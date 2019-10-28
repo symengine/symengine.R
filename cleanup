@@ -8,3 +8,10 @@ rm    ./src/*.so
 rm -r ./src/CMakeFiles
 rm -r ./CMakeFiles
 rm    install-symengine.log
+
+# Clean detritus in temp directory
+if [ -f "install-symengine.path" ]; then
+    PATH=`cat install-symengine.path`
+    rm -r "$PATH"
+    rm install-symengine.path
+fi
