@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+set -x
+
+rm    ./src/Makevars
+rm    ./src/*.o
+rm    ./src/*.so
+rm -r ./src/CMakeFiles
+rm -r ./CMakeFiles

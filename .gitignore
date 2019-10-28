@@ -7,4 +7,6 @@ src/*.so
 src/*.dll
 .dir-locals.el
 src/CMakeFiles
+CMakeFiles
 inst/doc
+src/Makevars

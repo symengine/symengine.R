@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+
+if [ -d ~/.local/rdeplibs-symengine ]; then
+    IF_SYMENGINE_EXISTS_IN_USERDIR=true
+else
+    IF_SYMENGINE_EXISTS_IN_USERDIR=false
+fi
+
+if cmake --find-package -DNAME=SymEngine -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=LINK >/dev/null 2>/dev/null; then
+    IF_SYMENGINE_EXISTS=true
+else
+    IF_SYMENGINE_EXISTS=false
+fi
+
+## If SymEngine is available on system path, then use it.
+## Otherwise install it to a temporary location and generate Makevars
+##
+## TODO: we may accept command line argument or environment variable to
+##       change directory to install SymEngine.
+##
+## TODO: if IF_SYMENGINE_EXISTS_IN_USERDIR == true, use it instead?
+##
+## TODO: instead of using a temporary directory, we may create a directory
+##       within the package and remove it with ./cleanup
+
+if [ "$IF_SYMENGINE_EXISTS" == "true" ]; then
+    PKG_LIBS=`cmake --find-package -DNAME=SymEngine -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=LINK`
+    PKG_CPPFLAGS=`cmake --find-package -DNAME=SymEngine -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=COMPILE`
+else
+    INSTALL_SYMENGINE_DIR=`mktemp -d`
+    : "${R_HOME=`R RHOME`}"
+    INSTALL_SYMENGINE_DIR="$INSTALL_SYMENGINE_DIR" "${R_HOME}/bin/Rscript" tools/install-symengine.R
+	PKG_CPPFLAGS=`SymEngine_DIR="$INSTALL_SYMENGINE_DIR" cmake --find-package -DNAME=SymEngine -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=COMPILE`
+	PKG_LIBS=`SymEngine_DIR="$INSTALL_SYMENGINE_DIR"     cmake --find-package -DNAME=SymEngine -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=LINK`
+fi
+
+cat src/Makevars.in | \
+    sed "s:@@@PKG_LIBS@@@:$PKG_LIBS:g" | \
+    sed "s:@@@PKG_CPPFLAGS@@@:$PKG_CPPFLAGS:g" \
+    > src/Makevars
+
