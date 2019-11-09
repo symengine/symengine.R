@@ -81,6 +81,11 @@
 
 \item{na.rm}{Ignored}
 }
+\value{
+\code{==} and \code{!=} will return a logical vector. Other
+  functions will return a \code{Basic}, \code{VecBasic} or \code{DenseMatrix}.
+}
 \description{
-Bindings for Operators and Math Functions
+These are S4 methods defined for \code{Basic}, \code{VecBasic}
+and \code{DenseMatrix}.
 }

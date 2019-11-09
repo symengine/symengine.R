@@ -28,8 +28,13 @@ otherwise it will return a \code{LLVMDoubleVisitor} with the specified optimizat
 If true, output will have each column for one symbolic expression, otherwise
 each row for one symbolic expression.}
 }
+\value{
+\code{DoubleVisitor} returns a callable \code{LambdaDoubleVisitor} or
+  \code{LLVMDoubleVisitor}. \code{visitor_call} returns a numeric vector or matrix.
+}
 \description{
-Numerically evaluate symbolic expressions.
+Construct \code{DoubleVisitor} object from \code{Basic} or \code{VecBasic}
+and use it to numerically evaluate symbolic expressions.
 }
 \details{
 \code{DoubleVisitor} constructs the visitor and visitor itself is callable.

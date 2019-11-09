@@ -19,6 +19,9 @@ symengine_compilation_notes()
 \arguments{
 \item{which}{A character vector.}
 }
+\value{
+Character vector.
+}
 \description{
 Functions to get symengine logo, version and external libraries built with.
 }

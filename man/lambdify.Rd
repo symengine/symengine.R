@@ -3,7 +3,7 @@
 \name{lambdify}
 \alias{lambdify}
 \alias{as.function.BasicOrVecBasic}
-\title{Convert Basic/VecBasic Object to R Function}
+\title{Convert A Basic/VecBasic Object to R Function}
 \usage{
 lambdify(x, args, backend = c("auto", "lambda", "llvm"),
   perform_cse = TRUE)
@@ -25,8 +25,13 @@ option is not set, it will be determined based on \code{symengine_have_component
 
 \item{...}{Not used}
 }
+\value{
+A \code{DoubleVisitor} S4 object.
+}
 \description{
-Convert Basic/VecBasic Object to R Function
+These functions currently use \code{\link{DoubleVisitor}} to
+convert a Basic/VecBasic object to a \code{DoubleVisitor} which
+essentially is a S4 class extending R function.
 }
 \seealso{
 \code{\link{DoubleVisitor}}

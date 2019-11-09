@@ -3,7 +3,7 @@
 \docType{methods}
 \name{D,SymEngineDataType-method}
 \alias{D,SymEngineDataType-method}
-\title{Derivatives of Basic Objects}
+\title{Derivatives of a Symbolic Expression}
 \usage{
 \S4method{D}{SymEngineDataType}(expr, name)
 }
@@ -12,6 +12,18 @@
 
 \item{name}{A character vector or a Basic object of type Symbol.}
 }
+\value{
+Same type as \code{expr} argument.
+}
 \description{
-Derivatives of Basic Objects
+S4 method of \code{D} defined for \code{Basic}. It returns
+the derivative of \code{expr} with regards to \code{name}.
+\code{name} may be missing if there is only one symbol in
+\code{expr}.
+}
+\examples{
+expr <- S(~ exp(x))
+D(expr) == expr
+expr <- S(~ x^2 + 2*x + 1)
+D(expr)
 }

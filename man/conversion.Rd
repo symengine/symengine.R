@@ -31,6 +31,11 @@ as.language(x)
 \arguments{
 \item{x}{The object to be converted.}
 }
+\value{
+Same as default methods of these generics. \code{as.language()}
+  may return \code{symbol}, \code{integer}, \code{double} or \code{call}.
+}
 \description{
-Some Conversion Methods
+Miscellaneous S4 methods defined for converting a \code{Basic} or
+\code{VecBasic} object to R number/string/language object.
 }

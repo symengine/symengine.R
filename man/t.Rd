@@ -19,6 +19,10 @@ t(x)
 \arguments{
 \item{x}{A SymEngine object.}
 }
+\value{
+A \code{DenseMatrix} S4 object.
+}
 \description{
-Transpose (as) a DenseMatrix
+S4 methods of \code{t} defined for \code{Basic}, \code{VecBasic}
+and \code{DenseMatrix}.
 }

@@ -65,8 +65,13 @@ uppergamma(x, a)
 \S4method{trigamma}{SymEngineDataType}(x)
 }
 \arguments{
-\item{a, b, x, y, n, k, deriv}{SymEngine objects. Some functions require Integer type.}
+\item{a, b, x, y, n, k, deriv}{SymEngine objects (\code{Basic}/\code{VecBasic}/\code{DenseMatrix}).
+Some functions require Integer type.}
+}
+\value{
+Same type as input.
 }
 \description{
-Some special mathematical functions and functions related to number theory.
+These are some special mathematical functions and functions
+related to number theory.
 }
