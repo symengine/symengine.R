@@ -9,12 +9,16 @@ NULL
 #' \code{Vector} and \code{V} are constructors of \code{VecBasic}.
 #' 
 #' There are some differences between \code{Vector} and \code{V}.
-#' \itemize {
-#'   \item For double values, \code{V} will check whether they are
-#'         whole number, and convert them to integer if so.
-#'         \code{Vector} will not.
-#'   \item \code{V} does not accept "non-scalar" arguments,
-#'         like \code{Vector(c(1,2,3))}.
+#' \itemize{
+#'   \item{
+#'     For double values, \code{V} will check whether they are
+#'     whole number, and convert them to integer if so.
+#'     \code{Vector} will not.
+#'   }
+#'   \item{
+#'     \code{V} does not accept "non-scalar" arguments,
+#'     like \code{Vector(c(1,2,3))}.
+#'   }
 #' }
 #' 
 #' @param x,... R objects.
