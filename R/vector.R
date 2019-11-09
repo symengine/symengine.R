@@ -3,11 +3,24 @@ NULL
 
 ## VecBasic  ===================================================================
 
-#' VecBasic Constructors
+#' Symbolic Vector
+#' 
+#' A symbolic vector is represented by \code{VecBasic} S4 class.
+#' \code{Vector} and \code{V} are constructors of \code{VecBasic}.
+#' 
+#' There are some differences between \code{Vector} and \code{V}.
+#' \itemize {
+#'   \item For double values, \code{V} will check whether they are
+#'         whole number, and convert them to integer if so.
+#'         \code{Vector} will not.
+#'   \item \code{V} does not accept "non-scalar" arguments,
+#'         like \code{Vector(c(1,2,3))}.
+#' }
 #' 
 #' @param x,... R objects.
 #' 
 #' @rdname Vector
+#' @return A \code{VecBasic}.
 #' @export
 #' @examples
 #' a <- S("a")
@@ -50,7 +63,11 @@ V <- function(...) {
 
 #' Methods Related to VecBasic
 #' 
+#' Miscellaneous S4 methods defined for \code{VecBasic} class.
+#' 
 #' @param x Basic object or Vecbasic object.
+#' 
+#' @return Same or similar to the generics.
 #' 
 #' @rdname vecbasic-bindings
 setMethod("length", "VecBasic",

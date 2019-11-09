@@ -16,6 +16,8 @@ NULL
 #' 
 #' @param x A R object.
 #' 
+#' @return A \code{Basic} S4 object.
+#' 
 #' @rdname S
 #' @export
 #' @examples

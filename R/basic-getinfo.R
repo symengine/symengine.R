@@ -1,7 +1,8 @@
 
 #' Get Information about Basic Object
 #' 
-#' Functions to get additional information about a Basic object.
+#' These functions are used to access the underlying properties of a
+#' \code{Basic} object.
 #' 
 #' \describe{
 #'   \item{get_type}{Return the internal type}
@@ -15,7 +16,14 @@
 #' }
 #' 
 #' @param x A Basic object.
-#' 
+#' @return
+#'   \itemize{
+#'     \item \code{get_type()}, \code{get_hash()}, \code{get_str()}, \code{get_name()}
+#'           return a string.
+#'     \item \code{get_args()}, \code{free_symbols()}, \code{function_symbols()}
+#'           return a \code{VecBasic} S4 object.
+#'     \item \code{get_prec()} returns an integer.
+#'   }
 #' @rdname basic-getinfo
 #' @export
 get_type <- function(x) {

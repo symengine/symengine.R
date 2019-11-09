@@ -30,9 +30,14 @@ col_index_matrix <- function(dim) {
 
 #' DenseMatrix Constructor
 #' 
+#' This function constructs a symbolic matrix (\code{DenseMatrix} S4 object)
+#' with a similar interface with R's \code{matrix} function.
+#' 
 #' @param data A R object.
 #' @param nrow,ncol Number of rows and columns.
 #' @param byrow Boolean value. Whether the data should be filled by row or by column.
+#' 
+#' @return \code{DenseMatrix} S4 object.
 #' @export
 Matrix <- function(data, nrow = 1L, ncol = 1L, byrow = FALSE) {
     ## Return directly if it is alreay a DenseMatrix
@@ -113,8 +118,12 @@ Matrix <- function(data, nrow = 1L, ncol = 1L, byrow = FALSE) {
 
 #' Methods Related to DenseMatrix
 #' 
+#' These are miscellaneous S3/S4 methods defined for \code{DenseMatrix} class.
+#' 
 #' @param x A DenseMatrix object.
 #' @param i,j,value,...,drop Arguments for subsetting, assignment or replacing.
+#' 
+#' @return Same or similar with the generics of these methods.
 #' 
 #' @rdname densematrix-bindings
 #' @export
@@ -396,9 +405,15 @@ setMethod("[<-", c(x = "DenseMatrix"),
 
 #' Joining DenseMatrix
 #' 
+#' S3 methods of \code{cbind} and \code{rbind} defined for
+#' \code{DenseMatrix} and \code{VecBasic}.
+#' 
 #' @param ... DenseMatrix, VecBasic or R objects.
 #' @param deparse.level Not used.
 #' @method cbind SymEngineDataType
+#' 
+#' @return \code{DenseMatrix} S4 object.
+#' 
 #' @rdname cbind
 #' @export
 cbind.SymEngineDataType <- function(..., deparse.level) {
@@ -470,7 +485,13 @@ rbind_asDenseMatrix <- function(...) {
 
 #' Transpose (as) a DenseMatrix
 #' 
+#' S4 methods of \code{t} defined for \code{Basic}, \code{VecBasic}
+#' and \code{DenseMatrix}.
+#' 
 #' @param x A SymEngine object.
+#' 
+#' @return A \code{DenseMatrix} S4 object.
+#' 
 #' @rdname t
 #' @exportMethod t
 setGeneric("t")
@@ -492,11 +513,19 @@ setMethod("t", "DenseMatrix",
 ####======= Determinant ===========================================
 
 #' Calculate the Determinant of DenseMatrix
+#' 
+#' S4 method of \code{det} defined for \code{DenseMatrix}.
+#' 
 #' @param x A DenseMatrix object.
 #' @param ... Unused.
 #' 
+#' @return A \code{Basic} object.
+#' 
 #' @rdname det
 #' @exportMethod det
+#' @examples
+#' mat <- Matrix(LETTERS[1:9], 3)
+#' det(mat)
 setGeneric("det")
 
 #' @rdname det

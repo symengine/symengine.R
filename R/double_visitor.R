@@ -9,7 +9,8 @@ setClass("LLVMDoubleVisitor", contains = "DoubleVisitor")
 
 #' Double Visitor
 #' 
-#' Numerically evaluate symbolic expressions.
+#' Construct \code{DoubleVisitor} object from \code{Basic} or \code{VecBasic}
+#' and use it to numerically evaluate symbolic expressions.
 #' 
 #' \code{DoubleVisitor} constructs the visitor and visitor itself is callable.
 #' \code{visitor_call} is the low level function to call the visitor with input.
@@ -19,6 +20,9 @@ setClass("LLVMDoubleVisitor", contains = "DoubleVisitor")
 #' @param perform_cse Boolean.
 #' @param llvm_opt_level Integer. If negative, it will return a \code{LambdaDoubleVisitor},
 #' otherwise it will return a \code{LLVMDoubleVisitor} with the specified optimization level.
+#' 
+#' @return \code{DoubleVisitor} returns a callable \code{LambdaDoubleVisitor} or
+#'   \code{LLVMDoubleVisitor}. \code{visitor_call} returns a numeric vector or matrix.
 #' 
 #' @seealso \code{\link{lambdify}}.
 #' 
