@@ -1,15 +1,14 @@
 Package: symengine
-Title: Interface to the SymEngine Library
+Title: Interface to the 'SymEngine' Library
 Version: 0.1.0
 Authors@R: c(person("Jialin", "Ma", email="marlin@inventati.org", role = c("cre", "aut")),
              person("Isuru", "Fernando", email="isuruf@gmail.com", role = c("aut")),
              person("Xin", "Chen", email="xinchen.tju@gmail.com", role = c("aut")))
-Description: SymEngine <https://github.com/symengine/> is a standalone C++ library for
-    fast symbolic manipulation. It aims to serve as a fast core of SymPy computer algebra
+Description: 'SymEngine' <https://github.com/symengine/> is a standalone C++ library for
+    fast symbolic manipulation. It aims to serve as a fast core of 'SymPy' computer algebra
     system in Python and allow usages from other programming languages such as Julia.
-    This package provides an R interface to SymEngine, which can be used for calculating
-    exact mathematical expressions, solving systems of linear equations, generating
-    C/MathML/LaTeX/JavaScript code string from symbolic expressions, etc.
+    This package provides an R interface to 'SymEngine', which can be used for calculating
+    exact mathematical expressions, solving systems of linear equations, code generation, etc.
 Depends:
     R (>= 3.6)
 Imports:
