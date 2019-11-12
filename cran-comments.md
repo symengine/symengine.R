@@ -3,6 +3,8 @@
 
 The following changes have been made:
 
+0. Use single quote for software names in DESCRIPTION.
+
 1. Fix "A R" -> "An R" in DESCRIPTION and README.
 
 2. No change was made to fix print()/cat() usages.
