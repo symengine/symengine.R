@@ -1,5 +1,11 @@
 #!/bin/sh
 
+# Check cmake
+if ! command -v cmake >/dev/null 2>&1; then
+    echo >&2 "cmake is not installed."
+    exit 1
+fi
+
 if [ -d ~/.local/rdeplibs-symengine ]; then
     IF_SYMENGINE_EXISTS_IN_USERDIR=true
 else
