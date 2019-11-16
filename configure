@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 if [ -d ~/.local/rdeplibs-symengine ]; then
     IF_SYMENGINE_EXISTS_IN_USERDIR=true
