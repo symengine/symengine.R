@@ -36,38 +36,38 @@ rm    src/upstream/symengine/python/symengine/lib/config.pxi
 rm    src/upstream/symengine/cotire
 rm    src/upstream/symengine/symengine_CXX_cotire.cmake
 
-rm    src/upstream/CMakeCache.txt
-rm    src/upstream/CMakeFiles
-rm    src/upstream/Makefile
-rm    src/upstream/cmake_install.cmake
-rm    src/upstream/install_manifest.txt
-rm    src/upstream/CTestTestfile.cmake
-rm    src/upstream/cython_test.cpp
-rm    src/upstream/SymEngineConfig.cmake
-rm    src/upstream/SymEngineConfigVersion.cmake
-rm    src/upstream/SymEngineTargets.cmake
-rm    src/upstream/cmake-build-*
+rm -r src/upstream/CMakeCache.txt
+rm -r src/upstream/CMakeFiles
+rm -r src/upstream/Makefile
+rm -r src/upstream/cmake_install.cmake
+rm -r src/upstream/install_manifest.txt
+rm -r src/upstream/CTestTestfile.cmake
+rm -r src/upstream/cython_test.cpp
+rm -r src/upstream/SymEngineConfig.cmake
+rm -r src/upstream/SymEngineConfigVersion.cmake
+rm -r src/upstream/SymEngineTargets.cmake
+rm -r src/upstream/cmake-build-*
 
-rm    src/upstream/*/CMakeCache.txt
-rm    src/upstream/*/CMakeFiles
-rm    src/upstream/*/Makefile
-rm    src/upstream/*/cmake_install.cmake
-rm    src/upstream/*/install_manifest.txt
-rm    src/upstream/*/CTestTestfile.cmake
-rm    src/upstream/*/cython_test.cpp
-rm    src/upstream/*/SymEngineConfig.cmake
-rm    src/upstream/*/SymEngineConfigVersion.cmake
-rm    src/upstream/*/SymEngineTargets.cmake
-rm    src/upstream/*/cmake-build-*
+rm -r src/upstream/*/CMakeCache.txt
+rm -r src/upstream/*/CMakeFiles
+rm -r src/upstream/*/Makefile
+rm -r src/upstream/*/cmake_install.cmake
+rm -r src/upstream/*/install_manifest.txt
+rm -r src/upstream/*/CTestTestfile.cmake
+rm -r src/upstream/*/cython_test.cpp
+rm -r src/upstream/*/SymEngineConfig.cmake
+rm -r src/upstream/*/SymEngineConfigVersion.cmake
+rm -r src/upstream/*/SymEngineTargets.cmake
+rm -r src/upstream/*/cmake-build-*
 
-rm    src/upstream/symengine/utilities/*/CMakeCache.txt
-rm    src/upstream/symengine/utilities/*/CMakeFiles
-rm    src/upstream/symengine/utilities/*/Makefile
-rm    src/upstream/symengine/utilities/*/cmake_install.cmake
-rm    src/upstream/symengine/utilities/*/install_manifest.txt
-rm    src/upstream/symengine/utilities/*/CTestTestfile.cmake
-rm    src/upstream/symengine/utilities/*/cython_test.cpp
-rm    src/upstream/symengine/utilities/*/SymEngineConfig.cmake
-rm    src/upstream/symengine/utilities/*/SymEngineConfigVersion.cmake
-rm    src/upstream/symengine/utilities/*/SymEngineTargets.cmake
-rm    src/upstream/symengine/utilities/*/cmake-build-*
+rm -r src/upstream/symengine/utilities/*/CMakeCache.txt
+rm -r src/upstream/symengine/utilities/*/CMakeFiles
+rm -r src/upstream/symengine/utilities/*/Makefile
+rm -r src/upstream/symengine/utilities/*/cmake_install.cmake
+rm -r src/upstream/symengine/utilities/*/install_manifest.txt
+rm -r src/upstream/symengine/utilities/*/CTestTestfile.cmake
+rm -r src/upstream/symengine/utilities/*/cython_test.cpp
+rm -r src/upstream/symengine/utilities/*/SymEngineConfig.cmake
+rm -r src/upstream/symengine/utilities/*/SymEngineConfigVersion.cmake
+rm -r src/upstream/symengine/utilities/*/SymEngineTargets.cmake
+rm -r src/upstream/symengine/utilities/*/cmake-build-*
