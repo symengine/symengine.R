@@ -1,6 +1,15 @@
 
-PKG_LIBS = @@@PKG_LIBS@@@
-PKG_CPPFLAGS = @@@PKG_CPPFLAGS@@@
-
 CXX_STD = CXX11
 
+PKG_LIBS = `SymEngine_DIR=@@@SymEngine_DIR@@@ cmake --find-package -DNAME=SymEngine -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=LINK`
+
+PKG_CPPFLAGS = `SymEngine_DIR=@@@SymEngine_DIR@@@ cmake --find-package -DNAME=SymEngine -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=COMPILE`
+
+.PHONY: all @@@DO_UPSTREAM@@@
+
+all: $(SHLIB)
+
+$(OBJECTS): @@@DO_UPSTREAM@@@
+
+do_upstream:
+	@(cd upstream && make)

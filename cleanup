@@ -7,6 +7,9 @@ rm    ./src/*.o
 rm    ./src/*.so
 rm -r ./src/CMakeFiles
 rm -r ./CMakeFiles
-rm    install-symengine.log
 
-rm -r ./symengine_dist
+#rm    install-symengine.log
+#rm -r ./symengine_dist
+
+cd src/upstream
+make clean
