@@ -14,29 +14,14 @@ computation.
 
 ## Installation
 
-On Unix system, you may need install some system dependencies and
-compile the symengine library manually. You can follow the instruction
-at <https://github.com/symengine/symengine>.
-
-Alternatively, we have provided a convenient script to compile the
-symengine library and install it to a non-root directory
-\[`~/.local/rdeplibs-symengine`\]. To use the script, first make sure
-you have installed `cmake`, `gmp` library, `mpfr` library and `mpc`
-library on your system. For example, on openSUSE, Debian or Mac OS, you
-will need:
+There are some dependencies needed on Unix systems. You may install them
+with
 
     zypper install cmake gmp-devel mpfr-devel mpc-devel    ## openSUSE
     apt    install cmake libgmp-dev libmpfr-dev libmpc-dev ## Debian
     brew   install cmake gmp mpfr libmpc                   ## Mac OS
 
-Then in R, source the script (*Be aware of the risks running a script
-from online sources*) and press Enter to select the default options:
-
-``` r
-source("https://raw.githubusercontent.com/symengine/symengine.R/master/tools/install-symengine.R")
-```
-
-If it was successful, you can install the R package with
+Then you can install the R package with
 
 ``` r
 devtools::install_github(
