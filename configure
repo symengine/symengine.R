@@ -51,6 +51,10 @@ cmake \
     -DBUILD_SHARED_LIBS=no \
     .
 
+if [ $? -ne 0 ]; then
+    exit 1
+fi
+
 cd $PKG_DIR
 
 SymEngine_DIR="$PKG_DIR"/src/upstream
