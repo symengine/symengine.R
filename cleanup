@@ -11,5 +11,16 @@ rm -r ./CMakeFiles
 #rm    install-symengine.log
 #rm -r ./symengine_dist
 
+PKG_DIR=`pwd`
+
 cd src/upstream
 make clean
+
+cd $PKG_DIR
+
+rm -r src/upstream/CMakeFiles
+rm    src/upstream/Makefile
+rm    src/upstream/doc/Makefile
+rm    src/upstream/symengine/Makefile
+rm    src/upstream/symengine/utilities/matchpycpp/Makefile
+
