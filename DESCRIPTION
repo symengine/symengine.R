@@ -23,6 +23,7 @@ Suggests:
 LinkingTo:
     Rcpp
 SystemRequirements:
+    GNU make,
     cmake,
     gmp,
     mpfr,
