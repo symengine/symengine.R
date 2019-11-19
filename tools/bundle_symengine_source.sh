@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 echo ======== BUNDLE SYMENGINE SOURCE ==========
 
 if ! test -f DESCRIPTION; then
@@ -8,15 +10,17 @@ if ! test -f DESCRIPTION; then
 fi
 
 PKG_DIR=`pwd`
-SYMENGINE_COMMIT=master
+SYMENGINE_COMMIT=0139a82d23625f6dde437b25a2e4f43f5a6945fd
 
-rm -r symengine_source 2> /dev/null
+echo === From commit: $SYMENGINE_COMMIT
+
+test -d symengine_source && rm -r symengine_source || true
 mkdir symengine_source
 
-curl -L "https://github.com/symengine/symengine/archive/$SYMENGINE_COMMIT.tar.gz" | \
+curl -L "https://github.com/symengine/symengine/archive/$SYMENGINE_COMMIT.tar.gz" 2>/dev/null | \
     tar -xz -C symengine_source/
 
-rm -r src/upstream 2> /dev/null
+test -d src/upstream && rm -r src/upstream || true
 mv symengine_source/symengine-"$SYMENGINE_COMMIT" src/upstream
 
 rm -r symengine_source
