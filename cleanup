@@ -33,7 +33,7 @@ rm    src/upstream/symengine/symengine_export.h
 rm    src/upstream/symengine/utilities/teuchos/Teuchos_config.h
 rm    src/upstream/symengine/python/symengine/lib/config.pxi
 
-rm    src/upstream/symengine/cotire
+rm -r src/upstream/symengine/cotire
 rm    src/upstream/symengine/symengine_CXX_cotire.cmake
 
 rm -r src/upstream/CMakeCache.txt
