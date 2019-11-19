@@ -8,3 +8,4 @@
 CMakeFiles
 ^[.].*$
 ^.*/[.].*$
+^symengine_patch\.diff$

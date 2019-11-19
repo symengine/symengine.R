@@ -12,7 +12,7 @@ fi
 PKG_DIR=`pwd`
 SYMENGINE_COMMIT=0139a82d23625f6dde437b25a2e4f43f5a6945fd
 
-echo === From commit: $SYMENGINE_COMMIT
+echo === Bundle source from commit: $SYMENGINE_COMMIT
 
 test -d symengine_source && rm -r symengine_source || true
 mkdir symengine_source
@@ -24,5 +24,10 @@ test -d src/upstream && rm -r src/upstream || true
 mv symengine_source/symengine-"$SYMENGINE_COMMIT" src/upstream
 
 rm -r symengine_source
+
+echo === Apply patch
+
+diffstat -p0 symengine_patch.diff
+patch -p0 <symengine_patch.diff
 
 echo ======== BUNDLE SYMENGINE SOURCE DONE ==========
