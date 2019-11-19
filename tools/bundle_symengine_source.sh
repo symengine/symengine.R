@@ -30,4 +30,8 @@ echo === Apply patch
 diffstat -p0 symengine_patch.diff
 patch -p0 <symengine_patch.diff
 
+echo === Remove src/upstream/symengine/utilities/catch directory
+
+rm -r src/upstream/symengine/utilities/catch
+
 echo ======== BUNDLE SYMENGINE SOURCE DONE ==========
