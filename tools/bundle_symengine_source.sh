@@ -34,4 +34,8 @@ echo === Remove src/upstream/symengine/utilities/catch directory
 
 rm -r src/upstream/symengine/utilities/catch
 
+echo === diff src/upstream/LICENSE inst/COPYRIGHTS
+
+diff src/upstream/LICENSE inst/COPYRIGHTS 
+
 echo ======== BUNDLE SYMENGINE SOURCE DONE ==========
