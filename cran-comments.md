@@ -3,12 +3,10 @@
 
 The following changes have been made:
 
-0. Remove '-Wno-unknown-pragmas' '-Wno-unused-parameter' flags.
-   Delete src/upstream/symengine/utilities/catch directory.
+1. Update Description field in DESCRIPTION.
 
-1. In configure script, use "#!/bin/sh" instead of "#!/usr/bin/env bash".
+2. Reset user's option in vignette.
 
-2. Add "SystemRequirements" field in DESCRIPTION.
+3. Add Copyright field in DESCRIPTION and inst/COPYRIGHTS file for copyright and licensing information for SymEngine library bundled in the package under src/upstream directory.
 
-3. Bundle SymEngine library source code with the package and update build
-   procedure.
+   All the licenses for SymEngine library and its subcomponents are open-source and allow redistribution under GPL.
