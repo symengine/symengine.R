@@ -7,7 +7,7 @@ if ! which cmake >/dev/null 2>&1; then
 fi
 
 ## DO NOT RUN THIS ON CRAN
-if [ NOT_CRAN = "true" ]; then
+if [ "$NOT_CRAN" = "true" ]; then
     ## TODO: use system's SymEngine library if installed.
 
     # if [ -d ~/.local/rdeplibs-symengine ]; then
