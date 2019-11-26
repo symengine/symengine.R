@@ -2,7 +2,7 @@
 
 set -e
 
-echo ======== BUNDLE SYMENGINE SOURCE ==========
+tput setaf 3; echo ======== BUNDLE SYMENGINE SOURCE ==========; tput sgr0
 
 if ! test -f DESCRIPTION; then
     echo 1>&2 "Wrong directory"
@@ -12,7 +12,7 @@ fi
 PKG_DIR=`pwd`
 SYMENGINE_COMMIT=0139a82d23625f6dde437b25a2e4f43f5a6945fd
 
-echo === Bundle source from commit: $SYMENGINE_COMMIT
+tput setaf 3; echo === Bundle source from commit: $SYMENGINE_COMMIT; tput sgr0
 
 test -d symengine_source && rm -r symengine_source || true
 mkdir symengine_source
@@ -25,17 +25,17 @@ mv symengine_source/symengine-"$SYMENGINE_COMMIT" src/upstream
 
 rm -r symengine_source
 
-echo === Apply patch
+tput setaf 3; echo === Apply patch; tput sgr0
 
 diffstat -p0 symengine_patch.diff
 patch -p0 <symengine_patch.diff
 
-echo === Remove src/upstream/symengine/utilities/catch directory
+tput setaf 3; echo === Remove src/upstream/symengine/utilities/catch directory; tput sgr0
 
 rm -r src/upstream/symengine/utilities/catch
 
-echo === diff src/upstream/LICENSE inst/COPYRIGHTS
+tput setaf 3; echo === diff src/upstream/LICENSE inst/COPYRIGHTS; tput sgr0
 
-diff src/upstream/LICENSE inst/COPYRIGHTS 
+diff src/upstream/LICENSE inst/COPYRIGHTS || true
 
-echo ======== BUNDLE SYMENGINE SOURCE DONE ==========
+tput setaf 2; echo ======== BUNDLE SYMENGINE SOURCE DONE ==========; tput sgr0
