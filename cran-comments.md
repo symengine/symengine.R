@@ -1,12 +1,27 @@
 
 ## Resubmission
 
-The following changes have been made:
+Comment by Martina Schmirl:
 
-1. Update Description field in DESCRIPTION.
+> There are still authors and copyright holders missing.
+e.g. Sandia Corporation, Dale Lukas Peterson, Richard Stallman, ...
 
-2. Reset user's option in vignette.
+1. Copyright notice for Sandia Corporation is already
+included in `inst/COPYRIGHTS` (line 36).
 
-3. Add Copyright field in DESCRIPTION and inst/COPYRIGHTS file for copyright and licensing information for SymEngine library bundled in the package under src/upstream directory.
+2. The directory 'src/upstream/benchmarks'
+along with some other unnessary files in
+'src/upstream' for the R package are removed.
 
-   All the licenses for SymEngine library and its subcomponents are open-source and allow redistribution under GPL.
+3. Missing copyright notice for Bison parser
+(src/upstream/symengine/parser/parser.tab.*)
+is added to `inst/COPYRIGHTS`.
+Also see discussion at the upstream repo
+https://github.com/symengine/symengine/issues/1626
+
+4. Missing copyright notice for cotire
+(src/upstream/cmake/cotire.cmake) is added
+to `inst/COPYRIGHTS`.
+Also see discussion at the upstream repo
+https://github.com/symengine/symengine/pull/1628
+
