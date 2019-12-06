@@ -10,7 +10,7 @@ if ! test -f DESCRIPTION; then
 fi
 
 PKG_DIR=`pwd`
-SYMENGINE_COMMIT=97e43494cb42821d9616d6db5fe06cb76280f69c
+SYMENGINE_COMMIT=1db91f876c3fe5d214f97cdcc5c9e46558b250c2
 
 tput setaf 3; echo === Bundle source from commit: $SYMENGINE_COMMIT; tput sgr0
 
@@ -30,9 +30,22 @@ tput setaf 3; echo === Apply patch; tput sgr0
 diffstat -p0 symengine_patch.diff
 patch -p0 <symengine_patch.diff
 
-tput setaf 3; echo === Remove src/upstream/symengine/utilities/catch directory; tput sgr0
+tput setaf 3; echo === Remove some unnecessary files in src/upstream; tput sgr0
+
+set -x
 
 rm -r src/upstream/symengine/utilities/catch
+rm -r src/upstream/symengine/tests
+rm -r src/upstream/benchmarks
+rm -r src/upstream/bin
+rm -r src/upstream/doc
+rm -r src/upstream/notebooks
+rm -r src/upstream/binder
+rm    src/upstream/appveyor.yml
+rm    src/upstream/codecov.yml
+rm    src/upstream/.travis.yml
+
+set +x
 
 tput setaf 3; echo === diff src/upstream/LICENSE inst/COPYRIGHTS; tput sgr0
 
