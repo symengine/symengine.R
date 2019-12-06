@@ -10,7 +10,7 @@ if ! test -f DESCRIPTION; then
 fi
 
 PKG_DIR=`pwd`
-SYMENGINE_COMMIT=0139a82d23625f6dde437b25a2e4f43f5a6945fd
+SYMENGINE_COMMIT=97e43494cb42821d9616d6db5fe06cb76280f69c
 
 tput setaf 3; echo === Bundle source from commit: $SYMENGINE_COMMIT; tput sgr0
 
