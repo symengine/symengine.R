@@ -16,6 +16,12 @@ apt_packages:
   - libmpfr-dev
   - libmpc-dev
 
+brew_packages:
+  - cmake
+  - gmp
+  - mpfr
+  - libmpc
+
 # env:
 #   matrix:
 #     - SYMENGINE_COMMIT=master
