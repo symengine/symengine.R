@@ -10,6 +10,11 @@ os:
   - osx
 sudo: false
 
+matrix:
+  exclude:
+    - r: devel
+      os: osx
+
 # env:
 #   matrix:
 #     - SYMENGINE_COMMIT=master
