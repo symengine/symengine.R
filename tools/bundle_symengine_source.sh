@@ -27,7 +27,8 @@ rm -r symengine_source
 
 tput setaf 3; echo === Apply patch; tput sgr0
 
-diffstat -p0 symengine_patch.diff
+# diffstat may not be available
+diffstat -p0 symengine_patch.diff || true
 patch -p0 <symengine_patch.diff
 
 tput setaf 3; echo === Remove some unnecessary files in src/upstream; tput sgr0
