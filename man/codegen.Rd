@@ -2,7 +2,7 @@
 % Please edit documentation in R/codegen.R
 \name{codegen}
 \alias{codegen}
-\title{Generate C/mathml/latex/JavaScript String}
+\title{Code Generation}
 \usage{
 codegen(x, type = c("ccode", "mathml", "latex", "jscode"))
 }
@@ -11,6 +11,10 @@ codegen(x, type = c("ccode", "mathml", "latex", "jscode"))
 
 \item{type}{One of "ccode", "mathml", "latex" and "jscode".}
 }
+\value{
+A character vector.
+}
 \description{
-Generate C/mathml/latex/JavaScript String
+Generate C/MathML/LaTeX/JavaScript code string from a \code{Basic}
+or \code{VecBasic} object.
 }

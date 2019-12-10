@@ -1,10 +1,14 @@
 Package: symengine
-Title: Interface to the SymEngine Library
-Version: 0.0.0
+Title: Interface to the 'SymEngine' Library
+Version: 0.1.0
 Authors@R: c(person("Jialin", "Ma", email="marlin@inventati.org", role = c("cre", "aut")),
              person("Isuru", "Fernando", email="isuruf@gmail.com", role = c("aut")),
              person("Xin", "Chen", email="xinchen.tju@gmail.com", role = c("aut")))
-Description: A R interface to the fast symbolic manipulation library "SymEngine".
+Description:
+    Provides an R interface to 'SymEngine' <https://github.com/symengine/>,
+    a standalone 'C++' library for fast symbolic manipulation. The package has functionalities
+    for symbolic computation like calculating exact mathematical expressions, solving
+    systems of linear equations and code generation.
 Depends:
     R (>= 3.6)
 Imports:
@@ -18,9 +22,19 @@ Suggests:
     rmarkdown
 LinkingTo:
     Rcpp
+SystemRequirements:
+    GNU make,
+    cmake,
+    gmp,
+    mpfr,
+    mpc
 Encoding: UTF-8
 LazyData: true
+URL: https://github.com/symengine/symengine.R
+BugReports: https://github.com/symengine/symengine.R/issues
 License: GPL (>= 2)
+Copyright: For the copyrights for the 'SymEngine' library and acknowledgement of
+    authorship, see file COPYRIGHTS.
 RoxygenNote: 6.1.1
 Collate: 
     'RcppExports.R'

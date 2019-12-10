@@ -2,13 +2,21 @@
 % Please edit documentation in R/ops.R
 \name{expand}
 \alias{expand}
-\title{Expand a SymEngine Expression}
+\title{Expand a Symbolic Expression}
 \usage{
 expand(x)
 }
 \arguments{
-\item{x}{A SymEngine object.}
+\item{x}{A Basic/VecBasic/DenseMatrix S4 object.}
+}
+\value{
+Same type as input.
 }
 \description{
-Expand a SymEngine Expression
+This function takes a SymEngine object and return
+its expanded form.
+}
+\examples{
+expr <- S(~ (x + y) ^ 3)
+expand(expr)
 }

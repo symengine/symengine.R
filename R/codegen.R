@@ -1,8 +1,13 @@
 
-#' Generate C/mathml/latex/JavaScript String
+#' Code Generation
+#' 
+#' Generate C/MathML/LaTeX/JavaScript code string from a \code{Basic}
+#' or \code{VecBasic} object.
 #' 
 #' @param x A Basic or a VecBasic object.
 #' @param type One of "ccode", "mathml", "latex" and "jscode".
+#' 
+#' @return A character vector.
 #' @export
 codegen <- function(x, type = c("ccode", "mathml", "latex", "jscode")) {
     type <- match.arg(type)

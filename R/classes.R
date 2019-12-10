@@ -45,7 +45,13 @@ setAs(from = "ANY", to = "Basic",
 
 #' Some Conversion Methods
 #' 
+#' Miscellaneous S4 methods defined for converting a \code{Basic} or
+#' \code{VecBasic} object to R number/string/language object.
+#' 
 #' @param x The object to be converted.
+#' 
+#' @return Same as default methods of these generics. \code{as.language()}
+#'   may return \code{symbol}, \code{integer}, \code{double} or \code{call}.
 #' @rdname conversion
 setMethod("as.character", c(x = "Basic"),
     ## TODO: also define method for VecBasic

@@ -14,6 +14,10 @@
 
 \item{deparse.level}{Not used.}
 }
+\value{
+\code{DenseMatrix} S4 object.
+}
 \description{
-Joining DenseMatrix
+S3 methods of \code{cbind} and \code{rbind} defined for
+\code{DenseMatrix} and \code{VecBasic}.
 }

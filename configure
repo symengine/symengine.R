@@ -1,0 +1,75 @@
+#!/bin/sh
+
+echo ====== configuring symengine R package ======
+
+# Check cmake
+if ! which cmake >/dev/null 2>&1; then
+    echo >&2 "cmake is not installed."
+    exit 1
+fi
+
+#if cmake --find-package -DNAME=SymEngine -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=LINK >/dev/null 2>/dev/null; then
+#    IF_SYMENGINE_EXISTS=true
+#else
+#    IF_SYMENGINE_EXISTS=false
+#fi
+
+## DO NOT RUN THIS ON CRAN
+if [ "$NOT_CRAN" = "true" ]; then
+    if ! test -d src/upstream; then
+        echo ====== bundling SymEngine source
+        ./tools/bundle_symengine_source.sh
+        if [ $? -ne 0 ]; then
+            echo "./tools/bundle_symengine_source.sh exited with non-zero status"
+            exit 1
+        fi
+    fi
+fi
+
+## If SymEngine_DIR environment variable is not set, use src/upstream
+if [ -z "$SymEngine_DIR" ]; then
+
+    echo ====== running cmake
+
+    PKG_DIR=`pwd`
+    cd src/upstream
+
+    cmake \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DWITH_BFD=no \
+        -DWITH_SYMENGINE_ASSERT=no \
+        -DWITH_ECM=no \
+        -DWITH_PRIMESIEVE=no \
+        -DWITH_FLINT=no \
+        -DWITH_ARB=no \
+        -DWITH_TCMALLOC=no \
+        -DWITH_OPENMP=no \
+        -DWITH_PIRANHA=no \
+        -DWITH_LLVM=no \
+        -DWITH_MPFR=yes \
+        -DWITH_MPC=yes \
+        -DINTEGER_CLASS=gmp \
+        -DBUILD_TESTS=no \
+        -DBUILD_BENCHMARKS=no \
+        -DBUILD_SHARED_LIBS=no \
+        .
+
+    if [ $? -ne 0 ]; then
+        exit 1
+    fi
+
+    cd $PKG_DIR
+
+    SymEngine_DIR="$PKG_DIR"/src/upstream
+    DO_UPSTREAM="do_upstream"
+else
+    # if SymEngine_DIR exists
+    DO_UPSTREAM=
+fi
+
+cat src/Makevars.in | \
+    sed "s:@@@SymEngine_DIR@@@:$SymEngine_DIR:g" | \
+    sed "s:@@@DO_UPSTREAM@@@:$DO_UPSTREAM:g" \
+    > src/Makevars
+
+echo ====== configuring symengine R package DONE ======

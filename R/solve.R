@@ -3,19 +3,35 @@
 
 #' Solve Symbolic Equations
 #' 
-#' Solve system of equations or a polynomial equation.
+#' Solve system of symbolic equations or solve a polynomial equation.
+#' Depending on types of arguments, it supports different modes.
+#' See Details and Examples.
 #' 
 #' \code{solve} is a generic function dispatched on the class of the first argument.
-#' If \code{a} is a (square) DenseMatrix, it solves the equation \code{a \%*\% x = b} for \code{x}.
-#' If \code{a} is a DenseMatrix and \code{b} is missing, \code{b} is taken to be an
-#' identity matrix and \code{solve} will return the inverse of \code{a}.
-#' If \code{a} is a VecBasic, it solves the system of linear equations represented by
-#' \code{a} with regards to symbols represented in \code{b}.
-#' If \code{a} is a Basic, it solves the polynomial equation represented by a with regards
-#' to the symbol represented in \code{b}.
+#' \itemize{
+#'   \item{
+#'     If \code{a} is a (square) DenseMatrix, it solves the equation
+#'     \code{a \%*\% x = b} for \code{x}. (similar to \code{solve.default()})
+#'   }
+#'   \item{
+#'     If \code{a} is a DenseMatrix and \code{b} is missing, \code{b} is
+#'     taken to be an identity matrix and \code{solve} will return the
+#'     inverse of \code{a}. (similar to \code{solve.default()})
+#'   }
+#'   \item{
+#'     If \code{a} is a VecBasic, it solves the system of linear equations
+#'     represented by \code{a} with regards to symbols represented in \code{b}.
+#'   }
+#'   \item{
+#'     If \code{a} is a Basic, it solves the polynomial equation represented by
+#'     a with regards to the symbol represented in \code{b}.
+#'   }
+#' }
 #' 
 #' @param a,b Objects, see details.
 #' @param ... Not used.
+#' 
+#' @return A \code{VecBasic} or \code{DenseMatrix} S4 object.
 #' 
 #' @rdname solve
 #' @exportMethod solve

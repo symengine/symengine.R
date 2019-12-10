@@ -7,10 +7,16 @@
 subs(expr, ...)
 }
 \arguments{
-\item{expr}{A SymEngine object.}
+\item{expr}{A \code{Basic} S4 object.}
 
-\item{...}{Pairs of Basic objects, e.g. (from1, to1, from2, to2).}
+\item{...}{Pairs of Basic objects or values can be converted to \code{Basic}.
+In the order of "from1, to1, from2, to2, ...".}
+}
+\value{
+Same type as \code{expr}.
 }
 \description{
-Substitute Expressions in SymEngine Objects
+This function will substitute \code{expr} with pairs of
+values in the dot arguments. The length of dot arguments must
+be a even number.
 }

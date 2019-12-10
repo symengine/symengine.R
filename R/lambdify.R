@@ -1,5 +1,9 @@
 
-#' Convert Basic/VecBasic Object to R Function
+#' Convert A Basic/VecBasic Object to R Function
+#' 
+#' These functions currently use \code{\link{DoubleVisitor}} to
+#' convert a Basic/VecBasic object to a \code{DoubleVisitor} which
+#' essentially is a S4 class extending R function.
 #' 
 #' @param x A Basic object or a VecBasic object.
 #' @param args A VecBasic object specifying the arguments of the resulted function.
@@ -8,6 +12,8 @@
 #' \code{getOption("lambdify.backend")} will be used to determine the value. If that
 #' option is not set, it will be determined based on \code{symengine_have_component("llvm")}.
 #' @param perform_cse Passed to \code{\link{DoubleVisitor}}.
+#' 
+#' @return A \code{DoubleVisitor} S4 object.
 #' 
 #' @seealso \code{\link{DoubleVisitor}}
 #' 

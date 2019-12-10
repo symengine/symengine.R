@@ -3,6 +3,8 @@
 #' 
 #' Functions to get symengine logo, version and external libraries built with.
 #'
+#' @return Character vector.
+#' 
 #' @rdname symengine_info
 #' @export
 symengine_version <- function() {

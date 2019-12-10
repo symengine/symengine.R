@@ -36,6 +36,9 @@
 
 \item{i, j, ..., drop, value}{Arguments for subsetting or replacing.}
 }
+\value{
+Same or similar to the generics.
+}
 \description{
-Methods Related to VecBasic
+Miscellaneous S4 methods defined for \code{VecBasic} class.
 }

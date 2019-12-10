@@ -24,6 +24,9 @@ Real(x, prec = NULL)
 \item{prec}{If supplied, the argument will be parsed as a Basic object of type 
 RealMPFR.}
 }
+\value{
+A \code{Basic} S4 object.
+}
 \description{
 `S` and `Basic` converts a R object to a Basic object. `Symbol`, `Real` and `Constant`
 construct a Basic object with type "Symbol", "RealDouble"/"RealMPFR"

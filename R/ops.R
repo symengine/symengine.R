@@ -16,7 +16,13 @@ as_integer_if_whole_number <- function(x) {
 
 #' Bindings for Operators and Math Functions
 #' 
+#' These are S4 methods defined for \code{Basic}, \code{VecBasic}
+#' and \code{DenseMatrix}.
+#' 
 #' @param e1,e2,x,y,base,... Objects.
+#' 
+#' @return \code{==} and \code{!=} will return a logical vector. Other
+#'   functions will return a \code{Basic}, \code{VecBasic} or \code{DenseMatrix}.
 #' 
 #' @rdname bindings
 setMethod("==", c(e1 = "Basic", e2 = "Basic"),
@@ -143,19 +149,31 @@ setMethod("expm1", c(x = "SymEngineDataType"),
 
 
 
-#' Expand a SymEngine Expression
+#' Expand a Symbolic Expression
 #' 
-#' @param x A SymEngine object.
+#' This function takes a SymEngine object and return
+#' its expanded form.
+#' 
+#' @param x A Basic/VecBasic/DenseMatrix S4 object.
+#' 
+#' @return Same type as input.
 #' @export
+#' @examples
+#' expr <- S(~ (x + y) ^ 3)
+#' expand(expr)
 expand <- function(x) {
     s4binding_math(x, "expand")
 }
 
 #' Some Special Math Functions
 #' 
-#' Some special mathematical functions and functions related to number theory.
+#' These are some special mathematical functions and functions
+#' related to number theory.
 #' 
-#' @param a,b,x,y,n,k,deriv SymEngine objects. Some functions require Integer type.
+#' @param a,b,x,y,n,k,deriv SymEngine objects (\code{Basic}/\code{VecBasic}/\code{DenseMatrix}).
+#'   Some functions require Integer type.
+#' 
+#' @return Same type as input.
 #' @rdname mathfuns
 #' @export
 LCM <- function(a, b) {
@@ -307,17 +325,29 @@ setMethod("trigamma", c(x = "SymEngineDataType"),
 #' @exportMethod D
 setGeneric("D")
 
-#' Derivatives of Basic Objects
+#' Derivatives of a Symbolic Expression
+#' 
+#' S4 method of \code{D} defined for \code{Basic}. It returns
+#' the derivative of \code{expr} with regards to \code{name}.
+#' \code{name} may be missing if there is only one symbol in
+#' \code{expr}.
 #' 
 #' @param expr A Basic object.
 #' @param name A character vector or a Basic object of type Symbol.
+#' 
+#' @return Same type as \code{expr} argument.
 #' @export
+#' @examples
+#' expr <- S(~ exp(x))
+#' D(expr) == expr
+#' expr <- S(~ x^2 + 2*x + 1)
+#' D(expr)
 setMethod("D", c(expr = "SymEngineDataType"),
     function(expr, name) {
         if (missing(name)) {
             expr <- s4binding_parse(expr)
             if (!s4basic_check(expr))
-                stop("'expr' should be convertible to Basic if 'name' is missing")
+                stop("'expr' should be able to convert to Basic if 'name' is missing")
             free_symbols <- s4basic_free_symbols(expr)
             if (length(free_symbols) != 1L)
                 stop("There is more than one variable in the expression, ",
@@ -363,9 +393,15 @@ setMethod("D", c(expr = "SymEngineDataType"),
 
 #' Substitute Expressions in SymEngine Objects
 #' 
-#' @param expr A SymEngine object.
-#' @param ... Pairs of Basic objects, e.g. (from1, to1, from2, to2).
+#' This function will substitute \code{expr} with pairs of
+#' values in the dot arguments. The length of dot arguments must
+#' be a even number.
 #' 
+#' @param expr A \code{Basic} S4 object.
+#' @param ... Pairs of Basic objects or values can be converted to \code{Basic}.
+#'   In the order of "from1, to1, from2, to2, ...".
+#' 
+#' @return Same type as \code{expr}.
 #' @export
 subs <- function(expr, ...) {
     ## Usage:
@@ -394,11 +430,20 @@ subs <- function(expr, ...) {
 
 #' Evaluating a SymEngine Object
 #' 
+#' This function will evaluate a SymEngine object to its "numerical" form
+#' with given precision. User may further use \code{as.double()} to convert
+#' to R value.
+#' 
 #' @param expr A SymEngine object.
 #' @param bits The precision.
 #' @param complex Whether or not to be evaluated as a complex number.
 #' 
+#' @return Same type as \code{expr} argument.
 #' @export
+#' @examples
+#' expr <- Constant("pi")
+#' evalf(expr)
+#' as.double(evalf(expr)) == pi
 evalf <- function(expr, bits = 53L, complex = FALSE) {
     s4binding_evalf(expr, bits, complex)
 }

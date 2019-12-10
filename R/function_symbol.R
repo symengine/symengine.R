@@ -11,6 +11,11 @@ NULL
 #' @param args Dependent symbols
 #' 
 #' @rdname FunctionSymbol
+#' 
+#' @return \code{FunctionSymbol} returns a \code{Basic}. \code{Function} returns
+#'   a function that will return a \code{Basic}
+#' 
+#' @seealso \code{\link{S}}
 #' @export
 #' @examples 
 #' f <- Function("f")

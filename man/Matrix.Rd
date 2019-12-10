@@ -13,6 +13,10 @@ Matrix(data, nrow = 1L, ncol = 1L, byrow = FALSE)
 
 \item{byrow}{Boolean value. Whether the data should be filled by row or by column.}
 }
+\value{
+\code{DenseMatrix} S4 object.
+}
 \description{
-DenseMatrix Constructor
+This function constructs a symbolic matrix (\code{DenseMatrix} S4 object)
+with a similar interface with R's \code{matrix} function.
 }

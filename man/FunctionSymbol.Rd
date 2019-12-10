@@ -14,6 +14,10 @@ FunctionSymbol(name, args)
 
 \item{args}{Dependent symbols}
 }
+\value{
+\code{FunctionSymbol} returns a \code{Basic}. \code{Function} returns
+  a function that will return a \code{Basic}
+}
 \description{
 \code{FunctionSymbol} creates a Basic object with type \code{FunctionSymbol}.
 \code{Function} returns a generator.
@@ -26,4 +30,7 @@ f(a, b)
 e <- f(a, f(a + b))
 D(e, a)
 FunctionSymbol("f", c(a,b))
+}
+\seealso{
+\code{\link{S}}
 }

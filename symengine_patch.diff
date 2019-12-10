@@ -1,0 +1,33 @@
+--- src/upstream/CMakeLists.txt	2019-11-13 15:14:25.000000000 -0500
++++ src/upstream/CMakeLists.txt.new	2019-11-19 01:51:57.000000000 -0500
+@@ -535,10 +535,6 @@
+         set(WITH_SYMENGINE_THREAD_SAFE yes)
+     endif()
+ elseif (CMAKE_CXX_COMPILER_ID MATCHES Clang|GNU)
+-    set(CMAKE_CXX_FLAGS_DEBUG
+-        "${CMAKE_CXX_FLAGS_DEBUG} -Wno-unknown-pragmas")
+-    set(CMAKE_CXX_FLAGS_RELEASE
+-        "${CMAKE_CXX_FLAGS_RELEASE} -Wno-unknown-pragmas")
+ endif()
+ 
+ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+--- src/upstream/cmake/UserOverride.cmake	2019-11-13 15:14:25.000000000 -0500
++++ src/upstream/cmake/UserOverride.cmake.new	2019-11-19 01:53:01.000000000 -0500
+@@ -8,7 +8,7 @@
+ 
+ if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+     # g++
+-    set(common "-Wall -Wextra -Wno-unused-parameter -fno-common")
++    set(common "-Wall -Wextra -fno-common")
+     set(CMAKE_CXX_FLAGS_RELEASE_INIT "${common} -O3 -funroll-loops")
+     set(CMAKE_CXX_FLAGS_DEBUG_INIT   "${common} -g -ggdb")
+ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Intel")
+@@ -18,7 +18,7 @@
+     set(CMAKE_CXX_FLAGS_DEBUG_INIT   "${common} -g -O0")
+ elseif (CMAKE_CXX_COMPILER_ID MATCHES Clang)
+     # clang
+-    set(common "-Wall -Wextra -Wno-unused-parameter")
++    set(common "-Wall -Wextra")
+     set(CMAKE_CXX_FLAGS_RELEASE_INIT "${common} -O3 -funroll-loops")
+     set(CMAKE_CXX_FLAGS_DEBUG_INIT   "${common} -g -ggdb")
+ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "PGI")

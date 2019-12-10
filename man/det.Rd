@@ -15,6 +15,13 @@ det(x, ...)
 
 \item{...}{Unused.}
 }
+\value{
+A \code{Basic} object.
+}
 \description{
-Calculate the Determinant of DenseMatrix
+S4 method of \code{det} defined for \code{DenseMatrix}.
+}
+\examples{
+mat <- Matrix(LETTERS[1:9], 3)
+det(mat)
 }

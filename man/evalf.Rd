@@ -13,6 +13,16 @@ evalf(expr, bits = 53L, complex = FALSE)
 
 \item{complex}{Whether or not to be evaluated as a complex number.}
 }
+\value{
+Same type as \code{expr} argument.
+}
 \description{
-Evaluating a SymEngine Object
+This function will evaluate a SymEngine object to its "numerical" form
+with given precision. User may further use \code{as.double()} to convert
+to R value.
+}
+\examples{
+expr <- Constant("pi")
+evalf(expr)
+as.double(evalf(expr)) == pi
 }

@@ -45,6 +45,9 @@
 
 \item{i, j, value, ..., drop}{Arguments for subsetting, assignment or replacing.}
 }
+\value{
+Same or similar with the generics of these methods.
+}
 \description{
-Methods Related to DenseMatrix
+These are miscellaneous S3/S4 methods defined for \code{DenseMatrix} class.
 }
