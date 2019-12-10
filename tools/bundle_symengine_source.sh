@@ -28,8 +28,8 @@ rm -r symengine_source
 tput setaf 3; echo === Apply patch; tput sgr0
 
 # diffstat may not be available
-diffstat -p0 symengine_patch.diff || true
-patch -p0 <symengine_patch.diff
+diffstat -p0 ./tools/symengine_patch.diff || true
+patch -p0 <./tools/symengine_patch.diff
 
 tput setaf 3; echo === Remove some unnecessary files in src/upstream; tput sgr0
 
@@ -51,5 +51,9 @@ set +x
 tput setaf 3; echo === diff src/upstream/LICENSE inst/COPYRIGHTS; tput sgr0
 
 diff src/upstream/LICENSE inst/COPYRIGHTS || true
+
+tput setaf 3; echo === touch ./tools/SYMENGINE_BUNDLED; tput sgr0
+
+touch ./tools/SYMENGINE_BUNDLED
 
 tput setaf 2; echo ======== BUNDLE SYMENGINE SOURCE DONE ==========; tput sgr0
