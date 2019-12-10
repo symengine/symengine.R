@@ -52,4 +52,8 @@ tput setaf 3; echo === diff src/upstream/LICENSE inst/COPYRIGHTS; tput sgr0
 
 diff src/upstream/LICENSE inst/COPYRIGHTS || true
 
+tput setaf 3; echo === touch ./tools/SYMENGINE_BUNDLED; tput sgr0
+
+touch ./tools/SYMENGINE_BUNDLED
+
 tput setaf 2; echo ======== BUNDLE SYMENGINE SOURCE DONE ==========; tput sgr0
