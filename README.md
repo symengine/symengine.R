@@ -24,10 +24,7 @@ with
 Then you can install the R package with
 
 ``` r
-devtools::install_github(
-  "symengine/symengine.R",
-  build_opts = c("--no-resave-data", "--no-manual") # Build Vignettes
-)
+devtools::install_github("symengine/symengine.R", build_vignettes = TRUE)
 ```
 
 On Windows, the dependencies will be downloaded at build time, and you
@@ -46,6 +43,8 @@ library(symengine)
 ```
 
 ## Usage
+
+Also check the vignette with `browseVignettes("symengine")`.
 
 ### Manipulating Symbolic Expressions
 
