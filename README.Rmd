@@ -33,12 +33,8 @@ brew   install cmake gmp mpfr libmpc                   ## Mac OS
 Then you can install the R package with
 
 ```{r, eval=FALSE}
-devtools::install_github(
-  "symengine/symengine.R",
-  build_opts = c("--no-resave-data", "--no-manual") # Build Vignettes
-)
+devtools::install_github("symengine/symengine.R", build_vignettes = TRUE)
 ```
-
 
 On Windows, the dependencies will be downloaded at build time, and you can install
 directly with `devtools`.
@@ -50,6 +46,8 @@ library(symengine)
 ```
 
 ## Usage
+
+Also check the vignette with `browseVignettes("symengine")`.
 
 ### Manipulating Symbolic Expressions
 
