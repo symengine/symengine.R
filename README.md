@@ -44,7 +44,8 @@ library(symengine)
 
 ## Usage
 
-Also check the vignette with `browseVignettes("symengine")`.
+Also check the documentation site with built vignettes and help pages at
+<http://symengine.marlin.pub>.
 
 ### Manipulating Symbolic Expressions
 
