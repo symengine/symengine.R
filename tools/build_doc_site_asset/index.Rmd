@@ -14,8 +14,12 @@ body {
 }
 </style>
 
-Welcome to the documentation site of [symengine R package](https://github.com/symengine/symengine.R).
+Welcome to the documentation site of symengine R package.
 Currently it contains the built vignettes and helps from the package.
+
+### Package repository
+
+- [symengine.R](https://github.com/symengine/symengine.R)
 
 ### Vignettes
 
