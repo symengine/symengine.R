@@ -23,7 +23,14 @@ Currently it contains the built vignettes and helps from the package.
 
 ### Vignettes
 
-- [SymEngine Quick Start](doc/quick_start.html).
+```{r echo=FALSE, results='asis'}
+vignettes <- list.files("../../vignettes", pattern = "\\.Rmd$", full.names = TRUE)
+for (vignette in vignettes) {
+    title <- rmarkdown::yaml_front_matter(vignette)$title
+    link <- file.path("doc", gsub("\\.Rmd$", "\\.html", basename(vignette)))
+    cat(sprintf("- [%s](%s)\n", title, link))
+}
+```
 
 ### Manual entries
 
