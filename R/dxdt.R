@@ -35,7 +35,6 @@ dxdt <- function(x) {
 #' @param e2 A Basic object or an R object that will be converted to `S(e2)`.
 #' @return S4 method of `==` for "DxdtOdeConstructor" returns a DxdtOde S4 object.
 #' @rdname ODESystem
-#' @export
 setMethod("==", signature=c(e1 = "DxdtOdeConstructor", e2 = "ANY"),
     function(e1, e2) {
         x <- e1@x
