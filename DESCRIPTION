@@ -36,7 +36,7 @@ BugReports: https://github.com/symengine/symengine.R/issues
 License: GPL (>= 2)
 Copyright: For the copyrights for the 'SymEngine' library and acknowledgement of
     authorship, see file COPYRIGHTS.
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
 Collate: 
     'RcppExports.R'
     'basic-getinfo.R'

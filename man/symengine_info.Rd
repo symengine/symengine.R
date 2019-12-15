@@ -11,8 +11,10 @@ symengine_version()
 
 symengine_ascii_art()
 
-symengine_have_component(which = c("mpfr", "flint", "arb", "mpc", "ecm",
-  "primesieve", "piranha", "boost", "pthread", "llvm"))
+symengine_have_component(
+  which = c("mpfr", "flint", "arb", "mpc", "ecm", "primesieve", "piranha", "boost",
+    "pthread", "llvm")
+)
 
 symengine_compilation_notes()
 }
