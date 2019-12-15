@@ -3,7 +3,6 @@
 \docType{package}
 \name{symengine}
 \alias{symengine}
-\alias{symengine-package}
 \title{symengine: R interface to SymEngine C++ library for symbolic computation}
 \description{
 \code{symengine} is a R package for symbolic computation.
@@ -21,7 +20,7 @@ expressions.
 
 \code{symengine} uses the S4 dispatch system extensively to differentiate between calculation
 over normal R objects and symengine objects. For example, the semantics of \code{sin} in
-\code{expr <- Symbol("x"); sin(expr)} is different from the \code{sin} used over normal R numbers.
+\verb{expr <- Symbol("x"); sin(expr)} is different from the \code{sin} used over normal R numbers.
 }
 \section{Basic class}{
 
@@ -51,8 +50,8 @@ cbind(vec, vec^2L, c(S("c"), S("d")))
 The following functions are expected to work naturally with VecBasic and DenseMatrix
 classes.
 \itemize{
-\item \code{[}, \code{[[}, \code{[<-} and \code{[[<-} for subsetting and assignment.
-\item \code{dim()}, \code{dim<-}, \code{length()}, \code{t()}, \code{det()}, \code{rbind()}, \code{cbind()}, \code{c()}, \code{rep()}
+\item \code{[}, \code{[[}, \verb{[<-} and \verb{[[<-} for subsetting and assignment.
+\item \code{dim()}, \verb{dim<-}, \code{length()}, \code{t()}, \code{det()}, \code{rbind()}, \code{cbind()}, \code{c()}, \code{rep()}
 \item \code{\%*\%} for matrix multiplication
 \item \code{solve(a, b)}: solve \code{a \%*\% x = b} where \code{a} is a square DenseMatrix and
 \code{b} is a VecBasic/DenseMatrix.

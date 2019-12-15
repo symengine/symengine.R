@@ -5,8 +5,12 @@
 \alias{visitor_call}
 \title{Double Visitor}
 \usage{
-DoubleVisitor(exprs, args, perform_cse = TRUE, llvm_opt_level = if
-  (symengine_have_component("llvm")) 3L else -1L)
+DoubleVisitor(
+  exprs,
+  args,
+  perform_cse = TRUE,
+  llvm_opt_level = if (symengine_have_component("llvm")) 3L else -1L
+)
 
 visitor_call(visitor, input, do_transpose = FALSE)
 }
