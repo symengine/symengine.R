@@ -17,6 +17,7 @@ Imports:
 Suggests:
     crayon,
     pracma,
+    odeintr,
     testthat (>= 2.1.0),
     knitr,
     rmarkdown
@@ -43,6 +44,7 @@ Collate:
     'basic.R'
     'codegen.R'
     'double_visitor.R'
+    'dxdt.R'
     'function_symbol.R'
     'knitr.R'
     'lambdify.R'
