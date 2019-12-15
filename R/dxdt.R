@@ -133,7 +133,7 @@ ODESystem <- function(odesys, ..., method = "rk5_i",
     
     compile_sys_env <- new.env()
     
-    if (!requireNamespace("odeintr"))
+    if (!requireNamespace("odeintr", quietly = TRUE))
         stop("'odeintr' package needs to be installed for this functionality")
     
     rcpp_code <- odeintr::compile_sys(
