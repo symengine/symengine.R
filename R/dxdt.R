@@ -11,8 +11,8 @@ setClass("ODESystem", slots = c(odesys = "list", cpp_source = "character",
 #' generation functionality from symengine to generate the
 #' C++ source. The `dxdt` function and defined `==` S4 method
 #' allow one to intuitively specify the ODE system with symengine
-#' objects. The `ODESystem` will generate C++ source on the fly
-#' and compile with Rcpp. Then `predict` can be used to get
+#' objects. The `ODESystem` will generate C++ source
+#' and compile on the fly with Rcpp. Then `predict` can be used to get
 #' results.
 #' 
 #' @param x A SymEngine Basic object of type Symbol or a R object

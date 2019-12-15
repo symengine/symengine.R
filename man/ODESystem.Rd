@@ -63,8 +63,8 @@ symengine objects to specify the ODE system and C code
 generation functionality from symengine to generate the
 C++ source. The \code{dxdt} function and defined \code{==} S4 method
 allow one to intuitively specify the ODE system with symengine
-objects. The \code{ODESystem} will generate C++ source on the fly
-and compile with Rcpp. Then \code{predict} can be used to get
+objects. The \code{ODESystem} will generate C++ source
+and compile on the fly with Rcpp. Then \code{predict} can be used to get
 results.
 }
 \examples{
