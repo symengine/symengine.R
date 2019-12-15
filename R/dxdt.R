@@ -1,4 +1,12 @@
 
+## TODO: handle dynamic parameters, i.e.
+## > VdP.sys = '
+## > dxdt[0] = x[1];
+## > dxdt[1] = mu * (1 - x[0] * x[0]) * x[1] - x[0];
+## > '
+## > compile_sys("vpol2", VdP.sys, "mu", method = "bsd")
+## > vpol2_set_params(mu = 0.5)
+
 setClass("DxdtOdeConstructor", slots = c(x="Basic"))
 setClass("DxdtOde", slots = c(x = "Basic", rhs = "Basic"))
 setClass("ODESystem", slots = c(odesys = "list", cpp_source = "character",
