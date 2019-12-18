@@ -24,7 +24,7 @@ with
 Then you can install the R package with
 
 ``` r
-devtools::install_github("symengine/symengine.R", build_vignettes = TRUE)
+devtools::install_github("symengine/symengine.R")
 ```
 
 On Windows, the dependencies will be downloaded at build time, and you
