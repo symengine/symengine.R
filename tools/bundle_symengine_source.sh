@@ -2,7 +2,7 @@
 
 set -e
 
-tput setaf 3; echo ======== BUNDLE SYMENGINE SOURCE ==========; tput sgr0
+echo ======== BUNDLE SYMENGINE SOURCE ==========
 
 if ! test -f DESCRIPTION; then
     echo 1>&2 "Wrong directory"
@@ -12,7 +12,7 @@ fi
 PKG_DIR=`pwd`
 SYMENGINE_COMMIT=1db91f876c3fe5d214f97cdcc5c9e46558b250c2
 
-tput setaf 3; echo === Bundle source from commit: $SYMENGINE_COMMIT; tput sgr0
+echo === Bundle source from commit: $SYMENGINE_COMMIT
 
 test -d symengine_source && rm -r symengine_source || true
 mkdir symengine_source
@@ -25,13 +25,13 @@ mv symengine_source/symengine-"$SYMENGINE_COMMIT" src/upstream
 
 rm -r symengine_source
 
-tput setaf 3; echo === Apply patch; tput sgr0
+echo === Apply patch
 
 # diffstat may not be available
 diffstat -p0 ./tools/symengine_patch.diff || true
 patch -p0 <./tools/symengine_patch.diff
 
-tput setaf 3; echo === Remove some unnecessary files in src/upstream; tput sgr0
+echo === Remove some unnecessary files in src/upstream
 
 set -x
 
@@ -48,12 +48,12 @@ rm    src/upstream/.travis.yml
 
 set +x
 
-tput setaf 3; echo === diff src/upstream/LICENSE inst/COPYRIGHTS; tput sgr0
+echo === diff src/upstream/LICENSE inst/COPYRIGHTS
 
 diff src/upstream/LICENSE inst/COPYRIGHTS || true
 
-tput setaf 3; echo === touch ./tools/SYMENGINE_BUNDLED; tput sgr0
+echo === touch ./tools/SYMENGINE_BUNDLED
 
 touch ./tools/SYMENGINE_BUNDLED
 
-tput setaf 2; echo ======== BUNDLE SYMENGINE SOURCE DONE ==========; tput sgr0
+echo ======== BUNDLE SYMENGINE SOURCE DONE ==========
