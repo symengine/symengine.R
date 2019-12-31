@@ -39,7 +39,10 @@ library.dynam_2 <- function(chname, package, lib.loc, ...) {
 }
 
 .onLoad.windows <- function(libname, pkgname) {
-    library.dynam_2("libgmp-10"   , pkgname, libname)
+    if (.Platform$r_arch == "")
+        library.dynam_2(sprintf("../mylibs/%s/libgmp-10", .Platform$r_arch), pkgname, libname)
+    else
+        library.dynam_2(sprintf("../../mylibs/%s/libgmp-10", .Platform$r_arch), pkgname, libname)
     ## Currently using static library as workaround
     #library.dynam_2("libsymengine", pkgname, libname)
     library.dynam_2("symengine"   , pkgname, libname)
@@ -49,7 +52,10 @@ library.dynam_2 <- function(chname, package, lib.loc, ...) {
     library.dynam.unload("symengine"   , libpath)
     ## Currently using static library as workaround
     #library.dynam.unload("libsymengine", libpath)
-    library.dynam.unload("libgmp-10"   , libpath)
+    if (.Platform$r_arch == "")
+        library.dynam.unload(sprintf("../mylibs/%s/libgmp-10", .Platform$r_arch), libpath)
+    else
+        library.dynam.unload(sprintf("../../mylibs/%s/libgmp-10", .Platform$r_arch), libpath)
 }
 
 .onAttach <- function (libname, pkgname) {
