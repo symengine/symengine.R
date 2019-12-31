@@ -19,9 +19,7 @@ environment:
   # see https://github.com/krlmlr/r-appveyor#readme for details
   # USE_RTOOLS: true
   # R_REMOTES_STANDALONE: true
-  
-  ## Currently fail at warning of `inst/libs`
-  #WARNINGS_ARE_ERRORS: 1
+  WARNINGS_ARE_ERRORS: 1
 
 # Adapt as necessary starting from here
 
