@@ -29,7 +29,7 @@ download_lib <- function(link, download_dist) {
     
     ## Create directory to put DLLs
     r_arch <- .Platform$r_arch
-    lib_dist <- sprintf("../inst/libs/%s", r_arch)
+    lib_dist <- sprintf("../inst/mylibs/%s", r_arch)
     if (!dir.exists(lib_dist))
         dir.create(lib_dist, recursive = TRUE)
     
