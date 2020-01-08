@@ -1,0 +1,12 @@
+
+## If cmake exists (e.g. on CRAN machine),
+## use the normal route to compile the library.
+if cmake --version >/dev/null 2>&1; then
+    echo ==== detected cmake, running ./configure ====
+    ./configure
+    exit $?
+fi
+
+## Otherwise (e.g. with Rtools)
+echo ==== cmake is not available  ====
+cp src/Makevars.win.in src/Makevars.win
