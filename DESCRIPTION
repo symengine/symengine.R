@@ -34,7 +34,7 @@ LazyData: true
 URL: https://github.com/symengine/symengine.R
 BugReports: https://github.com/symengine/symengine.R/issues
 License: GPL (>= 2)
-Copyright: For the copyrights for the 'SymEngine' library and acknowledgement of
+Copyright: For the copyright notices for the 'SymEngine' library and acknowledgement of
     authorship, see file COPYRIGHTS.
 RoxygenNote: 7.0.2
 Collate: 
