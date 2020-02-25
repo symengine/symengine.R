@@ -1,16 +1,18 @@
 
 ## Resubmission:
 
-Add additional notes in COPYRIGHTS.
+- Add missing "Copyright (c) 2010, Ondrej Certik" to COPYRIGHTS
 
-## Response to previous comments
+- Reset 'par' in vignette.
 
-> I see you use th COPRIGHtS fiel, but then there you declare the files have diferent licenses, but the package and its contents can only have on elicense, so please find out if you can releicense under one common license.
+- Change \dontrun to \donttest in examples.
 
-As I said in previous submission comments and previous emails and emphasized in COPYRIGHTS file in this submission, the whole R package is re-licensed under GPL which is indicated using the LICENSE field. The original copyright notices are preserved as prerequisite for re-licensing and should not be confused with the license of the R package and its components.
 
-Relicensing are permitted (see the details of the original copyright notices) by preserving
-these copyright notices in the R package.
+## Previous notes
+
+The whole R package is re-licensed under GPL which is indicated using the LICENSE field. The original copyright notices are preserved as prerequisite for re-licensing and should not be confused with the license of the R package and its components.
+
+Relicensing are permitted (see the details of the original copyright notices) by preserving these copyright notices in the R package.
 
 Per CRAN Repository Policy:
 "Where copyrights are held by an entity other than the package authors, this 
