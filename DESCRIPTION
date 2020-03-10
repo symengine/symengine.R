@@ -28,6 +28,9 @@ SystemRequirements:
     cmake,
     gmp,
     mpfr
+SystemRequirementsNote:
+    gmp (deb package: libgmp-dev, rpm package: gmp-devel),
+    mpfr (deb package: libmpfr-dev, rpm package: mpfr-devel)
 Encoding: UTF-8
 LazyData: true
 URL: https://github.com/symengine/symengine.R
