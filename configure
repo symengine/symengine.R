@@ -52,7 +52,7 @@ if [ -z "$SymEngine_DIR" ]; then
         -DWITH_PIRANHA=no \
         -DWITH_LLVM=no \
         -DWITH_MPFR=yes \
-        -DWITH_MPC=yes \
+        -DWITH_MPC=no \
         -DINTEGER_CLASS=gmp \
         -DBUILD_TESTS=no \
         -DBUILD_BENCHMARKS=no \

@@ -27,8 +27,7 @@ SystemRequirements:
     GNU make,
     cmake,
     gmp,
-    mpfr,
-    mpc
+    mpfr
 Encoding: UTF-8
 LazyData: true
 URL: https://github.com/symengine/symengine.R
