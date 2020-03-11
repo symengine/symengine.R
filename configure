@@ -21,31 +21,40 @@ if [ $? -ne 0 ]; then
 fi
 cmake --version
 
-# Try force setting some CMAKE environment variables
+## Setting some environment variables
+
+: ${R_HOME=`R RHOME`}
+if test -z "${R_HOME}"; then
+    echo >&2 "could not determine R_HOME"
+    exit 1
+else
+    echo == R_HOME
+    echo $R_HOME
+fi
 
 echo == setting environment variables:
-echo   CMAKE_C_COMPILER=$CC
-export CMAKE_C_COMPILER=$CC
-echo   CMAKE_CXX_COMPILER=$CXX
-export CMAKE_CXX_COMPILER=$CXX
+
+CC=`"${R_HOME}/bin/R" CMD config CC`                   ;  echo set CC=$CC                   ; export CC
+CFLAGS=`"${R_HOME}/bin/R" CMD config CFLAGS`           ;  echo set CFLAGS=$CFLAGS           ; export CFLAGS
+CPICFLAGS=`"${R_HOME}/bin/R" CMD config CPICFLAGS`     ;  echo set CPICFLAGS=$CPICFLAGS     ; export CPICFLAGS
+CXX=`"${R_HOME}/bin/R" CMD config CXX`                 ;  echo set CXX=$CXX                 ; export CXX
+CXXFLAGS=`"${R_HOME}/bin/R" CMD config CXXFLAGS`       ;  echo set CXXFLAGS=$CXXFLAGS       ; export CXXFLAGS
+CXXPICFLAGS=`"${R_HOME}/bin/R" CMD config CXXPICFLAGS` ;  echo set CXXPICFLAGS=$CXXPICFLAGS ; export CXXPICFLAGS
+CPPFLAGS=`"${R_HOME}/bin/R" CMD config CPPFLAGS`       ;  echo set CPPFLAGS=$CPPFLAGS       ; export CPPFLAGS
+LDFLAGS=`"${R_HOME}/bin/R" CMD config LDFLAGS`         ;  echo set LDFLAGS=$LDFLAGS         ; export LDFLAGS
+
+if test -z "$CXX"; then
+    echo >&2 "could not detect C++ compiler with R CMD config"
+fi
+
+CMAKE_C_COMPILER=$CC    ; echo set CMAKE_C_COMPILER=$CC    ; export CMAKE_C_COMPILER
+CMAKE_CXX_COMPILER=$CXX ; echo set CMAKE_CXX_COMPILER=$CXX ; export CMAKE_CXX_COMPILER
 
 # set CMAKE_C/CXX_FLAGS and prepend CPPFLAGS
-echo   CMAKE_C_FLAGS=$CFLAGS
-export CMAKE_C_FLAGS=$CFLAGS
-echo   CMAKE_C_FLAGS="$CPPFLAGS $CMAKE_C_FLAGS"
-export CMAKE_C_FLAGS="$CPPFLAGS $CMAKE_C_FLAGS"
-echo   CMAKE_CXX_FLAGS=$CXXFLAGS
-export CMAKE_CXX_FLAGS=$CXXFLAGS
-echo   CMAKE_CXX_FLAGS="$CPPFLAGS $CMAKE_CXX_FLAGS"
-export CMAKE_CXX_FLAGS="$CPPFLAGS $CMAKE_CXX_FLAGS"
+CMAKE_C_FLAGS="$CPPFLAGS $CFLAGS"     ; echo set CMAKE_C_FLAGS="$CPPFLAGS $CFLAGS"    ; export CMAKE_C_FLAGS
+CMAKE_CXX_FLAGS="$CPPFLAGS $CXXFLAGS" ; echo set CMAKE_CXX_FLAGS="$CPPFLAGS $CXXFLAGS"; export CMAKE_CXX_FLAGS
 
 # LDFLAGS https://cmake.org/cmake/help/latest/envvar/LDFLAGS.html
-echo   CMAKE_EXE_LINKER_FLAGS_INIT=$LDFLAGS
-export CMAKE_EXE_LINKER_FLAGS_INIT=$LDFLAGS
-echo   CMAKE_SHARED_LINKER_FLAGS_INIT=$LDFLAGS
-export CMAKE_SHARED_LINKER_FLAGS_INIT=$LDFLAGS
-echo   CMAKE_MODULE_LINKER_FLAGS_INIT=$LDFLAGS
-export CMAKE_MODULE_LINKER_FLAGS_INIT=$LDFLAGS
 
 #if cmake --find-package -DNAME=SymEngine -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=LINK >/dev/null 2>/dev/null; then
 #    IF_SYMENGINE_EXISTS=true
