@@ -8,6 +8,10 @@ if [ ! -f ./DESCRIPTION ]; then
     exit 1
 fi
 
+# Check sh
+echo == $SHELL
+$SHELL --version
+
 # Check cmake
 echo == cmake:
 which cmake
