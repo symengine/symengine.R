@@ -1,9 +1,11 @@
 
 ## Version 0.1.1:
 
-This is mainly fixing issues building the package on solaris. The following changes are made:
+0. Fix 'export' issue in configure ('export var=value' is not supported in old version of sh) and use R CMD config and compiler options.
 
-1. Try fixing issues that cmake ignore "CC" and "CXX" environment variables by force setting some CMAKE_* environment variables in 'configure'.
+## Previous comments
+
+This is mainly fixing issues building the package on solaris. The following changes are made:
 
 2. In 'configure', fix issue that '!' is not a shell program in solaris.
 
