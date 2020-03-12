@@ -10,7 +10,7 @@ fi
 
 # Check sh
 echo == $SHELL
-$SHELL --version
+#$SHELL --version
 
 # Check cmake
 echo == cmake:
