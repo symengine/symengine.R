@@ -108,6 +108,8 @@ if [ -z "$SymEngine_DIR" ]; then
     cd $PKG_DIR
 
     SymEngine_DIR="$PKG_DIR"/src/upstream
+    echo == setting SymEngine_DIR
+    echo $SymEngine_DIR
     DO_UPSTREAM="do_upstream"
 else
     # if SymEngine_DIR exists
