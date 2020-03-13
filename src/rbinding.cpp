@@ -91,7 +91,7 @@ CWRAPPER_OUTPUT_TYPE cwrapper_set2vec(CSetBasic* set, CVecBasic* vec) {
     return SYMENGINE_NO_EXCEPTION;
 }
 
-CWRAPPER_OUTPUT_TYPE cwrapper_vec_append_vec(CVecBasic* self, const CVecBasic* el, int idx) {
+CWRAPPER_OUTPUT_TYPE cwrapper_vec_append_vec(CVecBasic* self, CVecBasic* el, int idx) {
     if (idx >= 0) {
         CWRAPPER_OUTPUT_TYPE status1 = vecbasic_get(el, idx, global_bholder);
         CWRAPPER_OUTPUT_TYPE status2 = vecbasic_push_back(self, global_bholder);
