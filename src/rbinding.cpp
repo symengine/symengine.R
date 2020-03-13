@@ -2,11 +2,14 @@
 #define R_NO_REMAP
 #include <R.h>
 #include <Rcpp.h>
+
+// Trying to avoid symbol conflict with Solaris system header
+#ifdef SEC
+#undef SEC
+#endif
+
 #include <symengine/cwrapper.h>
-
 #include "rbinding.h"
-
-
 #include <symengine/basic.h>
 
 // Copied from symengine/cwrapper.cpp
