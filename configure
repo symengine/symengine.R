@@ -8,6 +8,9 @@ if [ ! -f ./DESCRIPTION ]; then
     exit 1
 fi
 
+echo == current working directory
+echo `pwd`
+
 # Check sh
 echo == $SHELL
 #$SHELL --version
