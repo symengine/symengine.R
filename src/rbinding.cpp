@@ -4,7 +4,6 @@
 #include <Rcpp.h>
 #include <symengine/cwrapper.h>
 
-#include "cwrapper_utils.h"
 #include "rbinding.h"
 
 
