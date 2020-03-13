@@ -21,6 +21,39 @@ static_assert(std::alignment_of<CRCPBasic>::value
                   == std::alignment_of<CRCPBasic_C>::value,
                       "Alignment of 'basic' is not correct");
 
+// Some cwrapper helpers ///////////
+
+// Exception handling
+const char* cwrapper_exception_message(CWRAPPER_OUTPUT_TYPE id) {
+    // Refer:
+    // https://github.com/symengine/symengine/blob/master/symengine/symengine_exception.h
+    switch(id) {
+    case SYMENGINE_NO_EXCEPTION:
+        return "SymEngine exception: No exception, it should not go here";
+    case SYMENGINE_RUNTIME_ERROR:
+        return "SymEngine exception: Runtime error";
+    case SYMENGINE_DIV_BY_ZERO:
+        return "SymEngine exception: Div by zero";
+    case SYMENGINE_NOT_IMPLEMENTED:
+        return "SymEngine exception: Not implemented SymEngine feature";
+    case SYMENGINE_DOMAIN_ERROR:
+        return "SymEngine exception: Domain error";
+    case SYMENGINE_PARSE_ERROR:
+        return "SymEngine exception: Parse error";
+    default:
+        return "SymEngine exception: Unexpected SymEngine error code";
+    }
+}
+
+static inline
+void cwrapper_hold(CWRAPPER_OUTPUT_TYPE output) {
+    if (output)
+        Rf_error(cwrapper_exception_message(output));
+    else
+        return;
+}
+
+
 using namespace Rcpp;
 
 
@@ -37,6 +70,52 @@ int hook_lib_onload() {
 
 // Run the hook here
 static int dummy = hook_lib_onload();
+
+//// Helper functions  ////////
+
+CWRAPPER_OUTPUT_TYPE cwrapper_set2vec(CSetBasic* set, CVecBasic* vec) {
+    size_t len = setbasic_size(set);
+    
+    void setbasic_get(CSetBasic *self, int n, basic result);
+    
+    for (size_t i = 0; i < len; i++) {
+        setbasic_get(set, i, global_bholder); // Return void
+        CWRAPPER_OUTPUT_TYPE status2 = vecbasic_push_back(vec, global_bholder);
+        if (status2) {
+            REprintf("Error at index %zu\n", i);
+            return status2;
+        }
+    }
+    return SYMENGINE_NO_EXCEPTION;
+}
+
+CWRAPPER_OUTPUT_TYPE cwrapper_vec_append_vec(CVecBasic* self, const CVecBasic* el, int idx) {
+    if (idx >= 0) {
+        CWRAPPER_OUTPUT_TYPE status1 = vecbasic_get(el, idx, global_bholder);
+        CWRAPPER_OUTPUT_TYPE status2 = vecbasic_push_back(self, global_bholder);
+        if (status1)
+            return status1;
+        if (status2)
+            return status2;
+        return SYMENGINE_NO_EXCEPTION;
+    }
+    
+    // idx < 0, append all elements
+    size_t len = vecbasic_size(el);
+    for (size_t i = 0; i < len; i++) {
+        CWRAPPER_OUTPUT_TYPE status1 = vecbasic_get(el, i, global_bholder);
+        CWRAPPER_OUTPUT_TYPE status2 = vecbasic_push_back(self, global_bholder);
+        if (status1) {
+            REprintf("Error at index %zu\n", i);
+            return status1;
+        }
+        if (status2) {
+            REprintf("Error at index %zu\n", i);
+            return status2;
+        }
+    }
+    return SYMENGINE_NO_EXCEPTION;
+}
 
 //// R functions       ////////
 
