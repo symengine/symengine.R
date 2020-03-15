@@ -10,8 +10,10 @@ if ! test -f DESCRIPTION; then
 fi
 
 PKG_DIR=`pwd`
-SYMENGINE_REPO="symengine/symengine"
-SYMENGINE_COMMIT=1db91f876c3fe5d214f97cdcc5c9e46558b250c2
+
+## temp switch repo
+SYMENGINE_REPO="Marlin-Na/symengine"
+SYMENGINE_COMMIT=e5e9248bd34e1177df1be64fad8bcffa601557d1 # i.e. branch patch-undef-SEC
 
 echo === Bundle source from commit: $SYMENGINE_COMMIT
 
