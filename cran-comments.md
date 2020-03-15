@@ -5,6 +5,8 @@ The following changes are made:
 
 1. Added missing "undef SEC" to various places in the C++ library.
 
+2. Fix PROTECT issues in rchk.
+
 
 I didn't have problem building, installing and checking on Mac OS. I checked it on multiple machines and have no installation of symengine C++ library that may confuse the building process. The possible reasons might be the package is moved after running "./configure" but did not "./cleanup", or some commands in "./configure" failed but I didn't handle it, or compiling the C++ library failed at some point. It would be helpful to provide the full log.
 
