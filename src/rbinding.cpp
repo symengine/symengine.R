@@ -222,8 +222,10 @@ bool s4DenseMat_check(SEXP x) {
 SEXP BasicClassPrototype() {
     static SEXP BasicClassPrototype_val = NULL;
     if (BasicClassPrototype_val == NULL) {
-        BasicClassPrototype_val = R_do_new_object(R_getClassDef("Basic"));
+        SEXP classdef = PROTECT(R_getClassDef("Basic"));
+        BasicClassPrototype_val = R_do_new_object(classdef);
         R_PreserveObject(BasicClassPrototype_val);
+        UNPROTECT(1);
     }
     return Rf_shallow_duplicate(BasicClassPrototype_val);
 }
@@ -1032,7 +1034,9 @@ SEXP s4binding_wrap(void* p, s4binding_t type) {
 void* s4binding_elt(SEXP robj) {
     // TODO: maybe construct a struct to add type information to the pointer
     s4binding_t type = s4binding_typeof(robj);
-    void* p = R_ExternalPtrAddr(R_do_slot(robj, Rf_mkString("ptr")));
+    SEXP rstr_ptr = PROTECT(Rf_mkString("ptr"));
+    void* p = R_ExternalPtrAddr(R_do_slot(robj, rstr_ptr));
+    UNPROTECT(1);
     if (p == NULL) Rf_error("Invalid pointer\n");
     return p;
 }
