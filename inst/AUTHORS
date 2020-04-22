@@ -79,5 +79,5 @@ The R package bundles and redistributes the SymEngine C++ library source under
     Jogi Miglani <jmig5776@gmail.com>
     Liam Keegan <liam@keegan.ch>
 
-In addition, the SymEngine C++ library contains subcomponents from other copyright
+In addition, the SymEngine C++ library itself contains subcomponents from other copyright
 holders. See file COPYRIGHTS for details.
