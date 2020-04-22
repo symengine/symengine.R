@@ -36,8 +36,9 @@ LazyData: true
 URL: https://github.com/symengine/symengine.R
 BugReports: https://github.com/symengine/symengine.R/issues
 License: GPL (>= 2)
-Copyright: For the copyright notices for the 'SymEngine' library and acknowledgement of
-    authorship, see file COPYRIGHTS.
+Copyright: The R package bundles the 'SymEngine' library source and its subcomponents
+    under 'src/upstream' directory. See file COPYRIGHTS for retained copyright notices
+    as a relicensing and redistribution requirement.
 RoxygenNote: 7.0.2
 Collate: 
     'RcppExports.R'
