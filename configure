@@ -119,6 +119,8 @@ else
     DO_UPSTREAM=
 fi
 
+echo == generating src/Makevars
+
 cat src/Makevars.in | \
     sed "s:@@@SymEngine_DIR@@@:$SymEngine_DIR:g" | \
     sed "s:@@@DO_UPSTREAM@@@:$DO_UPSTREAM:g" \
