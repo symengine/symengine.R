@@ -8,11 +8,56 @@ if [ ! -f ./DESCRIPTION ]; then
     exit 1
 fi
 
+echo == current working directory
+echo `pwd`
+
+# Check sh
+echo == $SHELL
+#$SHELL --version
+
 # Check cmake
-if ! which cmake >/dev/null 2>&1; then
+echo == cmake:
+which cmake
+if [ $? -ne 0 ]; then
     echo >&2 "cmake is not installed."
     exit 1
 fi
+cmake --version
+
+## Setting some environment variables
+
+: ${R_HOME=`R RHOME`}
+if test -z "${R_HOME}"; then
+    echo >&2 "could not determine R_HOME"
+    exit 1
+else
+    echo == R_HOME
+    echo $R_HOME
+fi
+
+echo == setting environment variables:
+
+CC=`"${R_HOME}/bin/R" CMD config CC`                   ;  echo set CC=$CC                   ; export CC
+CFLAGS=`"${R_HOME}/bin/R" CMD config CFLAGS`           ;  echo set CFLAGS=$CFLAGS           ; export CFLAGS
+CPICFLAGS=`"${R_HOME}/bin/R" CMD config CPICFLAGS`     ;  echo set CPICFLAGS=$CPICFLAGS     ; export CPICFLAGS
+CXX=`"${R_HOME}/bin/R" CMD config CXX`                 ;  echo set CXX=$CXX                 ; export CXX
+CXXFLAGS=`"${R_HOME}/bin/R" CMD config CXXFLAGS`       ;  echo set CXXFLAGS=$CXXFLAGS       ; export CXXFLAGS
+CXXPICFLAGS=`"${R_HOME}/bin/R" CMD config CXXPICFLAGS` ;  echo set CXXPICFLAGS=$CXXPICFLAGS ; export CXXPICFLAGS
+CPPFLAGS=`"${R_HOME}/bin/R" CMD config CPPFLAGS`       ;  echo set CPPFLAGS=$CPPFLAGS       ; export CPPFLAGS
+LDFLAGS=`"${R_HOME}/bin/R" CMD config LDFLAGS`         ;  echo set LDFLAGS=$LDFLAGS         ; export LDFLAGS
+
+if test -z "$CXX"; then
+    echo >&2 "could not detect C++ compiler with R CMD config"
+fi
+
+CMAKE_C_COMPILER=$CC    ; echo set CMAKE_C_COMPILER=$CC    ; export CMAKE_C_COMPILER
+CMAKE_CXX_COMPILER=$CXX ; echo set CMAKE_CXX_COMPILER=$CXX ; export CMAKE_CXX_COMPILER
+
+# set CMAKE_C/CXX_FLAGS and prepend CPPFLAGS
+CMAKE_C_FLAGS="$CPPFLAGS $CFLAGS"     ; echo set CMAKE_C_FLAGS="$CPPFLAGS $CFLAGS"    ; export CMAKE_C_FLAGS
+CMAKE_CXX_FLAGS="$CPPFLAGS $CXXFLAGS" ; echo set CMAKE_CXX_FLAGS="$CPPFLAGS $CXXFLAGS"; export CMAKE_CXX_FLAGS
+
+# LDFLAGS https://cmake.org/cmake/help/latest/envvar/LDFLAGS.html
 
 #if cmake --find-package -DNAME=SymEngine -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=LINK >/dev/null 2>/dev/null; then
 #    IF_SYMENGINE_EXISTS=true
@@ -52,7 +97,7 @@ if [ -z "$SymEngine_DIR" ]; then
         -DWITH_PIRANHA=no \
         -DWITH_LLVM=no \
         -DWITH_MPFR=yes \
-        -DWITH_MPC=yes \
+        -DWITH_MPC=no \
         -DINTEGER_CLASS=gmp \
         -DBUILD_TESTS=no \
         -DBUILD_BENCHMARKS=no \
@@ -66,11 +111,15 @@ if [ -z "$SymEngine_DIR" ]; then
     cd $PKG_DIR
 
     SymEngine_DIR="$PKG_DIR"/src/upstream
+    echo == setting SymEngine_DIR
+    echo $SymEngine_DIR
     DO_UPSTREAM="do_upstream"
 else
     # if SymEngine_DIR exists
     DO_UPSTREAM=
 fi
+
+echo == generating src/Makevars
 
 cat src/Makevars.in | \
     sed "s:@@@SymEngine_DIR@@@:$SymEngine_DIR:g" | \

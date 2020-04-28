@@ -1,23 +1,15 @@
 
-## Resubmission:
+## Version 0.1.1:
 
-- Add missing "Copyright (c) 2010, Ondrej Certik" to COPYRIGHTS
+Fixed build errors on solaris and updated AUTHORS file.
 
-- Reset 'par' in vignette.
+## Response to previous comments
 
-- Change \dontrun to \donttest in examples.
+> You write that there is more information in the COPYRIGHT file. However, there is no such a file.
 
+I wrote COPYRIGHTS file instead of COPYRIGHT file. It is located at 'inst/COPYRIGHTS' before installation and 'COPYRIGHTS' after installation. I have updated the sentence to make it more clear.
 
-## Previous notes
+I am using AUTHORS and COPYRIGHTS files to provide details about bundled C++ library, per Writing R Extensions: "... AUTHORS or COPYRIGHTS to specify the authors or copyright holders when this is too complex to put in the DESCRIPTION file."
 
-The whole R package is re-licensed under GPL which is indicated using the LICENSE field. The original copyright notices are preserved as prerequisite for re-licensing and should not be confused with the license of the R package and its components.
-
-Relicensing are permitted (see the details of the original copyright notices) by preserving these copyright notices in the R package.
-
-Per CRAN Repository Policy:
-"Where copyrights are held by an entity other than the package authors, this 
-should preferably be indicated via ‘cph’ roles in the ‘Authors@R’ field, OR 
-using a ‘Copyright’ field (if necessary referring to an inst/COPYRIGHTS 
-file)."
-
-I am putting these additional copyright holders with original copyright notices in "Copyright" field, which I considered as equivalent to adding to "Authors@R" field with "cph" roles.
+Thanks.
+Jialin Ma

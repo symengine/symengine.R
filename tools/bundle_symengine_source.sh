@@ -10,14 +10,17 @@ if ! test -f DESCRIPTION; then
 fi
 
 PKG_DIR=`pwd`
-SYMENGINE_COMMIT=1db91f876c3fe5d214f97cdcc5c9e46558b250c2
+
+## temp switch repo
+SYMENGINE_REPO="symengine/symengine"
+SYMENGINE_COMMIT=7b39028f5d642f4c81e4e4a0cf918326d12d13d6
 
 echo === Bundle source from commit: $SYMENGINE_COMMIT
 
 test -d symengine_source && rm -r symengine_source || true
 mkdir symengine_source
 
-curl -L "https://github.com/symengine/symengine/archive/$SYMENGINE_COMMIT.tar.gz" 2>/dev/null | \
+curl -L "https://github.com/$SYMENGINE_REPO/archive/$SYMENGINE_COMMIT.tar.gz" 2>/dev/null | \
     tar -xz -C symengine_source/
 
 test -d src/upstream && rm -r src/upstream || true

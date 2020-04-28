@@ -6,7 +6,8 @@
   relicensing) under GPL (>=2) as indicated in DESCRIPTION.
   Following are the original copyright notices for SymEngine library
   and its subcomponents (under src/upstream directory). They are preserved as
-  prerequisite for relicensing the code to GPL.
+  prerequisite for relicensing the code to GPL and redistributing them with the
+  R package.
 
 
 
