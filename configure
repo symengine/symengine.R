@@ -121,8 +121,11 @@ fi
 
 echo == config PKG_LIBS and PKG_CPPFLAGS
 
+## Running cmake --find-package under src/
+cd src
 PKG_LIBS_VALUE=`SymEngine_DIR="$SymEngine_DIR" cmake --find-package -DNAME=SymEngine -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=LINK`
 PKG_CPPFLAGS_VALUE=`SymEngine_DIR="$SymEngine_DIR" cmake --find-package -DNAME=SymEngine -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=COMPILE`
+cd ..
 
 echo PKG_LIBS=$PKG_LIBS_VALUE
 echo PKG_CPPFLAGS=$PKG_CPPFLAGS_VALUE
