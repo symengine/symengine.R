@@ -1,9 +1,9 @@
 
 CXX_STD = CXX11
 
-PKG_LIBS = `SymEngine_DIR=@@@SymEngine_DIR@@@ cmake --find-package -DNAME=SymEngine -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=LINK`
+PKG_LIBS = @@@PKG_LIBS@@@
 
-PKG_CPPFLAGS = `SymEngine_DIR=@@@SymEngine_DIR@@@ cmake --find-package -DNAME=SymEngine -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=COMPILE`
+PKG_CPPFLAGS = @@@PKG_CPPFLAGS@@@
 
 .PHONY: all @@@DO_UPSTREAM@@@
 
