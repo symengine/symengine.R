@@ -34,7 +34,7 @@ apt_packages:
 #  - libmpc
 
 before_install:
-  - if [ $TRAVIS_OS_NAME = osx ]; then brew install cmake gmp mpfr libmpc || true; fi
+  - if [ $TRAVIS_OS_NAME = osx ]; then brew install cmake gmp mpfr libmpc checkbashisms || true; fi
   
 warnings_are_errors: true
 
