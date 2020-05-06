@@ -44,7 +44,7 @@ CPICFLAGS=`"${R_HOME}/bin/R" CMD config CPICFLAGS`     ;  echo set CPICFLAGS=$CP
 ## There is an issue (#88) compiling the C++ library when combining
 ## "-std=gnu++11" and "-mmacosx-version-min=10.13". This is a temporary workaround.
 CXX=`"${R_HOME}/bin/R" CMD config CXX`                 ;  echo set CXX=$CXX                 ; export CXX
-CXX=`echo $CXX | sed 's/ -mmacosx-version-min=\S*//'`  ;  echo reset CXX=$CXX               ; export CXX
+CXX=`echo $CXX | sed 's/ -mmacosx-version-min=[^[:space:]]*//'`  ;  echo reset CXX=$CXX               ; export CXX
 
 CXXFLAGS=`"${R_HOME}/bin/R" CMD config CXXFLAGS`       ;  echo set CXXFLAGS=$CXXFLAGS       ; export CXXFLAGS
 CXXPICFLAGS=`"${R_HOME}/bin/R" CMD config CXXPICFLAGS` ;  echo set CXXPICFLAGS=$CXXPICFLAGS ; export CXXPICFLAGS
