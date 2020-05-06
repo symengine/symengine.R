@@ -40,7 +40,12 @@ echo == setting environment variables:
 CC=`"${R_HOME}/bin/R" CMD config CC`                   ;  echo set CC=$CC                   ; export CC
 CFLAGS=`"${R_HOME}/bin/R" CMD config CFLAGS`           ;  echo set CFLAGS=$CFLAGS           ; export CFLAGS
 CPICFLAGS=`"${R_HOME}/bin/R" CMD config CPICFLAGS`     ;  echo set CPICFLAGS=$CPICFLAGS     ; export CPICFLAGS
+
+## There is an issue (#88) compiling the C++ library when combining
+## "-std=gnu++11" and "-mmacosx-version-min=10.13". This is a temporary workaround.
 CXX=`"${R_HOME}/bin/R" CMD config CXX`                 ;  echo set CXX=$CXX                 ; export CXX
+CXX=`echo $CXX | sed 's/ -mmacosx-version-min=\S+//'`  ;  echo reset CXX=$CXX               ; export CXX
+
 CXXFLAGS=`"${R_HOME}/bin/R" CMD config CXXFLAGS`       ;  echo set CXXFLAGS=$CXXFLAGS       ; export CXXFLAGS
 CXXPICFLAGS=`"${R_HOME}/bin/R" CMD config CXXPICFLAGS` ;  echo set CXXPICFLAGS=$CXXPICFLAGS ; export CXXPICFLAGS
 CPPFLAGS=`"${R_HOME}/bin/R" CMD config CPPFLAGS`       ;  echo set CPPFLAGS=$CPPFLAGS       ; export CPPFLAGS
@@ -50,8 +55,8 @@ if test -z "$CXX"; then
     echo >&2 "could not detect C++ compiler with R CMD config"
 fi
 
-CMAKE_C_COMPILER=$CC    ; echo set CMAKE_C_COMPILER=$CC    ; export CMAKE_C_COMPILER
-CMAKE_CXX_COMPILER=$CXX ; echo set CMAKE_CXX_COMPILER=$CXX ; export CMAKE_CXX_COMPILER
+#CMAKE_C_COMPILER="$CC"    ; echo set CMAKE_C_COMPILER=$CC    ; export CMAKE_C_COMPILER
+#CMAKE_CXX_COMPILER="$CXX" ; echo set CMAKE_CXX_COMPILER=$CXX ; export CMAKE_CXX_COMPILER
 
 # set CMAKE_C/CXX_FLAGS and prepend CPPFLAGS
 CMAKE_C_FLAGS="$CPPFLAGS $CFLAGS"     ; echo set CMAKE_C_FLAGS="$CPPFLAGS $CFLAGS"    ; export CMAKE_C_FLAGS
