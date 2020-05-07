@@ -17,12 +17,23 @@ echo == $SHELL
 
 # Check cmake
 echo == cmake:
+
 which cmake
 if [ $? -ne 0 ]; then
-    echo >&2 "cmake is not installed."
-    exit 1
+    echo >&2 "cmake is not in PATH, try looking for /Applications/CMake.app/Contents/bin/cmake"
+    ## This is the cmake path on MacOS if installed via dmg, which is also used
+    ## on CRAN's Mac builder.
+    CMAKE_BIN="/Applications/CMake.app/Contents/bin/cmake"
+    which $CMAKE_BIN
+    if [ $? -ne 0 ]; then
+        echo >&2 "cmake can not be found"
+        exit 1
+    fi
+else
+    CMAKE_BIN="cmake"
 fi
-cmake --version
+
+$CMAKE_BIN --version
 
 ## Setting some environment variables
 
@@ -59,7 +70,7 @@ CMAKE_CXX_FLAGS="$CPPFLAGS $CXXFLAGS" ; echo set CMAKE_CXX_FLAGS="$CPPFLAGS $CXX
 
 # LDFLAGS https://cmake.org/cmake/help/latest/envvar/LDFLAGS.html
 
-#if cmake --find-package -DNAME=SymEngine -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=LINK >/dev/null 2>/dev/null; then
+#if $CMAKE_BIN --find-package -DNAME=SymEngine -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=LINK >/dev/null 2>/dev/null; then
 #    IF_SYMENGINE_EXISTS=true
 #else
 #    IF_SYMENGINE_EXISTS=false
@@ -84,7 +95,7 @@ if [ -z "$SymEngine_DIR" ]; then
     PKG_DIR=`pwd`
     cd src/upstream
 
-    cmake \
+    $CMAKE_BIN \
         -DCMAKE_BUILD_TYPE=Release \
         -DWITH_BFD=no \
         -DWITH_SYMENGINE_ASSERT=no \
@@ -124,9 +135,9 @@ echo == config PKG_LIBS and PKG_CPPFLAGS for Makevars
 
 ## Running cmake --find-package under src/
 cd src
-PKG_LIBS_VALUE=`SymEngine_DIR="$SymEngine_DIR" cmake --find-package -DNAME=SymEngine -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=LINK`
+PKG_LIBS_VALUE=`SymEngine_DIR="$SymEngine_DIR" $CMAKE_BIN --find-package -DNAME=SymEngine -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=LINK`
 status_PKG_LIBS=$?
-PKG_CPPFLAGS_VALUE=`SymEngine_DIR="$SymEngine_DIR" cmake --find-package -DNAME=SymEngine -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=COMPILE`
+PKG_CPPFLAGS_VALUE=`SymEngine_DIR="$SymEngine_DIR" $CMAKE_BIN --find-package -DNAME=SymEngine -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=COMPILE`
 status_PKG_CPPFLAGS=$?
 cd ..
 
