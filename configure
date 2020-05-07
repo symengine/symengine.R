@@ -20,7 +20,7 @@ echo == cmake:
 
 which cmake
 if [ $? -ne 0 ]; then
-    echo >&2 "cmake is not in PATH, try looking for /Applications/CMake.app/Contents/bin/cmake"
+    echo "cmake is not in PATH, try looking for /Applications/CMake.app/Contents/bin/cmake"
     ## This is the cmake path on MacOS if installed via dmg, which is also used
     ## on CRAN's Mac builder.
     CMAKE_BIN="/Applications/CMake.app/Contents/bin/cmake"
