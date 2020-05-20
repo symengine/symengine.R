@@ -16,7 +16,6 @@ Imports:
     Rcpp
 Suggests:
     crayon,
-    pracma,
     odeintr,
     testthat (>= 2.1.0),
     knitr,
