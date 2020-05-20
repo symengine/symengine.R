@@ -56,18 +56,22 @@ asLanguageTable <- as.environment(list(
     ASinh = function(s) bquote(asinh( .(asLanguage(s4basic_get_args(s)[[1]])) )),
     ACosh = function(s) bquote(acosh( .(asLanguage(s4basic_get_args(s)[[1]])) )),
     ATanh = function(s) bquote(atanh( .(asLanguage(s4basic_get_args(s)[[1]])) )),
-    #Cot   = function(s) stop("TODO"),
-    #Csc   = function(s) stop("TODO"),
-    #Sec   = function(s) stop("TODO"),
-    #ACot  = function(s) stop("TODO"),
-    #ACsc  = function(s) stop("TODO"),
-    #ASec  = function(s) stop("TODO"),
-    #Coth  = function(s) stop("TODO"),
-    #Csch  = function(s) stop("TODO"),
-    #Sech  = function(s) stop("TODO"),
-    #ACoth = function(s) stop("TODO"),
-    #ACsch = function(s) stop("TODO"),
-    #ASech = function(s) stop("TODO"),
+    
+    #### These functions are not in base R, but may be provided by 'pracma' ####
+    Cot   = function(s) bquote(cot   (.(asLanguage(s4basic_get_args(s)[[1]])) )),
+    Csc   = function(s) bquote(csc   (.(asLanguage(s4basic_get_args(s)[[1]])) )),
+    Sec   = function(s) bquote(sec   (.(asLanguage(s4basic_get_args(s)[[1]])) )),
+    ACot  = function(s) bquote(acot  (.(asLanguage(s4basic_get_args(s)[[1]])) )),
+    ACsc  = function(s) bquote(acsc  (.(asLanguage(s4basic_get_args(s)[[1]])) )),
+    ASec  = function(s) bquote(asec  (.(asLanguage(s4basic_get_args(s)[[1]])) )),
+    Coth  = function(s) bquote(coth  (.(asLanguage(s4basic_get_args(s)[[1]])) )),
+    Csch  = function(s) bquote(csch  (.(asLanguage(s4basic_get_args(s)[[1]])) )),
+    Sech  = function(s) bquote(sech  (.(asLanguage(s4basic_get_args(s)[[1]])) )),
+    ACoth = function(s) bquote(acoth (.(asLanguage(s4basic_get_args(s)[[1]])) )),
+    ACsch = function(s) bquote(acsch (.(asLanguage(s4basic_get_args(s)[[1]])) )),
+    ASech = function(s) bquote(asech (.(asLanguage(s4basic_get_args(s)[[1]])) )),
+    ############################################################################
+    
     ATan2 = function(s) {
         args <- s4basic_get_args(s)
         bquote(atan2( .(asLanguage(args[[1]])), .(asLanguage(args[[2]])) ))
