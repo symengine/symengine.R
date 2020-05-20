@@ -236,8 +236,8 @@ setMethod("[[", c(x = "DenseMatrix"),
             i <- normalizeSingleBracketSubscript(i, seq_len(length(x)))
             if (length(i) != 1L)
                 stop("Attempt to select more/less than one element")
-            ## Select as if it is `as(x, "VecBasic)`
-            return(s4vecbasic_get(x, i))
+            ## Should be same with as(x,"VecBasic")[[i]]
+            return(s4binding_subset(x, i, TRUE))
         }
         
         size <- length(i) * length(j)
