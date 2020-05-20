@@ -98,6 +98,15 @@ test_that("Single bracket subscript replacing", {
     # TODO: check address of v
 })
 
+test_that("Double bracket subscript subsetting", {
+    ## Simple case
+    v <- Vector(1:3)
+    expect_true(v[[3]] == S(3L))
+
+    ## Check out-bounds
+    expect_error(v[[4]])
+})
+
 test_that("as.character(v)", {
     v <- Vector("x", 42L, "x^t", 33)
     res <- as.character(v)

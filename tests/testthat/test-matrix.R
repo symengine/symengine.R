@@ -119,6 +119,15 @@ test_that("Single bracket subscript replacing", {
     expect_denseMatrix_equal(m2, Matrix(list("q", "y", 1, 3L), 2, 2))
 })
 
+test_that("Double bracket subscript subsetting", {
+    ## Simple case
+    m <- Matrix(1:6, 2)
+    expect_true(m[[3]] == S(3L))
+
+    ## Check out-bounds
+    expect_error(m[[10]])
+})
+
 test_that("rbind and cbind", {
     v1 <- Vector(1, 2, 3)
     v2 <- Vector(1, 2, 3, 4)
