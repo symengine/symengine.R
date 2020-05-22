@@ -1,11 +1,17 @@
 
-echo ====== configuring symengine R package ======
-
-# Check working directory
-if [ ! -f ./DESCRIPTION ]; then
-    echo Running in wrong directory `pwd`
-    exit 1
-fi
+echo '==================================================================='
+echo '    Rtools40 is required for building symengine from source.'
+echo '    You may install the dependencies with:'
+echo '        pacman -S mingw-w64-{i686,x86_64}-cmake'
+echo '        pacman -S mingw-w64-{i686,x86_64}-gmp'
+echo '        pacman -S mingw-w64-{i686,x86_64}-mpfr'
+echo '    Then ensure putting Rtools40 into PATH, for example:'
+echo '        Sys.setenv(PATH=paste("C:/Rtools40/bin", Sys.getenv("PATH", sep=";")))           '
+echo '        Sys.setenv(PATH=paste("C:/Rtools40/mingw64/bin", Sys.getenv("PATH", sep="PATH")))'
+echo '    which can be verified with:'
+echo '        Sys.which("cmake")'
+echo '==================================================================='
+echo
 
 echo == current working directory
 echo `pwd`
@@ -14,22 +20,17 @@ echo `pwd`
 echo == $SHELL
 #$SHELL --version
 
+# Check PATH
+echo == PATH
+echo $PATH
+
 # Check cmake
 echo == cmake:
+CMAKE_BIN=`which cmake`
 
-which cmake
 if [ $? -ne 0 ]; then
-    echo "cmake is not in PATH, try looking for /Applications/CMake.app/Contents/bin/cmake"
-    ## This is the cmake path on MacOS if installed via dmg, which is also used
-    ## on CRAN's Mac builder.
-    CMAKE_BIN="/Applications/CMake.app/Contents/bin/cmake"
-    which $CMAKE_BIN
-    if [ $? -ne 0 ]; then
-        echo >&2 "cmake can not be found"
-        exit 1
-    fi
-else
-    CMAKE_BIN="cmake"
+    echo Can not find cmake
+    exit 1
 fi
 
 $CMAKE_BIN --version
@@ -93,6 +94,12 @@ if [ -z "$SymEngine_DIR" ]; then
 
     PKG_DIR=`pwd`
     cd src/upstream
+
+    $CMAKE_BIN -G "MinGW Makefiles" .
+    
+    if [ $? -ne 0 ]; then
+        exit 1
+    fi
 
     $CMAKE_BIN \
         -DCMAKE_BUILD_TYPE=Release \
