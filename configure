@@ -96,6 +96,9 @@ if [ -z "$SymEngine_DIR" ]; then
     cd src/upstream
 
     $CMAKE_BIN \
+        -DCMAKE_AR=`R CMD config AR` \
+        -DCMAKE_RANLIB=`R CMD config RANLIB` \
+        \
         -DCMAKE_BUILD_TYPE=Release \
         -DWITH_BFD=no \
         -DWITH_SYMENGINE_ASSERT=no \
