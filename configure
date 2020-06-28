@@ -145,13 +145,13 @@ echo set PKG_LIBS=$PKG_LIBS_VALUE
 echo set PKG_CPPFLAGS=$PKG_CPPFLAGS_VALUE
 
 if [ "$status_PKG_LIBS" -ne 0 ]; then
-    echo >&2 "generating PKG_LIBS failed with 'cmake --find-package', new reset using fallback value"
-    PKG_LIBS_VALUE="-Lupstream/symengine -lsymengine -lgmp -lmpfr"
+    echo >&2 "generating PKG_LIBS failed with 'cmake --find-package', now reset using fallback value"
+    PKG_LIBS_VALUE="-Lupstream/symengine -lsymengine -lmpfr -lgmp"
     echo reset PKG_LIBS=$PKG_LIBS_VALUE
 fi
 
 if [ "$status_PKG_CPPFLAGS" -ne 0 ]; then
-    echo >&2 "generating PKG_CPPFLAGS failed with 'cmake --find-package', new reset using fallback value"
+    echo >&2 "generating PKG_CPPFLAGS failed with 'cmake --find-package', now reset using fallback value"
     PKG_CPPFLAGS_VALUE="-Iupstream"
     echo reset PKG_CPPFLAGS=$PKG_CPPFLAGS_VALUE
 fi
@@ -159,9 +159,10 @@ fi
 echo == generating src/Makevars
 
 cat src/Makevars.in | \
-    sed "s:@@@PKG_LIBS@@@:$PKG_LIBS_VALUE:g" | \
-    sed "s:@@@PKG_CPPFLAGS@@@:$PKG_CPPFLAGS_VALUE:g" | \
-    sed "s:@@@DO_UPSTREAM@@@:$DO_UPSTREAM:g" \
+    sed "s;@@@PKG_LIBS@@@;$PKG_LIBS_VALUE;g" | \
+    sed "s;@@@PKG_CPPFLAGS@@@;$PKG_CPPFLAGS_VALUE;g" | \
+    sed "s;@@@DO_UPSTREAM@@@;$DO_UPSTREAM;g" | \
+    sed "s;@@@NATIVE_MAKE_BIN@@@;make;g" \
     > src/Makevars
 
 echo ====== configuring symengine R package DONE ======
