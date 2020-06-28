@@ -12,13 +12,22 @@ function win_help() {
     echo '==================================================================='
 }
 
+: ${R_HOME=`R RHOME`}
+if test -z "${R_HOME}"; then
+    echo >&2 "could not determine R_HOME"
+    exit 1
+else
+    echo == R_HOME
+    echo $R_HOME
+fi
+
 #### Check cmake ###################
 echo == cmake:
 
 if which cmake; then
     CMAKE_BIN=`which cmake`
 else
-    gcc_bin=`R CMD config CC`          # /mingw64/bin/gcc or /mingw64/bin/gcc
+    gcc_bin=`"${R_HOME}/bin/R" CMD config CC`          # /mingw64/bin/gcc or /mingw64/bin/gcc
     CMAKE_BIN=`dirname $gcc_bin`/cmake # try to use cmake under the same directory
     if ! [ -f "$CMAKE_BIN" ]; then
         echo Unable to find cmake at inferred path: $CMAKE_BIN
@@ -36,7 +45,7 @@ if which mingw32-make; then
     NATIVE_MAKE_BIN=`which mingw32-make`
 else
     # Infer native make path
-    gcc_bin=`R CMD config CC`
+    gcc_bin=`"${R_HOME}/bin/R" CMD config CC`
     NATIVE_MAKE_BIN=`dirname $gcc_bin`/mingw32-make
     if ! [ -f "$NATIVE_MAKE_BIN" ]; then
         echo Unable to find make at inferred path: $NATIVE_MAKE_BIN
@@ -48,15 +57,6 @@ fi
 $NATIVE_MAKE_BIN --version
 
 #### Setting some environment variables #########
-
-: ${R_HOME=`R RHOME`}
-if test -z "${R_HOME}"; then
-    echo >&2 "could not determine R_HOME"
-    exit 1
-else
-    echo == R_HOME
-    echo $R_HOME
-fi
 
 echo == setting environment variables:
 
@@ -90,10 +90,10 @@ fi
 
 echo ====== running cmake
 
-AR=`R CMD config AR`
+AR=`"${R_HOME}/bin/R" CMD config AR`
 AR=`which $AR`
 
-RANLIB=`R CMD config RANLIB`
+RANLIB=`"${R_HOME}/bin/R" CMD config RANLIB`
 RANLIB=`which $RANLIB`
 
 PKG_DIR=`pwd`

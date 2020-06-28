@@ -87,10 +87,10 @@ if [ ! -f ./tools/SYMENGINE_BUNDLED ]; then
     fi
 fi
 
-AR=`R CMD config AR`
+AR=`"${R_HOME}/bin/R" CMD config AR`
 AR=`which $AR`
 
-RANLIB=`R CMD config RANLIB`
+RANLIB=`"${R_HOME}/bin/R" CMD config RANLIB`
 RANLIB=`which $RANLIB`
 
 ## If SymEngine_DIR environment variable is not set, use src/upstream
@@ -167,7 +167,7 @@ fi
 
 echo == generating src/Makevars
 
-MAKE=`R CMD config MAKE`
+MAKE=`"${R_HOME}/bin/R" CMD config MAKE`
 cat src/Makevars.in | \
     sed "s;@@@PKG_LIBS@@@;$PKG_LIBS_VALUE;g" | \
     sed "s;@@@PKG_CPPFLAGS@@@;$PKG_CPPFLAGS_VALUE;g" | \
