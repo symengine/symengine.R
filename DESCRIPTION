@@ -10,7 +10,7 @@ Description:
     for symbolic computation like calculating exact mathematical expressions, solving
     systems of linear equations and code generation.
 Depends:
-    R (>= 3.6)
+    R (>= 4.0)
 Imports:
     methods,
     Rcpp
