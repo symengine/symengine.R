@@ -27,14 +27,26 @@ Then you can install the R package with
 devtools::install_github("symengine/symengine.R")
 ```
 
-On Windows, the dependencies will be downloaded at build time, and you
-can install directly with `devtools`.
+On Windows, you will need
+[Rtools40](https://cran.r-project.org/bin/windows/Rtools/) for building
+the package. The dependencies may be installed in the MSYS2 shell with:
+
+    pacman -S mingw-w64-{i686,x86_64}-cmake
+    pacman -S mingw-w64-{i686,x86_64}-gmp
+    pacman -S mingw-w64-{i686,x86_64}-mpfr
+    pacman -S mingw-w64-{i686,x86_64}-make
+
+Then:
+
+``` r
+devtools::install_github("symengine/symengine.R", INSTALL_opts="--no-multiarch")
+```
 
 Please report any problem installing the package on your system.
 
 ``` r
 library(symengine)
-#> SymEngine Version: 0.5.0
+#> SymEngine Version: 0.6.0
 #>  _____           _____         _         
 #> |   __|_ _ _____|   __|___ ___|_|___ ___ 
 #> |__   | | |     |   __|   | . | |   | -_|
