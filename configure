@@ -87,6 +87,12 @@ if [ ! -f ./tools/SYMENGINE_BUNDLED ]; then
     fi
 fi
 
+AR=`R CMD config AR`
+AR=`which $AR`
+
+RANLIB=`R CMD config RANLIB`
+RANLIB=`which $RANLIB`
+
 ## If SymEngine_DIR environment variable is not set, use src/upstream
 if [ -z "$SymEngine_DIR" ]; then
 
@@ -96,8 +102,8 @@ if [ -z "$SymEngine_DIR" ]; then
     cd src/upstream
 
     $CMAKE_BIN \
-        -DCMAKE_AR=`R CMD config AR` \
-        -DCMAKE_RANLIB=`R CMD config RANLIB` \
+        -DCMAKE_AR=$AR \
+        -DCMAKE_RANLIB=$RANLIB \
         \
         -DCMAKE_BUILD_TYPE=Release \
         -DWITH_BFD=no \

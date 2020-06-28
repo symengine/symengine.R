@@ -90,14 +90,20 @@ fi
 
 echo ====== running cmake
 
+AR=`R CMD config AR`
+AR=`which $AR`
+
+RANLIB=`R CMD config RANLIB`
+RANLIB=`which $RANLIB`
+
 PKG_DIR=`pwd`
 cd src/upstream
 
 $CMAKE_BIN -G "MinGW Makefiles" \
     -DCMAKE_MAKE_PROGRAM="/mingw64/bin/mingw32-make" \
     \
-    -DCMAKE_AR=`R CMD config AR` \
-    -DCMAKE_RANLIB=`R CMD config RANLIB` \
+    -DCMAKE_AR=$AR \
+    -DCMAKE_RANLIB=$RANLIB \
     \
     -DCMAKE_BUILD_TYPE=Release \
     -DWITH_BFD=no \
