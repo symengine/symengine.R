@@ -78,10 +78,14 @@ AR=`which $AR`
 RANLIB=`"${R_HOME}/bin/R" CMD config RANLIB`
 RANLIB=`which $RANLIB`
 
+MAKE=`"${R_HOME}/bin/R" CMD config MAKE`
+MAKE=`which $MAKE`
+
 PKG_DIR=`pwd`
 cd src/upstream
 
 $CMAKE_BIN -G "MSYS Makefiles" \
+    -DCMAKE_MAKE_PROGRAM=$MAKE \
     -DCMAKE_AR=$AR \
     -DCMAKE_RANLIB=$RANLIB \
     \

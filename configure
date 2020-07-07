@@ -93,6 +93,9 @@ AR=`which $AR`
 RANLIB=`"${R_HOME}/bin/R" CMD config RANLIB`
 RANLIB=`which $RANLIB`
 
+MAKE=`"${R_HOME}/bin/R" CMD config MAKE`
+MAKE=`which $MAKE`
+
 ## If SymEngine_DIR environment variable is not set, use src/upstream
 if [ -z "$SymEngine_DIR" ]; then
 
@@ -102,6 +105,7 @@ if [ -z "$SymEngine_DIR" ]; then
     cd src/upstream
 
     $CMAKE_BIN \
+        -DCMAKE_MAKE_PROGRAM=$MAKE \
         -DCMAKE_AR=$AR \
         -DCMAKE_RANLIB=$RANLIB \
         \
