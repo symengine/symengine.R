@@ -38,24 +38,6 @@ fi
 
 $CMAKE_BIN --version
 
-#### Check make ####################
-echo == make:
-    
-if which mingw32-make; then
-    NATIVE_MAKE_BIN=`which mingw32-make`
-else
-    # Infer native make path
-    gcc_bin=`"${R_HOME}/bin/R" CMD config CC`
-    NATIVE_MAKE_BIN=`dirname $gcc_bin`/mingw32-make
-    if ! [ -f "$NATIVE_MAKE_BIN" ]; then
-        echo Unable to find make at inferred path: $NATIVE_MAKE_BIN
-        win_help
-        exit 1
-    fi
-fi
-
-$NATIVE_MAKE_BIN --version
-
 #### Setting some environment variables #########
 
 echo == setting environment variables:
@@ -99,9 +81,7 @@ RANLIB=`which $RANLIB`
 PKG_DIR=`pwd`
 cd src/upstream
 
-$CMAKE_BIN -G "MinGW Makefiles" \
-    -DCMAKE_MAKE_PROGRAM="$NATIVE_MAKE_BIN" \
-    \
+$CMAKE_BIN -G "MSYS Makefiles" \
     -DCMAKE_AR=$AR \
     -DCMAKE_RANLIB=$RANLIB \
     \
@@ -167,8 +147,7 @@ echo == generating src/Makevars
 cat src/Makevars.in | \
     sed "s;@@@PKG_LIBS@@@;$PKG_LIBS_VALUE $PKG_LIBS_VALUE;g" | \
     sed "s;@@@PKG_CPPFLAGS@@@;$PKG_CPPFLAGS_VALUE;g" | \
-    sed "s;@@@DO_UPSTREAM@@@;$DO_UPSTREAM;g" | \
-    sed "s;@@@NATIVE_MAKE_BIN@@@;$NATIVE_MAKE_BIN;g" \
+    sed "s;@@@DO_UPSTREAM@@@;$DO_UPSTREAM;g" \
     > src/Makevars
 
 echo ====== configuring symengine R package DONE ======

@@ -167,12 +167,10 @@ fi
 
 echo == generating src/Makevars
 
-MAKE=`"${R_HOME}/bin/R" CMD config MAKE`
 cat src/Makevars.in | \
     sed "s;@@@PKG_LIBS@@@;$PKG_LIBS_VALUE;g" | \
     sed "s;@@@PKG_CPPFLAGS@@@;$PKG_CPPFLAGS_VALUE;g" | \
-    sed "s;@@@DO_UPSTREAM@@@;$DO_UPSTREAM;g" | \
-    sed "s;@@@NATIVE_MAKE_BIN@@@;$MAKE;g" \
+    sed "s;@@@DO_UPSTREAM@@@;$DO_UPSTREAM;g" \
     > src/Makevars
 
 echo ====== configuring symengine R package DONE ======
