@@ -34,7 +34,6 @@ the package. The dependencies may be installed in the MSYS2 shell with:
     pacman -S mingw-w64-{i686,x86_64}-cmake
     pacman -S mingw-w64-{i686,x86_64}-gmp
     pacman -S mingw-w64-{i686,x86_64}-mpfr
-    pacman -S mingw-w64-{i686,x86_64}-make
 
 Then:
 

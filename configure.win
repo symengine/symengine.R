@@ -6,7 +6,6 @@ function win_help() {
     echo '        pacman -S mingw-w64-{i686,x86_64}-cmake'
     echo '        pacman -S mingw-w64-{i686,x86_64}-gmp'
     echo '        pacman -S mingw-w64-{i686,x86_64}-mpfr'
-    echo '        pacman -S mingw-w64-{i686,x86_64}-make'
     echo '    And ensure putting Rtools40 into PATH, for example:'
     echo '        Sys.setenv(PATH=paste("C:/Rtools40/usr/bin", Sys.getenv("PATH"), sep=";"))'
     echo '==================================================================='

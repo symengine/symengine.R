@@ -42,7 +42,6 @@ On Windows, you will need [Rtools40](https://cran.r-project.org/bin/windows/Rtoo
 pacman -S mingw-w64-{i686,x86_64}-cmake
 pacman -S mingw-w64-{i686,x86_64}-gmp
 pacman -S mingw-w64-{i686,x86_64}-mpfr
-pacman -S mingw-w64-{i686,x86_64}-make
 ```
 
 Then:
