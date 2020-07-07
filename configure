@@ -87,6 +87,12 @@ if [ ! -f ./tools/SYMENGINE_BUNDLED ]; then
     fi
 fi
 
+AR=`"${R_HOME}/bin/R" CMD config AR`
+AR=`which $AR`
+
+RANLIB=`"${R_HOME}/bin/R" CMD config RANLIB`
+RANLIB=`which $RANLIB`
+
 ## If SymEngine_DIR environment variable is not set, use src/upstream
 if [ -z "$SymEngine_DIR" ]; then
 
@@ -96,6 +102,9 @@ if [ -z "$SymEngine_DIR" ]; then
     cd src/upstream
 
     $CMAKE_BIN \
+        -DCMAKE_AR=$AR \
+        -DCMAKE_RANLIB=$RANLIB \
+        \
         -DCMAKE_BUILD_TYPE=Release \
         -DWITH_BFD=no \
         -DWITH_SYMENGINE_ASSERT=no \
@@ -146,7 +155,7 @@ echo set PKG_CPPFLAGS=$PKG_CPPFLAGS_VALUE
 
 if [ "$status_PKG_LIBS" -ne 0 ]; then
     echo >&2 "generating PKG_LIBS failed with 'cmake --find-package', new reset using fallback value"
-    PKG_LIBS_VALUE="-Lupstream/symengine -lsymengine -lgmp -lmpfr"
+    PKG_LIBS_VALUE="-Lupstream/symengine -lsymengine -lmpfr -lgmp"
     echo reset PKG_LIBS=$PKG_LIBS_VALUE
 fi
 
