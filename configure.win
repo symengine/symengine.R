@@ -100,7 +100,7 @@ PKG_DIR=`pwd`
 cd src/upstream
 
 $CMAKE_BIN -G "MinGW Makefiles" \
-    -DCMAKE_MAKE_PROGRAM="/mingw64/bin/mingw32-make" \
+    -DCMAKE_MAKE_PROGRAM="$NATIVE_MAKE_BIN" \
     \
     -DCMAKE_AR=$AR \
     -DCMAKE_RANLIB=$RANLIB \
