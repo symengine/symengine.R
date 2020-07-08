@@ -2,6 +2,8 @@
 
 set -x
 
+rm -r cmakebuild*
+
 rm    ./src/Makevars
 rm    ./src/*.o
 rm    ./src/*.so

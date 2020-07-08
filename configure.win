@@ -84,6 +84,8 @@ PKG_DIR=`pwd`
 cd src/upstream
 
 $CMAKE_BIN -G "MSYS Makefiles" \
+    -B ../../cmakebuild${R_ARCH} \
+    \
     -DCMAKE_MAKE_PROGRAM=$MAKE \
     -DCMAKE_AR=$AR \
     -DCMAKE_RANLIB=$RANLIB \
@@ -114,7 +116,7 @@ fi
 
 cd $PKG_DIR
 
-SymEngine_DIR="$PKG_DIR"/src/upstream
+SymEngine_DIR="$PKG_DIR"/cmakebuild${R_ARCH}
 echo == setting SymEngine_DIR
 echo $SymEngine_DIR
 
@@ -135,13 +137,13 @@ echo set PKG_CPPFLAGS=$PKG_CPPFLAGS_VALUE
 
 if [ "$status_PKG_LIBS" -ne 0 ]; then
     echo >&2 "generating PKG_LIBS failed with 'cmake --find-package', now reset using fallback value"
-    PKG_LIBS_VALUE="-Lupstream/symengine -lsymengine -lmpfr -lgmp"
+    PKG_LIBS_VALUE="-L../cmakebuild${R_ARCH}/symengine -lsymengine -lmpfr -lgmp"
     echo reset PKG_LIBS=$PKG_LIBS_VALUE
 fi
 
 if [ "$status_PKG_CPPFLAGS" -ne 0 ]; then
     echo >&2 "generating PKG_CPPFLAGS failed with 'cmake --find-package', now reset using fallback value"
-    PKG_CPPFLAGS_VALUE="-Iupstream"
+    PKG_CPPFLAGS_VALUE="-I../src/upstream -I../cmakebuild${R_ARCH}"
     echo reset PKG_CPPFLAGS=$PKG_CPPFLAGS_VALUE
 fi
 
