@@ -105,6 +105,8 @@ if [ -z "$SymEngine_DIR" ]; then
     cd src/upstream
 
     $CMAKE_BIN \
+        -DCMAKE_INSTALL_PREFIX="$PKG_DIR"/inst/cpplib${R_ARCH} \
+        \
         -B ../../cmakebuild${R_ARCH} \
         \
         -DCMAKE_MAKE_PROGRAM=$MAKE \
@@ -129,6 +131,8 @@ if [ -z "$SymEngine_DIR" ]; then
         -DBUILD_BENCHMARKS=no \
         -DBUILD_SHARED_LIBS=no \
         -DWITH_COTIRE=no \
+        \
+        -DWITH_SYMENGINE_THREAD_SAFE=yes \
         .
 
     if [ $? -ne 0 ]; then

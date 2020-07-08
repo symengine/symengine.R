@@ -84,6 +84,8 @@ PKG_DIR=`pwd`
 cd src/upstream
 
 $CMAKE_BIN -G "MSYS Makefiles" \
+    -DCMAKE_INSTALL_PREFIX="$PKG_DIR"/inst/cpplib${R_ARCH} \
+    \
     -B ../../cmakebuild${R_ARCH} \
     \
     -DCMAKE_MAKE_PROGRAM=$MAKE \
@@ -108,6 +110,8 @@ $CMAKE_BIN -G "MSYS Makefiles" \
     -DBUILD_BENCHMARKS=no \
     -DBUILD_SHARED_LIBS=no \
     -DWITH_COTIRE=no \
+    \
+    -DWITH_SYMENGINE_THREAD_SAFE=yes \
     .
 
 if [ $? -ne 0 ]; then

@@ -12,4 +12,6 @@ all: $(SHLIB)
 $(OBJECTS): @@@DO_UPSTREAM@@@
 
 do_upstream:
-	@(cd ../cmakebuild${R_ARCH} && $(MAKE))
+	## 'make install' to put a copy of header files and static library
+	## to "inst/cpplib${R_ARCH}".
+	@(cd ../cmakebuild${R_ARCH} && $(MAKE) && $(MAKE) install)
