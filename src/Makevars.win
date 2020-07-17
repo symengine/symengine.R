@@ -1,0 +1,16 @@
+
+CXX_STD = CXX11
+
+PKG_LIBS = -L../cmakebuild${R_ARCH}/symengine -lsymengine -lmpfr -lgmp
+
+PKG_CPPFLAGS = -I../src/upstream -I../cmakebuild${R_ARCH}
+
+.PHONY: all do_upstream
+
+all: $(SHLIB)
+
+$(OBJECTS): do_upstream
+
+do_upstream:
+	@(cd .. && ./tools/wrapped_configure.win && \
+	cd cmakebuild${R_ARCH} && $(MAKE) && $(MAKE) install)

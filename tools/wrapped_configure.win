@@ -1,0 +1,165 @@
+
+function win_help() {
+    echo '==================================================================='
+    echo '    Rtools 40 is required for building symengine on Windows'
+    echo '    You may install the dependencies with:'
+    echo '        pacman -S mingw-w64-{i686,x86_64}-cmake'
+    echo '        pacman -S mingw-w64-{i686,x86_64}-gmp'
+    echo '        pacman -S mingw-w64-{i686,x86_64}-mpfr'
+    echo '    And ensure putting Rtools40 into PATH, for example:'
+    echo '        Sys.setenv(PATH=paste("C:/Rtools40/usr/bin", Sys.getenv("PATH"), sep=";"))'
+    echo '==================================================================='
+}
+
+: ${R_HOME=`R RHOME`}
+if test -z "${R_HOME}"; then
+    echo >&2 "could not determine R_HOME"
+    exit 1
+else
+    echo == R_HOME
+    echo $R_HOME
+fi
+
+#### Check cmake ###################
+echo == cmake:
+
+if which cmake; then
+    CMAKE_BIN=`which cmake`
+else
+    gcc_bin=`"${R_HOME}/bin/R" CMD config CC`          # /mingw64/bin/gcc or /mingw64/bin/gcc
+    CMAKE_BIN=`dirname $gcc_bin`/cmake # try to use cmake under the same directory
+    if ! [ -f "$CMAKE_BIN" ]; then
+        echo Unable to find cmake at inferred path: $CMAKE_BIN
+        win_help
+        exit 1
+    fi
+fi
+
+$CMAKE_BIN --version
+
+#### Setting some environment variables #########
+
+echo == setting environment variables:
+
+CC=`"${R_HOME}/bin/R" CMD config CC`                   ;  echo set CC=$CC                   ; export CC
+CFLAGS=`"${R_HOME}/bin/R" CMD config CFLAGS`           ;  echo set CFLAGS=$CFLAGS           ; export CFLAGS
+CPICFLAGS=`"${R_HOME}/bin/R" CMD config CPICFLAGS`     ;  echo set CPICFLAGS=$CPICFLAGS     ; export CPICFLAGS
+CXX=`"${R_HOME}/bin/R" CMD config CXX`                 ;  echo set CXX=$CXX                 ; export CXX
+CXXFLAGS=`"${R_HOME}/bin/R" CMD config CXXFLAGS`       ;  echo set CXXFLAGS=$CXXFLAGS       ; export CXXFLAGS
+CXXPICFLAGS=`"${R_HOME}/bin/R" CMD config CXXPICFLAGS` ;  echo set CXXPICFLAGS=$CXXPICFLAGS ; export CXXPICFLAGS
+CPPFLAGS=`"${R_HOME}/bin/R" CMD config CPPFLAGS`       ;  echo set CPPFLAGS=$CPPFLAGS       ; export CPPFLAGS
+LDFLAGS=`"${R_HOME}/bin/R" CMD config LDFLAGS`         ;  echo set LDFLAGS=$LDFLAGS         ; export LDFLAGS
+
+if test -z "$CXX"; then
+    echo >&2 "could not detect C++ compiler with R CMD config"
+fi
+
+# set CMAKE_C/CXX_FLAGS and prepend CPPFLAGS
+CMAKE_C_FLAGS="$CPPFLAGS $CFLAGS"     ; echo set CMAKE_C_FLAGS="$CPPFLAGS $CFLAGS"    ; export CMAKE_C_FLAGS
+CMAKE_CXX_FLAGS="$CPPFLAGS $CXXFLAGS" ; echo set CMAKE_CXX_FLAGS="$CPPFLAGS $CXXFLAGS"; export CMAKE_CXX_FLAGS
+
+## Use ./tools/SYMENGINE_BUNDLED file as indicator so that
+## this won't run on CRAN machine.
+if [ ! -f ./tools/SYMENGINE_BUNDLED ]; then
+    echo ====== bundling SymEngine source
+    ./tools/bundle_symengine_source.sh
+    if [ $? -ne 0 ]; then
+        echo "./tools/bundle_symengine_source.sh exited with non-zero status"
+        exit 1
+    fi
+fi
+
+echo ====== running cmake
+
+AR=`"${R_HOME}/bin/R" CMD config AR`
+AR=`which $AR`
+
+RANLIB=`"${R_HOME}/bin/R" CMD config RANLIB`
+RANLIB=`which $RANLIB`
+
+MAKE=`"${R_HOME}/bin/R" CMD config MAKE`
+MAKE=`which $MAKE`
+
+PKG_DIR=`pwd`
+CMAKE_BUILD_DIR="${PKG_DIR}/cmakebuild${R_ARCH}"
+
+cd src/upstream
+mkdir -p "$CMAKE_BUILD_DIR"
+
+$CMAKE_BIN -G "MSYS Makefiles" \
+    -DCMAKE_INSTALL_PREFIX="$PKG_DIR"/inst/cpplib${R_ARCH} \
+    \
+    -B "${CMAKE_BUILD_DIR}" \
+    \
+    -DCMAKE_MAKE_PROGRAM=$MAKE \
+    -DCMAKE_AR=$AR \
+    -DCMAKE_RANLIB=$RANLIB \
+    \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DWITH_BFD=no \
+    -DWITH_SYMENGINE_ASSERT=no \
+    -DWITH_ECM=no \
+    -DWITH_PRIMESIEVE=no \
+    -DWITH_FLINT=no \
+    -DWITH_ARB=no \
+    -DWITH_TCMALLOC=no \
+    -DWITH_OPENMP=no \
+    -DWITH_PIRANHA=no \
+    -DWITH_LLVM=no \
+    -DWITH_MPFR=yes \
+    -DWITH_MPC=no \
+    -DINTEGER_CLASS=gmp \
+    -DBUILD_TESTS=no \
+    -DBUILD_BENCHMARKS=no \
+    -DBUILD_SHARED_LIBS=no \
+    -DWITH_COTIRE=no \
+    \
+    -DWITH_SYMENGINE_THREAD_SAFE=yes \
+    .
+
+if [ $? -ne 0 ]; then
+    exit 1
+fi
+
+cd $PKG_DIR
+
+# SymEngine_DIR="$PKG_DIR"/cmakebuild${R_ARCH}
+# echo == setting SymEngine_DIR
+# echo $SymEngine_DIR
+# 
+# DO_UPSTREAM="do_upstream"
+# 
+# echo == config PKG_LIBS and PKG_CPPFLAGS for Makevars
+# 
+# ## Running cmake --find-package under src/
+# cd src
+# PKG_LIBS_VALUE=`SymEngine_DIR="$SymEngine_DIR" $CMAKE_BIN --find-package -DNAME=SymEngine -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=LINK`
+# status_PKG_LIBS=$?
+# PKG_CPPFLAGS_VALUE=`SymEngine_DIR="$SymEngine_DIR" $CMAKE_BIN --find-package -DNAME=SymEngine -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=COMPILE`
+# status_PKG_CPPFLAGS=$?
+# cd ..
+# 
+# echo set PKG_LIBS=$PKG_LIBS_VALUE
+# echo set PKG_CPPFLAGS=$PKG_CPPFLAGS_VALUE
+# 
+# if [ "$status_PKG_LIBS" -ne 0 ]; then
+#     echo >&2 "generating PKG_LIBS failed with 'cmake --find-package', now reset using fallback value"
+#     PKG_LIBS_VALUE="-L../cmakebuild${R_ARCH}/symengine -lsymengine -lmpfr -lgmp"
+#     echo reset PKG_LIBS=$PKG_LIBS_VALUE
+# fi
+# 
+# if [ "$status_PKG_CPPFLAGS" -ne 0 ]; then
+#     echo >&2 "generating PKG_CPPFLAGS failed with 'cmake --find-package', now reset using fallback value"
+#     PKG_CPPFLAGS_VALUE="-I../src/upstream -I../cmakebuild${R_ARCH}"
+#     echo reset PKG_CPPFLAGS=$PKG_CPPFLAGS_VALUE
+# fi
+# 
+# echo == generating src/Makevars
+# 
+# cat src/Makevars.in | \
+#     sed "s;@@@PKG_LIBS@@@;$PKG_LIBS_VALUE $PKG_LIBS_VALUE;g" | \
+#     sed "s;@@@PKG_CPPFLAGS@@@;$PKG_CPPFLAGS_VALUE;g" | \
+#     sed "s;@@@DO_UPSTREAM@@@;$DO_UPSTREAM;g" \
+#     > src/Makevars
+
+echo ====== configuring symengine R package DONE ======
