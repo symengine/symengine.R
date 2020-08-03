@@ -81,7 +81,7 @@ MAKE=`"${R_HOME}/bin/R" CMD config MAKE`
 MAKE=`which $MAKE`
 
 PKG_DIR=`pwd`
-CMAKE_BUILD_DIR="${PKG_DIR}/cmakebuild${R_ARCH}"
+CMAKE_BUILD_DIR="${PKG_DIR}/cmakebuild${WIN}"
 CMAKE_SOURCE_DIR="${PKG_DIR}/src/upstream"
 
 mkdir -p "$CMAKE_BUILD_DIR"
@@ -89,7 +89,7 @@ cd "$CMAKE_BUILD_DIR"
 
 "$CMAKE_BIN" -G "MSYS Makefiles" \
     \
-    -DCMAKE_INSTALL_PREFIX="$PKG_DIR"/inst/cpplib${R_ARCH} \
+    -DCMAKE_INSTALL_PREFIX="$PKG_DIR"/inst/cpplib${WIN} \
     \
     -DCMAKE_MAKE_PROGRAM="$MAKE" \
     -DCMAKE_AR="$AR" \
