@@ -107,11 +107,11 @@ if [ -z "$SymEngine_DIR" ]; then
     $CMAKE_BIN \
         -DCMAKE_INSTALL_PREFIX="$PKG_DIR"/inst/cpplib${R_ARCH} \
         \
-        -B ../../cmakebuild${R_ARCH} \
+        -B "../../cmakebuild${R_ARCH}" \
         \
-        -DCMAKE_MAKE_PROGRAM=$MAKE \
-        -DCMAKE_AR=$AR \
-        -DCMAKE_RANLIB=$RANLIB \
+        -DCMAKE_MAKE_PROGRAM="$MAKE" \
+        -DCMAKE_AR="$AR" \
+        -DCMAKE_RANLIB="$RANLIB" \
         \
         -DCMAKE_BUILD_TYPE=Release \
         -DWITH_BFD=no \

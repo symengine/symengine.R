@@ -91,9 +91,9 @@ $CMAKE_BIN -G "MSYS Makefiles" \
     \
     -B "${CMAKE_BUILD_DIR}" \
     \
-    -DCMAKE_MAKE_PROGRAM=$MAKE \
-    -DCMAKE_AR=$AR \
-    -DCMAKE_RANLIB=$RANLIB \
+    -DCMAKE_MAKE_PROGRAM="$MAKE" \
+    -DCMAKE_AR="$AR" \
+    -DCMAKE_RANLIB="$RANLIB" \
     \
     -DCMAKE_BUILD_TYPE=Release \
     -DWITH_BFD=no \
