@@ -103,14 +103,13 @@ if [ -z "$SymEngine_DIR" ]; then
 
     PKG_DIR=`pwd`
     CMAKE_BUILD_DIR="${PKG_DIR}/cmakebuild${R_ARCH}"
+    CMAKE_SOURCE_DIR="${PKG_DIR}/src/upstream"
     
-    cd src/upstream
     mkdir -p "$CMAKE_BUILD_DIR"
+    cd "$CMAKE_BUILD_DIR"
 
     $CMAKE_BIN \
         -DCMAKE_INSTALL_PREFIX="$PKG_DIR"/inst/cpplib${R_ARCH} \
-        \
-        -B "$CMAKE_BUILD_DIR" \
         \
         -DCMAKE_MAKE_PROGRAM="$MAKE" \
         -DCMAKE_AR="$AR" \
@@ -136,8 +135,7 @@ if [ -z "$SymEngine_DIR" ]; then
         -DWITH_COTIRE=no \
         \
         -DWITH_SYMENGINE_THREAD_SAFE=yes \
-        .
-
+        "$CMAKE_SOURCE_DIR"
     if [ $? -ne 0 ]; then
         exit 1
     fi
