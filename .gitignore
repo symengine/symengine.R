@@ -10,3 +10,6 @@ src/CMakeFiles
 CMakeFiles
 inst/doc
 src/Makevars
+docs
+/src/upstream/
+/tools/SYMENGINE_BUNDLED
