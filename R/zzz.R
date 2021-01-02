@@ -25,37 +25,12 @@ library.dynam_2 <- function(chname, package, lib.loc, ...) {
     set_default_option_if_not("symengine.latex.center", FALSE)
 
     ## TODO: use assignInMyNamespace to update constants?
-    if (.Platform$OS.type == "windows")
-        return(.onLoad.windows(libname, pkgname))
     
     library.dynam_2("symengine", pkgname, libname)
 }
 
 .onUnload <- function(libpath) {
-    if (.Platform$OS.type == "windows")
-        return(.onUnload.windows(libpath))
-    
     library.dynam.unload("symengine", libpath)
-}
-
-.onLoad.windows <- function(libname, pkgname) {
-    if (.Platform$r_arch == "")
-        library.dynam_2(sprintf("../mylibs/%s/libgmp-10", .Platform$r_arch), pkgname, libname)
-    else
-        library.dynam_2(sprintf("../../mylibs/%s/libgmp-10", .Platform$r_arch), pkgname, libname)
-    ## Currently using static library as workaround
-    #library.dynam_2("libsymengine", pkgname, libname)
-    library.dynam_2("symengine"   , pkgname, libname)
-}
-
-.onUnload.windows <- function(libpath) {
-    library.dynam.unload("symengine"   , libpath)
-    ## Currently using static library as workaround
-    #library.dynam.unload("libsymengine", libpath)
-    if (.Platform$r_arch == "")
-        library.dynam.unload(sprintf("../mylibs/%s/libgmp-10", .Platform$r_arch), libpath)
-    else
-        library.dynam.unload(sprintf("../../mylibs/%s/libgmp-10", .Platform$r_arch), libpath)
 }
 
 .onAttach <- function (libname, pkgname) {

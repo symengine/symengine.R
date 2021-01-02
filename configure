@@ -93,17 +93,27 @@ AR=`which $AR`
 RANLIB=`"${R_HOME}/bin/R" CMD config RANLIB`
 RANLIB=`which $RANLIB`
 
+MAKE=`"${R_HOME}/bin/R" CMD config MAKE`
+MAKE=`which $MAKE`
+
 ## If SymEngine_DIR environment variable is not set, use src/upstream
 if [ -z "$SymEngine_DIR" ]; then
 
     echo ====== running cmake
 
     PKG_DIR=`pwd`
-    cd src/upstream
+    CMAKE_BUILD_DIR="${PKG_DIR}/cmakebuild${WIN}"
+    CMAKE_SOURCE_DIR="${PKG_DIR}/src/upstream"
+    
+    mkdir -p "$CMAKE_BUILD_DIR"
+    cd "$CMAKE_BUILD_DIR"
 
-    $CMAKE_BIN \
-        -DCMAKE_AR=$AR \
-        -DCMAKE_RANLIB=$RANLIB \
+    "$CMAKE_BIN" \
+        -DCMAKE_INSTALL_PREFIX="$PKG_DIR"/inst/cpplib${WIN} \
+        \
+        -DCMAKE_MAKE_PROGRAM="$MAKE" \
+        -DCMAKE_AR="$AR" \
+        -DCMAKE_RANLIB="$RANLIB" \
         \
         -DCMAKE_BUILD_TYPE=Release \
         -DWITH_BFD=no \
@@ -123,15 +133,16 @@ if [ -z "$SymEngine_DIR" ]; then
         -DBUILD_BENCHMARKS=no \
         -DBUILD_SHARED_LIBS=no \
         -DWITH_COTIRE=no \
-        .
-
+        \
+        -DWITH_SYMENGINE_THREAD_SAFE=yes \
+        "$CMAKE_SOURCE_DIR"
     if [ $? -ne 0 ]; then
         exit 1
     fi
 
     cd $PKG_DIR
 
-    SymEngine_DIR="$PKG_DIR"/src/upstream
+    SymEngine_DIR="$CMAKE_BUILD_DIR"
     echo == setting SymEngine_DIR
     echo $SymEngine_DIR
     DO_UPSTREAM="do_upstream"
@@ -144,9 +155,9 @@ echo == config PKG_LIBS and PKG_CPPFLAGS for Makevars
 
 ## Running cmake --find-package under src/
 cd src
-PKG_LIBS_VALUE=`SymEngine_DIR="$SymEngine_DIR" $CMAKE_BIN --find-package -DNAME=SymEngine -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=LINK`
+PKG_LIBS_VALUE=`SymEngine_DIR="$SymEngine_DIR" "$CMAKE_BIN" --find-package -DNAME=SymEngine -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=LINK`
 status_PKG_LIBS=$?
-PKG_CPPFLAGS_VALUE=`SymEngine_DIR="$SymEngine_DIR" $CMAKE_BIN --find-package -DNAME=SymEngine -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=COMPILE`
+PKG_CPPFLAGS_VALUE=`SymEngine_DIR="$SymEngine_DIR" "$CMAKE_BIN" --find-package -DNAME=SymEngine -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=COMPILE`
 status_PKG_CPPFLAGS=$?
 cd ..
 
@@ -154,23 +165,23 @@ echo set PKG_LIBS=$PKG_LIBS_VALUE
 echo set PKG_CPPFLAGS=$PKG_CPPFLAGS_VALUE
 
 if [ "$status_PKG_LIBS" -ne 0 ]; then
-    echo >&2 "generating PKG_LIBS failed with 'cmake --find-package', new reset using fallback value"
-    PKG_LIBS_VALUE="-Lupstream/symengine -lsymengine -lmpfr -lgmp"
+    echo >&2 "generating PKG_LIBS failed with 'cmake --find-package', now reset using fallback value"
+    PKG_LIBS_VALUE="-L${CMAKE_BUILD_DIR}/symengine -lsymengine -lmpfr -lgmp"
     echo reset PKG_LIBS=$PKG_LIBS_VALUE
 fi
 
 if [ "$status_PKG_CPPFLAGS" -ne 0 ]; then
-    echo >&2 "generating PKG_CPPFLAGS failed with 'cmake --find-package', new reset using fallback value"
-    PKG_CPPFLAGS_VALUE="-Iupstream"
+    echo >&2 "generating PKG_CPPFLAGS failed with 'cmake --find-package', now reset using fallback value"
+    PKG_CPPFLAGS_VALUE="-I${PKG_DIR}/src/upstream -I${CMAKE_BUILD_DIR}"
     echo reset PKG_CPPFLAGS=$PKG_CPPFLAGS_VALUE
 fi
 
 echo == generating src/Makevars
 
 cat src/Makevars.in | \
-    sed "s:@@@PKG_LIBS@@@:$PKG_LIBS_VALUE:g" | \
-    sed "s:@@@PKG_CPPFLAGS@@@:$PKG_CPPFLAGS_VALUE:g" | \
-    sed "s:@@@DO_UPSTREAM@@@:$DO_UPSTREAM:g" \
+    sed "s;@@@PKG_LIBS@@@;$PKG_LIBS_VALUE;g" | \
+    sed "s;@@@PKG_CPPFLAGS@@@;$PKG_CPPFLAGS_VALUE;g" | \
+    sed "s;@@@DO_UPSTREAM@@@;$DO_UPSTREAM;g" \
     > src/Makevars
 
 echo ====== configuring symengine R package DONE ======

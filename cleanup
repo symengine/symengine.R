@@ -2,6 +2,10 @@
 
 set -x
 
+rm -r cmakebuild*
+
+rm -r inst/cpplib*
+
 rm    ./src/Makevars
 rm    ./src/*.o
 rm    ./src/*.so
