@@ -3,10 +3,14 @@
 
 # symengine
 
+<!-- badges: start -->
+
+[![R-CMD-check](https://github.com/symengine/symengine.R/workflows/R-CMD-check/badge.svg)](https://github.com/symengine/symengine.R/actions)
 [![Travis-CI Build
 Status](https://travis-ci.org/symengine/symengine.R.svg?branch=master)](https://travis-ci.org/symengine/symengine.R)
 [![AppVeyor Build
 status](https://ci.appveyor.com/api/projects/status/rr0tdh8ykvs04qg2?svg=true)](https://ci.appveyor.com/project/symengine/symengine-r)
+<!-- badges: end -->
 
 `symengine` is an R interface to the [SymEngine C++
 library](https://github.com/symengine/symengine) for symbolic
@@ -34,7 +38,7 @@ Please report any problem installing the package on your system.
 
 ``` r
 library(symengine)
-#> SymEngine Version: 0.5.0
+#> SymEngine Version: 0.6.0
 #>  _____           _____         _         
 #> |   __|_ _ _____|   __|___ ___|_|___ ___ 
 #> |__   | | |     |   __|   | . | |   | -_|
