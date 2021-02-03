@@ -85,6 +85,13 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
+
+<hr>
+<div id="output-github_document" class="section level2">
+<h2 class="hasAnchor">
+<a href="#output-github_document" class="anchor"></a>output: github_document</h2>
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+</div>
 <div id="symengine" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#symengine" class="anchor"></a>symengine</h1></div>
@@ -95,9 +102,10 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>There are some dependencies needed on Unix systems. You may install them with</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>zypper install cmake gmp<span class="op">-</span>devel mpfr<span class="op">-</span>devel mpc<span class="op">-</span>devel    <span class="co">## openSUSE</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a>apt    install cmake libgmp<span class="op">-</span>dev libmpfr<span class="op">-</span>dev libmpc<span class="op">-</span>dev <span class="co">## Debian</span></span>
-<span id="cb1-3"><a href="#cb1-3"></a>brew   install cmake gmp mpfr libmpc                   <span class="co">## Mac OS</span></span></code></pre></div>
+<pre><code>zypper install cmake gmp-devel mpfr-devel mpc-devel    ## openSUSE
+dnf    install cmake gmp-devel mpfr-devel libmpc-devel ## Fedora
+apt    install cmake libgmp-dev libmpfr-dev libmpc-dev ## Debian
+brew   install cmake gmp mpfr libmpc                   ## Mac OS</code></pre>
 <p>Then you can install the R package with</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"symengine/symengine.R"</span><span class="op">)</span></code></pre></div>
@@ -205,6 +213,7 @@
 <p>This project was a Google Summer of Code project under the organization of The R Project for Statistical Computing in 2018. The student was Xin Chen, mentored by Jialin Ma and Isuru Fernando.</p>
 </div>
 </div>
+
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
