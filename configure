@@ -68,6 +68,10 @@ fi
 CMAKE_C_FLAGS="$CPPFLAGS $CFLAGS"     ; echo set CMAKE_C_FLAGS="$CPPFLAGS $CFLAGS"    ; export CMAKE_C_FLAGS
 CMAKE_CXX_FLAGS="$CPPFLAGS $CXXFLAGS" ; echo set CMAKE_CXX_FLAGS="$CPPFLAGS $CXXFLAGS"; export CMAKE_CXX_FLAGS
 
+## Convert LDFLAGS/CPPFLAGS to CMAKE_LIBRARY_PATH/CMAKE_INCLUDE_PATH by removing the "-L"/"-I" prefix
+CMAKE_LIBRARY_PATH=`echo "$LDFLAGS"  | tr -s ' ' '\n' | grep '^-L' | sed 's/^-L//' | paste -sd ';' -` ; echo set CMAKE_LIBRARY_PATH="$CMAKE_LIBRARY_PATH"; export CMAKE_LIBRARY_PATH
+CMAKE_INCLUDE_PATH=`echo "$CPPFLAGS" | tr -s ' ' '\n' | grep '^-I' | sed 's/^-I//' | paste -sd ';' -` ; echo set CMAKE_INCLUDE_PATH="$CMAKE_INCLUDE_PATH"; export CMAKE_INCLUDE_PATH
+
 # LDFLAGS https://cmake.org/cmake/help/latest/envvar/LDFLAGS.html
 
 #if $CMAKE_BIN --find-package -DNAME=SymEngine -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=LINK >/dev/null 2>/dev/null; then
