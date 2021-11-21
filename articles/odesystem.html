@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">symengine</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.6</span>
       </span>
     </div>
 
@@ -119,7 +119,7 @@ body {
 <div id="define-ordinary-differential-equations-with-symengine" class="section level2">
 <h2 class="hasAnchor">
 <a href="#define-ordinary-differential-equations-with-symengine" class="anchor"></a>Define ordinary differential equations with symengine</h2>
-<p>A ordinary differential equation could be constructed with <code>dxdt(x) == rhs</code> where <code>x</code> and <code>rhs</code> will be converted to SymEngine’s ‘Basic’ S4 object. This works by defining a S4 method of <code><a href="https://rdrr.io/r/base/Comparison.html">==</a></code> for the return type of <code><a href="../reference/dxdt.html">dxdt()</a></code>.</p>
+<p>A ordinary differential equation could be constructed with <code>dxdt(x) == rhs</code> where <code>x</code> and <code>rhs</code> will be converted to SymEngine’s ‘Basic’ S4 object. This works by defining a S4 method of <code>==</code> for the return type of <code><a href="../reference/dxdt.html">dxdt()</a></code>.</p>
 <p>For example</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/S.html">Symbol</a></span><span class="op">(</span><span class="st">"x"</span><span class="op">)</span>

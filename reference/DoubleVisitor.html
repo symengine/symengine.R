@@ -73,7 +73,7 @@ and use it to numerically evaluate symbolic expressions." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">symengine</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.6</span>
       </span>
     </div>
 
@@ -192,41 +192,44 @@ each row for one symbolic expression.</p></td>
     <div class='dont-index'><p><code><a href='lambdify.html'>lambdify</a></code>.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>a</span> <span class='op'>&lt;-</span> <span class='fu'><a href='S.html'>S</a></span><span class='op'>(</span><span class='st'>"a"</span><span class='op'>)</span>
-<span class='va'>b</span> <span class='op'>&lt;-</span> <span class='fu'><a href='S.html'>S</a></span><span class='op'>(</span><span class='st'>"b"</span><span class='op'>)</span>
-<span class='va'>c</span> <span class='op'>&lt;-</span> <span class='fu'><a href='S.html'>S</a></span><span class='op'>(</span><span class='st'>"c"</span><span class='op'>)</span>
-<span class='va'>vec</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>a</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>a</span><span class='op'>)</span><span class='op'>/</span><span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>b</span><span class='op'>)</span> <span class='op'>+</span> <span class='va'>c</span><span class='op'>)</span>
-<span class='va'>func</span> <span class='op'>&lt;-</span> <span class='fu'>DoubleVisitor</span><span class='op'>(</span><span class='va'>vec</span>, args <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>a</span>, <span class='va'>b</span>, <span class='va'>c</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/args.html'>args</a></span><span class='op'>(</span><span class='va'>func</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; function (a, b, c) 
-#&gt; NULL</div><div class='input'>
-<span class='co'>## Use closure</span>
-<span class='fu'>func</span><span class='op'>(</span>a <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>, b <span class='op'>=</span> <span class='fl'>10</span><span class='op'>:</span><span class='fl'>1</span>, c <span class='op'>=</span> <span class='fl'>1.43</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;            [,1]     [,2]
-#&gt;  [1,] 0.0000000 1.430000
-#&gt;  [2,] 0.6931472 1.745465
-#&gt;  [3,] 1.0986123 1.958321
-#&gt;  [4,] 1.3862944 2.142414
-#&gt;  [5,] 1.6094379 2.328244
-#&gt;  [6,] 1.7917595 2.543283
-#&gt;  [7,] 1.9459101 2.833677
-#&gt;  [8,] 2.0794415 3.322789
-#&gt;  [9,] 2.1972246 4.599925
-#&gt; [10,] 2.3025851      Inf</div><div class='input'>
-<span class='co'>## Use visitor_call</span>
-<span class='va'>input</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>rbind</a></span><span class='op'>(</span>a <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>, b <span class='op'>=</span> <span class='fl'>10</span><span class='op'>:</span><span class='fl'>1</span>, c <span class='op'>=</span> <span class='fl'>1.43</span><span class='op'>)</span>
-<span class='fu'>visitor_call</span><span class='op'>(</span><span class='va'>func</span>, <span class='va'>input</span>, do_transpose <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;            [,1]     [,2]
-#&gt;  [1,] 0.0000000 1.430000
-#&gt;  [2,] 0.6931472 1.745465
-#&gt;  [3,] 1.0986123 1.958321
-#&gt;  [4,] 1.3862944 2.142414
-#&gt;  [5,] 1.6094379 2.328244
-#&gt;  [6,] 1.7917595 2.543283
-#&gt;  [7,] 1.9459101 2.833677
-#&gt;  [8,] 2.0794415 3.322789
-#&gt;  [9,] 2.1972246 4.599925
-#&gt; [10,] 2.3025851      Inf</div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>a</span> <span class='op'>&lt;-</span> <span class='fu'><a href='S.html'>S</a></span><span class='op'>(</span><span class='st'>"a"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>b</span> <span class='op'>&lt;-</span> <span class='fu'><a href='S.html'>S</a></span><span class='op'>(</span><span class='st'>"b"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>c</span> <span class='op'>&lt;-</span> <span class='fu'><a href='S.html'>S</a></span><span class='op'>(</span><span class='st'>"c"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>vec</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>a</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>a</span><span class='op'>)</span><span class='op'>/</span><span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>b</span><span class='op'>)</span> <span class='op'>+</span> <span class='va'>c</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>func</span> <span class='op'>&lt;-</span> <span class='fu'>DoubleVisitor</span><span class='op'>(</span><span class='va'>vec</span>, args <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>a</span>, <span class='va'>b</span>, <span class='va'>c</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/args.html'>args</a></span><span class='op'>(</span><span class='va'>func</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> function (a, b, c) </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> NULL</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Use closure</span></span>
+<span class='r-in'><span class='fu'>func</span><span class='op'>(</span>a <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>, b <span class='op'>=</span> <span class='fl'>10</span><span class='op'>:</span><span class='fl'>1</span>, c <span class='op'>=</span> <span class='fl'>1.43</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>            [,1]     [,2]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1,] 0.0000000 1.430000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [2,] 0.6931472 1.745465</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [3,] 1.0986123 1.958321</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [4,] 1.3862944 2.142414</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [5,] 1.6094379 2.328244</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [6,] 1.7917595 2.543283</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7,] 1.9459101 2.833677</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [8,] 2.0794415 3.322789</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [9,] 2.1972246 4.599925</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [10,] 2.3025851      Inf</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Use visitor_call</span></span>
+<span class='r-in'><span class='va'>input</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>rbind</a></span><span class='op'>(</span>a <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>, b <span class='op'>=</span> <span class='fl'>10</span><span class='op'>:</span><span class='fl'>1</span>, c <span class='op'>=</span> <span class='fl'>1.43</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>visitor_call</span><span class='op'>(</span><span class='va'>func</span>, <span class='va'>input</span>, do_transpose <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>            [,1]     [,2]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1,] 0.0000000 1.430000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [2,] 0.6931472 1.745465</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [3,] 1.0986123 1.958321</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [4,] 1.3862944 2.142414</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [5,] 1.6094379 2.328244</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [6,] 1.7917595 2.543283</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7,] 1.9459101 2.833677</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [8,] 2.0794415 3.322789</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [9,] 2.1972246 4.599925</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [10,] 2.3025851      Inf</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

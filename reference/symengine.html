@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">symengine</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.6</span>
       </span>
     </div>
 
@@ -155,11 +155,11 @@ over normal R objects and symengine objects. For example, the semantics of <code
 <p><code>Basic</code> is simply a S4 class holding a pointer representing a symbolic expression
 in symengine. <code>Basic</code> objects have the same S4 class but can have different
 C-level representations which can be accessed via <code><a href='get_type.html'>get_type()</a></code>.
-For example, <code><a href='S.html'>Basic(~ 1/2)</a></code> will have "Rational" type and <code><a href='S.html'>Basic(1/2)</a></code> will have
+For example, <code>Basic(~ 1/2)</code> will have "Rational" type and <code>Basic(1/2)</code> will have
 "RealDouble" type.</p>
 <p>A <code>Basic</code> object will also have a list of associated sub-components
 which can be accessed via <code><a href='get_type.html'>get_args()</a></code>. For example, <code>(expr &lt;- S("x") * 3L * S("a"))</code>
-will have type "Mul", and <code><a href='https://rdrr.io/r/base/list.html'>as.list(get_args(expr))</a></code> will show the three factors of
+will have type "Mul", and <code>as.list(get_args(expr))</code> will show the three factors of
 the multiplication.</p>
 <p>A <code>Basic</code> object can be constructed via <code><a href='S.html'>Basic()</a></code>, <code><a href='S.html'>S()</a></code>, <code><a href='S.html'>Symbol()</a></code>, <code><a href='S.html'>Constant()</a></code> or
 <code><a href='S.html'>Real()</a></code>.</p>
@@ -175,13 +175,13 @@ or <code><a href='https://rdrr.io/r/base/cbind.html'>cbind()</a></code>. For exa
 
 <p>The following functions are expected to work naturally with VecBasic and DenseMatrix
 classes.</p><ul>
-<li><p><code><a href='https://rdrr.io/r/base/Extract.html'>[</a></code>, <code><a href='https://rdrr.io/r/base/Extract.html'>[[</a></code>, <code>[&lt;-</code> and <code>[[&lt;-</code> for subsetting and assignment.</p></li>
+<li><p><code>[</code>, <code>[[</code>, <code>[&lt;-</code> and <code>[[&lt;-</code> for subsetting and assignment.</p></li>
 <li><p><code><a href='https://rdrr.io/r/base/dim.html'>dim()</a></code>, <code>dim&lt;-</code>, <code><a href='https://rdrr.io/r/base/length.html'>length()</a></code>, <code><a href='t.html'>t()</a></code>, <code><a href='det.html'>det()</a></code>, <code><a href='https://rdrr.io/r/base/cbind.html'>rbind()</a></code>, <code><a href='https://rdrr.io/r/base/cbind.html'>cbind()</a></code>, <code><a href='https://rdrr.io/r/base/c.html'>c()</a></code>, <code><a href='https://rdrr.io/r/base/rep.html'>rep()</a></code></p></li>
-<li><p><code><a href='https://rdrr.io/r/base/matmult.html'>%*%</a></code> for matrix multiplication</p></li>
-<li><p><code><a href='solve.html'>solve(a, b)</a></code>: solve <code>a %*% x = b</code> where <code>a</code> is a square DenseMatrix and
+<li><p><code>%*%</code> for matrix multiplication</p></li>
+<li><p><code>solve(a, b)</code>: solve <code>a %*% x = b</code> where <code>a</code> is a square DenseMatrix and
 <code>b</code> is a VecBasic/DenseMatrix.</p></li>
-<li><p><code><a href='solve.html'>solve(a)</a></code>: find the inverse of <code>a</code> where <code>a</code> is a square DenseMatrix.</p></li>
-<li><p><code><a href='solve.html'>solve(a, b)</a></code>: solve system of linear equations represented by <code>a</code> (VecBasic) with
+<li><p><code>solve(a)</code>: find the inverse of <code>a</code> where <code>a</code> is a square DenseMatrix.</p></li>
+<li><p><code>solve(a, b)</code>: solve system of linear equations represented by <code>a</code> (VecBasic) with
 regards to symbols in <code>b</code> (VecBasic).</p></li>
 </ul>
 
@@ -195,8 +195,8 @@ on VecBasic and DenseMatrix objects as well in a vectorized manner.</p>
 <p>The following is a (incomplete) list of functions that are expected to work with
 symengine objects. Note that these functions can also be used inside a formula or
 R language objects and passed to <a href='S.html'>S</a> or <a href='S.html'>Basic</a> or <a href='Vector.html'>Vector</a> to construct symengine
-objects. For example <code><a href='S.html'>S(~ sin(x) + 1)</a></code> and <code><a href='S.html'>S(quote(sin(x) + 1))</a></code>.</p><ul>
-<li><p><code><a href='https://rdrr.io/r/base/Arithmetic.html'>+</a></code>, <code><a href='https://rdrr.io/r/base/Arithmetic.html'>-</a></code>, <code><a href='https://rdrr.io/r/base/Arithmetic.html'>*</a></code>, <code><a href='https://rdrr.io/r/base/Arithmetic.html'>/</a></code>, <code><a href='https://rdrr.io/r/base/Arithmetic.html'>^</a></code></p></li>
+objects. For example <code>S(~ sin(x) + 1)</code> and <code>S(quote(sin(x) + 1))</code>.</p><ul>
+<li><p><code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>^</code></p></li>
 <li><p><code>abs</code>, <code>sqrt</code>, <code>exp</code>, <code>expm1</code>, <code>log</code>, <code>log10</code>, <code>log2</code>, <code>log1p</code></p></li>
 <li><p><code>cos</code>, <code>cosh</code>, <code>sin</code>, <code>sinh</code>, <code>tan</code>, <code>tanh</code>, <code>acos</code>, <code>acosh</code>, <code>asin</code>, <code>asinh</code>, <code>atan</code>, <code>atanh</code></p></li>
 <li><p><code>cospi</code>, <code>sinpi</code>, <code>tanpi</code>, <code>gamma</code>, <code>lgamma</code>, <code>digamma</code>, <code>trigamma</code></p></li>

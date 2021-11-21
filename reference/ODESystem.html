@@ -79,7 +79,7 @@ results." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">symengine</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.6</span>
       </span>
     </div>
 
@@ -139,7 +139,7 @@ results." />
     <p>This is a wrapper of the <code>odeintr</code> R package using
 symengine objects to specify the ODE system and C code
 generation functionality from symengine to generate the
-C++ source. The <code>dxdt</code> function and defined <code><a href='https://rdrr.io/r/base/Comparison.html'>==</a></code> S4 method
+C++ source. The <code>dxdt</code> function and defined <code>==</code> S4 method
 allow one to intuitively specify the ODE system with symengine
 objects. The <code>ODESystem</code> will generate C++ source
 and compile on the fly with Rcpp. Then <code>predict</code> can be used to get
@@ -169,7 +169,7 @@ predict(object, init, duration, step_size = 1, start = 0)</pre>
     <tr>
       <th>x</th>
       <td><p>A SymEngine Basic object of type Symbol or a R object
-that will be converted to <code><a href='S.html'>Symbol(x)</a></code>.</p></td>
+that will be converted to <code>Symbol(x)</code>.</p></td>
     </tr>
     <tr>
       <th>e1</th>
@@ -219,28 +219,31 @@ same of order of equations.</p></td>
 <p>`predict` returns a dataframe.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># A differential equation specified with dxdt and ==</span>
-<span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='S.html'>Symbol</a></span><span class='op'>(</span><span class='st'>"x"</span><span class='op'>)</span>
-<span class='va'>eq</span> <span class='op'>&lt;-</span> <span class='fu'>dxdt</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>==</span> <span class='fl'>1</span><span class='op'>/</span><span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>eq</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Ordinary differential equation:
-#&gt; d(x)/dt == 1.0*exp(-x)</div><div class='input'><span class='co'># \donttest{</span>
-<span class='co'>## Lorenz system</span>
-<span class='fu'><a href='use_vars.html'>use_vars</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span>, <span class='va'>z</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Initializing ‘x’, ‘y’, ‘z’</span></div><div class='input'><span class='va'>sigma</span> <span class='op'>&lt;-</span> <span class='fl'>10</span>
-<span class='va'>rho</span> <span class='op'>&lt;-</span> <span class='fl'>28</span>
-<span class='va'>beta</span> <span class='op'>&lt;-</span> <span class='fl'>8</span><span class='op'>/</span><span class='fl'>3</span>
-<span class='va'>lorenz_sys</span> <span class='op'>&lt;-</span> <span class='fu'>ODESystem</span><span class='op'>(</span>
-    <span class='fu'>dxdt</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>==</span> <span class='va'>sigma</span> <span class='op'>*</span> <span class='op'>(</span><span class='va'>y</span> <span class='op'>-</span> <span class='va'>x</span><span class='op'>)</span>,
-    <span class='fu'>dxdt</span><span class='op'>(</span><span class='va'>y</span><span class='op'>)</span> <span class='op'>==</span> <span class='op'>(</span><span class='va'>rho</span> <span class='op'>-</span> <span class='va'>z</span><span class='op'>)</span> <span class='op'>*</span> <span class='va'>x</span> <span class='op'>-</span> <span class='va'>y</span>,
-    <span class='fu'>dxdt</span><span class='op'>(</span><span class='va'>z</span><span class='op'>)</span> <span class='op'>==</span> <span class='op'>-</span> <span class='va'>beta</span> <span class='op'>*</span> <span class='va'>z</span> <span class='op'>+</span> <span class='va'>x</span> <span class='op'>*</span> <span class='va'>y</span>
-<span class='op'>)</span>
-<span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span>
-    <span class='va'>lorenz_sys</span>, init <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fl'>1</span>, y <span class='op'>=</span> <span class='fl'>1</span>, z <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>, duration <span class='op'>=</span> <span class='fl'>100</span>, step_size <span class='op'>=</span> <span class='fl'>0.001</span>
-<span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>res</span><span class='op'>[</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>, <span class='fl'>4</span><span class='op'>)</span><span class='op'>]</span>, type <span class='op'>=</span> <span class='st'>'l'</span>, col <span class='op'>=</span> <span class='st'>"steelblue"</span>, main <span class='op'>=</span> <span class='st'>"Lorenz Attractor"</span><span class='op'>)</span>
-</div><div class='img'><img src='ODESystem-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># }</span>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># A differential equation specified with dxdt and ==</span></span>
+<span class='r-in'><span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='S.html'>Symbol</a></span><span class='op'>(</span><span class='st'>"x"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>eq</span> <span class='op'>&lt;-</span> <span class='fu'>dxdt</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>==</span> <span class='fl'>1</span><span class='op'>/</span><span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>eq</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Ordinary differential equation:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> d(x)/dt == 1.0*exp(-x)</span>
+<span class='r-in'><span class='co'># \donttest{</span></span>
+<span class='r-in'><span class='co'>## Lorenz system</span></span>
+<span class='r-in'><span class='fu'><a href='use_vars.html'>use_vars</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span>, <span class='va'>z</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Initializing ‘x’, ‘y’, ‘z’</span>
+<span class='r-in'><span class='va'>sigma</span> <span class='op'>&lt;-</span> <span class='fl'>10</span></span>
+<span class='r-in'><span class='va'>rho</span> <span class='op'>&lt;-</span> <span class='fl'>28</span></span>
+<span class='r-in'><span class='va'>beta</span> <span class='op'>&lt;-</span> <span class='fl'>8</span><span class='op'>/</span><span class='fl'>3</span></span>
+<span class='r-in'><span class='va'>lorenz_sys</span> <span class='op'>&lt;-</span> <span class='fu'>ODESystem</span><span class='op'>(</span></span>
+<span class='r-in'>    <span class='fu'>dxdt</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>==</span> <span class='va'>sigma</span> <span class='op'>*</span> <span class='op'>(</span><span class='va'>y</span> <span class='op'>-</span> <span class='va'>x</span><span class='op'>)</span>,</span>
+<span class='r-in'>    <span class='fu'>dxdt</span><span class='op'>(</span><span class='va'>y</span><span class='op'>)</span> <span class='op'>==</span> <span class='op'>(</span><span class='va'>rho</span> <span class='op'>-</span> <span class='va'>z</span><span class='op'>)</span> <span class='op'>*</span> <span class='va'>x</span> <span class='op'>-</span> <span class='va'>y</span>,</span>
+<span class='r-in'>    <span class='fu'>dxdt</span><span class='op'>(</span><span class='va'>z</span><span class='op'>)</span> <span class='op'>==</span> <span class='op'>-</span> <span class='va'>beta</span> <span class='op'>*</span> <span class='va'>z</span> <span class='op'>+</span> <span class='va'>x</span> <span class='op'>*</span> <span class='va'>y</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span></span>
+<span class='r-in'>    <span class='va'>lorenz_sys</span>, init <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fl'>1</span>, y <span class='op'>=</span> <span class='fl'>1</span>, z <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>, duration <span class='op'>=</span> <span class='fl'>100</span>, step_size <span class='op'>=</span> <span class='fl'>0.001</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>res</span><span class='op'>[</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>, <span class='fl'>4</span><span class='op'>)</span><span class='op'>]</span>, type <span class='op'>=</span> <span class='st'>'l'</span>, col <span class='op'>=</span> <span class='st'>"steelblue"</span>, main <span class='op'>=</span> <span class='st'>"Lorenz Attractor"</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='ODESystem-1.png' alt='' width='700' height='433' /></span>
+<span class='r-in'><span class='co'># }</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
