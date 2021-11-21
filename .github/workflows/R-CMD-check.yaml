@@ -73,7 +73,12 @@ jobs:
       - name: Check
         env:
           _R_CHECK_CRAN_INCOMING_REMOTE_: false
-        run: rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "warning", check_dir = "check")
+        run: |
+          rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "warning", check_dir = "check")
+          cat("####### 00check.log    ######################\n")
+          system2("cat", "check/*.Rcheck/00check.log")
+          cat("####### 00install.out  ######################\n")
+          system2("cat", "check/*.Rcheck/00install.out")
         shell: Rscript {0}
 
       - name: Upload check results
