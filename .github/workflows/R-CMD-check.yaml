@@ -23,6 +23,7 @@ jobs:
       matrix:
         config:
           - {os: windows-latest, r: 'release'}
+          - {os: windows-latest, r: 'devel-ucrt'}
           - {os: macOS-latest, r: 'release'}
           - {os: ubuntu-20.04, r: 'release', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
           - {os: ubuntu-20.04, r: 'devel', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
@@ -74,7 +75,7 @@ jobs:
         env:
           _R_CHECK_CRAN_INCOMING_REMOTE_: false
         run: |
-          rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "warning", check_dir = "check")
+          rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran", "--ignore-vignettes"), build_args = c("--no-build-vignettes"), error_on = "warning", check_dir = "check")
           cat("####### 00check.log    ######################\n")
           system2("cat", "check/*.Rcheck/00check.log")
           cat("####### 00install.out  ######################\n")
