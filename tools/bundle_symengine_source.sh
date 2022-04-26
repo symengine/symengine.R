@@ -12,7 +12,7 @@ fi
 PKG_DIR=`pwd`
 
 SYMENGINE_REPO="symengine/symengine"
-SYMENGINE_COMMIT=5da398247e4ea04022a6edd71abe16aae132399b
+SYMENGINE_COMMIT=148d4fa2aaa38afc92d4dfb203b00fdf71f3be2e
 
 echo === Bundle source from commit: $SYMENGINE_COMMIT
 
@@ -41,12 +41,10 @@ rm -r src/upstream/symengine/utilities/catch
 rm -r src/upstream/symengine/tests
 rm -r src/upstream/benchmarks
 rm -r src/upstream/bin
-rm -r src/upstream/doc
-rm -r src/upstream/notebooks
+rm -r src/upstream/docs
 rm -r src/upstream/binder
 rm    src/upstream/appveyor.yml
 rm    src/upstream/codecov.yml
-rm    src/upstream/.travis.yml
 
 set +x
 
