@@ -39,7 +39,7 @@ License: GPL (>= 2)
 Copyright: The R package bundles the 'SymEngine' library source and its subcomponents
     under 'src/upstream' directory. See file COPYRIGHTS for retained copyright notices
     as a relicensing and redistribution requirement.
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.2
 Collate: 
     'RcppExports.R'
     'basic-getinfo.R'
