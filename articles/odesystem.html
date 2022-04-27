@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,23 +33,17 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">symengine</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -64,7 +60,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/symengine/symengine.R/">
+  <a href="https://github.com/symengine/symengine.R/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -85,7 +81,7 @@
       <h1 data-toc-skip>Numerical ODE Solver</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/symengine/symengine.R/blob/master/vignettes/odesystem.Rmd"><code>vignettes/odesystem.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/symengine/symengine.R/blob/HEAD/vignettes/odesystem.Rmd" class="external-link"><code>vignettes/odesystem.Rmd</code></a></small>
       <div class="hidden name"><code>odesystem.Rmd</code></div>
 
     </div>
@@ -101,99 +97,99 @@ body {
   margin-left: 0px;
 }
 </style>
-<p><a href="https://github.com/thk686/odeintr">odeintr</a> by Timothy H. Keitt is an R package for integrating differential equations with the <a href="https://headmyshoulder.github.io/odeint-v2/">Boost odeint library</a>. It allows specifying the model in C++ code and compiling it on the fly with Rcpp.</p>
+<p><a href="https://github.com/thk686/odeintr" class="external-link">odeintr</a> by Timothy H. Keitt is an R package for integrating differential equations with the <a href="https://headmyshoulder.github.io/odeint-v2/" class="external-link">Boost odeint library</a>. It allows specifying the model in C++ code and compiling it on the fly with Rcpp.</p>
 <p>Here we provide an interface to the <code>odeintr</code> package, but</p>
 <ol style="list-style-type: decimal">
 <li>Use an intuitive way to specify the ODE model with symengine objects;</li>
 <li>Use symengine’s code generation functionality to generate the C++ source and compile with <code>odeintr</code>.</li>
 </ol>
-<p>However, the interface is not stable and may subject to change in future. This mainly serves an example of how to extend symengine and you are welcome to check out the <a href="https://github.com/symengine/symengine.R/blob/master/R/dxdt.R">source code</a>.</p>
+<p>However, the interface is not stable and may subject to change in future. This mainly serves an example of how to extend symengine and you are welcome to check out the <a href="https://github.com/symengine/symengine.R/blob/master/R/dxdt.R" class="external-link">source code</a>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/symengine/symengine.R">symengine</a></span><span class="op">)</span></code></pre></div>
-<pre><code>## SymEngine Version: 0.6.0</code></pre>
-<pre><code>##  _____           _____         _         
-## |   __|_ _ _____|   __|___ ___|_|___ ___ 
-## |__   | | |     |   __|   | . | |   | -_|
-## |_____|_  |_|_|_|_____|_|_|_  |_|_|_|___|
-##       |___|               |___|</code></pre>
-<div id="define-ordinary-differential-equations-with-symengine" class="section level2">
-<h2 class="hasAnchor">
-<a href="#define-ordinary-differential-equations-with-symengine" class="anchor"></a>Define ordinary differential equations with symengine</h2>
-<p>A ordinary differential equation could be constructed with <code>dxdt(x) == rhs</code> where <code>x</code> and <code>rhs</code> will be converted to SymEngine’s ‘Basic’ S4 object. This works by defining a S4 method of <code>==</code> for the return type of <code><a href="../reference/dxdt.html">dxdt()</a></code>.</p>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/symengine/symengine.R" class="external-link">symengine</a></span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">## <span style="color: #BBBB00;">SymEngine Version: 0.9.0</span></span></code></pre>
+<pre><code><span class="co">## <span style="color: #BB0000;"> _____          </span><span style="color: #00BB00;"> _____         _         </span></span>
+<span class="co">## <span style="color: #BB0000;">|   __|_ _ _____</span><span style="color: #00BB00;">|   __|___ ___|_|___ ___ </span></span>
+<span class="co">## <span style="color: #BB0000;">|__   | | |     </span><span style="color: #00BB00;">|   __|   | . | |   | -_|</span></span>
+<span class="co">## <span style="color: #BB0000;">|_____|_  |_|_|_</span><span style="color: #00BB00;">|_____|_|_|_  |_|_|_|___|</span></span>
+<span class="co">## <span style="color: #BB0000;">      |___|     </span><span style="color: #00BB00;">          |___|          </span></span></code></pre>
+<div class="section level2">
+<h2 id="define-ordinary-differential-equations-with-symengine">Define ordinary differential equations with symengine<a class="anchor" aria-label="anchor" href="#define-ordinary-differential-equations-with-symengine"></a>
+</h2>
+<p>A ordinary differential equation could be constructed with <code>dxdt(x) == rhs</code> where <code>x</code> and <code>rhs</code> will be converted to SymEngine’s ‘Basic’ S4 object. This works by defining a S4 method of <code>==</code> for the return type of <code><a href="../reference/ODESystem.html">dxdt()</a></code>.</p>
 <p>For example</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/S.html">Symbol</a></span><span class="op">(</span><span class="st">"x"</span><span class="op">)</span>
 <span class="va">a</span> <span class="op">&lt;-</span> <span class="fl">3</span>
-<span class="va">eq</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dxdt.html">dxdt</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">==</span> <span class="va">a</span><span class="op">/</span><span class="op">(</span><span class="va">x</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span>
+<span class="va">eq</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ODESystem.html">dxdt</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">==</span> <span class="va">a</span><span class="op">/</span><span class="op">(</span><span class="va">x</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span>
 <span class="va">eq</span></code></pre></div>
-<pre><code>## Ordinary differential equation:
-## d(x)/dt == 3.0/(1.0 + x)</code></pre>
+<pre><code><span class="co">## Ordinary differential equation:</span>
+<span class="co">## d(x)/dt == 3.0/(1.0 + x)</span></code></pre>
 </div>
-<div id="define-ode-system" class="section level2">
-<h2 class="hasAnchor">
-<a href="#define-ode-system" class="anchor"></a>Define ODE system</h2>
+<div class="section level2">
+<h2 id="define-ode-system">Define ODE system<a class="anchor" aria-label="anchor" href="#define-ode-system"></a>
+</h2>
 <p><code>ODESystem</code> will take a list of ordinary differential equations, generate C++ source code and compile on the fly with Rcpp. The following is the Lorenz system.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sigma</span> <span class="op">&lt;-</span> <span class="fl">10</span>
 <span class="va">rho</span> <span class="op">&lt;-</span> <span class="fl">28</span>
 <span class="va">beta</span> <span class="op">&lt;-</span> <span class="fl">8</span><span class="op">/</span><span class="fl">3</span>
 <span class="fu"><a href="../reference/use_vars.html">use_vars</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">z</span><span class="op">)</span></code></pre></div>
-<pre><code>## Initializing 'x', 'y', 'z'</code></pre>
+<pre><code><span class="co">## Initializing 'x', 'y', 'z'</span></code></pre>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">lorenz_sys</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
-    <span class="fu"><a href="../reference/dxdt.html">dxdt</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">==</span> <span class="va">sigma</span> <span class="op">*</span> <span class="op">(</span><span class="va">y</span> <span class="op">-</span> <span class="va">x</span><span class="op">)</span>,
-    <span class="fu"><a href="../reference/dxdt.html">dxdt</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span> <span class="op">==</span> <span class="op">(</span><span class="va">rho</span> <span class="op">-</span> <span class="va">z</span><span class="op">)</span> <span class="op">*</span> <span class="va">x</span> <span class="op">-</span> <span class="va">y</span>,
-    <span class="fu"><a href="../reference/dxdt.html">dxdt</a></span><span class="op">(</span><span class="va">z</span><span class="op">)</span> <span class="op">==</span> <span class="op">-</span> <span class="va">beta</span> <span class="op">*</span> <span class="va">z</span> <span class="op">+</span> <span class="va">x</span> <span class="op">*</span> <span class="va">y</span>
+<code class="sourceCode R"><span class="va">lorenz_sys</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>
+    <span class="fu"><a href="../reference/ODESystem.html">dxdt</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">==</span> <span class="va">sigma</span> <span class="op">*</span> <span class="op">(</span><span class="va">y</span> <span class="op">-</span> <span class="va">x</span><span class="op">)</span>,
+    <span class="fu"><a href="../reference/ODESystem.html">dxdt</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span> <span class="op">==</span> <span class="op">(</span><span class="va">rho</span> <span class="op">-</span> <span class="va">z</span><span class="op">)</span> <span class="op">*</span> <span class="va">x</span> <span class="op">-</span> <span class="va">y</span>,
+    <span class="fu"><a href="../reference/ODESystem.html">dxdt</a></span><span class="op">(</span><span class="va">z</span><span class="op">)</span> <span class="op">==</span> <span class="op">-</span> <span class="va">beta</span> <span class="op">*</span> <span class="va">z</span> <span class="op">+</span> <span class="va">x</span> <span class="op">*</span> <span class="va">y</span>
 <span class="op">)</span>
-<span class="va">lorenz_sys</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dxdt.html">ODESystem</a></span><span class="op">(</span><span class="va">lorenz_sys</span>, method <span class="op">=</span> <span class="st">"rk5_i"</span><span class="op">)</span></code></pre></div>
-<p>The method argument is passed to <code><a href="https://rdrr.io/pkg/odeintr/man/compile_sys.html">odeintr::compile_sys</a></code>.</p>
+<span class="va">lorenz_sys</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ODESystem.html">ODESystem</a></span><span class="op">(</span><span class="va">lorenz_sys</span>, method <span class="op">=</span> <span class="st">"rk5_i"</span><span class="op">)</span></code></pre></div>
+<p>The method argument is passed to <code><a href="https://rdrr.io/pkg/odeintr/man/compile_sys.html" class="external-link">odeintr::compile_sys</a></code>.</p>
 </div>
-<div id="get-results" class="section level2">
-<h2 class="hasAnchor">
-<a href="#get-results" class="anchor"></a>Get results</h2>
+<div class="section level2">
+<h2 id="get-results">Get results<a class="anchor" aria-label="anchor" href="#get-results"></a>
+</h2>
 <p>A S4 method of <code>predict</code> is defined to run the model with given initial conditions, duration and step_size.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">lorenz_sys</span>, init <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>x<span class="op">=</span><span class="fl">1</span>, y<span class="op">=</span><span class="fl">1</span>, z<span class="op">=</span><span class="fl">1</span><span class="op">)</span>,
+<code class="sourceCode R"><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">lorenz_sys</span>, init <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>x<span class="op">=</span><span class="fl">1</span>, y<span class="op">=</span><span class="fl">1</span>, z<span class="op">=</span><span class="fl">1</span><span class="op">)</span>,
                duration <span class="op">=</span> <span class="fl">100</span>, step_size <span class="op">=</span> <span class="fl">0.001</span>, start <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></code></pre></div>
-<pre><code>##    Time        x        y         z
-## 1 0.000 1.000000 1.000000 1.0000000
-## 2 0.001 1.000130 1.025989 0.9983486
-## 3 0.002 1.000516 1.051961 0.9967278
-## 4 0.003 1.001158 1.077922 0.9951378
-## 5 0.004 1.002051 1.103879 0.9935788
-## 6 0.005 1.003193 1.129840 0.9920511</code></pre>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">##    Time        x        y         z</span>
+<span class="co">## 1 0.000 1.000000 1.000000 1.0000000</span>
+<span class="co">## 2 0.001 1.000130 1.025989 0.9983486</span>
+<span class="co">## 3 0.002 1.000516 1.051961 0.9967278</span>
+<span class="co">## 4 0.003 1.001158 1.077922 0.9951378</span>
+<span class="co">## 5 0.004 1.002051 1.103879 0.9935788</span>
+<span class="co">## 6 0.005 1.003193 1.129840 0.9920511</span></code></pre>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">res</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">4</span><span class="op">)</span><span class="op">]</span>, type <span class="op">=</span> <span class="st">'l'</span>, col <span class="op">=</span> <span class="st">"steelblue"</span>, main <span class="op">=</span> <span class="st">"Lorenz Attractor"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">4</span><span class="op">)</span><span class="op">]</span>, type <span class="op">=</span> <span class="st">'l'</span>, col <span class="op">=</span> <span class="st">"steelblue"</span>, main <span class="op">=</span> <span class="st">"Lorenz Attractor"</span><span class="op">)</span></code></pre></div>
 <p><img src="odesystem_files/figure-html/unnamed-chunk-6-1.png" width="480"></p>
 </div>
-<div id="van-der-pol-oscillator" class="section level2">
-<h2 class="hasAnchor">
-<a href="#van-der-pol-oscillator" class="anchor"></a>Van der Pol Oscillator</h2>
+<div class="section level2">
+<h2 id="van-der-pol-oscillator">Van der Pol Oscillator<a class="anchor" aria-label="anchor" href="#van-der-pol-oscillator"></a>
+</h2>
 <p>Example of Van der Pol oscillator from <code>odeintr</code> package.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/use_vars.html">use_vars</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span></code></pre></div>
-<pre><code>## Initializing 'x', 'y'</code></pre>
+<pre><code><span class="co">## Initializing 'x', 'y'</span></code></pre>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">vdp_sys</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dxdt.html">ODESystem</a></span><span class="op">(</span>
-    <span class="fu"><a href="../reference/dxdt.html">dxdt</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">==</span> <span class="va">y</span>,
-    <span class="fu"><a href="../reference/dxdt.html">dxdt</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span> <span class="op">==</span> <span class="fl">2</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">x</span> <span class="op">*</span> <span class="va">x</span><span class="op">)</span> <span class="op">*</span> <span class="va">y</span> <span class="op">-</span> <span class="va">x</span>,
+<code class="sourceCode R"><span class="va">vdp_sys</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ODESystem.html">ODESystem</a></span><span class="op">(</span>
+    <span class="fu"><a href="../reference/ODESystem.html">dxdt</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">==</span> <span class="va">y</span>,
+    <span class="fu"><a href="../reference/ODESystem.html">dxdt</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span> <span class="op">==</span> <span class="fl">2</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">x</span> <span class="op">*</span> <span class="va">x</span><span class="op">)</span> <span class="op">*</span> <span class="va">y</span> <span class="op">-</span> <span class="va">x</span>,
     method <span class="op">=</span> <span class="st">"bsd"</span> <span class="co"># Bulirsch-Stoer</span>
 <span class="op">)</span>
-<span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">vdp_sys</span>, init <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">1e-4</span>, <span class="fl">2</span><span class="op">)</span>, duration <span class="op">=</span> <span class="fl">100</span>, step_size <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span></code></pre></div>
+<span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">vdp_sys</span>, init <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1e-4</span>, <span class="fl">2</span><span class="op">)</span>, duration <span class="op">=</span> <span class="fl">100</span>, step_size <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">oldpar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>, mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">4</span><span class="op">)</span>, oma <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">4</span><span class="op">)</span>, xpd <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">oldpar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>, mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">4</span><span class="op">)</span>, oma <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">4</span><span class="op">)</span>, xpd <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span>
 <span class="va">make.plot</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">xy</span>, <span class="va">xlab</span> <span class="op">=</span> <span class="cn">NA</span>, <span class="va">ylab</span> <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span>
-  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">xy</span>, col <span class="op">=</span> <span class="st">"steelblue"</span>, lwd <span class="op">=</span> <span class="fl">2</span>, type <span class="op">=</span> <span class="st">"l"</span>,
+  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">xy</span>, col <span class="op">=</span> <span class="st">"steelblue"</span>, lwd <span class="op">=</span> <span class="fl">2</span>, type <span class="op">=</span> <span class="st">"l"</span>,
        axes <span class="op">=</span> <span class="cn">FALSE</span>, xlab <span class="op">=</span> <span class="va">xlab</span>, ylab <span class="op">=</span> <span class="va">ylab</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/frame.html">plot.new</a></span><span class="op">(</span><span class="op">)</span>
-<span class="fu">make.plot</span><span class="op">(</span><span class="va">res</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">1</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/graphics/axis.html">axis</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/graphics/axis.html">axis</a></span><span class="op">(</span><span class="fl">4</span><span class="op">)</span>
-<span class="fu">make.plot</span><span class="op">(</span><span class="va">res</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">]</span>, <span class="st">"Time"</span>, <span class="st">"X1"</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/graphics/axis.html">axis</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/graphics/axis.html">axis</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>
-<span class="fu">make.plot</span><span class="op">(</span><span class="va">res</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">2</span><span class="op">)</span><span class="op">]</span>, <span class="st">"X2"</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/graphics/axis.html">axis</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/graphics/axis.html">axis</a></span><span class="op">(</span><span class="fl">4</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/title.html">title</a></span><span class="op">(</span>main <span class="op">=</span> <span class="st">"Van der Pol Oscillator"</span>, outer <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/graphics/frame.html" class="external-link">plot.new</a></span><span class="op">(</span><span class="op">)</span>
+<span class="fu">make.plot</span><span class="op">(</span><span class="va">res</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">1</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis</a></span><span class="op">(</span><span class="fl">4</span><span class="op">)</span>
+<span class="fu">make.plot</span><span class="op">(</span><span class="va">res</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">]</span>, <span class="st">"Time"</span>, <span class="st">"X1"</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>
+<span class="fu">make.plot</span><span class="op">(</span><span class="va">res</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">2</span><span class="op">)</span><span class="op">]</span>, <span class="st">"X2"</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis</a></span><span class="op">(</span><span class="fl">4</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/title.html" class="external-link">title</a></span><span class="op">(</span>main <span class="op">=</span> <span class="st">"Van der Pol Oscillator"</span>, outer <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p><img src="odesystem_files/figure-html/unnamed-chunk-8-1.png" width="480"></p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span><span class="va">oldpar</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="va">oldpar</span><span class="op">)</span></code></pre></div>
 </div>
   </div>
 
@@ -208,11 +204,13 @@ body {
 
 
       <footer><div class="copyright">
-  <p>Developed by Jialin Ma, Isuru Fernando, Xin Chen.</p>
+  <p></p>
+<p>Developed by Jialin Ma, Isuru Fernando, Xin Chen.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer>
@@ -220,6 +218,8 @@ body {
 
   
 
+
+  
 
   </body>
 </html>
