@@ -40,8 +40,8 @@ Then you can install the R package with
 devtools::install_github("symengine/symengine.R")
 ```
 
-On Windows, the dependencies will be downloaded at build time, and you can install
-directly with `devtools`.
+On Windows, you will need to install [Rtools42](https://cran.r-project.org/bin/windows/Rtools/rtools42/rtools.html)
+for building the package from source.
 
 Please report any problem installing the package on your system.
 

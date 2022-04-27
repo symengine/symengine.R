@@ -2,6 +2,11 @@
 
 set -e
 
+echo ======== Cleanup src/upstream[.tar] =======
+
+if [ -f src/upstream.tar ]; then rm src/upstream.tar   ; fi
+if [ -d src/upstream/ ];    then rm -rf src/upstream/  ; fi
+
 echo ======== BUNDLE SYMENGINE SOURCE ==========
 
 if ! test -f DESCRIPTION; then
@@ -12,7 +17,7 @@ fi
 PKG_DIR=`pwd`
 
 SYMENGINE_REPO="symengine/symengine"
-SYMENGINE_COMMIT=5da398247e4ea04022a6edd71abe16aae132399b
+SYMENGINE_COMMIT=148d4fa2aaa38afc92d4dfb203b00fdf71f3be2e
 
 echo === Bundle source from commit: $SYMENGINE_COMMIT
 
@@ -41,18 +46,23 @@ rm -r src/upstream/symengine/utilities/catch
 rm -r src/upstream/symengine/tests
 rm -r src/upstream/benchmarks
 rm -r src/upstream/bin
-rm -r src/upstream/doc
-rm -r src/upstream/notebooks
+rm -r src/upstream/docs
 rm -r src/upstream/binder
 rm    src/upstream/appveyor.yml
 rm    src/upstream/codecov.yml
-rm    src/upstream/.travis.yml
 
 set +x
 
 echo === diff src/upstream/LICENSE inst/COPYRIGHTS
 
 diff src/upstream/LICENSE inst/COPYRIGHTS || true
+
+echo === Create tarball of src/upstream/
+
+cd src/
+tar cf upstream.tar upstream/
+rm -rf upstream/
+cd ../
 
 echo === touch ./tools/SYMENGINE_BUNDLED
 
