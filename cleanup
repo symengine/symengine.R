@@ -13,61 +13,9 @@ rm -r ./CMakeFiles
 
 PKG_DIR=`pwd`
 
-cd src/upstream
-make clean
+#cd src/upstream
+#make clean
 
 cd $PKG_DIR
 
-rm -r src/upstream/CMakeFiles
-
-rm    src/upstream/Makefile
-rm    src/upstream/doc/Makefile
-rm    src/upstream/symengine/Makefile
-rm    src/upstream/symengine/utilities/matchpycpp/Makefile
-
-rm    src/upstream/symengine/symengine_config.h
-rm    src/upstream/symengine/symengine_config_cling.h
-
-rm    src/upstream/symengine/symengine_config.h
-rm    src/upstream/symengine/symengine_export.h
-rm    src/upstream/symengine/utilities/teuchos/Teuchos_config.h
-rm    src/upstream/symengine/python/symengine/lib/config.pxi
-
-rm -r src/upstream/symengine/cotire
-rm    src/upstream/symengine/symengine_CXX_cotire.cmake
-
-rm -r src/upstream/CMakeCache.txt
-rm -r src/upstream/CMakeFiles
-rm -r src/upstream/Makefile
-rm -r src/upstream/cmake_install.cmake
-rm -r src/upstream/install_manifest.txt
-rm -r src/upstream/CTestTestfile.cmake
-rm -r src/upstream/cython_test.cpp
-rm -r src/upstream/SymEngineConfig.cmake
-rm -r src/upstream/SymEngineConfigVersion.cmake
-rm -r src/upstream/SymEngineTargets.cmake
-rm -r src/upstream/cmake-build-*
-
-rm -r src/upstream/*/CMakeCache.txt
-rm -r src/upstream/*/CMakeFiles
-rm -r src/upstream/*/Makefile
-rm -r src/upstream/*/cmake_install.cmake
-rm -r src/upstream/*/install_manifest.txt
-rm -r src/upstream/*/CTestTestfile.cmake
-rm -r src/upstream/*/cython_test.cpp
-rm -r src/upstream/*/SymEngineConfig.cmake
-rm -r src/upstream/*/SymEngineConfigVersion.cmake
-rm -r src/upstream/*/SymEngineTargets.cmake
-rm -r src/upstream/*/cmake-build-*
-
-rm -r src/upstream/symengine/utilities/*/CMakeCache.txt
-rm -r src/upstream/symengine/utilities/*/CMakeFiles
-rm -r src/upstream/symengine/utilities/*/Makefile
-rm -r src/upstream/symengine/utilities/*/cmake_install.cmake
-rm -r src/upstream/symengine/utilities/*/install_manifest.txt
-rm -r src/upstream/symengine/utilities/*/CTestTestfile.cmake
-rm -r src/upstream/symengine/utilities/*/cython_test.cpp
-rm -r src/upstream/symengine/utilities/*/SymEngineConfig.cmake
-rm -r src/upstream/symengine/utilities/*/SymEngineConfigVersion.cmake
-rm -r src/upstream/symengine/utilities/*/SymEngineTargets.cmake
-rm -r src/upstream/symengine/utilities/*/cmake-build-*
+rm -r src/upstream

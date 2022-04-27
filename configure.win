@@ -91,6 +91,13 @@ if [ ! -f ./tools/SYMENGINE_BUNDLED ]; then
     fi
 fi
 
+echo ====== Unpacking src/upstream.tar
+
+cd src/
+tar xf upstream.tar
+cd ..
+
+
 AR=`"${R_HOME}/bin/R" CMD config AR`
 AR=`which $AR`
 

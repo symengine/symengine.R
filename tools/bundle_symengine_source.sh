@@ -2,6 +2,11 @@
 
 set -e
 
+echo ======== Cleanup src/upstream[.tar] =======
+
+if [ -f src/upstream.tar ]; then rm src/upstream.tar   ; fi
+if [ -d src/upstream/ ];    then rm -rf src/upstream/  ; fi
+
 echo ======== BUNDLE SYMENGINE SOURCE ==========
 
 if ! test -f DESCRIPTION; then
@@ -51,6 +56,13 @@ set +x
 echo === diff src/upstream/LICENSE inst/COPYRIGHTS
 
 diff src/upstream/LICENSE inst/COPYRIGHTS || true
+
+echo === Create tarball of src/upstream/
+
+cd src/
+tar cf upstream.tar upstream/
+rm -rf upstream/
+cd ../
 
 echo === touch ./tools/SYMENGINE_BUNDLED
 
