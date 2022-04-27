@@ -61,8 +61,8 @@ library.dynam_2 <- function(chname, package, lib.loc, ...) {
         packageStartupMessage(com)
     }
     else
-        packageStartupMessage(logo)
-    
+        packageStartupMessage(paste(logo, collapse="\n"))
+
     invisible(TRUE)
 }
 
