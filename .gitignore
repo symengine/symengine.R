@@ -12,4 +12,5 @@ inst/doc
 src/Makevars
 docs
 /src/upstream/
+/src/upstream.tar
 /tools/SYMENGINE_BUNDLED
