@@ -46,39 +46,29 @@ else
     echo $R_HOME
 fi
 
-echo == setting environment variables:
+echo == getting R config variables
 
-CC=`"${R_HOME}/bin/R" CMD config CC`                   ;  echo set CC=$CC                   ; export CC
-CFLAGS=`"${R_HOME}/bin/R" CMD config CFLAGS`           ;  echo set CFLAGS=$CFLAGS           ; export CFLAGS
-CPICFLAGS=`"${R_HOME}/bin/R" CMD config CPICFLAGS`     ;  echo set CPICFLAGS=$CPICFLAGS     ; export CPICFLAGS
-CXX=`"${R_HOME}/bin/R" CMD config CXX`                 ;  echo set CXX=$CXX                 ; export CXX
-CXXFLAGS=`"${R_HOME}/bin/R" CMD config CXXFLAGS`       ;  echo set CXXFLAGS=$CXXFLAGS       ; export CXXFLAGS
-CXXPICFLAGS=`"${R_HOME}/bin/R" CMD config CXXPICFLAGS` ;  echo set CXXPICFLAGS=$CXXPICFLAGS ; export CXXPICFLAGS
-CPPFLAGS=`"${R_HOME}/bin/R" CMD config CPPFLAGS`       ;  echo set CPPFLAGS=$CPPFLAGS       ; export CPPFLAGS
-LDFLAGS=`"${R_HOME}/bin/R" CMD config LDFLAGS`         ;  echo set LDFLAGS=$LDFLAGS         ; export LDFLAGS
+R_CC=`"${R_HOME}/bin/R" CMD config CC`                        ; echo R_CC="$R_CC"
+R_CFLAGS=`"${R_HOME}/bin/R" CMD config CFLAGS`                ; echo R_CFLAGS="$R_CFLAGS"
+R_CPICFLAGS=`"${R_HOME}/bin/R" CMD config CPICFLAGS`          ; echo R_CPICFLAGS="$R_CPICFLAGS"
+R_CXX=`"${R_HOME}/bin/R" CMD config CXX`                      ; echo R_CXX="$R_CXX"
+R_CXXFLAGS=`"${R_HOME}/bin/R" CMD config CXXFLAGS`            ; echo R_CXXFLAGS="$R_CXXFLAGS"
+R_CXXPICFLAGS=`"${R_HOME}/bin/R" CMD config CXXPICFLAGS`      ; echo R_CXXPICFLAGS="$R_CXXPICFLAGS"
+R_CPPFLAGS=`"${R_HOME}/bin/R" CMD config CPPFLAGS`            ; echo R_CPPFLAGS="$R_CPPFLAGS"
+R_LDFLAGS=`"${R_HOME}/bin/R" CMD config LDFLAGS`              ; echo R_LDFLAGS="$R_LDFLAGS"
 
-if test -z "$CXX"; then
+if test -z "$R_CXX"; then
     echo >&2 "could not detect C++ compiler with R CMD config"
 fi
 
-#CMAKE_C_COMPILER="$CC"    ; echo set CMAKE_C_COMPILER=$CC    ; export CMAKE_C_COMPILER
-#CMAKE_CXX_COMPILER="$CXX" ; echo set CMAKE_CXX_COMPILER=$CXX ; export CMAKE_CXX_COMPILER
+echo == setting cmake environment variables
 
-# set CMAKE_C/CXX_FLAGS and prepend CPPFLAGS
-CMAKE_C_FLAGS="$CPPFLAGS $CFLAGS"     ; echo set CMAKE_C_FLAGS="$CPPFLAGS $CFLAGS"    ; export CMAKE_C_FLAGS
-CMAKE_CXX_FLAGS="$CPPFLAGS $CXXFLAGS" ; echo set CMAKE_CXX_FLAGS="$CPPFLAGS $CXXFLAGS"; export CMAKE_CXX_FLAGS
-
-## Convert LDFLAGS/CPPFLAGS to CMAKE_LIBRARY_PATH/CMAKE_INCLUDE_PATH by removing the "-L"/"-I" prefix
-CMAKE_LIBRARY_PATH=`echo "$LDFLAGS"  | tr -s ' ' '\n' | grep '^-L' | sed 's/^-L//' | paste -sd ';' -` ; echo set CMAKE_LIBRARY_PATH="$CMAKE_LIBRARY_PATH"; export CMAKE_LIBRARY_PATH
-CMAKE_INCLUDE_PATH=`echo "$CPPFLAGS" | tr -s ' ' '\n' | grep '^-I' | sed 's/^-I//' | paste -sd ';' -` ; echo set CMAKE_INCLUDE_PATH="$CMAKE_INCLUDE_PATH"; export CMAKE_INCLUDE_PATH
-
-# LDFLAGS https://cmake.org/cmake/help/latest/envvar/LDFLAGS.html
-
-#if $CMAKE_BIN --find-package -DNAME=SymEngine -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=LINK >/dev/null 2>/dev/null; then
-#    IF_SYMENGINE_EXISTS=true
-#else
-#    IF_SYMENGINE_EXISTS=false
-#fi
+CMAKE_C_COMPILER="$R_CC"                                                                                                       ; echo setting CMAKE_C_COMPILER="$CMAKE_C_COMPILER"                   ; export CMAKE_C_COMPILER="$CMAKE_C_COMPILER"
+CMAKE_C_FLAGS="$R_CFLAGS $R_CPICFLAGS"                                                                                         ; echo setting CMAKE_C_FLAGS="$CMAKE_C_FLAGS"                         ; export CMAKE_C_FLAGS="$CMAKE_C_FLAGS"
+CMAKE_CXX_COMPILER="$R_CXX"                                                                                                    ; echo setting CMAKE_CXX_COMPILER="$CMAKE_CXX_COMPILER"               ; export CMAKE_CXX_COMPILER="$CMAKE_CXX_COMPILER"
+CMAKE_CXX_FLAGS="$R_CXXFLAGS $R_CXXPICFLAGS"                                                                                   ; echo setting CMAKE_CXX_FLAGS="$CMAKE_CXX_FLAGS"                     ; export CMAKE_CXX_FLAGS="$CMAKE_CXX_FLAGS"
+CMAKE_INCLUDE_PATH=`"${R_HOME}/bin/Rscript" ./tools/translate_to_cmake_flags.R CMAKE_INCLUDE_PATH "$R_CPPFLAGS"`               ; echo setting CMAKE_INCLUDE_PATH="$CMAKE_INCLUDE_PATH"               ; export CMAKE_INCLUDE_PATH="$CMAKE_INCLUDE_PATH"
+CMAKE_LIBRARY_PATH=`"${R_HOME}/bin/Rscript" ./tools/translate_to_cmake_flags.R CMAKE_LIBRARY_PATH "$R_LDFLAGS"`                ; echo setting CMAKE_LIBRARY_PATH="$CMAKE_LIBRARY_PATH"               ; export CMAKE_LIBRARY_PATH="$CMAKE_LIBRARY_PATH"
 
 ## Use ./tools/SYMENGINE_BUNDLED file as indicator so that
 ## this won't run on CRAN machine.
