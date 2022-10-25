@@ -19,7 +19,7 @@ to R value.'><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">symengine</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.2</span>
       </span>
     </div>
 
@@ -67,29 +67,36 @@ to R value.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">evalf</span><span class="op">(</span><span class="va">expr</span>, bits <span class="op">=</span> <span class="fl">53L</span>, complex <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">evalf</span><span class="op">(</span><span class="va">expr</span>, bits <span class="op">=</span> <span class="fl">53L</span>, complex <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>expr</dt>
 <dd><p>A SymEngine object.</p></dd>
+
+
 <dt>bits</dt>
 <dd><p>The precision.</p></dd>
+
+
 <dt>complex</dt>
 <dd><p>Whether or not to be evaluated as a complex number.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Same type as <code>expr</code> argument.</p>
+    
+
+<p>Same type as <code>expr</code> argument.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">expr</span> <span class="op">&lt;-</span> <span class="fu"><a href="S.html">Constant</a></span><span class="op">(</span><span class="st">"pi"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">evalf</span><span class="op">(</span><span class="va">expr</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">expr</span> <span class="op">&lt;-</span> <span class="fu"><a href="S.html">Constant</a></span><span class="op">(</span><span class="st">"pi"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">evalf</span><span class="op">(</span><span class="va">expr</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">(RealDouble)</span>	3.14159265358979</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/double.html" class="external-link">as.double</a></span><span class="op">(</span><span class="fu">evalf</span><span class="op">(</span><span class="va">expr</span><span class="op">)</span><span class="op">)</span> <span class="op">==</span> <span class="va">pi</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/double.html" class="external-link">as.double</a></span><span class="op">(</span><span class="fu">evalf</span><span class="op">(</span><span class="va">expr</span><span class="op">)</span><span class="op">)</span> <span class="op">==</span> <span class="va">pi</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 </code></pre></div>
     </div>
@@ -105,7 +112,7 @@ to R value.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

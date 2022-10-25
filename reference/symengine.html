@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">symengine</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.2</span>
       </span>
     </div>
 
@@ -100,8 +100,8 @@ the multiplication.</p>
 
 <p>VecBasic and DenseMatrix are S4 classes representing a symbolic vector or matrix.
 They can be constructed with <code><a href="Vector.html">Vector()</a></code>, <code><a href="Vector.html">V()</a></code>, <code><a href="Matrix.html">Matrix()</a></code>, <code><a href="https://rdrr.io/r/base/c.html" class="external-link">c()</a></code>, <code><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind()</a></code>
-or <code><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind()</a></code>. For example the following code will construct a 2x3 matrix.</p><div class="sourceCode"><pre><code><span class="va">vec</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/Vector.html">Vector</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">vec</span>, <span class="va">vec</span><span class="op">^</span><span class="fl">2L</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="../reference/S.html">S</a></span><span class="op">(</span><span class="st">"c"</span><span class="op">)</span>, <span class="fu"><a href="../reference/S.html">S</a></span><span class="op">(</span><span class="st">"d"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+or <code><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind()</a></code>. For example the following code will construct a 2x3 matrix.</p><div class="sourceCode"><pre><code><span><span class="va">vec</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/Vector.html">Vector</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">vec</span>, <span class="va">vec</span><span class="op">^</span><span class="fl">2L</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="../reference/S.html">S</a></span><span class="op">(</span><span class="st">"c"</span><span class="op">)</span>, <span class="fu"><a href="../reference/S.html">S</a></span><span class="op">(</span><span class="st">"d"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 
 <p>The following functions are expected to work naturally with VecBasic and DenseMatrix
 classes.</p><ul><li><p><code>[</code>, <code>[[</code>, <code>[&lt;-</code> and <code>[[&lt;-</code> for subsetting and assignment.</p></li>
@@ -143,7 +143,7 @@ objects. For example <code>S(~ sin(x) + 1)</code> and <code>S(quote(sin(x) + 1))
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

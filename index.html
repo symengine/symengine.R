@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">symengine</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.2</span>
       </span>
     </div>
 
@@ -96,17 +96,17 @@
 <span id="cb1-4"><a href="#cb1-4"></a>brew   install cmake gmp mpfr libmpc                   <span class="co">## Mac OS</span></span></code></pre></div>
 <p>Then you can install the R package with</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"symengine/symengine.R"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"symengine/symengine.R"</span><span class="op">)</span></span></code></pre></div>
 <p>On Windows, you will need to install <a href="https://cran.r-project.org/bin/windows/Rtools/rtools42/rtools.html" class="external-link">Rtools42</a> for building the package from source.</p>
 <p>Please report any problem installing the package on your system.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/symengine/symengine.R" class="external-link">symengine</a></span><span class="op">)</span>
-<span class="co">#&gt; SymEngine Version: 0.9.0</span>
-<span class="co">#&gt;  _____           _____         _         </span>
-<span class="co">#&gt; |   __|_ _ _____|   __|___ ___|_|___ ___ </span>
-<span class="co">#&gt; |__   | | |     |   __|   | . | |   | -_|</span>
-<span class="co">#&gt; |_____|_  |_|_|_|_____|_|_|_  |_|_|_|___|</span>
-<span class="co">#&gt;       |___|               |___|</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/symengine/symengine.R" class="external-link">symengine</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; SymEngine Version: 0.9.0</span></span>
+<span><span class="co">#&gt;  _____           _____         _         </span></span>
+<span><span class="co">#&gt; |   __|_ _ _____|   __|___ ___|_|___ ___ </span></span>
+<span><span class="co">#&gt; |__   | | |     |   __|   | . | |   | -_|</span></span>
+<span><span class="co">#&gt; |_____|_  |_|_|_|_____|_|_|_  |_|_|_|___|</span></span>
+<span><span class="co">#&gt;       |___|               |___|</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
@@ -116,83 +116,83 @@
 <h3 id="manipulating-symbolic-expressions">Manipulating Symbolic Expressions<a class="anchor" aria-label="anchor" href="#manipulating-symbolic-expressions"></a>
 </h3>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/use_vars.html">use_vars</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">z</span><span class="op">)</span>
-<span class="co">#&gt; Initializing 'x', 'y', 'z'</span>
-<span class="va">expr</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">x</span> <span class="op">+</span> <span class="va">y</span> <span class="op">+</span> <span class="va">z</span><span class="op">)</span> <span class="op">^</span> <span class="fl">2L</span> <span class="op">-</span> <span class="fl">42L</span>
-<span class="fu"><a href="reference/expand.html">expand</a></span><span class="op">(</span><span class="va">expr</span><span class="op">)</span>
-<span class="co">#&gt; (Add)    -42 + 2*x*y + 2*x*z + 2*y*z + x^2 + y^2 + z^2</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/use_vars.html">use_vars</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">z</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Initializing 'x', 'y', 'z'</span></span>
+<span><span class="va">expr</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">x</span> <span class="op">+</span> <span class="va">y</span> <span class="op">+</span> <span class="va">z</span><span class="op">)</span> <span class="op">^</span> <span class="fl">2L</span> <span class="op">-</span> <span class="fl">42L</span></span>
+<span><span class="fu"><a href="reference/expand.html">expand</a></span><span class="op">(</span><span class="va">expr</span><span class="op">)</span></span>
+<span><span class="co">#&gt; (Add)    -42 + 2*x*y + 2*x*z + 2*y*z + x^2 + y^2 + z^2</span></span></code></pre></div>
 <p>Substitue <code>z</code> as <code>a</code> and <code>y</code> as <code>x^2</code>.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/S.html">S</a></span><span class="op">(</span><span class="st">"a"</span><span class="op">)</span>
-<span class="va">expr</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/subs.html">subs</a></span><span class="op">(</span><span class="va">expr</span>, <span class="va">z</span>, <span class="va">a</span><span class="op">)</span>
-<span class="va">expr</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/subs.html">subs</a></span><span class="op">(</span><span class="va">expr</span>, <span class="va">y</span>, <span class="va">x</span><span class="op">^</span><span class="fl">2L</span><span class="op">)</span>
-<span class="va">expr</span>
-<span class="co">#&gt; (Add)    -42 + (a + x + x^2)^2</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/S.html">S</a></span><span class="op">(</span><span class="st">"a"</span><span class="op">)</span></span>
+<span><span class="va">expr</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/subs.html">subs</a></span><span class="op">(</span><span class="va">expr</span>, <span class="va">z</span>, <span class="va">a</span><span class="op">)</span></span>
+<span><span class="va">expr</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/subs.html">subs</a></span><span class="op">(</span><span class="va">expr</span>, <span class="va">y</span>, <span class="va">x</span><span class="op">^</span><span class="fl">2L</span><span class="op">)</span></span>
+<span><span class="va">expr</span></span>
+<span><span class="co">#&gt; (Add)    -42 + (a + x + x^2)^2</span></span></code></pre></div>
 <p>Second derivative of <code>expr</code> with regards to <code>x</code>:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">d1_expr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/deriv.html" class="external-link">D</a></span><span class="op">(</span><span class="va">expr</span>, <span class="st">"x"</span><span class="op">)</span>
-<span class="va">d2_expr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/deriv.html" class="external-link">D</a></span><span class="op">(</span><span class="va">d1_expr</span>, <span class="st">"x"</span><span class="op">)</span>
-<span class="fu"><a href="reference/expand.html">expand</a></span><span class="op">(</span><span class="va">d2_expr</span><span class="op">)</span>
-<span class="co">#&gt; (Add)    2 + 4*a + 12*x + 12*x^2</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">d1_expr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/deriv.html" class="external-link">D</a></span><span class="op">(</span><span class="va">expr</span>, <span class="st">"x"</span><span class="op">)</span></span>
+<span><span class="va">d2_expr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/deriv.html" class="external-link">D</a></span><span class="op">(</span><span class="va">d1_expr</span>, <span class="st">"x"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/expand.html">expand</a></span><span class="op">(</span><span class="va">d2_expr</span><span class="op">)</span></span>
+<span><span class="co">#&gt; (Add)    2 + 4*a + 12*x + 12*x^2</span></span></code></pre></div>
 <p>Solve the equation of <code>d2_expr == 0</code> with regards to <code>x</code>.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">solutions</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/solve.html">solve</a></span><span class="op">(</span><span class="va">d2_expr</span>, <span class="st">"x"</span><span class="op">)</span>
-<span class="va">solutions</span>
-<span class="co">#&gt; VecBasic of length 2</span>
-<span class="co">#&gt; V( -1/2 + (-1/2)*sqrt(1 + (-1/3)*(2 + 4*a)), -1/2 + (1/2)*sqrt(1 + (-1/3)*(2 + 4*a)) )</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">solutions</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/solve.html">solve</a></span><span class="op">(</span><span class="va">d2_expr</span>, <span class="st">"x"</span><span class="op">)</span></span>
+<span><span class="va">solutions</span></span>
+<span><span class="co">#&gt; VecBasic of length 2</span></span>
+<span><span class="co">#&gt; V( -1/2 + (-1/2)*sqrt(1 + (-1/3)*(2 + 4*a)), -1/2 + (1/2)*sqrt(1 + (-1/3)*(2 + 4*a)) )</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="numerically-evaluate-symbolic-expressions">Numerically Evaluate Symbolic Expressions<a class="anchor" aria-label="anchor" href="#numerically-evaluate-symbolic-expressions"></a>
 </h3>
 <p>For the two solutions above, we can convert them into a function that gives numeric output with regards to given input.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">func</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.function.html" class="external-link">as.function</a></span><span class="op">(</span><span class="va">solutions</span><span class="op">)</span>
-<span class="va">ans</span> <span class="op">&lt;-</span> <span class="fu">func</span><span class="op">(</span>a <span class="op">=</span> <span class="op">-</span><span class="fl">100</span><span class="op">:</span><span class="op">-</span><span class="fl">95</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">ans</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Solution1"</span>, <span class="st">"Solution2"</span><span class="op">)</span>
-<span class="va">ans</span>
-<span class="co">#&gt;      Solution1 Solution2</span>
-<span class="co">#&gt; [1,] -6.280715  5.280715</span>
-<span class="co">#&gt; [2,] -6.251811  5.251811</span>
-<span class="co">#&gt; [3,] -6.222762  5.222762</span>
-<span class="co">#&gt; [4,] -6.193564  5.193564</span>
-<span class="co">#&gt; [5,] -6.164215  5.164215</span>
-<span class="co">#&gt; [6,] -6.134714  5.134714</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">func</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.function.html" class="external-link">as.function</a></span><span class="op">(</span><span class="va">solutions</span><span class="op">)</span></span>
+<span><span class="va">ans</span> <span class="op">&lt;-</span> <span class="fu">func</span><span class="op">(</span>a <span class="op">=</span> <span class="op">-</span><span class="fl">100</span><span class="op">:</span><span class="op">-</span><span class="fl">95</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">ans</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Solution1"</span>, <span class="st">"Solution2"</span><span class="op">)</span></span>
+<span><span class="va">ans</span></span>
+<span><span class="co">#&gt;      Solution1 Solution2</span></span>
+<span><span class="co">#&gt; [1,] -6.280715  5.280715</span></span>
+<span><span class="co">#&gt; [2,] -6.251811  5.251811</span></span>
+<span><span class="co">#&gt; [3,] -6.222762  5.222762</span></span>
+<span><span class="co">#&gt; [4,] -6.193564  5.193564</span></span>
+<span><span class="co">#&gt; [5,] -6.164215  5.164215</span></span>
+<span><span class="co">#&gt; [6,] -6.134714  5.134714</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="numbers">Numbers<a class="anchor" aria-label="anchor" href="#numbers"></a>
 </h3>
 <p>The next prime number greater than 2^400.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">n</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mathfuns.html">nextprime</a></span><span class="op">(</span><span class="fu"><a href="reference/S.html">S</a></span><span class="op">(</span><span class="op">~</span> <span class="fl">2</span> <span class="op">^</span> <span class="fl">400</span><span class="op">)</span><span class="op">)</span>
-<span class="va">n</span>
-<span class="co">#&gt; (Integer)    2582249878086908589655919172003011874329705792829223512830659356540647622016841194629645353280137831435903171972747493557</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mathfuns.html">nextprime</a></span><span class="op">(</span><span class="fu"><a href="reference/S.html">S</a></span><span class="op">(</span><span class="op">~</span> <span class="fl">2</span> <span class="op">^</span> <span class="fl">400</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">n</span></span>
+<span><span class="co">#&gt; (Integer)    2582249878086908589655919172003011874329705792829223512830659356540647622016841194629645353280137831435903171972747493557</span></span></code></pre></div>
 <p>The greatest common divisor between the prime number and 42.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/mathfuns.html">GCD</a></span><span class="op">(</span><span class="va">n</span>, <span class="fl">42</span><span class="op">)</span>
-<span class="co">#&gt; (Integer)    1</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/mathfuns.html">GCD</a></span><span class="op">(</span><span class="va">n</span>, <span class="fl">42</span><span class="op">)</span></span>
+<span><span class="co">#&gt; (Integer)    1</span></span></code></pre></div>
 <p>The binomial coefficient <code>(2^30 ¦ 5)</code>.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/mathfuns.html">choose</a></span><span class="op">(</span><span class="fu"><a href="reference/S.html">S</a></span><span class="op">(</span><span class="op">~</span> <span class="fl">2</span><span class="op">^</span><span class="fl">30</span><span class="op">)</span>, <span class="fl">5L</span><span class="op">)</span>
-<span class="co">#&gt; (Integer)    11893730661780666387808571314613824587300864</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/mathfuns.html">choose</a></span><span class="op">(</span><span class="fu"><a href="reference/S.html">S</a></span><span class="op">(</span><span class="op">~</span> <span class="fl">2</span><span class="op">^</span><span class="fl">30</span><span class="op">)</span>, <span class="fl">5L</span><span class="op">)</span></span>
+<span><span class="co">#&gt; (Integer)    11893730661780666387808571314613824587300864</span></span></code></pre></div>
 <p>Pi “computed” to 400-bit precision number.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="reference/symengine_info.html">symengine_have_component</a></span><span class="op">(</span><span class="st">"mpfr"</span><span class="op">)</span><span class="op">)</span>
-    <span class="fu"><a href="reference/evalf.html">evalf</a></span><span class="op">(</span><span class="fu"><a href="reference/S.html">Constant</a></span><span class="op">(</span><span class="st">"pi"</span><span class="op">)</span>, bits <span class="op">=</span> <span class="fl">400</span><span class="op">)</span>
-<span class="co">#&gt; (RealMPFR,prec400)   3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679821480865132823066</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="reference/symengine_info.html">symengine_have_component</a></span><span class="op">(</span><span class="st">"mpfr"</span><span class="op">)</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="reference/evalf.html">evalf</a></span><span class="op">(</span><span class="fu"><a href="reference/S.html">Constant</a></span><span class="op">(</span><span class="st">"pi"</span><span class="op">)</span>, bits <span class="op">=</span> <span class="fl">400</span><span class="op">)</span></span>
+<span><span class="co">#&gt; (RealMPFR,prec400)   3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679821480865132823066</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="object-equality">Object Equality<a class="anchor" aria-label="anchor" href="#object-equality"></a>
 </h3>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">x</span> <span class="op">+</span> <span class="va">y</span> <span class="op">==</span> <span class="fu"><a href="reference/S.html">S</a></span><span class="op">(</span><span class="st">"x + y"</span><span class="op">)</span>
-<span class="co">#&gt; [1] TRUE</span>
-<span class="va">x</span> <span class="op">+</span> <span class="va">y</span> <span class="op">!=</span> <span class="fu"><a href="reference/S.html">S</a></span><span class="op">(</span><span class="st">"x + y"</span><span class="op">)</span>
-<span class="co">#&gt; [1] FALSE</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">+</span> <span class="va">y</span> <span class="op">==</span> <span class="fu"><a href="reference/S.html">S</a></span><span class="op">(</span><span class="st">"x + y"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span>
+<span><span class="va">x</span> <span class="op">+</span> <span class="va">y</span> <span class="op">!=</span> <span class="fu"><a href="reference/S.html">S</a></span><span class="op">(</span><span class="st">"x + y"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] FALSE</span></span></code></pre></div>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">sin</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">cos</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>
-<span class="co">#&gt; (Mul)    sin(x)/cos(x)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">tan</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">sin</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">cos</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="co"># Different internal representation</span>
-<span class="co">#&gt; [1] FALSE</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">sin</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">cos</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span><span class="co">#&gt; (Mul)    sin(x)/cos(x)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">tan</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">sin</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">cos</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="co"># Different internal representation</span></span>
+<span><span class="co">#&gt; [1] FALSE</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -257,7 +257,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>

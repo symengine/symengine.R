@@ -18,7 +18,7 @@ and use it to numerically evaluate symbolic expressions."><!-- mathjax --><scrip
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">symengine</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.2</span>
       </span>
     </div>
 
@@ -65,40 +65,56 @@ and use it to numerically evaluate symbolic expressions.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">DoubleVisitor</span><span class="op">(</span>
-  <span class="va">exprs</span>,
-  <span class="va">args</span>,
-  perform_cse <span class="op">=</span> <span class="cn">TRUE</span>,
-  llvm_opt_level <span class="op">=</span> <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="symengine_info.html">symengine_have_component</a></span><span class="op">(</span><span class="st">"llvm"</span><span class="op">)</span><span class="op">)</span> <span class="fl">3L</span> <span class="kw">else</span> <span class="op">-</span><span class="fl">1L</span>
-<span class="op">)</span>
-
-<span class="fu">visitor_call</span><span class="op">(</span><span class="va">visitor</span>, <span class="va">input</span>, do_transpose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">DoubleVisitor</span><span class="op">(</span></span>
+<span>  <span class="va">exprs</span>,</span>
+<span>  <span class="va">args</span>,</span>
+<span>  perform_cse <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  llvm_opt_level <span class="op">=</span> <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="symengine_info.html">symengine_have_component</a></span><span class="op">(</span><span class="st">"llvm"</span><span class="op">)</span><span class="op">)</span> <span class="fl">3L</span> <span class="kw">else</span> <span class="op">-</span><span class="fl">1L</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">visitor_call</span><span class="op">(</span><span class="va">visitor</span>, <span class="va">input</span>, do_transpose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>exprs</dt>
 <dd><p>A Basic object or a VecBasic object to be evaluated.</p></dd>
+
+
 <dt>args</dt>
 <dd><p>A VecBasic object indicating order of input arguments. Can be missing.</p></dd>
+
+
 <dt>perform_cse</dt>
 <dd><p>Boolean.</p></dd>
+
+
 <dt>llvm_opt_level</dt>
 <dd><p>Integer. If negative, it will return a <code>LambdaDoubleVisitor</code>,
 otherwise it will return a <code>LLVMDoubleVisitor</code> with the specified optimization level.</p></dd>
+
+
 <dt>visitor</dt>
 <dd><p>A DoubleVisitor object.</p></dd>
+
+
 <dt>input</dt>
 <dd><p>A numeric matrix. Each row is input value for one argument.</p></dd>
+
+
 <dt>do_transpose</dt>
 <dd><p>Boolean. Matters when <code>exprs</code> is a VecBasic.
 If true, output will have each column for one symbolic expression, otherwise
 each row for one symbolic expression.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p><code>DoubleVisitor</code> returns a callable <code>LambdaDoubleVisitor</code> or
-<code>LLVMDoubleVisitor</code>. <code>visitor_call</code> returns a numeric vector or matrix.</p>
+    
+
+<p><code>DoubleVisitor</code> returns a callable <code>LambdaDoubleVisitor</code> or</p>
+<p></p>
+<p><code>LLVMDoubleVisitor</code>. <code>visitor_call</code> returns a numeric vector or matrix.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -112,17 +128,17 @@ each row for one symbolic expression.</p></dd>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="S.html">S</a></span><span class="op">(</span><span class="st">"a"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="S.html">S</a></span><span class="op">(</span><span class="st">"b"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">c</span> <span class="op">&lt;-</span> <span class="fu"><a href="S.html">S</a></span><span class="op">(</span><span class="st">"c"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">vec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">a</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">a</span><span class="op">)</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span> <span class="op">+</span> <span class="va">c</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">func</span> <span class="op">&lt;-</span> <span class="fu">DoubleVisitor</span><span class="op">(</span><span class="va">vec</span>, args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span>, <span class="va">c</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/args.html" class="external-link">args</a></span><span class="op">(</span><span class="va">func</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="S.html">S</a></span><span class="op">(</span><span class="st">"a"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="S.html">S</a></span><span class="op">(</span><span class="st">"b"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">c</span> <span class="op">&lt;-</span> <span class="fu"><a href="S.html">S</a></span><span class="op">(</span><span class="st">"c"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">vec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">a</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">a</span><span class="op">)</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span> <span class="op">+</span> <span class="va">c</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">func</span> <span class="op">&lt;-</span> <span class="fu">DoubleVisitor</span><span class="op">(</span><span class="va">vec</span>, args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span>, <span class="va">c</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/args.html" class="external-link">args</a></span><span class="op">(</span><span class="va">func</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> function (a, b, c) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## Use closure</span></span>
-<span class="r-in"><span class="fu">func</span><span class="op">(</span>a <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, b <span class="op">=</span> <span class="fl">10</span><span class="op">:</span><span class="fl">1</span>, c <span class="op">=</span> <span class="fl">1.43</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Use closure</span></span></span>
+<span class="r-in"><span><span class="fu">func</span><span class="op">(</span>a <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, b <span class="op">=</span> <span class="fl">10</span><span class="op">:</span><span class="fl">1</span>, c <span class="op">=</span> <span class="fl">1.43</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]     [,2]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1,] 0.0000000 1.430000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [2,] 0.6931472 1.745465</span>
@@ -134,10 +150,10 @@ each row for one symbolic expression.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [8,] 2.0794415 3.322789</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [9,] 2.1972246 4.599925</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [10,] 2.3025851      Inf</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## Use visitor_call</span></span>
-<span class="r-in"><span class="va">input</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, b <span class="op">=</span> <span class="fl">10</span><span class="op">:</span><span class="fl">1</span>, c <span class="op">=</span> <span class="fl">1.43</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">visitor_call</span><span class="op">(</span><span class="va">func</span>, <span class="va">input</span>, do_transpose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Use visitor_call</span></span></span>
+<span class="r-in"><span><span class="va">input</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, b <span class="op">=</span> <span class="fl">10</span><span class="op">:</span><span class="fl">1</span>, c <span class="op">=</span> <span class="fl">1.43</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">visitor_call</span><span class="op">(</span><span class="va">func</span>, <span class="va">input</span>, do_transpose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]     [,2]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1,] 0.0000000 1.430000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [2,] 0.6931472 1.745465</span>
@@ -163,7 +179,7 @@ each row for one symbolic expression.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

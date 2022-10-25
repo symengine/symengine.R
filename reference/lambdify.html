@@ -19,7 +19,7 @@ essentially is a S4 class extending R function."><!-- mathjax --><script src="ht
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">symengine</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.2</span>
       </span>
     </div>
 
@@ -67,31 +67,42 @@ essentially is a S4 class extending R function.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">lambdify</span><span class="op">(</span><span class="va">x</span>, <span class="va">args</span>, backend <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"auto"</span>, <span class="st">"lambda"</span>, <span class="st">"llvm"</span><span class="op">)</span>, perform_cse <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-
-<span class="co"># S3 method for BasicOrVecBasic</span>
-<span class="fu"><a href="https://rdrr.io/r/base/as.function.html" class="external-link">as.function</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">args</span>, backend <span class="op">=</span> <span class="st">"auto"</span>, perform_cse <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">lambdify</span><span class="op">(</span><span class="va">x</span>, <span class="va">args</span>, backend <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"auto"</span>, <span class="st">"lambda"</span>, <span class="st">"llvm"</span><span class="op">)</span>, perform_cse <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for BasicOrVecBasic</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/as.function.html" class="external-link">as.function</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">args</span>, backend <span class="op">=</span> <span class="st">"auto"</span>, perform_cse <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>A Basic object or a VecBasic object.</p></dd>
+
+
 <dt>args</dt>
 <dd><p>A VecBasic object specifying the arguments of the resulted function.
 It will be passed to <code><a href="DoubleVisitor.html">DoubleVisitor</a></code> and can be missing.</p></dd>
+
+
 <dt>backend</dt>
 <dd><p>One of "auto", "lambda" and "llvm". If "auto", 
 <code>getOption("lambdify.backend")</code> will be used to determine the value. If that
 option is not set, it will be determined based on <code>symengine_have_component("llvm")</code>.</p></dd>
+
+
 <dt>perform_cse</dt>
 <dd><p>Passed to <code><a href="DoubleVisitor.html">DoubleVisitor</a></code>.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Not used</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A <code>DoubleVisitor</code> S4 object.</p>
+    
+
+<p>A <code>DoubleVisitor</code> S4 object.</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -110,7 +121,7 @@ option is not set, it will be determined based on <code>symengine_have_component
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

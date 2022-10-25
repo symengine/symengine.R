@@ -18,7 +18,7 @@ environment."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/lib
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">symengine</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.2</span>
       </span>
     </div>
 
@@ -65,7 +65,7 @@ environment.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">use_vars</span><span class="op">(</span><span class="va">...</span>, .env <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sys.parent.html" class="external-link">parent.frame</a></span><span class="op">(</span><span class="op">)</span>, .quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">use_vars</span><span class="op">(</span><span class="va">...</span>, .env <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sys.parent.html" class="external-link">parent.frame</a></span><span class="op">(</span><span class="op">)</span>, .quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -74,25 +74,32 @@ environment.</p>
 <dd><p>All the arguments will be quoted and parsed, if a argument is named,
 the name will be used as the name of variable to assign, otherwise the
 argument can only be a symbol.</p></dd>
+
+
 <dt>.env</dt>
 <dd><p>Environment to assign.</p></dd>
+
+
 <dt>.quiet</dt>
 <dd><p>Whether to supress the message.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Invisibly returns a list of assigned variables.</p>
+    
+
+<p>Invisibly returns a list of assigned variables.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">use_vars</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, expr <span class="op">=</span> <span class="st">"a + b"</span>, p <span class="op">=</span> <span class="fl">3.14</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">use_vars</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, expr <span class="op">=</span> <span class="st">"a + b"</span>, p <span class="op">=</span> <span class="fl">3.14</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Initializing ‘x’, ‘y’, ‘expr’, ‘p’</span>
-<span class="r-in"><span class="va">p</span> <span class="op">*</span> <span class="va">x</span> <span class="op">+</span> <span class="va">y</span></span>
+<span class="r-in"><span><span class="va">p</span> <span class="op">*</span> <span class="va">x</span> <span class="op">+</span> <span class="va">y</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">(Add)</span>	3.14*x + y</span>
-<span class="r-in"><span class="fu"><a href="expand.html">expand</a></span><span class="op">(</span><span class="va">expr</span><span class="op">^</span><span class="fl">2L</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="expand.html">expand</a></span><span class="op">(</span><span class="va">expr</span><span class="op">^</span><span class="fl">2L</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">(Add)</span>	2*a*b + a^2 + b^2</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">expr</span>, <span class="va">p</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">expr</span>, <span class="va">p</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -107,7 +114,7 @@ argument can only be a symbol.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>
