@@ -79,27 +79,16 @@ setMethod("length", "VecBasic",
 )
 
 #' @rdname vecbasic-bindings
-setMethod("rep", c(x = "VecBasic"),
-    function(x, ...)
-        s4binding_subset(x, rep(seq_len(length(x)), ...), get_basic = FALSE)
-)
+#' @export
+rep.VecBasic <- function(x, ...) {
+    s4binding_subset(x, rep(seq_len(length(x)), ...), get_basic = FALSE)
+}
+    
 #' @rdname vecbasic-bindings
-setMethod("rep", c(x = "Basic"),
-    function(x, ...)
-        s4binding_subset(x, rep(1L, ...), get_basic = FALSE)
-)
-setMethod("rep_len", c(x = "VecBasic"),
-    function(x, length.out) rep(x, length.out = length.out)
-)
-setMethod("rep_len", c(x = "Basic"),
-    function(x, length.out) rep(x, length.out = length.out)
-)
-setMethod("rep.int", c(x = "VecBasic"),
-    function(x, times)      rep(x, times = times)
-)
-setMethod("rep.int", c(x = "Basic"),
-    function(x, times)      rep(x, times = times)
-)
+#' @export
+rep.Basic <- function(x, ...) {
+    s4binding_subset(x, rep(1L, ...), get_basic = FALSE)
+}
 
 #' @rdname vecbasic-bindings
 #' @export
