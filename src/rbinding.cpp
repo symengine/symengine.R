@@ -961,7 +961,7 @@ void s4DenseMat_mut_addcols(RObject A, RObject B) {
     size_t nrow_self  = dense_matrix_rows(self);
     size_t nrow_value = dense_matrix_rows(value);
     if (nrow_self != nrow_value)
-        Rf_error("Number of rows not equal (%d != %d)\n", nrow_self, nrow_value);
+        Rf_error("Number of rows not equal (%zu != %zu)\n", nrow_self, nrow_value);
     cwrapper_hold(dense_matrix_row_join(self, value));
     return;
 }
@@ -972,7 +972,7 @@ void s4DenseMat_mut_addrows(RObject A, RObject B) {
     size_t ncol_self  = dense_matrix_cols(self);
     size_t ncol_value = dense_matrix_cols(value);
     if (ncol_self != ncol_value)
-        Rf_error("Number of cols not equal (%d != %d)\n", ncol_self, ncol_value);
+        Rf_error("Number of cols not equal (%zu != %zu)\n", ncol_self, ncol_value);
     cwrapper_hold(dense_matrix_col_join(self, value));
     return;
 }
