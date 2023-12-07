@@ -26,33 +26,28 @@ static_assert(std::alignment_of<CRCPBasic>::value
 // Some cwrapper helpers ///////////
 
 // Exception handling
-const char* cwrapper_exception_message(CWRAPPER_OUTPUT_TYPE id) {
+static
+void cwrapper_hold(CWRAPPER_OUTPUT_TYPE output) {
+    if (!output) return;
+    
     // Refer:
     // https://github.com/symengine/symengine/blob/master/symengine/symengine_exception.h
-    switch(id) {
+    switch(output) {
     case SYMENGINE_NO_EXCEPTION:
-        return "SymEngine exception: No exception, it should not go here";
+        Rf_error("SymEngine exception: No exception, it should not go here");
     case SYMENGINE_RUNTIME_ERROR:
-        return "SymEngine exception: Runtime error";
+        Rf_error("SymEngine exception: Runtime error");
     case SYMENGINE_DIV_BY_ZERO:
-        return "SymEngine exception: Div by zero";
+        Rf_error("SymEngine exception: Div by zero");
     case SYMENGINE_NOT_IMPLEMENTED:
-        return "SymEngine exception: Not implemented SymEngine feature";
+        Rf_error("SymEngine exception: Not implemented SymEngine feature");
     case SYMENGINE_DOMAIN_ERROR:
-        return "SymEngine exception: Domain error";
+        Rf_error("SymEngine exception: Domain error");
     case SYMENGINE_PARSE_ERROR:
-        return "SymEngine exception: Parse error";
+        Rf_error("SymEngine exception: Parse error");
     default:
-        return "SymEngine exception: Unexpected SymEngine error code";
+        Rf_error("SymEngine exception: Unexpected SymEngine error code");
     }
-}
-
-static inline
-void cwrapper_hold(CWRAPPER_OUTPUT_TYPE output) {
-    if (output)
-        Rf_error(cwrapper_exception_message(output));
-    else
-        return;
 }
 
 
