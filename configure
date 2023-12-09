@@ -61,14 +61,15 @@ if test -z "$R_CXX"; then
     echo >&2 "could not detect C++ compiler with R CMD config"
 fi
 
-echo == setting environment variables for cmake
+echo == translating to cmake variables
 
-CC="$R_CC"                                        ; echo setting CC="$CC"             ; export CC
-CFLAGS="$R_CPPFLAGS $R_CFLAGS $R_CPICFLAGS"       ; echo setting CFLAGS="$CFLAGS"     ; export CFLAGS
-CXX="$R_CXX"                                      ; echo setting CXX="$CXX"           ; export CXX
-CXXFLAGS="$R_CPPFLAGS $R_CXXFLAGS $R_CXXPICFLAGS" ; echo setting CXXFLAGS="$CXXFLAGS" ; export CXXFLAGS
-CPPFLAGS="$R_CPPFLAGS"                            ; echo setting CPPFLAGS="$CPPFLAGS" ; export CPPFLAGS
-LDFLAGS="$R_LDFLAGS"                              ; echo setting LDFLAGS="$LDFLAGS"   ; export LDFLAGS
+CMAKE_C_COMPILER="$R_CC"                                                                                         ; echo setting CMAKE_C_COMPILER="$CMAKE_C_COMPILER"    
+CMAKE_C_FLAGS="$R_CFLAGS $R_CPICFLAGS"                                                                           ; echo setting CMAKE_C_FLAGS="$CMAKE_C_FLAGS"          
+CMAKE_CXX_COMPILER="$R_CXX"                                                                                      ; echo setting CMAKE_CXX_COMPILER="$CMAKE_CXX_COMPILER"
+CMAKE_CXX_FLAGS="$R_CXXFLAGS $R_CXXPICFLAGS"                                                                     ; echo setting CMAKE_CXX_FLAGS="$CMAKE_CXX_FLAGS"      
+CMAKE_INCLUDE_PATH=`"${R_HOME}/bin/Rscript" ./tools/translate_to_cmake_flags.R CMAKE_INCLUDE_PATH "$R_CPPFLAGS"` ; echo setting CMAKE_INCLUDE_PATH="$CMAKE_INCLUDE_PATH"
+CMAKE_LIBRARY_PATH=`"${R_HOME}/bin/Rscript" ./tools/translate_to_cmake_flags.R CMAKE_LIBRARY_PATH "$R_LDFLAGS"`  ; echo setting CMAKE_LIBRARY_PATH="$CMAKE_LIBRARY_PATH"
+
 
 ## Use ./tools/SYMENGINE_BUNDLED file as indicator so that
 ## this won't run on CRAN machine.
@@ -105,6 +106,13 @@ if [ -z "$SymEngine_DIR" ]; then
     $CMAKE_BIN \
         -DCMAKE_AR=$AR \
         -DCMAKE_RANLIB=$RANLIB \
+        \
+        -DCMAKE_C_COMPILER="$DCMAKE_C_COMPILER" \
+        -DCMAKE_C_FLAGS="$DCMAKE_C_FLAGS" \
+        -DCMAKE_CXX_COMPILER="$DCMAKE_CXX_COMPILER" \
+        -DCMAKE_CXX_FLAGS="$DCMAKE_CXX_FLAGS" \
+        -DCMAKE_INCLUDE_PATH="$DCMAKE_INCLUDE_PATH" \
+        -DCMAKE_LIBRARY_PATH="$DCMAKE_LIBRARY_PATH" \
         \
         -DCMAKE_BUILD_TYPE=Release \
         -DWITH_BFD=no \
