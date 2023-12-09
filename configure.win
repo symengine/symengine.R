@@ -67,6 +67,7 @@ CC="$R_CC"                                        ; echo setting CC="$CC"       
 CFLAGS="$R_CPPFLAGS $R_CFLAGS $R_CPICFLAGS"       ; echo setting CFLAGS="$CFLAGS"     ; export CFLAGS
 CXX="$R_CXX"                                      ; echo setting CXX="$CXX"           ; export CXX
 CXXFLAGS="$R_CPPFLAGS $R_CXXFLAGS $R_CXXPICFLAGS" ; echo setting CXXFLAGS="$CXXFLAGS" ; export CXXFLAGS
+CPPFLAGS="$R_CPPFLAGS"                            ; echo setting CPPFLAGS="$CPPFLAGS" ; export CPPFLAGS
 LDFLAGS="$R_LDFLAGS"                              ; echo setting LDFLAGS="$LDFLAGS"   ; export LDFLAGS
 
 ## Use ./tools/SYMENGINE_BUNDLED file as indicator so that
