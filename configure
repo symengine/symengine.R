@@ -102,17 +102,19 @@ if [ -z "$SymEngine_DIR" ]; then
 
     PKG_DIR=`pwd`
     cd src/upstream
+    
+    set -x
 
     $CMAKE_BIN \
         -DCMAKE_AR=$AR \
         -DCMAKE_RANLIB=$RANLIB \
         \
-        -DCMAKE_C_COMPILER="$DCMAKE_C_COMPILER" \
-        -DCMAKE_C_FLAGS="$DCMAKE_C_FLAGS" \
-        -DCMAKE_CXX_COMPILER="$DCMAKE_CXX_COMPILER" \
-        -DCMAKE_CXX_FLAGS="$DCMAKE_CXX_FLAGS" \
-        -DCMAKE_INCLUDE_PATH="$DCMAKE_INCLUDE_PATH" \
-        -DCMAKE_LIBRARY_PATH="$DCMAKE_LIBRARY_PATH" \
+        -DCMAKE_C_COMPILER="$CMAKE_C_COMPILER" \
+        -DCMAKE_C_FLAGS="$CMAKE_C_FLAGS" \
+        -DCMAKE_CXX_COMPILER="$CMAKE_CXX_COMPILER" \
+        -DCMAKE_CXX_FLAGS="$CMAKE_CXX_FLAGS" \
+        -DCMAKE_INCLUDE_PATH="$CMAKE_INCLUDE_PATH" \
+        -DCMAKE_LIBRARY_PATH="$CMAKE_LIBRARY_PATH" \
         \
         -DCMAKE_BUILD_TYPE=Release \
         -DWITH_BFD=no \
@@ -137,6 +139,8 @@ if [ -z "$SymEngine_DIR" ]; then
     if [ $? -ne 0 ]; then
         exit 1
     fi
+    
+    set +x
 
     cd $PKG_DIR
 
