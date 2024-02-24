@@ -26,33 +26,28 @@ static_assert(std::alignment_of<CRCPBasic>::value
 // Some cwrapper helpers ///////////
 
 // Exception handling
-const char* cwrapper_exception_message(CWRAPPER_OUTPUT_TYPE id) {
+static
+void cwrapper_hold(CWRAPPER_OUTPUT_TYPE output) {
+    if (!output) return;
+    
     // Refer:
     // https://github.com/symengine/symengine/blob/master/symengine/symengine_exception.h
-    switch(id) {
+    switch(output) {
     case SYMENGINE_NO_EXCEPTION:
-        return "SymEngine exception: No exception, it should not go here";
+        Rf_error("SymEngine exception: No exception, it should not go here");
     case SYMENGINE_RUNTIME_ERROR:
-        return "SymEngine exception: Runtime error";
+        Rf_error("SymEngine exception: Runtime error");
     case SYMENGINE_DIV_BY_ZERO:
-        return "SymEngine exception: Div by zero";
+        Rf_error("SymEngine exception: Div by zero");
     case SYMENGINE_NOT_IMPLEMENTED:
-        return "SymEngine exception: Not implemented SymEngine feature";
+        Rf_error("SymEngine exception: Not implemented SymEngine feature");
     case SYMENGINE_DOMAIN_ERROR:
-        return "SymEngine exception: Domain error";
+        Rf_error("SymEngine exception: Domain error");
     case SYMENGINE_PARSE_ERROR:
-        return "SymEngine exception: Parse error";
+        Rf_error("SymEngine exception: Parse error");
     default:
-        return "SymEngine exception: Unexpected SymEngine error code";
+        Rf_error("SymEngine exception: Unexpected SymEngine error code");
     }
-}
-
-static inline
-void cwrapper_hold(CWRAPPER_OUTPUT_TYPE output) {
-    if (output)
-        Rf_error(cwrapper_exception_message(output));
-    else
-        return;
 }
 
 
@@ -961,7 +956,7 @@ void s4DenseMat_mut_addcols(RObject A, RObject B) {
     size_t nrow_self  = dense_matrix_rows(self);
     size_t nrow_value = dense_matrix_rows(value);
     if (nrow_self != nrow_value)
-        Rf_error("Number of rows not equal (%d != %d)\n", nrow_self, nrow_value);
+        Rf_error("Number of rows not equal (%zu != %zu)\n", nrow_self, nrow_value);
     cwrapper_hold(dense_matrix_row_join(self, value));
     return;
 }
@@ -972,7 +967,7 @@ void s4DenseMat_mut_addrows(RObject A, RObject B) {
     size_t ncol_self  = dense_matrix_cols(self);
     size_t ncol_value = dense_matrix_cols(value);
     if (ncol_self != ncol_value)
-        Rf_error("Number of cols not equal (%d != %d)\n", ncol_self, ncol_value);
+        Rf_error("Number of cols not equal (%zu != %zu)\n", ncol_self, ncol_value);
     cwrapper_hold(dense_matrix_col_join(self, value));
     return;
 }

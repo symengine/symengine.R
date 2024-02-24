@@ -43,9 +43,11 @@ A \code{Basic} object can be constructed via \code{\link[=Basic]{Basic()}}, \cod
 
 VecBasic and DenseMatrix are S4 classes representing a symbolic vector or matrix.
 They can be constructed with \code{\link[=Vector]{Vector()}}, \code{\link[=V]{V()}}, \code{\link[=Matrix]{Matrix()}}, \code{c()}, \code{rbind()}
-or \code{cbind()}. For example the following code will construct a 2x3 matrix.\preformatted{vec <- Vector("a", "b")
+or \code{cbind()}. For example the following code will construct a 2x3 matrix.
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{vec <- Vector("a", "b")
 cbind(vec, vec^2L, c(S("c"), S("d")))
-}
+}\if{html}{\out{</div>}}
 
 The following functions are expected to work naturally with VecBasic and DenseMatrix
 classes.

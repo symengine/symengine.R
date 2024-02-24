@@ -2,8 +2,8 @@
 % Please edit documentation in R/vector.R
 \name{length,VecBasic-method}
 \alias{length,VecBasic-method}
-\alias{rep,VecBasic-method}
-\alias{rep,Basic-method}
+\alias{rep.VecBasic}
+\alias{rep.Basic}
 \alias{unique.VecBasic}
 \alias{c,BasicOrVecBasic-method}
 \alias{[[,VecBasic,numeric-method}
@@ -14,9 +14,9 @@
 \usage{
 \S4method{length}{VecBasic}(x)
 
-\S4method{rep}{VecBasic}(x, ...)
+\method{rep}{VecBasic}(x, ...)
 
-\S4method{rep}{Basic}(x, ...)
+\method{rep}{Basic}(x, ...)
 
 \method{unique}{VecBasic}(x, ...)
 
