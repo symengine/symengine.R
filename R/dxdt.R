@@ -72,7 +72,7 @@ setMethod("show", signature = c(object = "DxdtOde"),
 #' @rdname ODESystem
 #' @export
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' ## Lorenz system
 #' use_vars(x, y, z)
 #' sigma <- 10
