@@ -35,6 +35,7 @@ Encoding: UTF-8
 LazyData: true
 URL: https://github.com/symengine/symengine.R
 BugReports: https://github.com/symengine/symengine.R/issues
+Additional_repositories: https://Marlin-Na.github.io/drat
 License: GPL (>= 2)
 Copyright: The R package bundles the 'SymEngine' library source and its subcomponents
     under 'src/upstream' directory. See file COPYRIGHTS for retained copyright notices
