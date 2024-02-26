@@ -19,6 +19,11 @@ body {
 }
 </style>
 
+```{r, eval=TRUE, include=FALSE}
+if (!all(sapply(c("odeintr"), requireNamespace, quietly = TRUE)))
+  knitr::opts_chunk$set(eval = FALSE)
+```
+
 [odeintr](https://github.com/thk686/odeintr) by Timothy H. Keitt is an R package for
 integrating differential equations with the
 [Boost odeint library](https://headmyshoulder.github.io/odeint-v2/).

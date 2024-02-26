@@ -72,7 +72,7 @@ results.
 x <- Symbol("x")
 eq <- dxdt(x) == 1/exp(x)
 print(eq)
-\donttest{
+\dontrun{
 ## Lorenz system
 use_vars(x, y, z)
 sigma <- 10
