@@ -10,6 +10,7 @@ symArray <- function(...) {
     ans
 }
 
+#' @export
 print.symArray <- function(x, ...) {
     ## TODO: to improve this...
     ## maybe we need to define method for format instead?
@@ -21,6 +22,7 @@ print.symArray <- function(x, ...) {
 
 ## Preserve class attributes for these functions
 
+#' @export
 `[.symArray` <- function(x,...) {
     ans <- NextMethod("[")
     class(ans) <- class(x)
@@ -29,5 +31,8 @@ print.symArray <- function(x, ...) {
 
 
 ## So that it can be used in data frame
-as.data.frame.symArray <- as.data.frame.vector
+#' @export
+as.data.frame.symArray <- function(...) {
+    as.data.frame.vector(...)
+}
 

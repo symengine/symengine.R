@@ -69,10 +69,9 @@
 #' - `lambertw`, `zeta`, `dirichlet_eta`, `erf`, `erfc`
 #' - `atan2`, `kronecker_delta`, `lowergamma`, `uppergamma`, `psigamma`, `beta`
 #' 
-#' @docType package
 #' @name symengine
 #' @md
-NULL
+"_PACKAGE"
 
 #' @import methods
 #' @importFrom Rcpp cppFunction

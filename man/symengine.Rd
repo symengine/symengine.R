@@ -2,6 +2,7 @@
 % Please edit documentation in R/symengine.R
 \docType{package}
 \name{symengine}
+\alias{symengine-package}
 \alias{symengine}
 \title{symengine: R interface to SymEngine C++ library for symbolic computation}
 \description{
@@ -83,3 +84,21 @@ objects. For example \code{S(~ sin(x) + 1)} and \code{S(quote(sin(x) + 1))}.
 }
 }
 
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/symengine/symengine.R}
+  \item Report bugs at \url{https://github.com/symengine/symengine.R/issues}
+}
+
+}
+\author{
+\strong{Maintainer}: Jialin Ma \email{marlin@inventati.org}
+
+Authors:
+\itemize{
+  \item Isuru Fernando \email{isuruf@gmail.com}
+  \item Xin Chen \email{xinchen.tju@gmail.com}
+}
+
+}
