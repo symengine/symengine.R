@@ -31,3 +31,42 @@
      set(CMAKE_CXX_FLAGS_RELEASE_INIT "${common} -O3 -funroll-loops")
      set(CMAKE_CXX_FLAGS_DEBUG_INIT   "${common} -g -ggdb")
  elseif (CMAKE_CXX_COMPILER_ID STREQUAL "PGI")
+diff --git src/upstream/symengine/mp_class.h src/upstream/symengine/mp_class.h
+index c42d368..12d103e 100644
+--- src/upstream/symengine/mp_class.h
++++ src/upstream/symengine/mp_class.h
+@@ -74,12 +74,12 @@ typedef mpq_class rational_class;
+ inline namespace literals
+ {
+ //! Literal for creating multiple precision integers
+-inline integer_class operator"" _z(const char *str)
++inline integer_class operator""_z(const char *str)
+ {
+     return integer_class(str);
+ }
+ 
+-inline rational_class operator"" _q(const char *str)
++inline rational_class operator""_q(const char *str)
+ {
+     return rational_class(integer_class(str));
+ }
+@@ -1222,6 +1222,9 @@ inline int mp_cmpabs(const integer_class &a, const integer_class &b)
+     return mpz_cmpabs(get_mpz_t(a), get_mpz_t(b));
+ }
+ 
++// from Rmath.h
++extern "C" double unif_rand(void);
++
+ class mp_randstate
+ {
+ public:
+@@ -1241,7 +1244,8 @@ public:
+     mp_randstate()
+     {
+         gmp_randinit_default(_state);
+-        gmp_randseed_ui(_state, std::rand());
++        unsigned long int randres =  (int)(unif_rand() * (RAND_MAX - 1.0));
++        gmp_randseed_ui(_state, randres);
+     }
+ 
+     ~mp_randstate()
