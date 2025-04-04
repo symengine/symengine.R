@@ -106,3 +106,51 @@ index c42d368..12d103e 100644
      }
  
      ~mp_randstate()
+diff --git src/upstream/symengine/lambda_double.h src/upstream/symengine/lambda_double.h
+index bf6f00d..633605a 100644
+--- src/upstream/symengine/lambda_double.h
++++ src/upstream/symengine/lambda_double.h
+@@ -562,7 +562,6 @@ public:
+     }
+     void bvisit(const NaN &nan)
+     {
+-        assert(&nan == &(*Nan) /* singleton, or do we support NaN quiet/singaling nan with payload? */);
+         result_ = [](const double * /* x  */) {
+             return std::numeric_limits<double>::signaling_NaN();
+         };
+diff --git src/upstream/symengine/parser/parser.tab.cc src/upstream/symengine/parser/parser.tab.cc
+index 24628d0..2be7083 100644
+--- src/upstream/symengine/parser/parser.tab.cc
++++ src/upstream/symengine/parser/parser.tab.cc
+@@ -1054,7 +1054,6 @@ namespace yy {
+   case 32: // pwise: PIECEWISE '(' piecewise_list ')'
+ #line 259 "parser.yy"
+     {
+-        assert(yystack_[3].value.as < std::string > () == "Piecewise");
+         yylhs.value.as < SymEngine::RCP<const SymEngine::Basic> > () = piecewise(std::move(yystack_[1].value.as < SymEngine::PiecewiseVec > ()));
+     }
+ #line 1061 "parser.tab.cc"
+diff --git src/upstream/symengine/parser/parser.yy src/upstream/symengine/parser/parser.yy
+index 7e106d0..10909bc 100644
+--- src/upstream/symengine/parser/parser.yy
++++ src/upstream/symengine/parser/parser.yy
+@@ -256,7 +256,6 @@ piecewise_list:
+ pwise:
+     PIECEWISE '(' piecewise_list ')'
+     {
+-        assert($1 == "Piecewise");
+         $$ = piecewise(std::move($3));
+     }
+ ;
+diff --git src/upstream/symengine/utilities/matchpycpp/substitution.h src/upstream/symengine/utilities/matchpycpp/substitution.h
+index 056e52a..b6e1760 100644
+--- src/upstream/symengine/utilities/matchpycpp/substitution.h
++++ src/upstream/symengine/utilities/matchpycpp/substitution.h
+@@ -50,7 +50,6 @@ substitution_union(const SubstitutionMultiset &subst,
+     for (const SubstitutionMultiset &other : others) {
+         for (const pair<const string, multiset_basic> &p : other) {
+             int ret = try_add_variable(new_subst, p.first, p.second);
+-            assert(ret == 0);
+         }
+     }
+     return new_subst;
