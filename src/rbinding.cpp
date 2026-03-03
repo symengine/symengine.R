@@ -173,7 +173,7 @@ typedef Rcpp::XPtr<CDenseMatrix, Rcpp::PreserveStorage, dense_matrix_free, true>
 //// Determine the pointer type by check the tag value
 
 inline s4binding_t s4binding_typeof(SEXP x) {
-    if (IS_S4_OBJECT(x) && R_has_slot(x, Rf_install("ptr"))) {
+    if (Rf_isObject(x) && Rf_isS4(x) && R_has_slot(x, Rf_install("ptr"))) {
         SEXP p = R_do_slot(x, Rf_install("ptr"));
         s4binding_t type = (s4binding_t) RAW(R_ExternalPtrTag(p))[0];
         return type;

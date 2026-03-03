@@ -1,6 +1,14 @@
---- src/upstream/CMakeLists.txt	2019-11-13 15:14:25.000000000 -0500
-+++ src/upstream/CMakeLists.txt.new	2019-11-19 01:51:57.000000000 -0500
-@@ -535,10 +535,6 @@
+diff --git src/upstream/CMakeLists.txt src/upstream/CMakeLists.txt
+index c9f4b8b..43b6394 100644
+--- src/upstream/CMakeLists.txt
++++ src/upstream/CMakeLists.txt
+@@ -1,4 +1,4 @@
+-cmake_minimum_required(VERSION 2.8.12)
++cmake_minimum_required(VERSION 3.5..4.0)
+ 
+ if (POLICY CMP0074)
+   cmake_policy(SET CMP0074 NEW)
+@@ -539,10 +539,6 @@ if (WITH_OPENMP)
          set(WITH_SYMENGINE_THREAD_SAFE yes)
      endif()
  elseif (CMAKE_CXX_COMPILER_ID MATCHES Clang|GNU)
@@ -11,8 +19,23 @@
  endif()
  
  if (CMAKE_BUILD_TYPE STREQUAL "Debug")
---- src/upstream/cmake/UserOverride.cmake	2019-11-13 15:14:25.000000000 -0500
-+++ src/upstream/cmake/UserOverride.cmake.new	2019-11-19 01:53:01.000000000 -0500
+diff --git src/upstream/cmake/SymEngineConfig.cmake.in src/upstream/cmake/SymEngineConfig.cmake.in
+index dbfc80b..8f4ef85 100644
+--- src/upstream/cmake/SymEngineConfig.cmake.in
++++ src/upstream/cmake/SymEngineConfig.cmake.in
+@@ -31,7 +31,7 @@
+ # target_link_libraries(example ${SYMENGINE_LIBRARIES})
+ #
+ 
+-cmake_minimum_required(VERSION 2.8.12)
++cmake_minimum_required(VERSION 3.5..4.0)
+ 
+ if (POLICY CMP0074)
+   cmake_policy(SET CMP0074 NEW)
+diff --git src/upstream/cmake/UserOverride.cmake src/upstream/cmake/UserOverride.cmake
+index 523ce49..3e27a3f 100644
+--- src/upstream/cmake/UserOverride.cmake
++++ src/upstream/cmake/UserOverride.cmake
 @@ -8,7 +8,7 @@
  
  if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
@@ -22,7 +45,7 @@
      set(CMAKE_CXX_FLAGS_RELEASE_INIT "${common} -O3 -funroll-loops")
      set(CMAKE_CXX_FLAGS_DEBUG_INIT   "${common} -g -ggdb")
  elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Intel")
-@@ -18,7 +18,7 @@
+@@ -18,7 +18,7 @@ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Intel")
      set(CMAKE_CXX_FLAGS_DEBUG_INIT   "${common} -g -O0")
  elseif (CMAKE_CXX_COMPILER_ID MATCHES Clang)
      # clang
@@ -31,3 +54,103 @@
      set(CMAKE_CXX_FLAGS_RELEASE_INIT "${common} -O3 -funroll-loops")
      set(CMAKE_CXX_FLAGS_DEBUG_INIT   "${common} -g -ggdb")
  elseif (CMAKE_CXX_COMPILER_ID STREQUAL "PGI")
+diff --git src/upstream/cmake/cotire.cmake src/upstream/cmake/cotire.cmake
+index 741d690..e29c180 100644
+--- src/upstream/cmake/cotire.cmake
++++ src/upstream/cmake/cotire.cmake
+@@ -37,7 +37,7 @@ set(__COTIRE_INCLUDED TRUE)
+ if (NOT CMAKE_SCRIPT_MODE_FILE)
+ 	cmake_policy(PUSH)
+ endif()
+-cmake_minimum_required(VERSION 2.8.12)
++cmake_minimum_required(VERSION 3.5..4.0)
+ if (NOT CMAKE_SCRIPT_MODE_FILE)
+ 	cmake_policy(POP)
+ endif()
+diff --git src/upstream/symengine/mp_class.h src/upstream/symengine/mp_class.h
+index c42d368..12d103e 100644
+--- src/upstream/symengine/mp_class.h
++++ src/upstream/symengine/mp_class.h
+@@ -74,12 +74,12 @@ typedef mpq_class rational_class;
+ inline namespace literals
+ {
+ //! Literal for creating multiple precision integers
+-inline integer_class operator"" _z(const char *str)
++inline integer_class operator""_z(const char *str)
+ {
+     return integer_class(str);
+ }
+ 
+-inline rational_class operator"" _q(const char *str)
++inline rational_class operator""_q(const char *str)
+ {
+     return rational_class(integer_class(str));
+ }
+@@ -1222,6 +1222,9 @@ inline int mp_cmpabs(const integer_class &a, const integer_class &b)
+     return mpz_cmpabs(get_mpz_t(a), get_mpz_t(b));
+ }
+ 
++// from Rmath.h
++extern "C" double unif_rand(void);
++
+ class mp_randstate
+ {
+ public:
+@@ -1241,7 +1244,8 @@ public:
+     mp_randstate()
+     {
+         gmp_randinit_default(_state);
+-        gmp_randseed_ui(_state, std::rand());
++        unsigned long int randres =  (int)(unif_rand() * (RAND_MAX - 1.0));
++        gmp_randseed_ui(_state, randres);
+     }
+ 
+     ~mp_randstate()
+diff --git src/upstream/symengine/lambda_double.h src/upstream/symengine/lambda_double.h
+index bf6f00d..633605a 100644
+--- src/upstream/symengine/lambda_double.h
++++ src/upstream/symengine/lambda_double.h
+@@ -562,7 +562,6 @@ public:
+     }
+     void bvisit(const NaN &nan)
+     {
+-        assert(&nan == &(*Nan) /* singleton, or do we support NaN quiet/singaling nan with payload? */);
+         result_ = [](const double * /* x  */) {
+             return std::numeric_limits<double>::signaling_NaN();
+         };
+diff --git src/upstream/symengine/parser/parser.tab.cc src/upstream/symengine/parser/parser.tab.cc
+index 24628d0..2be7083 100644
+--- src/upstream/symengine/parser/parser.tab.cc
++++ src/upstream/symengine/parser/parser.tab.cc
+@@ -1054,7 +1054,6 @@ namespace yy {
+   case 32: // pwise: PIECEWISE '(' piecewise_list ')'
+ #line 259 "parser.yy"
+     {
+-        assert(yystack_[3].value.as < std::string > () == "Piecewise");
+         yylhs.value.as < SymEngine::RCP<const SymEngine::Basic> > () = piecewise(std::move(yystack_[1].value.as < SymEngine::PiecewiseVec > ()));
+     }
+ #line 1061 "parser.tab.cc"
+diff --git src/upstream/symengine/parser/parser.yy src/upstream/symengine/parser/parser.yy
+index 7e106d0..10909bc 100644
+--- src/upstream/symengine/parser/parser.yy
++++ src/upstream/symengine/parser/parser.yy
+@@ -256,7 +256,6 @@ piecewise_list:
+ pwise:
+     PIECEWISE '(' piecewise_list ')'
+     {
+-        assert($1 == "Piecewise");
+         $$ = piecewise(std::move($3));
+     }
+ ;
+diff --git src/upstream/symengine/utilities/matchpycpp/substitution.h src/upstream/symengine/utilities/matchpycpp/substitution.h
+index 056e52a..b6e1760 100644
+--- src/upstream/symengine/utilities/matchpycpp/substitution.h
++++ src/upstream/symengine/utilities/matchpycpp/substitution.h
+@@ -50,7 +50,6 @@ substitution_union(const SubstitutionMultiset &subst,
+     for (const SubstitutionMultiset &other : others) {
+         for (const pair<const string, multiset_basic> &p : other) {
+             int ret = try_add_variable(new_subst, p.first, p.second);
+-            assert(ret == 0);
+         }
+     }
+     return new_subst;
