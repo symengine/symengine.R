@@ -1,14 +1,14 @@
 diff --git src/upstream/CMakeLists.txt src/upstream/CMakeLists.txt
-index c9f4b8b..43b6394 100644
+index 467a589..f15af08 100644
 --- src/upstream/CMakeLists.txt
 +++ src/upstream/CMakeLists.txt
 @@ -1,4 +1,4 @@
--cmake_minimum_required(VERSION 2.8.12)
+-cmake_minimum_required(VERSION 3.18...4.2.0)
 +cmake_minimum_required(VERSION 3.5..4.0)
  
- if (POLICY CMP0074)
-   cmake_policy(SET CMP0074 NEW)
-@@ -539,10 +539,6 @@ if (WITH_OPENMP)
+ set(CMAKE_USER_MAKE_RULES_OVERRIDE ${CMAKE_CURRENT_SOURCE_DIR}/cmake/UserOverride.cmake)
+ 
+@@ -504,10 +504,6 @@ if (WITH_OPENMP)
          set(WITH_SYMENGINE_THREAD_SAFE yes)
      endif()
  elseif (CMAKE_CXX_COMPILER_ID MATCHES Clang|GNU)
@@ -20,18 +20,18 @@ index c9f4b8b..43b6394 100644
  
  if (CMAKE_BUILD_TYPE STREQUAL "Debug")
 diff --git src/upstream/cmake/SymEngineConfig.cmake.in src/upstream/cmake/SymEngineConfig.cmake.in
-index dbfc80b..8f4ef85 100644
+index 43d9c62..7a480b1 100644
 --- src/upstream/cmake/SymEngineConfig.cmake.in
 +++ src/upstream/cmake/SymEngineConfig.cmake.in
-@@ -31,7 +31,7 @@
- # target_link_libraries(example ${SYMENGINE_LIBRARIES})
- #
+@@ -33,7 +33,7 @@
  
--cmake_minimum_required(VERSION 2.8.12)
+ # We are compatible with 3.18, but also updated to support policies
+ # in 4.0.0
+-cmake_minimum_required(VERSION 3.18...4.0.0)
 +cmake_minimum_required(VERSION 3.5..4.0)
  
- if (POLICY CMP0074)
-   cmake_policy(SET CMP0074 NEW)
+ include(CMakeFindDependencyMacro)
+ 
 diff --git src/upstream/cmake/UserOverride.cmake src/upstream/cmake/UserOverride.cmake
 index 523ce49..3e27a3f 100644
 --- src/upstream/cmake/UserOverride.cmake
@@ -54,38 +54,22 @@ index 523ce49..3e27a3f 100644
      set(CMAKE_CXX_FLAGS_RELEASE_INIT "${common} -O3 -funroll-loops")
      set(CMAKE_CXX_FLAGS_DEBUG_INIT   "${common} -g -ggdb")
  elseif (CMAKE_CXX_COMPILER_ID STREQUAL "PGI")
-diff --git src/upstream/cmake/cotire.cmake src/upstream/cmake/cotire.cmake
-index 741d690..e29c180 100644
---- src/upstream/cmake/cotire.cmake
-+++ src/upstream/cmake/cotire.cmake
-@@ -37,7 +37,7 @@ set(__COTIRE_INCLUDED TRUE)
- if (NOT CMAKE_SCRIPT_MODE_FILE)
- 	cmake_policy(PUSH)
- endif()
--cmake_minimum_required(VERSION 2.8.12)
-+cmake_minimum_required(VERSION 3.5..4.0)
- if (NOT CMAKE_SCRIPT_MODE_FILE)
- 	cmake_policy(POP)
- endif()
+diff --git src/upstream/symengine/lambda_double.h src/upstream/symengine/lambda_double.h
+index bf6f00d..633605a 100644
+--- src/upstream/symengine/lambda_double.h
++++ src/upstream/symengine/lambda_double.h
+@@ -562,7 +562,6 @@ public:
+     }
+     void bvisit(const NaN &nan)
+     {
+-        assert(&nan == &(*Nan) /* singleton, or do we support NaN quiet/singaling nan with payload? */);
+         result_ = [](const double * /* x  */) {
+             return std::numeric_limits<double>::signaling_NaN();
+         };
 diff --git src/upstream/symengine/mp_class.h src/upstream/symengine/mp_class.h
-index c42d368..12d103e 100644
+index 2cd9f4e..12d103e 100644
 --- src/upstream/symengine/mp_class.h
 +++ src/upstream/symengine/mp_class.h
-@@ -74,12 +74,12 @@ typedef mpq_class rational_class;
- inline namespace literals
- {
- //! Literal for creating multiple precision integers
--inline integer_class operator"" _z(const char *str)
-+inline integer_class operator""_z(const char *str)
- {
-     return integer_class(str);
- }
- 
--inline rational_class operator"" _q(const char *str)
-+inline rational_class operator""_q(const char *str)
- {
-     return rational_class(integer_class(str));
- }
 @@ -1222,6 +1222,9 @@ inline int mp_cmpabs(const integer_class &a, const integer_class &b)
      return mpz_cmpabs(get_mpz_t(a), get_mpz_t(b));
  }
@@ -106,20 +90,8 @@ index c42d368..12d103e 100644
      }
  
      ~mp_randstate()
-diff --git src/upstream/symengine/lambda_double.h src/upstream/symengine/lambda_double.h
-index bf6f00d..633605a 100644
---- src/upstream/symengine/lambda_double.h
-+++ src/upstream/symengine/lambda_double.h
-@@ -562,7 +562,6 @@ public:
-     }
-     void bvisit(const NaN &nan)
-     {
--        assert(&nan == &(*Nan) /* singleton, or do we support NaN quiet/singaling nan with payload? */);
-         result_ = [](const double * /* x  */) {
-             return std::numeric_limits<double>::signaling_NaN();
-         };
 diff --git src/upstream/symengine/parser/parser.tab.cc src/upstream/symengine/parser/parser.tab.cc
-index 24628d0..2be7083 100644
+index b5ce819..5e8179b 100644
 --- src/upstream/symengine/parser/parser.tab.cc
 +++ src/upstream/symengine/parser/parser.tab.cc
 @@ -1054,7 +1054,6 @@ namespace yy {
@@ -131,7 +103,7 @@ index 24628d0..2be7083 100644
      }
  #line 1061 "parser.tab.cc"
 diff --git src/upstream/symengine/parser/parser.yy src/upstream/symengine/parser/parser.yy
-index 7e106d0..10909bc 100644
+index 0657e7a..f20d870 100644
 --- src/upstream/symengine/parser/parser.yy
 +++ src/upstream/symengine/parser/parser.yy
 @@ -256,7 +256,6 @@ piecewise_list:
@@ -142,6 +114,18 @@ index 7e106d0..10909bc 100644
          $$ = piecewise(std::move($3));
      }
  ;
+diff --git src/upstream/symengine/utilities/fast_float/include/fast_float/fast_float.h src/upstream/symengine/utilities/fast_float/include/fast_float/fast_float.h
+index e85220a..65c9446 100644
+--- src/upstream/symengine/utilities/fast_float/include/fast_float/fast_float.h
++++ src/upstream/symengine/utilities/fast_float/include/fast_float/fast_float.h
+@@ -397,7 +397,6 @@ int leading_zeroes_generic(uint64_t input_num, int last_bit = 0) {
+ /* result might be undefined when input_num is zero */
+ fastfloat_really_inline FASTFLOAT_CONSTEXPR20
+ int leading_zeroes(uint64_t input_num) {
+-  assert(input_num > 0);
+   if (cpp20_and_in_constexpr()) {
+     return leading_zeroes_generic(input_num);
+   }
 diff --git src/upstream/symengine/utilities/matchpycpp/substitution.h src/upstream/symengine/utilities/matchpycpp/substitution.h
 index 056e52a..b6e1760 100644
 --- src/upstream/symengine/utilities/matchpycpp/substitution.h
