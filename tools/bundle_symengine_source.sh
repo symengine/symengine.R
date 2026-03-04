@@ -17,7 +17,7 @@ fi
 PKG_DIR=`pwd`
 
 SYMENGINE_REPO="symengine/symengine"
-SYMENGINE_COMMIT=c1fc32cf0902ecd7b1a0e5369c38dd22ad75c726
+SYMENGINE_COMMIT=aba42d5b24248c71d5fd86139fabb3127e963707
 
 echo === Bundle source from commit: $SYMENGINE_COMMIT
 
@@ -48,7 +48,6 @@ rm -r src/upstream/benchmarks
 rm -r src/upstream/bin
 rm -r src/upstream/docs
 rm -r src/upstream/binder
-rm    src/upstream/appveyor.yml
 rm    src/upstream/codecov.yml
 
 set +x
