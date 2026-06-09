@@ -34,19 +34,19 @@ void cwrapper_hold(CWRAPPER_OUTPUT_TYPE output) {
     // https://github.com/symengine/symengine/blob/master/symengine/symengine_exception.h
     switch(output) {
     case SYMENGINE_NO_EXCEPTION:
-        Rf_error("SymEngine exception: No exception, it should not go here");
+        Rcpp::stop("SymEngine exception: No exception, it should not go here");
     case SYMENGINE_RUNTIME_ERROR:
-        Rf_error("SymEngine exception: Runtime error");
+        Rcpp::stop("SymEngine exception: Runtime error");
     case SYMENGINE_DIV_BY_ZERO:
-        Rf_error("SymEngine exception: Div by zero");
+        Rcpp::stop("SymEngine exception: Div by zero");
     case SYMENGINE_NOT_IMPLEMENTED:
-        Rf_error("SymEngine exception: Not implemented SymEngine feature");
+        Rcpp::stop("SymEngine exception: Not implemented SymEngine feature");
     case SYMENGINE_DOMAIN_ERROR:
-        Rf_error("SymEngine exception: Domain error");
+        Rcpp::stop("SymEngine exception: Domain error");
     case SYMENGINE_PARSE_ERROR:
-        Rf_error("SymEngine exception: Parse error");
+        Rcpp::stop("SymEngine exception: Parse error");
     default:
-        Rf_error("SymEngine exception: Unexpected SymEngine error code");
+        Rcpp::stop("SymEngine exception: Unexpected SymEngine error code");
     }
 }
 
@@ -269,19 +269,19 @@ S4 s4DenseMat() {
 inline
 basic_struct* s4basic_elt(SEXP robj) {
     basic_struct* p = (basic_struct*) R_ExternalPtrAddr(R_do_slot(robj, Rf_install("ptr")));
-    if (p == NULL) Rf_error("Invalid pointer\n");
+    if (p == NULL) Rcpp::stop("Invalid pointer\n");
     return p;
 }
 inline
 CVecBasic* s4vecbasic_elt(SEXP robj) {
     CVecBasic* p = (CVecBasic*) R_ExternalPtrAddr(R_do_slot(robj, Rf_install("ptr")));
-    if (p == NULL) Rf_error("Invalid pointer\n");
+    if (p == NULL) Rcpp::stop("Invalid pointer\n");
     return p;
 }
 inline
 CDenseMatrix* s4DenseMat_elt(SEXP robj) {
     CDenseMatrix* p = (CDenseMatrix*) R_ExternalPtrAddr(R_do_slot(robj, Rf_install("ptr")));
-    if (p == NULL) Rf_error("Invalid pointer\n");
+    if (p == NULL) Rcpp::stop("Invalid pointer\n");
     return p;
 }
 
@@ -360,7 +360,7 @@ S4 s4basic_function_symbols(S4 s) {
 SEXP s4basic_function_getname(S4 s) {
     basic_struct* b = s4basic_elt(s);
     if (basic_get_type(b) != SYMENGINE_FUNCTIONSYMBOL)
-        Rf_error("Not a function symbol");
+        Rcpp::stop("Not a function symbol");
     char* str = function_symbol_get_name(b);
     SEXP ans = Rf_mkString(str);
     basic_str_free(str);
@@ -375,7 +375,7 @@ int s4basic_realmpfr_get_prec(S4 robj) {
     mpfr_prec_t prec = real_mpfr_get_prec(s);
     return prec;
 #endif
-    Rf_error("The library is not compiled with MPFR support\n");
+    Rcpp::stop("The library is not compiled with MPFR support\n");
 }
 
 // [[Rcpp::export()]]
@@ -408,11 +408,11 @@ cwrapper_basic_parse(basic_struct* s, RObject robj, bool check_whole_number) {
         CharacterVector rstr = as<CharacterVector>(robj);
         
         if (rstr.size() != 1)
-            Rf_error("Can only parse scalar data\n");
+            Rcpp::stop("Can only parse scalar data\n");
         
         // We should not accept string NA?
         if (CharacterVector::is_na(rstr[0]))
-            Rf_error("Can not parse NA_character_\n");
+            Rcpp::stop("Can not parse NA_character_\n");
         const char* cstr = String(rstr).get_cstring();
         return basic_parse2(s, cstr, 1);
     }
@@ -420,10 +420,10 @@ cwrapper_basic_parse(basic_struct* s, RObject robj, bool check_whole_number) {
         NumericVector rnum = as<NumericVector>(robj);
         
         if (rnum.size() != 1)
-            Rf_error("Can only parse scalar data\n");
+            Rcpp::stop("Can only parse scalar data\n");
         // NA
         if (R_IsNA(rnum[0])) {
-            Rf_error("Can not parse NA_real_");
+            Rcpp::stop("Can not parse NA_real_");
         }
         // NaN
         if (R_IsNaN(rnum[0])) {
@@ -444,7 +444,7 @@ cwrapper_basic_parse(basic_struct* s, RObject robj, bool check_whole_number) {
                 char cnum_str[256] = "";
                 int cnum_str_size = snprintf(cnum_str, sizeof(cnum_str), "%0.0f", rnum[0]);
                 if (cnum_str_size >= sizeof(cnum_str))
-                    Rf_error("Can not handle string size of %d\n", cnum_str_size);
+                    Rcpp::stop("Can not handle string size of %d\n", cnum_str_size);
                 return integer_set_str(s, cnum_str);
             }
         }
@@ -455,10 +455,10 @@ cwrapper_basic_parse(basic_struct* s, RObject robj, bool check_whole_number) {
         IntegerVector rint = as<IntegerVector>(robj);
         
         if (rint.size() != 1)
-            Rf_error("Can only parse scalar data\n");
+            Rcpp::stop("Can only parse scalar data\n");
         
         if (rint[0] == NA_INTEGER) {
-            Rf_error("Can not parse NA_integer_");
+            Rcpp::stop("Can not parse NA_integer_");
             //basic_const_nan(s);
             //return SYMENGINE_NO_EXCEPTION;
         }
@@ -472,7 +472,7 @@ cwrapper_basic_parse(basic_struct* s, RObject robj, bool check_whole_number) {
     
     if (s4vecbasic_check(robj)) {
         if (s4vecbasic_size(robj) != 1)
-            Rf_error("Can only accept length-one VecBasic\n");
+            Rcpp::stop("Can only accept length-one VecBasic\n");
         return basic_assign(s, s4basic_elt(s4vecbasic_get(robj, 1)));
     }
     
@@ -485,9 +485,9 @@ cwrapper_basic_parse(basic_struct* s, RObject robj, bool check_whole_number) {
     }
     
     if (robj.isNULL())
-        Rf_error("Can not parse NULL\n");
+        Rcpp::stop("Can not parse NULL\n");
     
-    Rf_error("Can not convert to Basic (SEXP type: %d)\n", robj.sexp_type());
+    Rcpp::stop("Can not convert to Basic (SEXP type: %d)\n", robj.sexp_type());
 }
 
 // [[Rcpp::export()]]
@@ -511,14 +511,14 @@ S4 s4basic_symbol(SEXP robj) {
     s4binding_t type = s4binding_typeof(robj);
     if (type == S4BASIC) {
         if (basic_get_type(s4basic_elt(robj)) != SYMENGINE_SYMBOL)
-            Rf_error("Input is not a SYMBOL\n");
+            Rcpp::stop("Input is not a SYMBOL\n");
         return robj;
     }
     // If input is a scalar character vector, construct as Symbol,
     // otherwise parser may recognize it as a Constant.
     if (IS_SCALAR(robj, STRSXP)) {
         if (Rf_asChar(robj) == NA_STRING)
-            Rf_error("Can not accept NA_character_\n");
+            Rcpp::stop("Can not accept NA_character_\n");
         const char* str = CHAR(Rf_asChar(robj));
         S4 ans = s4basic();
         cwrapper_hold(
@@ -528,7 +528,7 @@ S4 s4basic_symbol(SEXP robj) {
     }
     S4 ans = s4basic_parse(robj, false);
     if (basic_get_type(s4basic_elt(ans)) != SYMENGINE_SYMBOL)
-        Rf_error("Unable to parse input as a SYMBOL\n");
+        Rcpp::stop("Unable to parse input as a SYMBOL\n");
     return ans;
 }
 
@@ -538,9 +538,9 @@ S4 s4basic_const(CharacterVector robj) {
     basic_struct* s = basic_new_heap();
     S4 out = s4basic(s);
     if (robj.size() != 1)
-        Rf_error("Input must be length-one character vector\n");
+        Rcpp::stop("Input must be length-one character vector\n");
     if (CharacterVector::is_na(robj[0]))
-        Rf_error("Can not accept NA_character_\n");
+        Rcpp::stop("Can not accept NA_character_\n");
     const char* cstr = String(robj).get_cstring();
     // void function
     basic_const_set(s, cstr);
@@ -561,14 +561,14 @@ CWRAPPER_OUTPUT_TYPE cwrapper_real_mpfr_set_d(basic s, double d, int prec) {
 #ifdef HAVE_SYMENGINE_MPFR
     return real_mpfr_set_d(s, d, prec);
 #endif
-    Rf_error("The library is not compiled with MPFR support\n");
+    Rcpp::stop("The library is not compiled with MPFR support\n");
 };
 
 CWRAPPER_OUTPUT_TYPE cwrapper_real_mpfr_set_str(basic s, const char *c, int prec) {
 #ifdef HAVE_SYMENGINE_MPFR
     return real_mpfr_set_str(s, c, prec);
 #endif
-    Rf_error("The library is not compiled with MPFR support\n");
+    Rcpp::stop("The library is not compiled with MPFR support\n");
 };
 
 // [[Rcpp::export()]]
@@ -581,7 +581,7 @@ S4 s4basic_real(RObject robj, RObject prec = R_NilValue) {
     if (is<NumericVector>(robj)) {
         NumericVector rnum = as<NumericVector>(robj);
         if (rnum.size() != 1)
-            Rf_error("Length of input must be one\n");
+            Rcpp::stop("Length of input must be one\n");
         double rnum_double = rnum[0];
         if (prec == R_NilValue) {
             cwrapper_hold(real_double_set_d(s, rnum_double));
@@ -601,7 +601,7 @@ S4 s4basic_real(RObject robj, RObject prec = R_NilValue) {
         else {
             CharacterVector rstr = as<CharacterVector>(robj);
             if (rstr.size() != 1)
-                Rf_error("Length of input must be one\n");
+                Rcpp::stop("Length of input must be one\n");
             const char* cstr = String(rstr).get_cstring();
             cwrapper_hold(cwrapper_real_mpfr_set_str(s, cstr, as<int>(prec)));
             return out;
@@ -611,7 +611,7 @@ S4 s4basic_real(RObject robj, RObject prec = R_NilValue) {
         // Convert them into Numeric Vector and call this function
         NumericVector rnum_castint = as<NumericVector>(robj);
         if (rnum_castint.size() != 1)
-            Rf_error("Length of input must be one\n");
+            Rcpp::stop("Length of input must be one\n");
         return s4basic_real(rnum_castint, prec);
     }
     if (s4basic_check(robj)) {
@@ -624,7 +624,7 @@ S4 s4basic_real(RObject robj, RObject prec = R_NilValue) {
         cwrapper_hold(basic_evalf(s4basic_elt(out), b, as<int>(prec), true));
         return out;
     }
-    Rf_error("Not implemented for SEXP type %d\n", robj.sexp_type());
+    Rcpp::stop("Not implemented for SEXP type %d\n", robj.sexp_type());
 }
 
 // [[Rcpp::export()]]
@@ -656,7 +656,7 @@ SEXP s4basic_as_sexp(S4 robj) {
         if (cint >= (INT_MIN + 1) && cint <= INT_MAX)
             return Rf_ScalarInteger(cint);
         else
-            Rf_error("Number %ld can not be coerced to integer range\n", cint);
+            Rcpp::stop("Number %ld can not be coerced to integer range\n", cint);
     }
     if (is_a_RealMPFR(s)) {
 #ifdef HAVE_SYMENGINE_MPFR
@@ -664,7 +664,7 @@ SEXP s4basic_as_sexp(S4 robj) {
         double cdouble = real_mpfr_get_d(s);
         return Rf_ScalarReal(cdouble);
 #endif
-        Rf_error("Should not happen\n");
+        Rcpp::stop("Should not happen\n");
     }
     if (is_a_Rational(s)) {
         // TODO (use evalf?)
@@ -678,7 +678,7 @@ SEXP s4basic_as_sexp(S4 robj) {
     }
     
     const char* cstr = String(s4basic_get_type(robj)).get_cstring();
-    Rf_error("Not implemented for %s\n", cstr);
+    Rcpp::stop("Not implemented for %s\n", cstr);
 }
 
 
@@ -690,7 +690,7 @@ SEXP s4vecbasic_get(RObject robj, int idx) {
     size_t idx_bound = vecbasic_size(c_vec);
     int c_idx = idx - 1;
     if (c_idx >= idx_bound)
-        Rf_error("Index out of bounds\n");
+        Rcpp::stop("Index out of bounds\n");
     S4 ans = s4basic();
     basic_struct* s = s4basic_elt(ans);
     cwrapper_hold(vecbasic_get(c_vec, c_idx, s));
@@ -736,7 +736,7 @@ void s4vecbasic_mut_append(S4 vec, RObject robj) {
         return;
     }
     if (type == S4DENSEMATRIX) {
-        Rf_error("DenseMatrix is not supported\n");
+        Rcpp::stop("DenseMatrix is not supported\n");
     }
     if (robj_is_simple(robj)) {
         cwrapper_hold(cwrapper_basic_parse(global_bholder, robj, false));
@@ -756,7 +756,7 @@ void s4vecbasic_mut_append(S4 vec, RObject robj) {
             return;
         break;
     default:
-        Rf_error("Unrecognized type\n");
+        Rcpp::stop("Unrecognized type\n");
     }
 
     List robj_list = robj_as_list(robj);
@@ -784,7 +784,7 @@ size_t s4vecbasic_size(SEXP robj) {
     if (sz <= INT_MAX)
         return sz;
     else
-        Rf_error("Exceeding INTMAX\n");
+        Rcpp::stop("Exceeding INTMAX\n");
 }
 
 // [[Rcpp::export()]]
@@ -826,7 +826,7 @@ S4 s4DenseMat_byrow(RObject robj, unsigned nrow, unsigned ncol) {
     if (s4vecbasic_check(robj)) {
         CVecBasic* vec = s4vecbasic_elt(robj);
         if (vecbasic_size(vec) != nrow * ncol)
-            Rf_error("Length of vector (%zu) does not match with matrix size (%d x %d)\n",
+            Rcpp::stop("Length of vector (%zu) does not match with matrix size (%d x %d)\n",
                      vecbasic_size(vec), nrow, ncol);
         CDenseMatrix* mat = dense_matrix_new_vec(nrow, ncol, vec);
         return s4DenseMat(mat);
@@ -840,7 +840,7 @@ S4 s4DenseMat_byrow(RObject robj, unsigned nrow, unsigned ncol) {
                 cwrapper_hold(dense_matrix_set_basic(mat, row, col, val));
         return out;
     }
-    Rf_error("Not implemented\n");
+    Rcpp::stop("Not implemented\n");
 }
 
 // [[Rcpp::export()]]
@@ -876,7 +876,7 @@ IntegerVector s4DenseMat_dim(SEXP robj) {
     size_t        nrow = dense_matrix_rows(mat);
     size_t        ncol = dense_matrix_cols(mat);
     if (nrow > INT_MAX || ncol > INT_MAX)
-        Rf_error("Exceeding INT_MAX\n");
+        Rcpp::stop("Exceeding INT_MAX\n");
     IntegerVector ans(2);
     ans[0] = nrow;
     ans[1] = ncol;
@@ -890,20 +890,20 @@ S4 s4DenseMat_get(S4 robj, IntegerVector rows, IntegerVector cols, bool get_basi
     
     if (get_basic) {
         if (rows.size() != 1 || cols.size() != 1)
-            Rf_error("Expecting size to be 1\n");
+            Rcpp::stop("Expecting size to be 1\n");
         int row = rows[0];
         int col = cols[0];
         if (row <= 0 || col <= 0) {
             if (row == NA_INTEGER || col == NA_INTEGER)
-                Rf_error("NA value in index is not accepted\n");
-            Rf_error("Negative or zero index is not accepted\n");
+                Rcpp::stop("NA value in index is not accepted\n");
+            Rcpp::stop("Negative or zero index is not accepted\n");
         }
         // check index is not out of bounds
         {
             unsigned long int mat_nrow = dense_matrix_rows(mat);
             unsigned long int mat_ncol = dense_matrix_cols(mat);
             if (row > mat_nrow || col > mat_ncol)
-                Rf_error("Index is out of bounds\n");
+                Rcpp::stop("Index is out of bounds\n");
         }
         basic_struct* s = basic_new_heap();
         S4 out = s4basic(s);
@@ -913,7 +913,7 @@ S4 s4DenseMat_get(S4 robj, IntegerVector rows, IntegerVector cols, bool get_basi
     
     size_t len = rows.size();
     if (len != cols.size())
-        Rf_error("Index sizes do not match\n");
+        Rcpp::stop("Index sizes do not match\n");
     
     // TODO: check bounds of rows and cols
     // (currently handled by normalizeSingleBracketSubscript)
@@ -935,9 +935,9 @@ void s4DenseMat_mut_setbasic(S4 rmat, int row, int col, RObject value) {
     unsigned long int mat_nrow = dense_matrix_rows(mat);
     unsigned long int mat_ncol = dense_matrix_cols(mat);
     if (row <= 0 || col <= 0)
-        Rf_error("Index can not be negative or zero\n");
+        Rcpp::stop("Index can not be negative or zero\n");
     if (row > mat_nrow || col > mat_ncol)
-        Rf_error("Index is out of bounds\n");
+        Rcpp::stop("Index is out of bounds\n");
 
     S4 rbasic;
     if (!s4basic_check(value))
@@ -956,7 +956,7 @@ void s4DenseMat_mut_addcols(RObject A, RObject B) {
     size_t nrow_self  = dense_matrix_rows(self);
     size_t nrow_value = dense_matrix_rows(value);
     if (nrow_self != nrow_value)
-        Rf_error("Number of rows not equal (%zu != %zu)\n", nrow_self, nrow_value);
+        Rcpp::stop("Number of rows not equal (%zu != %zu)\n", nrow_self, nrow_value);
     cwrapper_hold(dense_matrix_row_join(self, value));
     return;
 }
@@ -967,7 +967,7 @@ void s4DenseMat_mut_addrows(RObject A, RObject B) {
     size_t ncol_self  = dense_matrix_cols(self);
     size_t ncol_value = dense_matrix_cols(value);
     if (ncol_self != ncol_value)
-        Rf_error("Number of cols not equal (%zu != %zu)\n", ncol_self, ncol_value);
+        Rcpp::stop("Number of cols not equal (%zu != %zu)\n", ncol_self, ncol_value);
     cwrapper_hold(dense_matrix_col_join(self, value));
     return;
 }
@@ -978,7 +978,7 @@ S4 s4DenseMat_mul_matrix(RObject a, RObject b) {
     CDenseMatrix* a_elt = s4DenseMat_elt(a);
     CDenseMatrix* b_elt = s4DenseMat_elt(b);
     if (dense_matrix_cols(a_elt) != dense_matrix_rows(b_elt))
-        Rf_error("Matrixs are non-comformable\n");
+        Rcpp::stop("Matrixs are non-comformable\n");
     cwrapper_hold(
         dense_matrix_mul_matrix(s4DenseMat_elt(ans), a_elt, b_elt)
     );
@@ -1022,7 +1022,7 @@ SEXP s4binding_wrap(void* p, s4binding_t type) {
     case S4DENSEMATRIX:
         return s4DenseMat((CDenseMatrix*) p);
     default:
-        Rf_error("Unrecognized type\n");
+        Rcpp::stop("Unrecognized type\n");
     }
 }
 
@@ -1032,7 +1032,7 @@ void* s4binding_elt(SEXP robj) {
     SEXP rstr_ptr = PROTECT(Rf_mkString("ptr"));
     void* p = R_ExternalPtrAddr(R_do_slot(robj, rstr_ptr));
     UNPROTECT(1);
-    if (p == NULL) Rf_error("Invalid pointer\n");
+    if (p == NULL) Rcpp::stop("Invalid pointer\n");
     return p;
 }
 
@@ -1047,14 +1047,14 @@ int s4binding_size(SEXP robj) {
         IntegerVector dim = s4DenseMat_dim(robj);
         size_t ans = dim[0] * dim[1];
         if (ans > INT_MAX)
-            Rf_error("Exceeding INTMAX: %zu\n", ans);
+            Rcpp::stop("Exceeding INTMAX: %zu\n", ans);
         return ((int)ans);
     }
     // In this case, assume it is a atomic vector or a list
     if (Rf_isVector(robj))
         return Rf_length(robj);
     
-    Rf_error("Unrecognized type\n");
+    Rcpp::stop("Unrecognized type\n");
 }
 
 
@@ -1084,7 +1084,7 @@ S4 s4binding_subset(SEXP robj, IntegerVector idx, bool get_basic) {
     if (s4basic_check(robj)) {
         if (get_basic) {
             if (idx.size() != 1 || idx[0] != 1) {
-                Rf_error("Invalid getting for Basic\n");
+                Rcpp::stop("Invalid getting for Basic\n");
             }
             return robj;  
         }
@@ -1092,7 +1092,7 @@ S4 s4binding_subset(SEXP robj, IntegerVector idx, bool get_basic) {
         CVecBasic* vec_ans = s4vecbasic_elt(ans);
         basic_struct* b = s4basic_elt(robj);
         for (int i = 0; i < idx.size(); i++) {
-            if (idx[i] != 1) Rf_error("Index out of bounds\n");
+            if (idx[i] != 1) Rcpp::stop("Index out of bounds\n");
             cwrapper_hold(vecbasic_push_back(vec_ans, b));
         }
         return ans;
@@ -1100,7 +1100,7 @@ S4 s4binding_subset(SEXP robj, IntegerVector idx, bool get_basic) {
     if (s4vecbasic_check(robj)) {
         if (get_basic) {
             if (idx.size() != 1)
-                Rf_error("Invalid getting for VecBasic");
+                Rcpp::stop("Invalid getting for VecBasic");
             return s4vecbasic_get(robj, idx[0]);
         }
         CVecBasic* cvec = s4vecbasic_elt(robj);
@@ -1110,7 +1110,7 @@ S4 s4binding_subset(SEXP robj, IntegerVector idx, bool get_basic) {
         for (int i = 0; i < idx.size(); i++) {
             int c_idx = idx[i] - 1;
             if (c_idx >= idx_bound)
-                Rf_error("Index out of bound\n");
+                Rcpp::stop("Index out of bound\n");
             cwrapper_hold(cwrapper_vec_append_vec(vec_ans, cvec, c_idx));
         }
         return ans;
@@ -1118,7 +1118,7 @@ S4 s4binding_subset(SEXP robj, IntegerVector idx, bool get_basic) {
     
     // TODO: if input is a R vector, parse it as a VecBasic or a Basic
     
-    Rf_error("Unrecognized type\n");
+    Rcpp::stop("Unrecognized type\n");
 }
 
 //// Parse as Basic or VecBasic, depending on the length
@@ -1193,7 +1193,7 @@ cwrapper_op_t* op_lookup(const char* key) {
         if (strcmp(key, entry.key) == 0)
             return entry.val;
     }
-    Rf_error("op_lookup failed to find '%s'\n", key);
+    Rcpp::stop("op_lookup failed to find '%s'\n", key);
 }
 
 // [[Rcpp::export()]]
@@ -1354,7 +1354,7 @@ cwrapper_math_t* math_lookup(const char* key) {
         if (strcmp(key, entry.key) == 0)
             return entry.val;
     }
-    Rf_error("math_lookup failed to find '%s'\n", key);
+    Rcpp::stop("math_lookup failed to find '%s'\n", key);
 }
 
 // [[Rcpp::export()]]
@@ -1410,7 +1410,7 @@ S4 s4vecbasic_summary(SEXP robj, const char* summary_key) {
     } else if (strcmp(summary_key, "prod") == 0) {
         cwrapper_hold(integer_set_si(s4basic_elt(ans), 1));
     } else {
-        Rf_error("Internal error: initial value not set\n");
+        Rcpp::stop("Internal error: initial value not set\n");
     }
 
     for (size_t i = 0; i < v_size; i++) {
@@ -1529,11 +1529,11 @@ bool s4llvmvit_check(SEXP x) {
 // [[Rcpp::export()]]
 S4 s4visitor(RObject args, RObject exprs, bool perform_cse, int llvm_opt_level) {
     if (!s4vecbasic_check(args))
-        Rf_error("args should be a VecBasic\n");
+        Rcpp::stop("args should be a VecBasic\n");
     
     s4binding_t exprs_type = s4binding_typeof(exprs);
     if (exprs_type != S4BASIC && exprs_type != S4VECBASIC)
-        Rf_error("exprs should be a Basic or a VecBasic\n");
+        Rcpp::stop("exprs should be a Basic or a VecBasic\n");
     
     CVecBasic* exprs_elt;
     if (exprs_type == S4BASIC) {
@@ -1567,7 +1567,7 @@ S4 s4visitor(RObject args, RObject exprs, bool perform_cse, int llvm_opt_level) 
         llvm_double_visitor_init(visitor_ptr, s4vecbasic_elt(args), exprs_elt,
                                  perform_cse, llvm_opt_level);
 #else
-        Rf_error("The library was not compiled with LLVM support");
+        Rcpp::stop("The library was not compiled with LLVM support");
 #endif
     }
     return out;
@@ -1576,7 +1576,7 @@ S4 s4visitor(RObject args, RObject exprs, bool perform_cse, int llvm_opt_level) 
 CLambdaRealDoubleVisitor* s4lambdavit_elt(SEXP robj) {
     CLambdaRealDoubleVisitor* p =
         (CLambdaRealDoubleVisitor*) R_ExternalPtrAddr(R_do_slot(robj, Rf_install("ptr")));
-    if (p == NULL) Rf_error("Invalid pointer\n");
+    if (p == NULL) Rcpp::stop("Invalid pointer\n");
     return p;
 }
 
@@ -1584,7 +1584,7 @@ CLambdaRealDoubleVisitor* s4lambdavit_elt(SEXP robj) {
 CLLVMDoubleVisitor* s4llvmvit_elt(SEXP robj) {
     CLLVMDoubleVisitor* p =
         (CLLVMDoubleVisitor*) R_ExternalPtrAddr(R_do_slot(robj, Rf_install("ptr")));
-    if (p == NULL) Rf_error("Invalid pointer\n");
+    if (p == NULL) Rcpp::stop("Invalid pointer\n");
     return p;
 }
 #endif
@@ -1599,7 +1599,7 @@ NumericVector s4visitor_call(RObject visitor, NumericVector inps, bool do_transp
     int args_size  = s4vecbasic_size(visitor_args);
     int inps_size  = inps.size();
     if (inps_size % args_size != 0)
-        Rf_error("Input size is not a multiple of size of visitor_args\n");
+        Rcpp::stop("Input size is not a multiple of size of visitor_args\n");
     
     NumericVector ans(exprs_size * (inps_size/args_size));
     const double* const inps_begin = inps.cbegin();
@@ -1621,11 +1621,11 @@ NumericVector s4visitor_call(RObject visitor, NumericVector inps, bool do_transp
                 cvisitor, outs_begin + exprs_size*i, inps_begin + args_size*i);
         }
 #else
-        Rf_error("Should not happen\n");
+        Rcpp::stop("Should not happen\n");
 #endif
     }
     else
-        Rf_error("visitor is not a LambdaDoubleVisitor or a LLVMDoubleVisitor\n");
+        Rcpp::stop("visitor is not a LambdaDoubleVisitor or a LLVMDoubleVisitor\n");
     
     if (s4vecbasic_check(visitor_exprs)) {
         ans.attr("dim") = Dimension(exprs_size, inps_size/args_size);
@@ -1654,7 +1654,7 @@ String s4basic_codegen(RObject robj, String type) {
     } else if (strcmp(type.get_cstring() ,"jscode") == 0) {
         cstr = basic_str_jscode(s4basic_elt(robj));
     } else
-        Rf_error("Unknown codegen type %s\n", type.get_cstring());
+        Rcpp::stop("Unknown codegen type %s\n", type.get_cstring());
     String ans(cstr);
     basic_str_free(cstr);
     return ans;
