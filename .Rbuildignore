@@ -11,4 +11,5 @@ CMakeFiles
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
+^dev$
 ^\.github$
