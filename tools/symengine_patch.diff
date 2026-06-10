@@ -138,3 +138,17 @@ index 056e52a..b6e1760 100644
          }
      }
      return new_subst;
+diff --git src/upstream/symengine/eval_mpfr.cpp src/upstream/symengine/eval_mpfr.cpp
+index aaaaaaa..bbbbbbb 100644
+--- src/upstream/symengine/eval_mpfr.cpp
++++ src/upstream/symengine/eval_mpfr.cpp
+@@ -14,7 +14,7 @@
+     mpfr_ptr result_;
+ 
+ public:
+-    EvalMPFRVisitor(mpfr_rnd_t rnd) : rnd_{rnd} {}
++    EvalMPFRVisitor(mpfr_rnd_t rnd) : rnd_{rnd}, result_{nullptr} {}
+ 
+     void apply(mpfr_ptr result, const Basic &b)
+     {
+
