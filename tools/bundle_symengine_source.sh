@@ -17,7 +17,7 @@ fi
 PKG_DIR=`pwd`
 
 SYMENGINE_REPO="symengine/symengine"
-SYMENGINE_COMMIT=aba42d5b24248c71d5fd86139fabb3127e963707
+SYMENGINE_COMMIT=00b10c34a16db42ad9db4a28ee2d86969f251493
 
 echo === Bundle source from commit: $SYMENGINE_COMMIT
 
